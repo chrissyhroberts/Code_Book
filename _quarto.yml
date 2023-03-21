@@ -18,10 +18,20 @@ book:
   - part: "Time Series"
     chapters:
        - examples/Interrupted_Time_Series.qmd
+       - examples/new_lm_predict_left_predict_right.qmd
 
   - part: "R cleverness"
     chapters:
        - examples/extract_model_from_geom_smooth.qmd
+
+  - part: "ggplot, charts, images"
+    chapters:
+       - examples/extract_model_from_geom_smooth.qmd
+
+  - part: "tables"
+    chapters:
+       - examples/Univariate_regressions_reported_as_a_table.qmd
+
 
   - part: "Cribsheet [Other people's work]"
     chapters:

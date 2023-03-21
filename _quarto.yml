@@ -1,0 +1,32 @@
+project:
+  type: book
+
+book:
+  title: "Quarto_book_test"
+  author: "Jane Doe"
+  date: "3/21/2023"
+
+  chapters:
+  - index.qmd
+
+  - part: "Part One"
+    chapters:
+       - intro.qmd
+
+  - part: "Part Two"
+    chapters:
+       - intro.qmd
+
+
+bibliography: references.bib
+
+format:
+  html:
+    theme: cosmo
+  pdf:
+    documentclass: scrreprt
+
+editor: visual
+
+
+

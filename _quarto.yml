@@ -6,6 +6,7 @@ book:
   title: "Quarto_book_test"
   author: "Jane Doe"
   date: "3/21/2023"
+  downloads: [pdf]
 
   chapters:
   - index.qmd

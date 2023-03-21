@@ -1,0 +1,561 @@
+---
+title: "A pragmatic Introduction to Interrupted Time Series"
+author: "Chrissy h Roberts"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(nlme)
+library(AICcmodavg)
+library(patchwork)
+library(DT)
+set.seed(1231234237)
+```
+
+## Introduction
+
+This is a brief introduction to Interrupted Time Series analyses. It's intended for use by people who have done some reading and understand about concepts like autocorrelation.
+
+I mean, I won't be explaining all the technical stuff. This is really here to help you get things done. Buyer beware, you can make mistakes that will jack up your game, so think hard before you publish stuff.
+
+The methods below will show you how to carry out an interrupted time series (ITS) using generalised least squares, accounting for autocorrelation via a corARMA model. We'll start out with some fairly simple models, then build up to something a bit more complicated, before going on to add a control group.
+
+We're going to simulate a study where we are interested to know whether the values of a quantity (quantity.x) have changed significantly in response to some kind of intervention. If it helps you to think of a real-world situation, imagine we take weekly measurements of how many bacteria are found on the handles of public toilet doors. Our intervention might be placing signs about handwashing on all the doors. Can we say that putting up the signs correlated with a decrease in the number of bacteria counted each week?
+
+At the core of this analysis is the concept of a counterfactual. We'll be doing some modelling to estimate what did happen (the factual scenario) and what we expect would have happened (the counterfactual scenario) if we had never hung up the signs about handwashing.
+
+We'll be measuring whether the parameter *quantity.x* changes in response to the *Intervention*, but there are different kinds of change that we might expect.
+
+The change could take two forms including
+
+-   A step change immediately after the intervention
+    -   for instance because the signs are so effective that everyone suddenly starts washing their hands much better
+-   A slope/trend change after the intervention
+    -   because over time, the presence of the signs conditions more and more people to wash their hands. Alternatively, maybe after an initial step change down, it starts to creep back up because people start to ignore the signs
+
+Different real world scenarios may or may not be compatible with the assumptions that these types of change could occur, so use your knowledge to decide which ones to model.
+
+### This document provides examples of three main type of ITS analysis
+
+-   Part One - Uncontrolled ITS, one intervention
+-   Part Two - Uncontrolled ITS, two interventions
+-   Part Three - Controlled ITS, one intervention
+
+In each case we will build a data set that shows each component of the model in a fairly longhand format. It's totally possible to use fewer variables and to use interactions (shown further down this document) to model all the various components of the ITS, but this is harder to understand to the novice and harder to decode when it comes to reconciling the data frame against the model coefficients that will be used to interpret what effects the interruption had.
+
+------------------------------------------------------------------------
+
+## Part One - Uncontrolled ITS, one intervention
+
+We'll create a dummy dataframe, where
+
+-   **Time** = A number, the time in study weeks (1 - 100 weeks)
+-   **Intervention** = A binary indication of whether the Intervention has taken place at Time x
+-   **Post.intervention.time** = A number, the time elapsed since the Intervention
+-   **quantity.x** = The thing we want to measure
+
+```{R}
+
+# create a dummy dataframe
+# Here the interruption takes place at week 51
+df<-tibble(
+  Time = 1:100,
+  Intervention = c(rep(0,50),rep(1,50)),
+  Post.intervention.time = c(rep(0,50),1:50),
+  quantity.x = c(sort(sample(200:300,size = 50,replace = T),decreasing = T)+sample(-20:20,50,replace = T),c(sort(sample(20:170,size = 50,replace = T),decreasing = T)+sample(-40:40,50,replace = T)))
+)
+
+datatable(df,options = list(pageLength = 100, scrollY = "200px"))
+```
+
+In the simplest form, the ITS model looks like this
+
+**gls(quantity.x \~ Time + Intervention + Post.intervention.time, data = df,method="ML")**
+
+Using the **gls** command from the *nlme* package, we can create a model that describes the change in quantity.x across time
+
+```{R}
+model.a = gls(quantity.x ~ Time + Intervention + Post.intervention.time, data = df,method="ML")
+
+# Show a summary of the model
+summary(model.a)
+
+```
+
+These coefficients have real world meaning and are not there to be ignored.
+
+This tells us that the modelled line passes the y axis at 295.6 units and that prior to the intervention, the average value of quantity.x was falling by 1.98 units per week. At the intervention, there was a step change of -24.8 units and subsequent to the intervention there was a trend in which the value of quantity.x fell by *an additional* 1.12 units per week. The last distinction is important because that means that after the intervention, the weekly decrease in quantity.x was 1.98 + 1.12 = 3.10
+
+These statistics tell us whether the changes that happened at different timepoints were significant with respect to what the line was doing before the interruption. These values can be used to calculate the overall difference in quantity.x between times \[i\] and \[ii\] using this formula
+
+**quantity.x\[i\] = 308.27918 + (Time\[i\]\*-1.97565) + (Intervention\[i\]\*-27.33565) + (Post.intervention.time\[i\]\*-1.17575)**
+
+**quantity.x\[ii\] = 308.27918 + (Time\[ii\]\*-1.97565) + (Intervention\[ii\]\*-27.33565) + (Post.intervention.time\[ii\]\*-1.17575)**
+
+**absolute difference = difference(quantity.x\[i\] , quantity.x\[ii\])**
+
+But what would be nice would be to calculate the counterfactual scenario where the intervention didn't happen and to estimate the difference between the factual values of quantity.x at time \[i\] and the counterfactuals at the same time \[i\]. This is coming up later.
+
+It's nice to add values from models to the df, so we will next copy the modelled values of quantity.x in to the df using the **predictSE.gls** command from the **AICcmodavg** package.
+
+```{R}
+df<-df %>% mutate(
+  model.a.predictions = predictSE.gls (model.a, df, se.fit=T)$fit,
+  model.a.se = predictSE.gls (model.a, df, se.fit=T)$se
+  )
+```
+
+Note that we captured both the predicted value of quantity.x and also the standard error on the estimate. We'll need that to show the error margins and to draw confidence intervals on our charts.
+
+Let's draw a picture on which we will show the raw data points, then add the modelled data as a line describing the factual observations and a ribbon showing the 95% confidence interval on the model
+
+```{R}
+  ggplot(df,aes(Time,quantity.x))+
+  geom_ribbon(aes(ymin = model.a.predictions - (1.96*model.a.se), ymax = model.a.predictions + (1.96*model.a.se)), fill = "lightgreen")+
+  geom_line(aes(Time,model.a.predictions),color="black",lty=1)+
+  geom_point(alpha=0.3)
+```
+
+Before we get too much further though, we need to look at autocorrelation in the data. gls allows us to add corARMA structures by specifying values for p (the autoregressive order) and q (the moving average order).
+
+A gls model with a corARMA correction looks like this
+
+**gls(quantity.x \~ Time + Intervention + Post.intervention.time, data = df,correlation= corARMA(p=1, q=1, form = \~ Time),method="ML")**
+
+but the critical issue is how to choose the correct values of p and q. There's lots of information about this online, so read carefully because it is important. Whether you exactly understand what this is all about or not, you'll still need to take steps to minimise the problem empirically. What I do here is to apply different values of p and q to the gls model, capturing the value of the Akaike Information Criterion (AIC) for each model. Whichever combination of values of p and q returns the smallest AIC value is the best fit for our modelling.
+
+Realistically there's some margin for human biases here. It's hard to exactly define good numbers to put in to this analysis. I'd recommend a broad range of values because sometime autocorrelations can be quite lagged.
+
+We'll start by defining the basic model and then creating a basic R function that can apply different values of p and q to that model
+
+```{R}
+mod.1 = quantity.x ~ Time + Intervention + Post.intervention.time
+
+fx = function(pval,qval){summary(gls(mod.1, data = df, correlation= corARMA(p=pval,q=qval, form = ~ Time),method="ML"))$AIC}
+
+```
+
+Our start point is the AIC value of the model we ran earlier where neither p or q were specified (i.e. no autocorrelation)
+
+```{R}
+p = summary(gls(mod.1, data = df,method="ML"))$AIC
+message(str_c ("AIC Uncorrelated model = ",p))
+```
+
+Next we can create a grid of combinations of values of p and q
+
+```{R}
+autocorrel = expand.grid(pval = 0:2, qval = 0:2)
+```
+
+Then we apply the function to all possible combinations of p and q. Expect some not to work with this dummy data set.
+
+```{R echo=TRUE, message=FALSE, warning=FALSE}
+for(i in 2:nrow(autocorrel)){p[i] = try(summary(gls(mod.1, data = df, correlation= corARMA(p=autocorrel$pval[i],q=autocorrel$qval[i], form = ~ Time),method="ML"))$AIC)}
+
+autocorrel<- autocorrel %>%
+  mutate(AIC = as.numeric(p)) %>%
+  arrange(AIC)
+
+
+autocorrel
+```
+
+In this dataset, the best values of p and q appear to be p = 2 and q = 2 Let's see what effect that has on our model by comparing it to the original model.a
+
+```{R}
+model.b = gls(quantity.x ~ Time + Intervention + Post.intervention.time, data = df,method="ML", correlation= corARMA(p=2,q=2, form = ~ Time))
+```
+
+```{R}
+coefficients(model.a)
+coefficients(model.b)
+```
+
+You can see that there's some quite small changes to the values here, but I didn't make a dataset that had a lot of autocorrelation in it. I'm sure there are datasets out there where you'd see a big effect. Do also keep in mind that **Post.intervention.time** describes a weekly trend, so over long time periods, the error would creep up.
+
+OK, so now we've dealt with the autocorrelation, let's assign the predicted values of model.b on to the df
+
+```{R}
+df<- df %>% 
+  mutate(
+      model.b.predictions = predictSE.gls (model.b, df, se.fit=T)$fit,
+      model.b.se = predictSE.gls (model.b, df, se.fit=T)$se
+        )
+```
+
+Next we need to ask what would have happened if there had been no intervention. This is the counterfactual model.
+
+The gls model for the counterfactual looks like this...
+
+**gls(quantity.x \~ Time, data = df,method="ML")**
+
+There's nothing clever about this, it's the same model as we had before, only we've taken out the intervention and post intervention arguments. Our aim here is to calculate the pre-intervention trend and simply to extrapolate out beyond the intervention time point. This can be done with the **predictSE.gls** function.
+
+To create the counterfactual model, we have to make a new df which truncates the data at the time point immediately before the intervention. Then we run predict on the model, providiing the original df as 'newdata'.
+
+```{R}
+
+df2<-filter(df,Time<51)
+model.c = gls(quantity.x ~ Time, data = df2, correlation= corARMA(p=1, q=1, form = ~ Time),method="ML")
+```
+
+Let's have a look at how the new counterfactual (model.c) model compares to the factual model (model.a).
+
+```{R}
+
+coefficients(model.a)
+coefficients(model.c)
+
+```
+
+As you can see here, the intercept and slope of the factual and counterfactual models are almost identical, which is what we wanted. If you were a purist who cared about those little differences, you could use the actual values from model.a to calculate the counterfactuals manually by doing this
+
+y = 310.3877551 + (Time \* -2.4089316)
+
+That's great in terms of accuracy of your y value estimates, but it is much harder to calculate the standard errors manually so your precision/confidence intervals becomes a real pain. This is especially true when the model gets more complicated (as we'll see in part two).
+
+So let's accept a little error in the accuracy and use 'predict' because it gives us nice precise confidence estimates, let's make a new variable with predictions of the counterfactual model, providing the full 100 week data frame as 'newdata'
+
+```{R}
+df<-df %>% mutate(
+  model.c.predictions = predictSE.gls (model.c, newdata = df, se.fit=T)$fit,
+  model.c.se = predictSE.gls (model.c, df, se.fit=T)$se
+)
+```
+
+Next we can plot the chart
+
+```{R}
+
+  ggplot(df,aes(Time,quantity.x))+
+  geom_ribbon(aes(ymin = model.c.predictions - (1.96*model.c.se), ymax = model.c.predictions + (1.96*model.c.se)), fill = "pink")+
+  geom_line(aes(Time,model.c.predictions),color="red",lty=2)+
+  geom_ribbon(aes(ymin = model.b.predictions - (1.96*model.b.se), ymax = model.b.predictions + (1.96*model.b.se)), fill = "lightgreen")+
+  geom_line(aes(Time,model.b.predictions),color="black",lty=1)+
+  geom_point(alpha=0.3)
+
+
+```
+
+The solid line with green ribbon is the factual data, the red dashed line with the pink ribbon is the counterfactual. Using the rule of thumb that if the confidence intervals don't overlap, there's something significant happening, we can conclude that the interruption preceded a significant step change in quantity.x. That the lines also diverge suggests that there could be a significant trend change.
+
+The last remaining thing we need to do is to calculate those relative differences. This is easy because we've been adding the modelled values to the df as variables. To get a list of the relative differences at different timepoints, we really only have to do subtract the factual from the counterfactual.
+
+Here' we can ask for the relative differences at weeks 1 (start), 50 (pre-intervention), 51 (immediate post-intervention) and 100 (end of the study)
+
+```{R}
+format(df$model.b.predictions-df$model.c.predictions,scientific = F)[c(1,50,51,100)]
+```
+
+Here we can see that pre-intervention, the difference between factual and counterfactual is essentially zero, which is what we expect. At week 51 we see that the difference is 26 units, almost the same as the step change we saw in the coefficients for model.b above. At week 100 the factual data are 82 units lower than the counterfactual, which is the combined effect of the intervention step change and the intervention trend change.
+
+------------------------------------------------------------------------
+
+## Part Two - Uncontrolled ITS, two interventions
+
+Some designs may include multiple interventions and it is fairly simple to extend the model to account for this kind of thing We'll make a new data set that includes a second intervention and a post-intervention-2 trend.
+
+```{R}
+
+# create a dummy dataframe
+# Here the interruption takes place at week 51
+df3<-tibble(
+  Time = 1:150,
+  Intervention = c(rep(0,50),rep(1,100)),
+  Post.intervention.time = c(rep(0,50),1:100),
+  Intervention.2 = c(rep(0,100),rep(1,50)),
+  Post.intervention.2.time = c(rep(0,100),1:50),
+  quantity.x = c(sort(sample(2000:2500,size = 50,replace = T),decreasing = T)+sample(-20:20,50,replace = T),c(sort(sample(200:1700,size = 50,replace = T),decreasing = T)+sample(-40:40,50,replace = T)),c(sort(sample(200:450,size = 50,replace = T),decreasing = F)+sample(-40:40,50,replace = T)))
+)
+
+datatable(df3,options = list(pageLength = 100, scrollY = "200px"))
+```
+
+The new ITS model looks like this
+
+**gls(quantity.x \~ Time + Intervention + Post.intervention.time + Intervention.2 + Post.intervention.2.time, data = df,method="ML", correlation= corARMA(p=2,q=2, form = \~ Time))**
+
+Remember that you should probably deal with autocorrelation at this point. The method is the same as before, so I won't reproduce it here. I'm just going to make up some values for p and q
+
+```{R}
+model.d = gls(quantity.x ~ Time + Intervention + Post.intervention.time + Intervention.2 + Post.intervention.2.time, data = df3,method="ML", correlation= corARMA(p=2,q=2, form = ~ Time))
+
+# Show a summary of the model
+summary(model.d)
+
+```
+
+Referring back to the earlier, more simple example, you can probably see that these coefficients are easy to explain.
+
+-   The **intercept** is still the initial average value of quantity.x
+-   **Time** is the pre-intervention slope
+-   **Intervention** describes the step change that occurs at the intervention timepoint
+-   **Post.intervention.time** describes the additional slope change that occurs at the intervention timepoint
+-   **Intervention.2** describes the step change that occurs at the timepoint of the second intervention
+-   **Post.intervention.2.time** describes the additional slope change that occurs at the timepoint of the second intervention
+
+Let's grab the estimated modelled values for the new two intervention study
+
+```{R}
+df3<-df3 %>% mutate(
+  model.d.predictions = predictSE.gls (model.d, df3, se.fit=T)$fit,
+  model.d.se = predictSE.gls (model.d, df3, se.fit=T)$se
+  )
+```
+
+Let's draw a picture on which we will show the raw data points, then add the modelled data as a line describing the factual observations and a ribbon showing the 95% confidence interval on the model
+
+```{R}
+  ggplot(df3,aes(Time,quantity.x))+
+  geom_ribbon(aes(ymin = model.d.predictions - (1.96*model.d.se), ymax = model.d.predictions + (1.96*model.d.se)), fill = "lightgreen")+
+  geom_line(aes(Time,model.d.predictions),color="black",lty=1)+
+  geom_point(alpha=0.3)
+```
+
+let's calculate the first counterfactual, that there were no interventions
+
+```{R}
+
+df4<-filter(df3,Time<51)
+model.e = gls(quantity.x ~ Time, data = df4, correlation= corARMA(p=1, q=1, form = ~ Time),method="ML")
+
+df3<-df3 %>% mutate(
+  model.e.predictions = predictSE.gls (model.e, newdata = df3, se.fit=T)$fit,
+  model.e.se = predictSE.gls (model.e, df3, se.fit=T)$se
+)
+```
+
+and then the second counterfactual, that only the first intervention happened
+
+```{R}
+
+df5<-filter(df3,Time<101)
+model.f = gls(quantity.x ~ Time + Intervention + Post.intervention.time, data = df5, correlation= corARMA(p=1, q=1, form = ~ Time),method="ML")
+
+df3<-df3 %>% mutate(
+  model.f.predictions = predictSE.gls (model.f, newdata = df3, se.fit=T)$fit,
+  model.f.se = predictSE.gls (model.f, df3, se.fit=T)$se
+)
+```
+
+Finally, let's draw the chart that shows the factual data (black,green), the first (red, pink) and second (navy, turquoise) counterfactuals
+
+```{R}
+  ggplot(df3,aes(Time,quantity.x))+
+  geom_ribbon(aes(ymin = model.f.predictions - (1.96*model.d.se), ymax = model.f.predictions + (1.96*model.e.se)), fill = "lightblue")+
+  geom_line(aes(Time,model.f.predictions),color="blue",lty=2)+
+  geom_ribbon(aes(ymin = model.e.predictions - (1.96*model.d.se), ymax = model.e.predictions + (1.96*model.e.se)), fill = "pink")+
+  geom_line(aes(Time,model.e.predictions),color="red",lty=2)+
+  geom_ribbon(aes(ymin = model.d.predictions - (1.96*model.d.se), ymax = model.d.predictions + (1.96*model.d.se)), fill = "lightgreen")+
+  geom_line(aes(Time,model.d.predictions),color="black",lty=1)+
+  geom_point(alpha=0.3)
+```
+
+You can use the stored modelled values to do any calculations you want with regards to the relative differences. Remember that some things can't ever go below zero and that your hypothesis probably isn't that there's a linear trend that continues forever. Think carefully about your counterfactuals in this context.
+
+------------------------------------------------------------------------
+
+## Part Three - Controlled ITS, one intervention
+
+Controlled ITS is about as good as it gets when it comes to time series. The control allows you to calibrate the ITS to account for independent secular and periodic changes. Let's say that quantity.x and quantity.y are related. Both have exhibited some kind of long-range secular change (for instance there's the pre-intervention trend in the examples above). Let's say that both quantity.x and quantity.y are experiencing a parallel trend pre-intervention.
+
+The intervention is intented to affect change in quantity.x, but not quantity.y, so post-intervention trends in quantity.y can be taken account for in our model, strenghtening our results.
+
+Let's make a data set.
+
+```{R}
+
+# create a dummy dataframe
+# Here the interruption takes place at week 51
+df.x<-tibble(
+  x = 1,
+  Time = 1:100,
+  x.Time = x*Time,
+  Intervention = c(rep(0,50),rep(1,50)),
+  x.Intervention = x*Intervention,
+  Post.intervention.time = c(rep(0,50),1:50),
+  x.Post.intervention.time = x * Post.intervention.time,
+  quantity.x = c(sort(sample(200:300,size = 50,replace = T),decreasing = T)+sample(-20:20,50,replace = T),c(sort(sample(20:170,size = 50,replace = T),decreasing = T)+sample(-40:40,50,replace = T)))
+)
+
+df.y<-tibble(
+  x = 0,
+  Time = 1:100,
+  x.Time = x*Time,
+  Intervention = c(rep(0,50),rep(1,50)),
+  x.Intervention = x*Intervention,
+  Post.intervention.time = c(rep(0,50),1:50),
+  x.Post.intervention.time = x * Post.intervention.time,
+  quantity.x = c(sort(sample(500:600,size = 50,replace = T),decreasing = T)+sample(-20:20,50,replace = T),c(sort(sample(280:500,size = 50,replace = T),decreasing = T)+sample(-40:40,50,replace = T)))
+)
+
+df6 = bind_rows(df.x,df.y) %>% 
+  arrange(Time,x)
+
+datatable(df6,options = list(pageLength = 200, scrollY = "200px"))
+```
+
+Look carefully at the dataset. I've introduced the variable x (which differentiates between the control (0) and test (1) groups, plus some new *Interaction* terms including x.Time, x.Intervention and x.Post.intervention.time. Each of these is just the value of the variable, multiplied by x (which indicates control variables \[0, i.e. quantity.y\] or variables of interest \[1, i.e. quantity.x\]). This makes those variables null for the controls and meaninful step or trend changes for the lines of the data relating to quantity.x
+
+The ITS model is now a little more complicated. Again, I've skipped the step where we test different values of p and q. You should not skip that!
+
+gls(quantity.x \~ Time + x.Time + Intervention + x.Intervention + Post.intervention.time + x.Post.intervention.time, data = df6, correlation= corARMA(p=1, q=1, form = \~ Time\|x),method="ML")
+
+Note that we've had to change the **form = \~ Time\|x)** argument in the corARMA to account for the fact that it needs to correct for autocorrelation across time and across the two groups where x == 1 and x == 0
+
+```{R}
+model.g = gls(quantity.x ~ x + Time + x.Time + Intervention + x.Intervention + Post.intervention.time + x.Post.intervention.time, data = df6,method="ML", correlation= corARMA(p=2,q=2, form = ~ Time|x))
+
+# Show a summary of the model
+summary(model.g)
+
+```
+
+If you were a fancy Dan with these things, you could also use interaction terms in your model to achieve the same result
+
+```{R}
+model.h = gls(quantity.x ~ Time*x + Intervention*x + Post.intervention.time*x, data = df6,method="ML", correlation= corARMA(p=2,q=2, form = ~ Time|x))
+
+# Show a summary of the model
+summary(model.h)
+
+```
+
+See, they're identical! Personally I prefer to have the variables like x.Intervention written out in my datasets in full. Working with interactions confuses me and I also don't like the way R presents the coefficients out of order.
+
+So let's look at the longhand version in detail
+
+```{R}
+
+coefficients(model.g)
+```
+
+The interpretation of this is as follows
+
+-   **Intercept** is the average value of the control group at the start of the study
+-   **x** is the difference between Intercept and the value of quantity.x at the start of the study. To calculate the actual value on the y axis, you'd do 593.4-294.1 = 299.3. When we draw the chart below, you'll see that the line for quantity.x starts at 299.3 units at week 1.
+-   **Time** is the pre-intervention slope for the control group
+-   **x.Time** is the difference between Time and the values of quantity.x (see how the control group influences our results!)
+-   **Intervention** describes the step change that occurs at the intervention timepoint in the control group
+-   **x.Intervention** describes the difference in the step changes that occurs at the intervention timepoint betweent the two groups
+-   **Post.intervention.time** describes the slope change that occurs at the intervention timepoint in the control group
+-   **x.Post.intervention.time** describes the difference in the slope changes that occurs at the intervention timepoint in the control group
+
+Let's grab the estimated modelled values for the new controlled intervention study
+
+```{R}
+df6<-df6 %>% mutate(
+  model.g.predictions = predictSE.gls (model.g, df6, se.fit=T)$fit,
+  model.g.se = predictSE.gls (model.g, df6, se.fit=T)$se
+  )
+```
+
+Then draw a picture on which we will show the raw data points, then add the modelled data as a line describing the factual observations and a ribbon showing the 95% confidence interval on the model
+
+```{R}
+  ggplot(df6,aes(Time,quantity.x))+geom_point(color="grey")+
+  geom_ribbon(aes(ymin = model.g.predictions - (1.96*model.g.se), ymax = model.g.predictions + (1.96*model.g.se),fill=factor(x),alpha=0.4))+
+  geom_line(aes(Time,model.g.predictions,color=factor(x)),lty=1)+
+  geom_point(alpha=0.3)
+```
+
+So let's calculate the counterfactuals for each of these and add the predictions to the data set
+
+```{R}
+
+df7<-filter(df6,Time<51)
+model.i = gls(quantity.x ~ x + Time + x.Time, data = df7, correlation= corARMA(p=1, q=1, form = ~ Time|x),method="ML")
+
+df6<-df6 %>% mutate(
+  model.i.predictions = predictSE.gls (model.i, newdata = df6, se.fit=T)$fit,
+  model.i.se = predictSE.gls (model.i, df6, se.fit=T)$se
+)
+```
+
+Then plot the results
+
+```{R}
+  ggplot(df6,aes(Time,quantity.x))+geom_point(color="grey")+
+  geom_ribbon(aes(ymin = model.g.predictions - (1.96*model.g.se), ymax = model.g.predictions + (1.96*model.g.se),fill=factor(x),alpha=0.4))+
+  geom_line(aes(Time,model.g.predictions,color=factor(x)),lty=1)+
+  geom_line(aes(Time,model.i.predictions,color=factor(x)),lty=2)+
+  geom_ribbon(aes(ymin = model.i.predictions - (1.96*model.i.se), ymax = model.i.predictions + (1.96*model.i.se),fill=factor(x),alpha=0.2))  
+  
+
+```
+
+We can see that in the group of interest, there's been a big change in the amount of quantity.x since the intervention, but there's also been a big change in quantity.y the control group. Is the effect we are seeing in the group of interest just happening because of the decline that is happening in both groups, which could indicate that some extrinsic factor influenced change in both groups. If this were the case (assuming that the control group is NOT affected by the intervention) then we'd be incorrectly attributing the result to the intervetion.
+
+Looking closely at the tables of coefficients, we can find some clues. Let's look back at the fully controlled analysis
+
+```{R}
+summary(model.g)
+```
+
+We need to look closely at the numbers here.
+
+In this case, there was a pre-intervention decline in the control group (-1.98 units/week). The quantity.x group was also declining, at a very slightly lower rate (-1.94 units/week)
+
+At the time of the intervention, the control group exhibited a step change of 12.20 units. The quantity.x group meanwhile went down 40.24 units relative to that, so overall it goes down 28.04 units.
+
+Finally, post-intervention, the rate of decline in the control group dipped (-2.94 units/week) whilst the quantity.x group actually went down less steeply (-2.94 + 1.92 = -1.02 units/week).
+
+We might not care too much about these specific rates and numbers. Mostly we care about the big headline number of how much quantity.x has changed compared to the counterfactual, but do take one last look at the table, where the p-values tell you if each coefficient represents an independently significant change.
+
+In this case, Time is significant, indicating that there was a significant change with time prior to the intervention. x.Time is not significant, which means that the pre-intervention trends for quantity.x and the control group are the same. I interpret this to mean that both groups were exhibiting similar trends prior to intervention
+
+Meanwhile, neither Intervention, nor x.Intervention are significant, so maybe we should interpret this to mean that the intervention did not have any immediate effect in the form of a step change.
+
+Finally, both Post.intervention.time and x.Post.intervention.time are significant, which suggests that something influenced the trends in both groups, but that the quantity.x group was affected differently to the control. That much is clear from the pictures, but how we interpret it is something to think about.
+
+It's possible that the Intervention affected both groups, which would suggest that this is a badly chosen control.
+
+It's also possible that some extrinsic factor affected both groups around the time that the intervention happened. That's not good because it leaves us in a position where we can't determine how much of the effect is due to the intervention and how much is due to the other factors.
+
+In this dummy data, the controls are pretty bad because they change a lot. This is why a lot of the challenge of doing time series
+
+Let's finally prove what the control is doing (and not doing) by looking at the numbers. At the end of the study, the fully controlled ITS model estimates that there's a difference between the factual and counterfactual values of quantity.x
+
+```{R}
+
+df6$model.g.predictions[200]-df6$model.i.predictions[200]
+```
+
+Let's then compare that estimate to an estimate from the same data, but uncontrolled.
+
+```{R}
+
+model.j = gls(quantity.x ~ Time + Intervention  + Post.intervention.time , data = df.x,method="ML", correlation= corARMA(p=2,q=2, form = ~ Time))
+
+df.x <- df.x %>% 
+  mutate(
+  model.j.predictions = predictSE.gls (model.j, newdata = df.x, se.fit=T)$fit,
+  model.j.se = predictSE.gls (model.j, df.x, se.fit=T)$se  
+  )
+
+df8<-filter(df.x,Time<51)
+
+model.k = gls(quantity.x ~ Time, data = df8, correlation= corARMA(p=1, q=1, form = ~ Time),method="ML")
+
+df.x<-df.x %>% mutate(
+  model.k.predictions = predictSE.gls (model.k, newdata = df.x, se.fit=T)$fit,
+  model.k.se = predictSE.gls (model.k, df.x, se.fit=T)$se
+  )
+
+df.x$model.j.predictions[100]-df.x$model.k.predictions[100]
+
+```
+
+There's not much in it here. In both cases, we estimate a change of around 78 to 79 units in the value of quantity.x Really the controls are there to give you a subjective (eyeballing the charts) and statistical view (looking at the summary tables) of whether you should worry that extrinsic factors might have led you to incorrectly attributing the results to your intervention. In my opinion this is a bit of a silly game because you can't really ever know whether a control group is being affected by the intervention, the extrinsic factor, or both. If you've defined your control group before you start, you might be shooting yourself in the foot by choosing the wrong thing. If you haven't you might be cherry picking a control group simply because it doesn't change when you, for instance, check it with an uncorrected time series analysis.
+
+In the former case, you don't know what to do with the data, nor know how to interpret the effects. In the latter case, there's not really a lot of point, because a control group you've specifically cherry-picked for lack of any effect won't contribute much to the model and so has little value in the statistics or analysis.
+
+Controlled ITS is pretty much the gold standard, though personally I don't think it often adds much to use the control. Some people like to use synthesised controls, which is probably more robust.
+
+## Final word
+
+You should now be able to do a fairly robust interrupted time series, using controls if you want and calculating counterfactuals for each part of the model. Why not try modifying the controlled ITS to have two interruptions? Or maybe add some periodic covariates, adding effects for seasons, or specific calendar events, or temperature, humidity, region...

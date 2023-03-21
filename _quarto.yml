@@ -3,8 +3,8 @@ project:
   output-dir: docs
 
 book:
-  title: "Quarto_book_test"
-  author: "Jane Doe"
+  title: "Code Book"
+  author: "Chrissy Roberts"
   date: "3/21/2023"
   downloads: [pdf]
 
@@ -15,10 +15,13 @@ book:
     chapters:
        - intro.qmd
 
-  - part: "Part Two"
+  - part: "Time Series"
     chapters:
-       - intro.qmd
+       - examples/Interrupted_Time_Series.qmd
 
+  - part: "R cleverness"
+    chapters:
+       - examples/extract_model_from_geom_smooth.qmd
 
 bibliography: references.bib
 

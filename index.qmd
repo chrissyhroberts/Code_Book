@@ -2,7 +2,7 @@
 
 This is a Quarto book.
 
-![](_book/images/chick.jpeg)
+![](images/chick.jpeg)
 
 To learn more about Quarto books visit <https://quarto.org/docs/books>.
 

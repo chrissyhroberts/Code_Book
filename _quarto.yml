@@ -23,6 +23,11 @@ book:
     chapters:
        - examples/extract_model_from_geom_smooth.qmd
 
+  - part: "Cribsheet [Other people's work]"
+    chapters:
+       - examples/Akaike_Information_Criterion.qmd
+
+
 bibliography: references.bib
 
 format:

@@ -11,31 +11,39 @@ book:
   chapters:
   - index.qmd
 
-  - part: "ODK"
-    chapters:
-       - examples/ruODK_basics.qmd
-
-  - part: "Time Series"
-    chapters:
-       - examples/Interrupted_Time_Series.qmd
-       - examples/new_lm_predict_left_predict_right.qmd
-
   - part: "R cleverness"
     chapters:
-       - examples/extract_model_from_geom_smooth.qmd
-       - examples/95CI_point_estimate.qmd
-       - examples/update_R.qmd
+      # - extract_model_from_geom_smooth.qmd
+       - 95CI_point_estimate.qmd
+       - update_R.qmd
+       - utf8_encoding.qmd
+       - remove_accents.qmd
+       - text_to_speech_R.qmd
+       - UK_Postcodes.qmd
+
+  - part: "Statistics"
+    chapters:
+       - Interrupted_Time_Series.qmd
+       - new_lm_predict_left_predict_right.qmd
+       - power_calc_gen_case_control.qmd
 
   - part: "ggplot, charts, images"
+    chapters:
+       - hazratio_chart.qmd
+
+  - part: "ODK"
+    chapters:
+       - ruODK_basics.qmd
+       - diva_gis.qmd
 
   - part: "tables"
     chapters:
-       - examples/Univariate_regressions_reported_as_a_table.qmd
+       - Univariate_regressions_reported_as_a_table.qmd
 
 
   - part: "Cribsheet [Other people's work]"
     chapters:
-       - examples/Akaike_Information_Criterion.qmd
+       - Akaike_Information_Criterion.qmd
 
 
 bibliography: references.bib

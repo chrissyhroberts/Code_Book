@@ -1,0 +1,32 @@
+---
+title: "Text to Speech in R"
+author: "Chrissy h Roberts"
+---
+
+## Background
+
+This is a simple bit of script that reaches in to the linux/OS-X system and runs a text to speech function.
+
+It may have some practical benefits. I quite like to use it to tell me that a long running script has finished.
+
+## Define Functions
+
+```{r}
+speakr <- function(message="hello, world")
+{
+  if(.Platform$OS.type == "unix"){system(paste("say ",message,sep=""))}
+	else {system(paste("echo ",message,"|ptts",sep=""))}
+}	
+
+
+
+```
+
+## Example
+
+```{r}
+# usage examples
+
+speakr()
+speakr("Who lives in a pineapple under the sea?")
+```

@@ -1,0 +1,43 @@
+---
+title: "Normalise utf8 accented text"
+author: "Chrissy h Roberts"
+---
+
+## Background
+
+Accented text can cause problems for R.
+
+This method shows how to convert all accents from mixed encodings to UTF-8 text .
+
+Problems like this often emerge with data shared between PC/Mac/Linux and with data exported from Excel. The simple solution is to use the ***Encoding()*** function from the ***utf8*** package.
+
+### Libraries
+
+```{r}
+library(utf8)
+```
+
+### Dummy data
+
+Here we define a vector x, which has accents. To simulate the problem, we set encoding to be mixed between UTF-8 and bytes, but the second entry is actually encoded in Latin *byte* format with the leading byte *0xE7 rather than in UTF-8.*
+
+```{r}
+
+x <- c("fa\u00E7ile", "fa\xE7ile", "fa\xC3\xA7ile")
+Encoding(x) <- c("UTF-8", "UTF-8", "bytes")
+```
+
+If we try to convert all entries in the vector to UTF-8, it fails
+
+```{r}
+try(as_utf8(x))
+```
+
+The simple fix is to change the encoding to match the real data. Here entry two is switched to the correct encoding and we are then able to re-encode it
+
+```{r}
+Encoding(x[2]) <- "latin1"
+as_utf8(x)
+
+
+```

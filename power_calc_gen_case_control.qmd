@@ -1,0 +1,73 @@
+---
+title: "Genetic Power Calculator"
+author: "Chrissy h Roberts"
+---
+
+## Background
+
+These power calculations are useful for genetic case control studies
+They use the gap package and pbsize2 command
+
+citation Jing Hua Zhao (2013). gap: Genetic Analysis Package. R package version 1.1-10.
+
+## Libraries
+
+```{r}
+library(gap)
+library(knitr)
+```
+
+## Usage
+
+### Define study characteristics
+
+```{r}
+
+prevalence=0.1
+alpha=0.05
+num.cases=2000
+num.controls=2000
+num.total=num.cases+num.controls
+prop.cases=num.cases/num.total
+
+```
+
+### Define ranges of minor allele frequency and effect sizes
+
+```{r}
+maf_values<-seq(0.01,0.49,by=0.01)
+risk_values<-seq(1,1.6,by=0.01)
+```
+
+### Calculate power at all possible combinations
+
+```{r}
+x<-matrix(nrow=length(risk_values),ncol=length(maf_values))
+
+for (i in 1:length(risk_values)){risk = risk_values[i];for (j in 1:length(maf_values)){maf = maf_values[j];try(x[i,j]<-pbsize2(N=num.total,fc=prop.cases,alpha=alpha,gamma=risk,p=maf,kp=prevalence,model="additive"))}}
+
+```
+
+### Define a matrix which contains the results
+
+```{r}
+
+xx<-as.data.frame(x,row.names=as.character(risk_values));names(xx)<-as.character(maf_values)
+
+kable(xx)
+
+```
+
+### Define a palette for the results
+
+```{r}
+#set the colours used for the plot
+wut.colors<-rev(c("red","magenta","pink","orange","yellow","green","dark green", "blue","purple","dark blue"))
+```
+
+```{r}
+#print plot of power
+
+image(risk_values,maf_values,as.matrix(xx),zlim=c(0,1),col= wut.colors,breaks=seq(0,1,by=0.1),useRaster=T,main=paste("Power @ Prevalence :",prevalence,"| Cases :",num.cases,"| Controls :",num.controls,"| alpha :",alpha),xlab="Relative Risk",ylab="Minor allele frequency",cex.main=0.8);legend(x=1,y=0.4,cex=0.5,legend=c("0.00-0.09","0.10-0.19","0.20-0.29","0.30-0.39","0.40-0.49","0.50-0.59","0.60-0.69","0.70-0.79","0.80-0.89","0.90-1.00"),fill=wut.colors,title="Power")
+
+```

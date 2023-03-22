@@ -1,0 +1,47 @@
+---
+title: "Hazard Ratio Chart from Summary Data"
+author: "Chrissy h Roberts"
+---
+
+## Background
+
+Often a user just wants to draw a quick chart of study results using only summary data. For instance, you may be looking at a table of hazard ratios and their confidence intervals and would like to visualise the results instead of working with the table.
+
+This short script can take a vector of estimates, along with 95% CIs and will draw a chart.
+
+## Libraries
+
+```{r}
+library(tidyverse)
+```
+
+## Dummy Data
+
+Start by building a data frame using *tibble.* You should provide some labels (here IMD), along with an estimate (ABSOLUTE.CHANGE) and both lower (LCI) and upper (UCL) confidence limits
+
+```{r}
+
+df <- tibble( 
+            IMD = c("IMD1","IMD2","IMD3","IMD4","IMD5"),
+            ABSOLUTE.CHANGE  = c(-3.1,-6.6,-1.6,-2.0,-0.9),
+            LCI = c(-0.4,-4.4,0.49,-1.06,-0.2),
+            UCI = c(-5.7,-8.8,-3.62,-2.9,-1.5)
+)
+
+df
+```
+
+
+## Chart
+
+There's nothing clever about this chart. It uses geom_point to draw the estimates, then uses geom_errorbar to add the upper and lower confidence limits.
+
+```{r}
+ggplot(df,aes(x=IMD,y=ABSOLUTE.CHANGE,colour=IMD))+
+       geom_errorbar( mapping=aes(x=IMD, y=ABSOLUTE.CHANGE, ymin=LCI, ymax=UCI), width=0.1, linewidth=1)+
+       geom_point(size=5)+
+       geom_hline(yintercept = 0,lty=2)  +
+       ylim (-10,10)
+```
+
+If you have some point estimates and know the sample size, but don't have confidence intervals, then you can calculate the confidence intervals using \[this method\](../examples/95CI_point_estimate.qmd)

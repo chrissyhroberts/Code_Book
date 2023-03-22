@@ -1,0 +1,104 @@
+---
+title: "UK Postcode Maps"
+author: "Chrissy h Roberts"
+---
+
+## Background
+
+This is a basic tutorial on how to load shapefiles and geopoints to a leaflet map.
+
+There is a lot more detailed information here \[https://rstudio.github.io/leaflet/\](https://rstudio.github.io/leaflet/)
+
+The example is hopefully useful as it uses UK postcode and district shapefiles, which are commonly useful for a variety of purposes.
+
+UK Postcode data can be found here
+
+\[https://www.freemaptools.com/map-tools.htm\](https://www.freemaptools.com/map-tools.htm)
+
+UK district shapefiles are available here
+
+\[https://www.ordnancesurvey.co.uk/opendatadownload/products.html\](https://www.ordnancesurvey.co.uk/opendatadownload/products.html)
+
+## Libraries
+
+```{r}
+library(tidyverse)
+library(sf)
+library(knitr)
+library(leaflet)
+```
+
+## Data
+
+### Create a folder to house data
+
+```{r}
+if(!dir.exists("data/ukpostcodes"))(dir.create("data/ukpostcodes"))
+system("rm -rf data/ukpostcodes/*")
+```
+
+## Download a list of UK postcodes and gps locations
+
+```{r}
+download.file(url = "https://data.freemaptools.com/download/full-uk-postcodes/ukpostcodes.zip",destfile =paste("data/ukpostcodes/ukpostcodes.zip"))
+
+system ("unzip data/ukpostcodes/ukpostcodes.zip -d data/ukpostcodes/")
+  
+```
+
+## Download a list of UK district shapefiles
+
+```{r}
+# set a timeout proportional to the size of the dataset and the speed of the connection
+options(timeout=300)
+
+download.file(url = "https://api.os.uk/downloads/v1/products/BoundaryLine/downloads?area=GB&format=ESRI%C2%AE+Shapefile&redirect",destfile =paste("data/ukpostcodes/bdline_essh_gb.zip"))
+
+system ("unzip data/ukpostcodes/bdline_essh_gb.zip -d data/ukpostcodes/")
+  
+```
+
+## Read Postcode data
+
+```{r}
+ukpostcodes <- read_csv("data/ukpostcodes/ukpostcodes.csv")
+```
+
+## Make a small sample of all postcodes
+
+```{r}
+sample<-ukpostcodes[sample(1:nrow(ukpostcodes),size = 100),] %>% 
+  mutate(
+    latitude = as.numeric(latitude),
+    longitude = as.numeric(longitude)
+  )
+head(sample)
+
+```
+
+## Read in shapefiles to a map
+
+```{r}
+map = read_sf("data/ukpostcodes/Data/GB/county_region.dbf")
+
+```
+
+```{r}
+mapproj <- st_transform(map, st_crs("+proj=longlat +init=epsg:4326 +ellps=WGS84 +datum=WGS84 +no_defs"))
+```
+
+```{r,warning=F}
+leaflet(mapproj) %>% 
+    addTiles() %>% 
+  addMeasure(primaryLengthUnit="kilometers", secondaryLengthUnit="meters")  %>%
+  addScaleBar(options = c(imperial = FALSE)) %>%  
+  addPolygons(color = "green",label = mapproj$NAME) %>% 
+  addCircleMarkers(lng = sample$longitude,lat = sample$latitude,label = sample$postcode,radius = 0.3)
+
+```
+
+### remove data
+
+```{r}
+system("rm -rf data/ukpostcodes/")
+```

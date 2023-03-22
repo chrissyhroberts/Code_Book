@@ -1,0 +1,71 @@
+---
+title: "ODK GPS to KML"
+author: "Chrissy h Roberts"
+---
+
+## Background
+
+Keyhole Markup Language (KML) is an XML notation for expressing geographic annotation and visualization within two-dimensional maps and three-dimensional Earth browsers. KML was developed for use with Google Earth, which was originally named Keyhole Earth Viewer. Some users of ODK will like to view their GPS data as a Google Earth layer.
+
+This script converts basic GPS data to a KML file
+
+## Libraries
+
+```{r}
+library(tidyverse)
+library(sp)
+library(rgdal)
+```
+
+## Dummy data
+
+This data will resemble the kind of lat/long data that comes off ODK. I've supplemented it with some annotations and a 'status' which will colour a flag or something.
+
+```{r}
+df<- tibble(
+          lon=c(-123.736597,6.263428,147.263399,83.263430,169.263481,7.736540,0.0)  
+          lat=c(21.04847,-66.04859,42.04850,66.04854,44.04862,50.04865,52.00000)
+          status=c(1,1,1,1,2,2,2)
+          names=("Mid_Pacific_Off_Mexico",
+                 "North_Of_Antarctica",
+                 "East_Of_Hokkaido",
+                 "North_Central_Russia",
+                 "Suiko_Seamount",
+                 "Bacharach_Germany",
+                 "Barkaway_UK")
+            )
+```
+
+## Set up the geometry of the data set
+
+```{r}
+#set the coordinate columns
+coordinates(df) <- ~lon+lat
+#set the geometry of the earth that is used in the map. This is set for standard GPS method
+proj4string(df) <- CRS("+init=epsg:4326 +proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs +towgs84=0,0,0")
+
+```
+
+## Create the KML
+
+```{r}
+##export basic KML
+kml(df)
+
+#with labels
+kml(df,labels = names)
+
+#add a shape that can be coloured by another variable like status
+shape = "http://maps.google.com/mapfiles/kml/pal2/icon18.png"
+#list of icons here https://sites.google.com/site/gmapsdevelopment/
+
+# color only:
+kml(df, shape = shape, colour = status, labels = names)
+
+# change size
+kml(df, shape = shape, size = 5, colour = status, labels = names)
+
+# two aesthetics elements are effective in emphasizing hot-spots:
+kml(df, shape = shape, altitude = 100, extrude = TRUE, 
+    colour = status, labels = names, kmz = TRUE)
+```

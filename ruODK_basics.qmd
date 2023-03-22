@@ -1,0 +1,100 @@
+---
+title: "ruODK Setup and basic functions"
+---
+
+## Background
+
+ruODK is a great package for interacting with ODK Central via R. Full details of how to use it are [here](https://github.com/ropensci/ruODK).
+
+To connect your ODK Central account to R, you'll need to set up your passwords in the *r.environ* file so they're not exposed in scripts. Your passwords will be stored in plain text on your *r.environ* so be cautious about which machines you work with this way. There's also options to add you password manually each time, but we'll assume you're on a secure machine when you do this.
+
+## Add your credentials to *r.environ*
+
+Run this command to open the *r.environ* file
+
+> **usethis::edit_r\_environ(scope = "user")**
+
+Inside renviron file, be careful not to delete anything, but add these lines (substituting your ODK central URL and email address in the appropriate places.
+
+> **ODKC_URL="https://central.xxx.com"**
+>
+> **ODKC_UN="mustafa.orbach\@xxx.com"**
+
+On a new line, add the password you use to log in to the system. Substitute *xxx* for your password
+
+> **ODKC_PW="xxx"**
+
+On a new line, add your password for decryption (if you use project level encryption). Substitute *xxx* for your password
+
+> **ODKC_PP="xxx"**
+
+Finally, save the *r.environ* file and restart R to load it in to R.
+
+## Using ruODK to download a data set
+
+### Libraries
+
+```{r}
+library(ruODK)
+library(tidyverse)
+library(knitr)
+
+```
+
+### Connect to server
+
+My servers are at central.lshtm.ac.uk. You need to change this to yours. **Sys.getenv()** pulls the passwords from the *r.environ* file in a way that is more secure than just adding to the script.
+
+```{r}
+#connect to server
+ruODK::ru_setup(
+  url = "https://central.lshtm.ac.uk",
+  un = Sys.getenv("ODKC_UN"),
+  pw = Sys.getenv("ODKC_PW"),
+  tz = "Europe/London",
+  verbose = TRUE
+)
+
+```
+
+### Show a list of projects
+
+You'll want to know the pid number, given here as `id`
+
+```{r}
+kable(ruODK::project_list()[1:2,-9])
+```
+
+### Show a list of forms that are included in the project
+
+```{r}
+kable(ruODK::form_list(pid = 37))
+
+```
+
+### Show details about a specific form
+
+```{r, warning=FALSE, r,message=F}
+kable(ruODK::form_detail(pid = 37,fid = "geopoint_map"))
+```
+
+### Show a list of submissions to a specific form
+
+```{r, warning=FALSE, message=F}
+kable(ruODK::submission_list(pid = 37,fid = "geopoint_map"))
+```
+
+### Pull submissions
+
+ruODK is very powerful and can get quite complicated. The most basic thing you need is a dataframe with your submissions. Here's how to get one.
+
+```{r, warning=FALSE,message=FALSE,error=FALSE }
+df<-ruODK::odata_submission_get(pid = "37",fid="geopoint_map")
+```
+
+### Show data
+
+```{r}
+kable(df[,1:4])
+```
+

@@ -24,6 +24,7 @@ book:
     chapters:
        - examples/extract_model_from_geom_smooth.qmd
        - examples/95CI_point_estimate.qmd
+       - examples/update_R.qmd
 
   - part: "ggplot, charts, images"
 

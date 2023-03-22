@@ -11,9 +11,9 @@ book:
   chapters:
   - index.qmd
 
-  - part: "Part One"
+  - part: "ODK"
     chapters:
-       - intro.qmd
+       - examples/ruODK_basics.qmd
 
   - part: "Time Series"
     chapters:
@@ -23,10 +23,9 @@ book:
   - part: "R cleverness"
     chapters:
        - examples/extract_model_from_geom_smooth.qmd
+       - examples/95CI_point_estimate.qmd
 
   - part: "ggplot, charts, images"
-    chapters:
-       - examples/extract_model_from_geom_smooth.qmd
 
   - part: "tables"
     chapters:

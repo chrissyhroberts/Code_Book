@@ -1,0 +1,194 @@
+---
+title: "Photo Cleaning for sharing data anonymously"
+author: "Chrissy Roberts"
+format: html
+editor: visual
+---
+
+## 
+
+## Background
+
+When sharing images, it is useful to be able to
+
+#### 1) Remove EXIF data, which can include GPS locations where the photos were taken
+
+Imagemagick is used for this
+
+#### 2) Rename files to have nonsensical names
+
+Using either **date** or **gdate** on linux or OSX respectively. gdate is part of the **coreutils** package
+
+This tutorial is aimed at OSX users and assumes you have *homebrew* (**brew**) installed. Using it on a PC through the linux subsystem for windows should be easy. Replace brew with apt-get or similar.
+
+#### 3) Flag any files with very high luminance, for instance photos of labels, consent forms etc
+
+This is also done with Imagemagick.
+
+This script assumes that you've put a lot of pictures in the folder `data/photos_for_cleaning`
+
+## Libraries
+
+```{r}
+library(tidyverse)
+library(mixtools)
+set.seed(23423346)
+```
+
+## Copy some photos in to the working directory
+
+```{r}
+system("rm data/photos_for_cleaning/*.JPG")
+system("unzip data/photos_for_cleaning/photos_for_cleaning.zip -d data/photos_for_cleaning/")
+```
+
+## Remove EXIF data
+
+Install Imagemagick (hash this line if you already have Imagemagick unless you want a long wait)
+
+```{r}
+#system("brew install imagemagick")
+```
+
+Use imagemagick's *mogrify* to make an in place copy of each file with the EXIF data stripped out. This has the benefit of making a new creation datestamp and md5 hash for each file.
+
+Before running this on thousands of photos, we will test that this works by reading an EXIF metadata from a single file.\
+Let's see what files are available in the folder data/photos_for_cleaning
+
+```{r}
+pictures = list.files(path = "data/photos_for_cleaning/",pattern = ".JPG",full.names = T)
+```
+
+Now use the *identify* command to look the content of the EXIF for one file
+
+```{r}
+system(str_c(r"(identify -format '%[EXIF:*]' )", pictures[1]))
+```
+
+You'll see a load of data from the EXIF. If you want to capture anything, like the aperture settings etc, now is the time to do it. It should be simple to design a loop and function that will capture this info.
+
+After applying the following command from ImageMagick
+
+```{r}
+system(str_c("mogrify -strip ",pictures[1]))
+```
+
+You should be able to rerun this
+
+```{r}
+system(str_c(r"(identify -format '%[EXIF:*]')", pictures[1]))
+```
+
+and you should now see an empty EXIF, i.e. nothing will be shown in the console. If you still see EXIF data, something went wrong.
+
+To apply the function to all files in the folder, we won't use the built in `mogrify -strip data/photos_for_cleaning/*.JPG` because it halts when it hits a problem. Instead we will wrap it in an R code with 'try'.
+
+```{r}
+pictures = list.files(path = "data/photos_for_cleaning/",pattern = ".JPG",full.names = T)
+
+for(i in pictures){
+                  (system(str_c("mogrify -strip ",i)))
+                  }
+```
+
+## Rename all files
+
+### Define a function to create a unique ID
+
+```{r}
+  randomid <- function(n = 1,path,file) {
+    a <- do.call(paste0, replicate(5, sample(LETTERS, n, TRUE), FALSE))
+    id = paste0(a, sprintf("%04d", sample(9999, n, TRUE)), sample(LETTERS, n, TRUE))
+    file.rename(from=file, to=str_c(path,id,".JPG",sep=""))
+  }
+```
+
+### Apply the function, renaming all photos
+
+```{r}
+path = "data/photos_for_cleaning/"
+pictures = list.files(path = "data/photos_for_cleaning/",pattern = ".JPG",full.names = T)
+
+for(i in pictures){randomid(path = path,file = i)}
+
+```
+
+### Flag any files with high luminance
+
+```{r}
+df = tibble(
+  pictures = list.files(path = "data/photos_for_cleaning/",pattern = ".JPG",full.names = T),
+  luminance = NA
+)
+
+for (i in 1:nrow(df)){
+
+df$luminance[i] = as.numeric(system(str_c(r"(convert )",df$pictures[i],r"( -colorspace LAB -channel r -separate +channel -format "%[mean]\n" info: )",sep=""),intern = T))
+
+}
+
+
+```
+
+### Run an Expectation Maximisation to find clusters
+
+```{r}
+
+set.seed(12341)
+em<-normalmixEM(df$luminance, k=2,maxit = 3000)
+
+
+
+```
+
+Plot the results, with 99.99 Confidence interval
+
+```{r,warning=F}
+
+ggplot(df, aes(x = luminance)) +
+  geom_histogram(binwidth = 0.007,color="white",fill="grey") +
+  mapply(
+    function(mean, sd, lambda, n, binwidth) {
+      stat_function(
+        fun = function(x) {
+          (dnorm(x, mean = mean, sd = sd)) * n * binwidth * lambda
+        }
+      )
+    },
+    mean = em[["mu"]], #mean
+    sd = em[["sigma"]], #standard deviation
+    lambda = em[["lambda"]], #amplitude
+    n = length(df$luminance), #sample size
+    binwidth = 0.007 #binwidth used for histogram
+  )+
+  geom_vline(xintercept = em$mu[1]+(3.29*em$sigma[1]),lty=2,lwd=1,col="red")
+
+```
+
+### Rename files with high luminance
+
+```{r}
+
+
+for (i in 1:nrow(df)){
+
+if (df$luminance[i] > 40000){file.rename(from = df$pictures[i],to = gsub(x = df$pictures[i],pattern = ".JPG",replacement = ".light.JPG"))}
+  
+message(str_c(df$pictures[i]," luminance = ",df$luminance[i]))
+}
+```
+
+## Results
+
+A file flagged as having high luminance
+
+```{r,message=F,error=F}
+knitr::include_graphics(gsub(x=df$pictures[which(df$luminance==max(df$luminance))],pattern = ".JPG",replacement = ".light.JPG"),error = T)
+```
+
+A file flagged as having low luminance
+
+```{r}
+knitr::include_graphics(df$pictures[which(df$luminance==min
+                                          (df$luminance))])
+```

@@ -698,5 +698,61 @@
     "title": "15  Remove EXIF and anonymise filenames",
     "section": "15.3 Rename all files",
     "text": "15.3 Rename all files\nTo achieve this we will write a simple piece of shell code in the file\n\nfor i in *.JPG ; do\n              mv \"\\$i\" \"\\${i// /}\"\n\n          done\nfor j in *.JPG ; do\n              echo \"\\$j\";\n\n              DATE=\\$(gdate +%N \\| tr -d \\\\\\\\n)\n\n              mv \"\\$j\" \"\\$DATE.JPG\";\n\n          done\n\n\n15.3.1 Flag any files with high luminance\n\nfor j in *.JPG ; do\n              LUX=\\$(convert \\$j -colorspace LAB -channel r -separate +channel -format \"%\\[mean\\]\\\\n\" info: \\| tr -d \\\\\\\\n)\n\n              if \\[\\[ \\$LUX -gt 1000 \\]\\]\n\n                  then\n\n              echo \"\\$LUX\";\n\n              mv \"\\$j\" \"x\\$j\";\n\n          fi\ndone"
+  },
+  {
+    "objectID": "Photo_Cleaning_for_sharing.html#section",
+    "href": "Photo_Cleaning_for_sharing.html#section",
+    "title": "15  Photo Cleaning for sharing data anonymously",
+    "section": "15.1 ",
+    "text": "15.1"
+  },
+  {
+    "objectID": "Photo_Cleaning_for_sharing.html#background",
+    "href": "Photo_Cleaning_for_sharing.html#background",
+    "title": "15  Photo Cleaning for sharing data anonymously",
+    "section": "15.2 Background",
+    "text": "15.2 Background\nWhen sharing images, it is useful to be able to\n\n15.2.0.1 1) Remove EXIF data, which can include GPS locations where the photos were taken\nImagemagick is used for this\n\n\n15.2.0.2 2) Rename files to have nonsensical names\nUsing either date or gdate on linux or OSX respectively. gdate is part of the coreutils package\nThis tutorial is aimed at OSX users and assumes you have homebrew (brew) installed. Using it on a PC through the linux subsystem for windows should be easy. Replace brew with apt-get or similar.\n\n\n15.2.0.3 3) Flag any files with very high luminance, for instance photos of labels, consent forms etc\nThis is also done with Imagemagick.\nThis script assumes that you’ve put a lot of pictures in the folder data/photos_for_cleaning"
+  },
+  {
+    "objectID": "Photo_Cleaning_for_sharing.html#libraries",
+    "href": "Photo_Cleaning_for_sharing.html#libraries",
+    "title": "15  Photo Cleaning for sharing data anonymously",
+    "section": "15.3 Libraries",
+    "text": "15.3 Libraries\n\nlibrary(tidyverse)\n\n── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ──\n✔ ggplot2 3.4.1     ✔ purrr   1.0.1\n✔ tibble  3.2.1     ✔ dplyr   1.1.0\n✔ tidyr   1.3.0     ✔ stringr 1.5.0\n✔ readr   2.1.4     ✔ forcats 1.0.0\n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\n\nlibrary(mixtools)\n\nmixtools package, version 2.0.0, Released 2022-12-04\nThis package is based upon work supported by the National Science Foundation under Grant No. SES-0518772 and the Chan Zuckerberg Initiative: Essential Open Source Software for Science (Grant No. 2020-255193).\n\nset.seed(23423346)"
+  },
+  {
+    "objectID": "Photo_Cleaning_for_sharing.html#copy-some-photos-in-to-the-working-directory",
+    "href": "Photo_Cleaning_for_sharing.html#copy-some-photos-in-to-the-working-directory",
+    "title": "15  Photo Cleaning for sharing data anonymously",
+    "section": "15.4 Copy some photos in to the working directory",
+    "text": "15.4 Copy some photos in to the working directory\n\nsystem(\"rm data/photos_for_cleaning/*.JPG\")\nsystem(\"unzip data/photos_for_cleaning/photos_for_cleaning.zip -d data/photos_for_cleaning/\")"
+  },
+  {
+    "objectID": "Photo_Cleaning_for_sharing.html#remove-exif-data",
+    "href": "Photo_Cleaning_for_sharing.html#remove-exif-data",
+    "title": "15  Photo Cleaning for sharing data anonymously",
+    "section": "15.5 Remove EXIF data",
+    "text": "15.5 Remove EXIF data\nInstall Imagemagick (hash this line if you already have Imagemagick unless you want a long wait)\n\n#system(\"brew install imagemagick\")\n\nUse imagemagick’s mogrify to make an in place copy of each file with the EXIF data stripped out. This has the benefit of making a new creation datestamp and md5 hash for each file.\nBefore running this on thousands of photos, we will test that this works by reading an EXIF metadata from a single file.\nLet’s see what files are available in the folder data/photos_for_cleaning\n\npictures = list.files(path = \"data/photos_for_cleaning/\",pattern = \".JPG\",full.names = T)\n\nNow use the identify command to look the content of the EXIF for one file\n\nsystem(str_c(r\"(identify -format '%[EXIF:*]' )\", pictures[1]))\n\nYou’ll see a load of data from the EXIF. If you want to capture anything, like the aperture settings etc, now is the time to do it. It should be simple to design a loop and function that will capture this info.\nAfter applying the following command from ImageMagick\n\nsystem(str_c(\"mogrify -strip \",pictures[1]))\n\nYou should be able to rerun this\n\nsystem(str_c(r\"(identify -format '%[EXIF:*]')\", pictures[1]))\n\nand you should now see an empty EXIF, i.e. nothing will be shown in the console. If you still see EXIF data, something went wrong.\nTo apply the function to all files in the folder, we won’t use the built in mogrify -strip data/photos_for_cleaning/*.JPG because it halts when it hits a problem. Instead we will wrap it in an R code with ‘try’.\n\npictures = list.files(path = \"data/photos_for_cleaning/\",pattern = \".JPG\",full.names = T)\n\nfor(i in pictures){\n                  (system(str_c(\"mogrify -strip \",i)))\n                  }"
+  },
+  {
+    "objectID": "Photo_Cleaning_for_sharing.html#rename-all-files",
+    "href": "Photo_Cleaning_for_sharing.html#rename-all-files",
+    "title": "15  Photo Cleaning for sharing data anonymously",
+    "section": "15.6 Rename all files",
+    "text": "15.6 Rename all files\n\n15.6.1 Define a function to create a unique ID\n\n  randomid <- function(n = 1,path,file) {\n    a <- do.call(paste0, replicate(5, sample(LETTERS, n, TRUE), FALSE))\n    id = paste0(a, sprintf(\"%04d\", sample(9999, n, TRUE)), sample(LETTERS, n, TRUE))\n    file.rename(from=file, to=str_c(path,id,\".JPG\",sep=\"\"))\n  }\n\n\n\n15.6.2 Apply the function, renaming all photos\n\npath = \"data/photos_for_cleaning/\"\npictures = list.files(path = \"data/photos_for_cleaning/\",pattern = \".JPG\",full.names = T)\n\nfor(i in pictures){randomid(path = path,file = i)}\n\n\n\n15.6.3 Flag any files with high luminance\n\ndf = tibble(\n  pictures = list.files(path = \"data/photos_for_cleaning/\",pattern = \".JPG\",full.names = T),\n  luminance = NA\n)\n\nfor (i in 1:nrow(df)){\n\ndf$luminance[i] = as.numeric(system(str_c(r\"(convert )\",df$pictures[i],r\"( -colorspace LAB -channel r -separate +channel -format \"%[mean]\\n\" info: )\",sep=\"\"),intern = T))\n\n}\n\n\n\n15.6.4 Run an Expectation Maximisation to find clusters\n\nset.seed(12341)\nem<-normalmixEM(df$luminance, k=2,maxit = 3000)\n\nnumber of iterations= 6 \n\n\nPlot the results, with 99.99 Confidence interval\n\nggplot(df, aes(x = luminance)) +\n  geom_histogram(binwidth = 0.007,color=\"white\",fill=\"grey\") +\n  mapply(\n    function(mean, sd, lambda, n, binwidth) {\n      stat_function(\n        fun = function(x) {\n          (dnorm(x, mean = mean, sd = sd)) * n * binwidth * lambda\n        }\n      )\n    },\n    mean = em[[\"mu\"]], #mean\n    sd = em[[\"sigma\"]], #standard deviation\n    lambda = em[[\"lambda\"]], #amplitude\n    n = length(df$luminance), #sample size\n    binwidth = 0.007 #binwidth used for histogram\n  )+\n  geom_vline(xintercept = em$mu[1]+(3.29*em$sigma[1]),lty=2,lwd=1,col=\"red\")\n\n\n\n\n\n\n15.6.5 Rename files with high luminance\n\nfor (i in 1:nrow(df)){\n\nif (df$luminance[i] > 40000){file.rename(from = df$pictures[i],to = gsub(x = df$pictures[i],pattern = \".JPG\",replacement = \".light.JPG\"))}\n  \nmessage(str_c(df$pictures[i],\" luminance = \",df$luminance[i]))\n}\n\ndata/photos_for_cleaning//ERCVC3682S.JPG luminance = 21065.1\n\n\ndata/photos_for_cleaning//NPHTK8426K.JPG luminance = 20564.3\n\n\ndata/photos_for_cleaning//OYMPF5938B.JPG luminance = 10660.7\n\n\ndata/photos_for_cleaning//TGLWU3648Q.JPG luminance = 50894.2\n\n\ndata/photos_for_cleaning//VATLY3953X.JPG luminance = 52021\n\n\ndata/photos_for_cleaning//VRAXW6073Z.JPG luminance = 55293.9\n\n\ndata/photos_for_cleaning//VTEEG4048F.JPG luminance = 16634.8\n\n\ndata/photos_for_cleaning//WNQZB2575C.JPG luminance = 17054.4\n\n\ndata/photos_for_cleaning//YPZJU4391B.JPG luminance = 53881.3\n\n\ndata/photos_for_cleaning//YQFYO8330G.JPG luminance = 18454.5\n\n\ndata/photos_for_cleaning//ZIIYN8173Q.JPG luminance = 14055.4"
+  },
+  {
+    "objectID": "Photo_Cleaning_for_sharing.html#results",
+    "href": "Photo_Cleaning_for_sharing.html#results",
+    "title": "15  Photo Cleaning for sharing data anonymously",
+    "section": "15.7 Results",
+    "text": "15.7 Results\nA file flagged as having high luminance\n\nknitr::include_graphics(gsub(x=df$pictures[which(df$luminance==max(df$luminance))],pattern = \".JPG\",replacement = \".light.JPG\"),error = T)\n\n\n\n\nA file flagged as having low luminance\n\nknitr::include_graphics(df$pictures[which(df$luminance==min\n                                          (df$luminance))])"
+  },
+  {
+    "objectID": "Photo_Cleaning_for_sharing.html#section-1",
+    "href": "Photo_Cleaning_for_sharing.html#section-1",
+    "title": "15  Photo Cleaning for sharing data anonymously",
+    "section": "15.8 ",
+    "text": "15.8"
   }
 ]

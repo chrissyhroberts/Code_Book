@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.335">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Chrissy h Roberts">
+
+<title>Code Book - 10&nbsp; Diagnostic Evaluation Power Calculation</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./hazratio_chart.html" rel="next">
+<link href="./power_calc_gen_case_control.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+<script src="site_libs/htmlwidgets-1.6.2/htmlwidgets.js"></script>
+<script src="site_libs/plotly-binding-4.10.1/plotly.js"></script>
+<script src="site_libs/typedarray-0.1/typedarray.min.js"></script>
+<script src="site_libs/jquery-3.5.1/jquery.min.js"></script>
+<link href="site_libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet">
+<script src="site_libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
+<link href="site_libs/plotly-htmlwidgets-css-2.11.1/plotly-htmlwidgets.css" rel="stylesheet">
+<script src="site_libs/plotly-main-2.11.1/plotly-latest.min.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Diagnostic Evaluation Power Calculation</span></h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Code Book</a> 
+        <div class="sidebar-tools-main">
+    <a href="./Code-Book.pdf" title="Download PDF" class="sidebar-tool px-1"><i class="bi bi-file-pdf"></i></a>
+</div>
+    </div>
+      </div>
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">Preface</a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">R cleverness</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./95CI_point_estimate.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">95% Confidence Intervals on a point estimate</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./update_R.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Update R - Bare Bones</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./utf8_encoding.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Normalise utf8 accented text</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./remove_accents.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Remove_Accents</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./text_to_speech_R.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Text to Speech in R</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./UK_Postcodes.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">UK Postcode Maps</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">Statistics</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Interrupted_Time_Series.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">A pragmatic Introduction to Interrupted Time Series</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./new_lm_predict_left_predict_right.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">New lm Predict Left &amp; Predict Right</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./power_calc_gen_case_control.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Genetic Power Calculator</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Diagnostics_Power_Calculation.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Diagnostic Evaluation Power Calculation</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">ggplot, charts, images</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./hazratio_chart.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Hazard Ratio Chart from Summary Data</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">ODK</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ruODK_basics.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">ruODK Setup and basic functions</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./diva_gis.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">GIS Data to ODK itemlist</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true">tables</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Univariate_regressions_reported_as_a_table.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Univariate regressions, reported as a table</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="true">Cribsheet [Other people’s work]</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Akaike_Information_Criterion.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Akaike information criterion</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#background" id="toc-background" class="nav-link active" data-scroll-target="#background"><span class="toc-section-number">10.1</span>  Background</a></li>
+  <li><a href="#libraries" id="toc-libraries" class="nav-link" data-scroll-target="#libraries"><span class="toc-section-number">10.2</span>  Libraries</a></li>
+  <li><a href="#define-a-function-that-applies-the-formula" id="toc-define-a-function-that-applies-the-formula" class="nav-link" data-scroll-target="#define-a-function-that-applies-the-formula"><span class="toc-section-number">10.3</span>  Define a function that applies the formula</a></li>
+  <li><a href="#create-a-data-set-with-likely-values" id="toc-create-a-data-set-with-likely-values" class="nav-link" data-scroll-target="#create-a-data-set-with-likely-values"><span class="toc-section-number">10.4</span>  Create a data set with likely values</a></li>
+  <li><a href="#apply-the-function" id="toc-apply-the-function" class="nav-link" data-scroll-target="#apply-the-function"><span class="toc-section-number">10.5</span>  Apply the function</a>
+  <ul class="collapse">
+  <li><a href="#at-1-5-10-and-15-tolerance-in-lower-limit-precision-in-estimate" id="toc-at-1-5-10-and-15-tolerance-in-lower-limit-precision-in-estimate" class="nav-link" data-scroll-target="#at-1-5-10-and-15-tolerance-in-lower-limit-precision-in-estimate"><span class="toc-section-number">10.5.1</span>  At 1%, 5%, 10% and 15% tolerance in lower limit precision in estimate</a></li>
+  </ul></li>
+  <li><a href="#draw-chart" id="toc-draw-chart" class="nav-link" data-scroll-target="#draw-chart"><span class="toc-section-number">10.6</span>  Draw chart</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title d-none d-lg-block"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Diagnostic Evaluation Power Calculation</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Chrissy h Roberts </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="background" class="level2" data-number="10.1">
+<h2 data-number="10.1" class="anchored" data-anchor-id="background"><span class="header-section-number">10.1</span> Background</h2>
+<p>For the findings of a proposed study of diagnostic accuracy to be robust, we require a minimum number of infected and uninfected cases. The total number of samples required to accurately evaluate the diagnostic devices can be calculated using the formulas below.</p>
+<p>The number <span class="math inline">\(\LARGE n\)</span> of specimens needed to obtain precision in diagnostic performance estimates is calculated using the formula</p>
+<p><span class="math inline">\(\LARGE n = \frac{(1.96+1.28)^2 * (p*(1-p))}{(p-po)^2/m}\)</span></p>
+<p>where</p>
+<p><span class="math inline">\(\LARGE p\)</span> is the expected sensitivity of the novel diagnostic</p>
+<p><span class="math inline">\(\LARGE p_{0}\)</span> is the minimum acceptable sensitivity of the novel diagnostic</p>
+<p><span class="math inline">\(\LARGE m\)</span> is the estimated prevalence of infection/disease/condition/state in the population</p>
+<p>When <span class="math inline">\(\LARGE n\)</span> is chosen this way, you can design the test to ensure that the lower limit of the confidence interval for the estimate of sensitivity/specificity is not likely to exceed <span class="math inline">\(\LARGE p0\)</span>.</p>
+<p>This is based on Banoo, S. et al.&nbsp;Evaluation of diagnostic tests for infectious diseases: general principles. Nature Reviews Microbiology 4, S20–S32 (2006).</p>
+</section>
+<section id="libraries" class="level2" data-number="10.2">
+<h2 data-number="10.2" class="anchored" data-anchor-id="libraries"><span class="header-section-number">10.2</span> Libraries</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ──
+✔ ggplot2 3.4.1     ✔ purrr   1.0.1
+✔ tibble  3.2.1     ✔ dplyr   1.1.0
+✔ tidyr   1.3.0     ✔ stringr 1.5.0
+✔ readr   2.1.4     ✔ forcats 1.0.0
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(plotly)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'plotly'
+
+The following object is masked from 'package:ggplot2':
+
+    last_plot
+
+The following object is masked from 'package:stats':
+
+    filter
+
+The following object is masked from 'package:graphics':
+
+    layout</code></pre>
+</div>
+</div>
+</section>
+<section id="define-a-function-that-applies-the-formula" class="level2" data-number="10.3">
+<h2 data-number="10.3" class="anchored" data-anchor-id="define-a-function-that-applies-the-formula"><span class="header-section-number">10.3</span> Define a function that applies the formula</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>required_specimens_min_acceptable<span class="ot">&lt;-</span><span class="cf">function</span>(p,po,m)(((<span class="fl">1.96+1.28</span>)<span class="sc">^</span><span class="dv">2</span>)<span class="sc">*</span>(p<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span>p)))<span class="sc">/</span>((p<span class="sc">-</span>po)<span class="sc">^</span><span class="dv">2</span>)<span class="sc">/</span>m</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="create-a-data-set-with-likely-values" class="level2" data-number="10.4">
+<h2 data-number="10.4" class="anchored" data-anchor-id="create-a-data-set-with-likely-values"><span class="header-section-number">10.4</span> Create a data set with likely values</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>df<span class="ot">&lt;-</span> <span class="fu">expand_grid</span>(</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">p =</span> <span class="fu">seq</span>(<span class="fl">0.80</span>,<span class="fl">0.99</span>,<span class="fl">0.01</span>),</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>                <span class="at">m =</span> <span class="fu">seq</span>(<span class="fl">0.02</span>,<span class="fl">0.16</span>,<span class="fl">0.02</span>)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>                )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="apply-the-function" class="level2" data-number="10.5">
+<h2 data-number="10.5" class="anchored" data-anchor-id="apply-the-function"><span class="header-section-number">10.5</span> Apply the function</h2>
+<section id="at-1-5-10-and-15-tolerance-in-lower-limit-precision-in-estimate" class="level3" data-number="10.5.1">
+<h3 data-number="10.5.1" class="anchored" data-anchor-id="at-1-5-10-and-15-tolerance-in-lower-limit-precision-in-estimate"><span class="header-section-number">10.5.1</span> At 1%, 5%, 10% and 15% tolerance in lower limit precision in estimate</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>df<span class="fl">.5</span>pc<span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span> </span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">po =</span> p<span class="fl">-0.05</span>,</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">n =</span> <span class="fu">required_specimens_min_acceptable</span>(<span class="at">p =</span> p, <span class="at">po =</span> po, <span class="at">m =</span> m),</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">lower =</span> <span class="st">"five_percent"</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>df<span class="fl">.10</span>pc<span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span> </span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>        <span class="at">po =</span> p<span class="fl">-0.10</span>,</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>        <span class="at">n =</span> <span class="fu">required_specimens_min_acceptable</span>(<span class="at">p =</span> p, <span class="at">po =</span> po, <span class="at">m =</span> m),</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>        <span class="at">lower =</span> <span class="st">"ten_percent"</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>df<span class="fl">.15</span>pc<span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span> </span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>        <span class="at">po =</span> p<span class="fl">-0.15</span>,</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>        <span class="at">n =</span> <span class="fu">required_specimens_min_acceptable</span>(<span class="at">p =</span> p, <span class="at">po =</span> po, <span class="at">m =</span> m),</span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>        <span class="at">lower =</span> <span class="st">"fifteen_percent"</span></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>df<span class="ot">&lt;-</span><span class="fu">bind_rows</span>(df<span class="fl">.5</span>pc,df<span class="fl">.10</span>pc,df<span class="fl">.15</span>pc) <span class="sc">%&gt;%</span> </span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">lower =</span> <span class="fu">factor</span>(lower,<span class="at">levels=</span><span class="fu">c</span>(<span class="st">"five_percent"</span>,<span class="st">"ten_percent"</span>,<span class="st">"fifteen_percent"</span>)))</span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(df<span class="fl">.5</span>pc,df<span class="fl">.10</span>pc,df<span class="fl">.15</span>pc)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="draw-chart" class="level2" data-number="10.6">
+<h2 data-number="10.6" class="anchored" data-anchor-id="draw-chart"><span class="header-section-number">10.6</span> Draw chart</h2>
+<p>This shows the values of <span class="math inline">\(\LARGE n\)</span> (y axis) for various values of <span class="math inline">\(\LARGE p\)</span></p>
+<p>Coloured lines show different underlying prevalence values and facets show different acceptable levels of precision in the estimate, here 5%, 10% and 15%, indicating that for a given value of <span class="math inline">\(\LARGE p\)</span> such as 0.8, a precision as low as 0.75, 0.7 or 0.65 would be minimally acceptable.</p>
+<p>The ggplotly view allows you to explore results visually.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplotly</span>(<span class="fu">ggplot</span>(df,<span class="fu">aes</span>(p,n,<span class="at">color=</span><span class="fu">factor</span>(m)))<span class="sc">+</span><span class="fu">geom_line</span>()<span class="sc">+</span><span class="fu">facet_wrap</span>(.<span class="sc">~</span>lower))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="plotly html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-811e12da3c117e1d0285" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-811e12da3c117e1d0285">{"x":{"data":[{"x":[0.8,0.81,0.82,0.83,0.84,0.85,0.86,0.87,0.88,0.89,0.9,0.91,0.92,0.93,0.94,0.95,0.96,0.97,0.98,0.99],"y":[33592.3199999999,32311.6127999999,30988.9151999999,29624.2271999999,28217.5487999999,26768.88,25278.2207999999,23745.5711999999,22170.9312,20554.3008,18895.68,17195.0688,15452.4672,13667.8752,11841.2928,9972.71999999997,8062.15679999997,6109.60319999997,4115.0592,2078.5248],"text":["p: 0.80<br />n: 33592.32000<br />factor(m): 0.02","p: 0.81<br />n: 32311.61280<br />factor(m): 0.02","p: 0.82<br />n: 30988.91520<br />factor(m): 0.02","p: 0.83<br />n: 29624.22720<br />factor(m): 0.02","p: 0.84<br />n: 28217.54880<br />factor(m): 0.02","p: 0.85<br />n: 26768.88000<br />factor(m): 0.02","p: 0.86<br />n: 25278.22080<br />factor(m): 0.02","p: 0.87<br />n: 23745.57120<br />factor(m): 0.02","p: 0.88<br />n: 22170.93120<br />factor(m): 0.02","p: 0.89<br />n: 20554.30080<br />factor(m): 0.02","p: 0.90<br />n: 18895.68000<br />factor(m): 0.02","p: 0.91<br />n: 17195.06880<br />factor(m): 0.02","p: 0.92<br />n: 15452.46720<br />factor(m): 0.02","p: 0.93<br />n: 13667.87520<br />factor(m): 0.02","p: 0.94<br />n: 11841.29280<br />factor(m): 0.02","p: 0.95<br />n:  9972.72000<br />factor(m): 0.02","p: 0.96<br />n:  8062.15680<br />factor(m): 0.02","p: 0.97<br />n:  6109.60320<br />factor(m): 0.02","p: 0.98<br />n:  4115.05920<br />factor(m): 0.02","p: 0.99<br />n:  2078.52480<br />factor(m): 0.02"],"type":"scatter","mode":"lines","line":{"width":1.88976377952756,"color":"rgba(248,118,109,1)","dash":"solid"},"hoveron":"points","name":"0.02","legendgroup":"0.02","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[0.8,0.81,0.82,0.83,0.84,0.85,0.86,0.87,0.88,0.89,0.9,0.91,0.92,0.93,0.94,0.95,0.96,0.97,0.98,0.99],"y":[8398.08,8077.9032,7747.2288,7406.0568,7054.3872,6692.22,6319.5552,5936.3928,5542.7328,5138.5752,4723.92,4298.7672,3863.1168,3416.9688,2960.3232,2493.18,2015.5392,1527.4008,1028.7648,519.631200000001],"text":["p: 0.80<br />n:  8398.08000<br />factor(m): 0.02","p: 0.81<br />n:  8077.90320<br />factor(m): 0.02","p: 0.82<br />n:  7747.22880<br />factor(m): 0.02","p: 0.83<br />n:  7406.05680<br />factor(m): 0.02","p: 0.84<br />n:  7054.38720<br />factor(m): 0.02","p: 0.85<br />n:  6692.22000<br />factor(m): 0.02","p: 0.86<br />n:  6319.55520<br />factor(m): 0.02","p: 0.87<br />n:  5936.39280<br />factor(m): 0.02","p: 0.88<br />n:  5542.73280<br />factor(m): 0.02","p: 0.89<br />n:  5138.57520<br />factor(m): 0.02","p: 0.90<br />n:  4723.92000<br />factor(m): 0.02","p: 0.91<br />n:  4298.76720<br />factor(m): 0.02","p: 0.92<br />n:  3863.11680<br />factor(m): 0.02","p: 0.93<br />n:  3416.96880<br />factor(m): 0.02","p: 0.94<br />n:  2960.32320<br />factor(m): 0.02","p: 0.95<br />n:  2493.18000<br />factor(m): 0.02","p: 0.96<br />n:  2015.53920<br />factor(m): 0.02","p: 0.97<br />n:  1527.40080<br />factor(m): 0.02","p: 0.98<br />n:  1028.76480<br />factor(m): 0.02","p: 0.99<br />n:   519.63120<br />factor(m): 0.02"],"type":"scatter","mode":"lines","line":{"width":1.88976377952756,"color":"rgba(248,118,109,1)","dash":"solid"},"hoveron":"points","name":"0.02","legendgroup":"0.02","showlegend":false,"xaxis":"x2","yaxis":"y","hoverinfo":"text","frame":null},{"x":[0.8,0.81,0.82,0.83,0.84,0.85,0.86,0.87,0.88,0.89,0.9,0.91,0.92,0.93,0.94,0.95,0.96,0.97,0.98,0.99],"y":[3732.48,3590.1792,3443.2128,3291.5808,3135.2832,2974.32,2808.6912,2638.3968,2463.4368,2283.8112,2099.52,1910.5632,1716.9408,1518.6528,1315.6992,1108.08,895.795199999998,678.844799999998,457.2288,230.9472],"text":["p: 0.80<br />n:  3732.48000<br />factor(m): 0.02","p: 0.81<br />n:  3590.17920<br />factor(m): 0.02","p: 0.82<br />n:  3443.21280<br />factor(m): 0.02","p: 0.83<br />n:  3291.58080<br />factor(m): 0.02","p: 0.84<br />n:  3135.28320<br />factor(m): 0.02","p: 0.85<br />n:  2974.32000<br />factor(m): 0.02","p: 0.86<br />n:  2808.69120<br />factor(m): 0.02","p: 0.87<br />n:  2638.39680<br />factor(m): 0.02","p: 0.88<br />n:  2463.43680<br />factor(m): 0.02","p: 0.89<br />n:  2283.81120<br />factor(m): 0.02","p: 0.90<br />n:  2099.52000<br />factor(m): 0.02","p: 0.91<br />n:  1910.56320<br />factor(m): 0.02","p: 0.92<br />n:  1716.94080<br />factor(m): 0.02","p: 0.93<br />n:  1518.65280<br />factor(m): 0.02","p: 0.94<br />n:  1315.69920<br />factor(m): 0.02","p: 0.95<br />n:  1108.08000<br />factor(m): 0.02","p: 0.96<br />n:   895.79520<br />factor(m): 0.02","p: 0.97<br />n:   678.84480<br />factor(m): 0.02","p: 0.98<br />n:   457.22880<br />factor(m): 0.02","p: 0.99<br />n:   230.94720<br />factor(m): 0.02"],"type":"scatter","mode":"lines","line":{"width":1.88976377952756,"color":"rgba(248,118,109,1)","dash":"solid"},"hoveron":"points","name":"0.02","legendgroup":"0.02","showlegend":false,"xaxis":"x3","yaxis":"y","hoverinfo":"text","frame":null},{"x":[0.8,0.81,0.82,0.83,0.84,0.85,0.86,0.87,0.88,0.89,0.9,0.91,0.92,0.93,0.94,0.95,0.96,0.97,0.98,0.99],"y":[16796.16,16155.8064,15494.4576,14812.1136,14108.7744,13384.44,12639.1104,11872.7856,11085.4656,10277.1504,9447.83999999998,8597.53439999998,7726.23359999999,6833.93759999999,5920.64639999999,4986.35999999999,4031.07839999999,3054.80159999999,2057.5296,1039.2624],"text":["p: 0.80<br />n: 16796.16000<br />factor(m): 0.04","p: 0.81<br />n: 16155.80640<br />factor(m): 0.04","p: 0.82<br />n: 15494.45760<br />factor(m): 0.04","p: 0.83<br />n: 14812.11360<br />factor(m): 0.04","p: 0.84<br />n: 14108.77440<br />factor(m): 0.04","p: 0.85<br />n: 13384.44000<br />factor(m): 0.04","p: 0.86<br />n: 12639.11040<br />factor(m): 0.04","p: 0.87<br />n: 11872.78560<br />factor(m): 0.04","p: 0.88<br />n: 11085.46560<br />factor(m): 0.04","p: 0.89<br />n: 10277.15040<br />factor(m): 0.04","p: 0.90<br />n:  9447.84000<br />factor(m): 0.04","p: 0.91<br />n:  8597.53440<br />factor(m): 0.04","p: 0.92<br />n:  7726.23360<br />factor(m): 0.04","p: 0.93<br />n:  6833.93760<br />factor(m): 0.04","p: 0.94<br />n:  5920.64640<br />factor(m): 0.04","p: 0.95<br />n:  4986.36000<br />factor(m): 0.04","p: 0.96<br />n:  4031.07840<br />factor(m): 0.04","p: 0.97<br />n:  3054.80160<br />factor(m): 0.04","p: 0.98<br />n:  2057.52960<br />factor(m): 0.04","p: 0.99<br />n:  1039.26240<br />factor(m): 0.04"],"type":"scatter","mode":"lines","line":{"width":1.88976377952756,"color":"rgba(205,150,0,1)","dash":"solid"},"hoveron":"points","name":"0.04","legendgroup":"0.04","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[0.8,0.81,0.82,0.83,0.84,0.85,0.86,0.87,0.88,0.89,0.9,0.91,0.92,0.93,0.94,0.95,0.96,0.97,0.98,0.99],"y":[4199.04,4038.9516,3873.6144,3703.0284,3527.1936,3346.11,3159.7776,2968.1964,2771.3664,2569.2876,2361.96,2149.3836,1931.5584,1708.4844,1480.1616,1246.59,1007.7696,763.700399999998,514.382400000001,259.8156],"text":["p: 0.80<br />n:  4199.04000<br />factor(m): 0.04","p: 0.81<br />n:  4038.95160<br />factor(m): 0.04","p: 0.82<br />n:  3873.61440<br />factor(m): 0.04","p: 0.83<br />n:  3703.02840<br />factor(m): 0.04","p: 0.84<br />n:  3527.19360<br />factor(m): 0.04","p: 0.85<br />n:  3346.11000<br />factor(m): 0.04","p: 0.86<br />n:  3159.77760<br />factor(m): 0.04","p: 0.87<br />n:  2968.19640<br />factor(m): 0.04","p: 0.88<br />n:  2771.36640<br />factor(m): 0.04","p: 0.89<br />n:  2569.28760<br />factor(m): 0.04","p: 0.90<br />n:  2361.96000<br />factor(m): 0.04","p: 0.91<br />n:  2149.38360<br />factor(m): 0.04","p: 0.92<br />n:  1931.55840<br />factor(m): 0.04","p: 0.93<br />n:  1708.48440<br />factor(m): 0.04","p: 0.94<br />n:  1480.16160<br />factor(m): 0.04","p: 0.95<br />n:  1246.59000<br />factor(m): 0.04","p: 0.96<br />n:  1007.76960<br />factor(m): 0.04","p: 0.97<br />n:   763.70040<br />factor(m): 0.04","p: 0.98<br />n:   514.38240<br />factor(m): 0.04","p: 0.99<br />n:   259.81560<br />factor(m): 0.04"],"type":"scatter","mode":"lines","line":{"width":1.88976377952756,"color":"rgba(205,150,0,1)","dash":"solid"},"hoveron":"points","name":"0.04","legendgroup":"0.04","showlegend":false,"xaxis":"x2","yaxis":"y","hoverinfo":"text","frame":null},{"x":[0.8,0.81,0.82,0.83,0.84,0.85,0.86,0.87,0.88,0.89,0.9,0.91,0.92,0.93,0.94,0.95,0.96,0.97,0.98,0.99],"y":[1866.24,1795.0896,1721.6064,1645.7904,1567.6416,1487.16,1404.3456,1319.1984,1231.7184,1141.9056,1049.76,955.2816,858.4704,759.326399999999,657.849599999999,554.039999999999,447.897599999999,339.422399999999,228.6144,115.4736],"text":["p: 0.80<br />n:  1866.24000<br />factor(m): 0.04","p: 0.81<br />n:  1795.08960<br />factor(m): 0.04","p: 0.82<br />n:  1721.60640<br />factor(m): 0.04","p: 0.83<br />n:  1645.79040<br />factor(m): 0.04","p: 0.84<br />n:  1567.64160<br />factor(m): 0.04","p: 0.85<br />n:  1487.16000<br />factor(m): 0.04","p: 0.86<br />n:  1404.34560<br />factor(m): 0.04","p: 0.87<br />n:  1319.19840<br />factor(m): 0.04","p: 0.88<br />n:  1231.71840<br />factor(m): 0.04","p: 0.89<br />n:  1141.90560<br />factor(m): 0.04","p: 0.90<br />n:  1049.76000<br />factor(m): 0.04","p: 0.91<br />n:   955.28160<br />factor(m): 0.04","p: 0.92<br />n:   858.47040<br />factor(m): 0.04","p: 0.93<br />n:   759.32640<br />factor(m): 0.04","p: 0.94<br />n:   657.84960<br />factor(m): 0.04","p: 0.95<br />n:   554.04000<br />factor(m): 0.04","p: 0.96<br />n:   447.89760<br />factor(m): 0.04","p: 0.97<br />n:   339.42240<br />factor(m): 0.04","p: 0.98<br />n:   228.61440<br />factor(m): 0.04","p: 0.99<br />n:   115.47360<br />factor(m): 0.04"],"type":"scatter","mode":"lines","line":{"width":1.88976377952756,"color":"rgba(205,150,0,1)","dash":"solid"},"hoveron":"points","name":"0.04","legendgroup":"0.04","showlegend":false,"xaxis":"x3","yaxis":"y","hoverinfo":"text","frame":null},{"x":[0.8,0.81,0.82,0.83,0.84,0.85,0.86,0.87,0.88,0.89,0.9,0.91,0.92,0.93,0.94,0.95,0.96,0.97,0.98,0.99],"y":[11197.44,10770.5376,10329.6384,9874.74239999998,9405.84959999998,8922.95999999998,8426.07359999998,7915.19039999998,7390.31039999999,6851.43359999999,6298.55999999999,5731.68959999999,5150.82239999999,4555.95839999999,3947.09759999999,3324.23999999999,2687.38559999999,2036.53439999999,1371.6864,692.8416],"text":["p: 0.80<br />n: 11197.44000<br />factor(m): 0.06","p: 0.81<br />n: 10770.53760<br />factor(m): 0.06","p: 0.82<br />n: 10329.63840<br />factor(m): 0.06","p: 0.83<br />n:  9874.74240<br />factor(m): 0.06","p: 0.84<br />n:  9405.84960<br />factor(m): 0.06","p: 0.85<br />n:  8922.96000<br />factor(m): 0.06","p: 0.86<br />n:  8426.07360<br />factor(m): 0.06","p: 0.87<br />n:  7915.19040<br />factor(m): 0.06","p: 0.88<br />n:  7390.31040<br />factor(m): 0.06","p: 0.89<br />n:  6851.43360<br />factor(m): 0.06","p: 0.90<br />n:  6298.56000<br />factor(m): 0.06","p: 0.91<br />n:  5731.68960<br />factor(m): 0.06","p: 0.92<br />n:  5150.82240<br />factor(m): 0.06","p: 0.93<br />n:  4555.95840<br />factor(m): 0.06","p: 0.94<br />n:  3947.09760<br />factor(m): 0.06","p: 0.95<br />n:  3324.24000<br />factor(m): 0.06","p: 0.96<br />n:  2687.38560<br />factor(m): 0.06","p: 0.97<br />n:  2036.53440<br />factor(m): 0.06","p: 0.98<br />n:  1371.68640<br />factor(m): 0.06","p: 0.99<br />n:   692.84160<br />factor(m): 0.06"],"type":"scatter","mode":"lines","line":{"width":1.88976377952756,"color":"rgba(124,174,0,1)","dash":"solid"},"hoveron":"points","name":"0.06","legendgroup":"0.06","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[0.8,0.81,0.82,0.83,0.84,0.85,0.86,0.87,0.88,0.89,0.9,0.91,0.92,0.93,0.94,0.95,0.96,0.97,0.98,0.99],"y":[2799.36,2692.6344,2582.4096,2468.6856,2351.4624,2230.74,2106.5184,1978.7976,1847.5776,1712.8584,1574.64,1432.9224,1287.7056,1138.9896,986.7744,831.059999999999,671.846399999999,509.133599999999,342.921600000001,173.2104],"text":["p: 0.80<br />n:  2799.36000<br />factor(m): 0.06","p: 0.81<br />n:  2692.63440<br />factor(m): 0.06","p: 0.82<br />n:  2582.40960<br />factor(m): 0.06","p: 0.83<br />n:  2468.68560<br />factor(m): 0.06","p: 0.84<br />n:  2351.46240<br />factor(m): 0.06","p: 0.85<br />n:  2230.74000<br />factor(m): 0.06","p: 0.86<br />n:  2106.51840<br />factor(m): 0.06","p: 0.87<br />n:  1978.79760<br />factor(m): 0.06","p: 0.88<br />n:  1847.57760<br />factor(m): 0.06","p: 0.89<br />n:  1712.85840<br />factor(m): 0.06","p: 0.90<br />n:  1574.64000<br />factor(m): 0.06","p: 0.91<br />n:  1432.92240<br />factor(m): 0.06","p: 0.92<br />n:  1287.70560<br />factor(m): 0.06","p: 0.93<br />n:  1138.98960<br />factor(m): 0.06","p: 0.94<br />n:   986.77440<br />factor(m): 0.06","p: 0.95<br />n:   831.06000<br />factor(m): 0.06","p: 0.96<br />n:   671.84640<br />factor(m): 0.06","p: 0.97<br />n:   509.13360<br />factor(m): 0.06","p: 0.98<br />n:   342.92160<br />factor(m): 0.06","p: 0.99<br />n:   173.21040<br />factor(m): 0.06"],"type":"scatter","mode":"lines","line":{"width":1.88976377952756,"color":"rgba(124,174,0,1)","dash":"solid"},"hoveron":"points","name":"0.06","legendgroup":"0.06","showlegend":false,"xaxis":"x2","yaxis":"y","hoverinfo":"text","frame":null},{"x":[0.8,0.81,0.82,0.83,0.84,0.85,0.86,0.87,0.88,0.89,0.9,0.91,0.92,0.93,0.94,0.95,0.96,0.97,0.98,0.99],"y":[1244.16,1196.7264,1147.7376,1097.1936,1045.0944,991.44,936.230399999999,879.465599999999,821.1456,761.2704,699.84,636.8544,572.3136,506.2176,438.5664,369.36,298.598399999999,226.281599999999,152.4096,76.9824000000001],"text":["p: 0.80<br />n:  1244.16000<br />factor(m): 0.06","p: 0.81<br />n:  1196.72640<br />factor(m): 0.06","p: 0.82<br />n:  1147.73760<br />factor(m): 0.06","p: 0.83<br />n:  1097.19360<br />factor(m): 0.06","p: 0.84<br />n:  1045.09440<br />factor(m): 0.06","p: 0.85<br />n:   991.44000<br />factor(m): 0.06","p: 0.86<br />n:   936.23040<br />factor(m): 0.06","p: 0.87<br />n:   879.46560<br />factor(m): 0.06","p: 0.88<br />n:   821.14560<br />factor(m): 0.06","p: 0.89<br />n:   761.27040<br />factor(m): 0.06","p: 0.90<br />n:   699.84000<br />factor(m): 0.06","p: 0.91<br />n:   636.85440<br />factor(m): 0.06","p: 0.92<br />n:   572.31360<br />factor(m): 0.06","p: 0.93<br />n:   506.21760<br />factor(m): 0.06","p: 0.94<br />n:   438.56640<br />factor(m): 0.06","p: 0.95<br />n:   369.36000<br />factor(m): 0.06","p: 0.96<br />n:   298.59840<br />factor(m): 0.06","p: 0.97<br />n:   226.28160<br />factor(m): 0.06","p: 0.98<br />n:   152.40960<br />factor(m): 0.06","p: 0.99<br />n:    76.98240<br />factor(m): 0.06"],"type":"scatter","mode":"lines","line":{"width":1.88976377952756,"color":"rgba(124,174,0,1)","dash":"solid"},"hoveron":"points","name":"0.06","legendgroup":"0.06","showlegend":false,"xaxis":"x3","yaxis":"y","hoverinfo":"text","frame":null},{"x":[0.8,0.81,0.82,0.83,0.84,0.85,0.86,0.87,0.88,0.89,0.9,0.91,0.92,0.93,0.94,0.95,0.96,0.97,0.98,0.99],"y":[8398.07999999998,8077.90319999999,7747.22879999998,7406.05679999998,7054.38719999999,6692.21999999999,6319.55519999999,5936.39279999999,5542.73279999999,5138.57519999999,4723.91999999999,4298.76719999999,3863.11679999999,3416.96879999999,2960.32319999999,2493.17999999999,2015.53919999999,1527.40079999999,1028.7648,519.6312],"text":["p: 0.80<br />n:  8398.08000<br />factor(m): 0.08","p: 0.81<br />n:  8077.90320<br />factor(m): 0.08","p: 0.82<br />n:  7747.22880<br />factor(m): 0.08","p: 0.83<br />n:  7406.05680<br />factor(m): 0.08","p: 0.84<br />n:  7054.38720<br />factor(m): 0.08","p: 0.85<br />n:  6692.22000<br />factor(m): 0.08","p: 0.86<br />n:  6319.55520<br />factor(m): 0.08","p: 0.87<br />n:  5936.39280<br />factor(m): 0.08","p: 0.88<br />n:  5542.73280<br />factor(m): 0.08","p: 0.89<br />n:  5138.57520<br />factor(m): 0.08","p: 0.90<br />n:  4723.92000<br />factor(m): 0.08","p: 0.91<br />n:  4298.76720<br />factor(m): 0.08","p: 0.92<br />n:  3863.11680<br />factor(m): 0.08","p: 0.93<br />n:  3416.96880<br />factor(m): 0.08","p: 0.94<br />n:  2960.32320<br />factor(m): 0.08","p: 0.95<br />n:  2493.18000<br />factor(m): 0.08","p: 0.96<br />n:  2015.53920<br />factor(m): 0.08","p: 0.97<br />n:  1527.40080<br />factor(m): 0.08","p: 0.98<br />n:  1028.76480<br />factor(m): 0.08","p: 0.99<br />n:   519.63120<br />factor(m): 0.08"],"type":"scatter","mode":"lines","line":{"width":1.88976377952756,"color":"rgba(0,190,103,1)","dash":"solid"},"hoveron":"points","name":"0.08","legendgroup":"0.08","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[0.8,0.81,0.82,0.83,0.84,0.85,0.86,0.87,0.88,0.89,0.9,0.91,0.92,0.93,0.94,0.95,0.96,0.97,0.98,0.99],"y":[2099.52,2019.4758,1936.8072,1851.5142,1763.5968,1673.055,1579.8888,1484.0982,1385.6832,1284.6438,1180.98,1074.6918,965.7792,854.2422,740.0808,623.295,503.884799999999,381.850199999999,257.1912,129.9078],"text":["p: 0.80<br />n:  2099.52000<br />factor(m): 0.08","p: 0.81<br />n:  2019.47580<br />factor(m): 0.08","p: 0.82<br />n:  1936.80720<br />factor(m): 0.08","p: 0.83<br />n:  1851.51420<br />factor(m): 0.08","p: 0.84<br />n:  1763.59680<br />factor(m): 0.08","p: 0.85<br />n:  1673.05500<br />factor(m): 0.08","p: 0.86<br />n:  1579.88880<br />factor(m): 0.08","p: 0.87<br />n:  1484.09820<br />factor(m): 0.08","p: 0.88<br />n:  1385.68320<br />factor(m): 0.08","p: 0.89<br />n:  1284.64380<br />factor(m): 0.08","p: 0.90<br />n:  1180.98000<br />factor(m): 0.08","p: 0.91<br />n:  1074.69180<br />factor(m): 0.08","p: 0.92<br />n:   965.77920<br />factor(m): 0.08","p: 0.93<br />n:   854.24220<br />factor(m): 0.08","p: 0.94<br />n:   740.08080<br />factor(m): 0.08","p: 0.95<br />n:   623.29500<br />factor(m): 0.08","p: 0.96<br />n:   503.88480<br />factor(m): 0.08","p: 0.97<br />n:   381.85020<br />factor(m): 0.08","p: 0.98<br />n:   257.19120<br />factor(m): 0.08","p: 0.99<br />n:   129.90780<br />factor(m): 0.08"],"type":"scatter","mode":"lines","line":{"width":1.88976377952756,"color":"rgba(0,190,103,1)","dash":"solid"},"hoveron":"points","name":"0.08","legendgroup":"0.08","showlegend":false,"xaxis":"x2","yaxis":"y","hoverinfo":"text","frame":null},{"x":[0.8,0.81,0.82,0.83,0.84,0.85,0.86,0.87,0.88,0.89,0.9,0.91,0.92,0.93,0.94,0.95,0.96,0.97,0.98,0.99],"y":[933.12,897.5448,860.8032,822.8952,783.8208,743.58,702.1728,659.599199999999,615.8592,570.9528,524.88,477.6408,429.2352,379.6632,328.9248,277.02,223.9488,169.7112,114.3072,57.7368],"text":["p: 0.80<br />n:   933.12000<br />factor(m): 0.08","p: 0.81<br />n:   897.54480<br />factor(m): 0.08","p: 0.82<br />n:   860.80320<br />factor(m): 0.08","p: 0.83<br />n:   822.89520<br />factor(m): 0.08","p: 0.84<br />n:   783.82080<br />factor(m): 0.08","p: 0.85<br />n:   743.58000<br />factor(m): 0.08","p: 0.86<br />n:   702.17280<br />factor(m): 0.08","p: 0.87<br />n:   659.59920<br />factor(m): 0.08","p: 0.88<br />n:   615.85920<br />factor(m): 0.08","p: 0.89<br />n:   570.95280<br />factor(m): 0.08","p: 0.90<br />n:   524.88000<br />factor(m): 0.08","p: 0.91<br />n:   477.64080<br />factor(m): 0.08","p: 0.92<br />n:   429.23520<br />factor(m): 0.08","p: 0.93<br />n:   379.66320<br />factor(m): 0.08","p: 0.94<br />n:   328.92480<br />factor(m): 0.08","p: 0.95<br />n:   277.02000<br />factor(m): 0.08","p: 0.96<br />n:   223.94880<br />factor(m): 0.08","p: 0.97<br />n:   169.71120<br />factor(m): 0.08","p: 0.98<br />n:   114.30720<br />factor(m): 0.08","p: 0.99<br />n:    57.73680<br />factor(m): 0.08"],"type":"scatter","mode":"lines","line":{"width":1.88976377952756,"color":"rgba(0,190,103,1)","dash":"solid"},"hoveron":"points","name":"0.08","legendgroup":"0.08","showlegend":false,"xaxis":"x3","yaxis":"y","hoverinfo":"text","frame":null},{"x":[0.8,0.81,0.82,0.83,0.84,0.85,0.86,0.87,0.88,0.89,0.9,0.91,0.92,0.93,0.94,0.95,0.96,0.97,0.98,0.99],"y":[6718.46399999999,6462.32255999999,6197.78303999999,5924.84543999999,5643.50975999999,5353.77599999999,5055.64415999999,4749.11423999999,4434.18623999999,4110.86015999999,3779.13599999999,3439.01375999999,3090.49343999999,2733.57503999999,2368.25855999999,1994.54399999999,1612.43135999999,1221.92063999999,823.011839999999,415.70496],"text":["p: 0.80<br />n:  6718.46400<br />factor(m): 0.1","p: 0.81<br />n:  6462.32256<br />factor(m): 0.1","p: 0.82<br />n:  6197.78304<br />factor(m): 0.1","p: 0.83<br />n:  5924.84544<br />factor(m): 0.1","p: 0.84<br />n:  5643.50976<br />factor(m): 0.1","p: 0.85<br />n:  5353.77600<br />factor(m): 0.1","p: 0.86<br />n:  5055.64416<br />factor(m): 0.1","p: 0.87<br />n:  4749.11424<br />factor(m): 0.1","p: 0.88<br />n:  4434.18624<br />factor(m): 0.1","p: 0.89<br />n:  4110.86016<br />factor(m): 0.1","p: 0.90<br />n:  3779.13600<br />factor(m): 0.1","p: 0.91<br />n:  3439.01376<br />factor(m): 0.1","p: 0.92<br />n:  3090.49344<br />factor(m): 0.1","p: 0.93<br />n:  2733.57504<br />factor(m): 0.1","p: 0.94<br />n:  2368.25856<br />factor(m): 0.1","p: 0.95<br />n:  1994.54400<br />factor(m): 0.1","p: 0.96<br />n:  1612.43136<br />factor(m): 0.1","p: 0.97<br />n:  1221.92064<br />factor(m): 0.1","p: 0.98<br />n:   823.01184<br />factor(m): 0.1","p: 0.99<br />n:   415.70496<br />factor(m): 0.1"],"type":"scatter","mode":"lines","line":{"width":1.88976377952756,"color":"rgba(0,191,196,1)","dash":"solid"},"hoveron":"points","name":"0.1","legendgroup":"0.1","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[0.8,0.81,0.82,0.83,0.84,0.85,0.86,0.87,0.88,0.89,0.9,0.91,0.92,0.93,0.94,0.95,0.96,0.97,0.98,0.99],"y":[1679.616,1615.58064,1549.44576,1481.21136,1410.87744,1338.444,1263.91104,1187.27856,1108.54656,1027.71504,944.784,859.75344,772.62336,683.39376,592.06464,498.636,403.10784,305.480159999999,205.75296,103.92624],"text":["p: 0.80<br />n:  1679.61600<br />factor(m): 0.1","p: 0.81<br />n:  1615.58064<br />factor(m): 0.1","p: 0.82<br />n:  1549.44576<br />factor(m): 0.1","p: 0.83<br />n:  1481.21136<br />factor(m): 0.1","p: 0.84<br />n:  1410.87744<br />factor(m): 0.1","p: 0.85<br />n:  1338.44400<br />factor(m): 0.1","p: 0.86<br />n:  1263.91104<br />factor(m): 0.1","p: 0.87<br />n:  1187.27856<br />factor(m): 0.1","p: 0.88<br />n:  1108.54656<br />factor(m): 0.1","p: 0.89<br />n:  1027.71504<br />factor(m): 0.1","p: 0.90<br />n:   944.78400<br />factor(m): 0.1","p: 0.91<br />n:   859.75344<br />factor(m): 0.1","p: 0.92<br />n:   772.62336<br />factor(m): 0.1","p: 0.93<br />n:   683.39376<br />factor(m): 0.1","p: 0.94<br />n:   592.06464<br />factor(m): 0.1","p: 0.95<br />n:   498.63600<br />factor(m): 0.1","p: 0.96<br />n:   403.10784<br />factor(m): 0.1","p: 0.97<br />n:   305.48016<br />factor(m): 0.1","p: 0.98<br />n:   205.75296<br />factor(m): 0.1","p: 0.99<br />n:   103.92624<br />factor(m): 0.1"],"type":"scatter","mode":"lines","line":{"width":1.88976377952756,"color":"rgba(0,191,196,1)","dash":"solid"},"hoveron":"points","name":"0.1","legendgroup":"0.1","showlegend":false,"xaxis":"x2","yaxis":"y","hoverinfo":"text","frame":null},{"x":[0.8,0.81,0.82,0.83,0.84,0.85,0.86,0.87,0.88,0.89,0.9,0.91,0.92,0.93,0.94,0.95,0.96,0.97,0.98,0.99],"y":[746.496,718.03584,688.64256,658.31616,627.05664,594.864,561.73824,527.67936,492.68736,456.76224,419.904,382.11264,343.38816,303.73056,263.13984,221.616,179.15904,135.76896,91.44576,46.18944],"text":["p: 0.80<br />n:   746.49600<br />factor(m): 0.1","p: 0.81<br />n:   718.03584<br />factor(m): 0.1","p: 0.82<br />n:   688.64256<br />factor(m): 0.1","p: 0.83<br />n:   658.31616<br />factor(m): 0.1","p: 0.84<br />n:   627.05664<br />factor(m): 0.1","p: 0.85<br />n:   594.86400<br />factor(m): 0.1","p: 0.86<br />n:   561.73824<br />factor(m): 0.1","p: 0.87<br />n:   527.67936<br />factor(m): 0.1","p: 0.88<br />n:   492.68736<br />factor(m): 0.1","p: 0.89<br />n:   456.76224<br />factor(m): 0.1","p: 0.90<br />n:   419.90400<br />factor(m): 0.1","p: 0.91<br />n:   382.11264<br />factor(m): 0.1","p: 0.92<br />n:   343.38816<br />factor(m): 0.1","p: 0.93<br />n:   303.73056<br />factor(m): 0.1","p: 0.94<br />n:   263.13984<br />factor(m): 0.1","p: 0.95<br />n:   221.61600<br />factor(m): 0.1","p: 0.96<br />n:   179.15904<br />factor(m): 0.1","p: 0.97<br />n:   135.76896<br />factor(m): 0.1","p: 0.98<br />n:    91.44576<br />factor(m): 0.1","p: 0.99<br />n:    46.18944<br />factor(m): 0.1"],"type":"scatter","mode":"lines","line":{"width":1.88976377952756,"color":"rgba(0,191,196,1)","dash":"solid"},"hoveron":"points","name":"0.1","legendgroup":"0.1","showlegend":false,"xaxis":"x3","yaxis":"y","hoverinfo":"text","frame":null},{"x":[0.8,0.81,0.82,0.83,0.84,0.85,0.86,0.87,0.88,0.89,0.9,0.91,0.92,0.93,0.94,0.95,0.96,0.97,0.98,0.99],"y":[5598.71999999999,5385.26879999999,5164.81919999999,4937.37119999999,4702.92479999999,4461.47999999999,4213.03679999999,3957.59519999999,3695.15519999999,3425.71679999999,3149.27999999999,2865.84479999999,2575.41119999999,2277.9792,1973.5488,1662.12,1343.6928,1018.2672,685.843199999999,346.4208],"text":["p: 0.80<br />n:  5598.72000<br />factor(m): 0.12","p: 0.81<br />n:  5385.26880<br />factor(m): 0.12","p: 0.82<br />n:  5164.81920<br />factor(m): 0.12","p: 0.83<br />n:  4937.37120<br />factor(m): 0.12","p: 0.84<br />n:  4702.92480<br />factor(m): 0.12","p: 0.85<br />n:  4461.48000<br />factor(m): 0.12","p: 0.86<br />n:  4213.03680<br />factor(m): 0.12","p: 0.87<br />n:  3957.59520<br />factor(m): 0.12","p: 0.88<br />n:  3695.15520<br />factor(m): 0.12","p: 0.89<br />n:  3425.71680<br />factor(m): 0.12","p: 0.90<br />n:  3149.28000<br />factor(m): 0.12","p: 0.91<br />n:  2865.84480<br />factor(m): 0.12","p: 0.92<br />n:  2575.41120<br />factor(m): 0.12","p: 0.93<br />n:  2277.97920<br />factor(m): 0.12","p: 0.94<br />n:  1973.54880<br />factor(m): 0.12","p: 0.95<br />n:  1662.12000<br />factor(m): 0.12","p: 0.96<br />n:  1343.69280<br />factor(m): 0.12","p: 0.97<br />n:  1018.26720<br />factor(m): 0.12","p: 0.98<br />n:   685.84320<br />factor(m): 0.12","p: 0.99<br />n:   346.42080<br />factor(m): 0.12"],"type":"scatter","mode":"lines","line":{"width":1.88976377952756,"color":"rgba(0,169,255,1)","dash":"solid"},"hoveron":"points","name":"0.12","legendgroup":"0.12","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[0.8,0.81,0.82,0.83,0.84,0.85,0.86,0.87,0.88,0.89,0.9,0.91,0.92,0.93,0.94,0.95,0.96,0.97,0.98,0.99],"y":[1399.68,1346.3172,1291.2048,1234.3428,1175.7312,1115.37,1053.2592,989.3988,923.788800000001,856.4292,787.32,716.4612,643.8528,569.4948,493.3872,415.53,335.9232,254.566799999999,171.4608,86.6052000000001],"text":["p: 0.80<br />n:  1399.68000<br />factor(m): 0.12","p: 0.81<br />n:  1346.31720<br />factor(m): 0.12","p: 0.82<br />n:  1291.20480<br />factor(m): 0.12","p: 0.83<br />n:  1234.34280<br />factor(m): 0.12","p: 0.84<br />n:  1175.73120<br />factor(m): 0.12","p: 0.85<br />n:  1115.37000<br />factor(m): 0.12","p: 0.86<br />n:  1053.25920<br />factor(m): 0.12","p: 0.87<br />n:   989.39880<br />factor(m): 0.12","p: 0.88<br />n:   923.78880<br />factor(m): 0.12","p: 0.89<br />n:   856.42920<br />factor(m): 0.12","p: 0.90<br />n:   787.32000<br />factor(m): 0.12","p: 0.91<br />n:   716.46120<br />factor(m): 0.12","p: 0.92<br />n:   643.85280<br />factor(m): 0.12","p: 0.93<br />n:   569.49480<br />factor(m): 0.12","p: 0.94<br />n:   493.38720<br />factor(m): 0.12","p: 0.95<br />n:   415.53000<br />factor(m): 0.12","p: 0.96<br />n:   335.92320<br />factor(m): 0.12","p: 0.97<br />n:   254.56680<br />factor(m): 0.12","p: 0.98<br />n:   171.46080<br />factor(m): 0.12","p: 0.99<br />n:    86.60520<br />factor(m): 0.12"],"type":"scatter","mode":"lines","line":{"width":1.88976377952756,"color":"rgba(0,169,255,1)","dash":"solid"},"hoveron":"points","name":"0.12","legendgroup":"0.12","showlegend":false,"xaxis":"x2","yaxis":"y","hoverinfo":"text","frame":null},{"x":[0.8,0.81,0.82,0.83,0.84,0.85,0.86,0.87,0.88,0.89,0.9,0.91,0.92,0.93,0.94,0.95,0.96,0.97,0.98,0.99],"y":[622.08,598.3632,573.8688,548.5968,522.5472,495.72,468.1152,439.7328,410.5728,380.6352,349.92,318.4272,286.1568,253.1088,219.2832,184.68,149.2992,113.1408,76.2048,38.4912],"text":["p: 0.80<br />n:   622.08000<br />factor(m): 0.12","p: 0.81<br />n:   598.36320<br />factor(m): 0.12","p: 0.82<br />n:   573.86880<br />factor(m): 0.12","p: 0.83<br />n:   548.59680<br />factor(m): 0.12","p: 0.84<br />n:   522.54720<br />factor(m): 0.12","p: 0.85<br />n:   495.72000<br />factor(m): 0.12","p: 0.86<br />n:   468.11520<br />factor(m): 0.12","p: 0.87<br />n:   439.73280<br />factor(m): 0.12","p: 0.88<br />n:   410.57280<br />factor(m): 0.12","p: 0.89<br />n:   380.63520<br />factor(m): 0.12","p: 0.90<br />n:   349.92000<br />factor(m): 0.12","p: 0.91<br />n:   318.42720<br />factor(m): 0.12","p: 0.92<br />n:   286.15680<br />factor(m): 0.12","p: 0.93<br />n:   253.10880<br />factor(m): 0.12","p: 0.94<br />n:   219.28320<br />factor(m): 0.12","p: 0.95<br />n:   184.68000<br />factor(m): 0.12","p: 0.96<br />n:   149.29920<br />factor(m): 0.12","p: 0.97<br />n:   113.14080<br />factor(m): 0.12","p: 0.98<br />n:    76.20480<br />factor(m): 0.12","p: 0.99<br />n:    38.49120<br />factor(m): 0.12"],"type":"scatter","mode":"lines","line":{"width":1.88976377952756,"color":"rgba(0,169,255,1)","dash":"solid"},"hoveron":"points","name":"0.12","legendgroup":"0.12","showlegend":false,"xaxis":"x3","yaxis":"y","hoverinfo":"text","frame":null},{"x":[0.8,0.81,0.82,0.83,0.84,0.85,0.86,0.87,0.88,0.89,0.9,0.91,0.92,0.93,0.94,0.95,0.96,0.97,0.98,0.99],"y":[4798.90285714285,4615.94468571428,4426.98788571428,4232.03245714285,4031.07839999999,3824.12571428571,3611.17439999999,3392.22445714285,3167.27588571428,2936.32868571428,2699.38285714285,2456.4384,2207.49531428571,1952.5536,1691.61325714285,1424.67428571428,1151.73668571428,872.800457142853,587.8656,296.932114285714],"text":["p: 0.80<br />n:  4798.90286<br />factor(m): 0.14","p: 0.81<br />n:  4615.94469<br />factor(m): 0.14","p: 0.82<br />n:  4426.98789<br />factor(m): 0.14","p: 0.83<br />n:  4232.03246<br />factor(m): 0.14","p: 0.84<br />n:  4031.07840<br />factor(m): 0.14","p: 0.85<br />n:  3824.12571<br />factor(m): 0.14","p: 0.86<br />n:  3611.17440<br />factor(m): 0.14","p: 0.87<br />n:  3392.22446<br />factor(m): 0.14","p: 0.88<br />n:  3167.27589<br />factor(m): 0.14","p: 0.89<br />n:  2936.32869<br />factor(m): 0.14","p: 0.90<br />n:  2699.38286<br />factor(m): 0.14","p: 0.91<br />n:  2456.43840<br />factor(m): 0.14","p: 0.92<br />n:  2207.49531<br />factor(m): 0.14","p: 0.93<br />n:  1952.55360<br />factor(m): 0.14","p: 0.94<br />n:  1691.61326<br />factor(m): 0.14","p: 0.95<br />n:  1424.67429<br />factor(m): 0.14","p: 0.96<br />n:  1151.73669<br />factor(m): 0.14","p: 0.97<br />n:   872.80046<br />factor(m): 0.14","p: 0.98<br />n:   587.86560<br />factor(m): 0.14","p: 0.99<br />n:   296.93211<br />factor(m): 0.14"],"type":"scatter","mode":"lines","line":{"width":1.88976377952756,"color":"rgba(199,124,255,1)","dash":"solid"},"hoveron":"points","name":"0.14","legendgroup":"0.14","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[0.8,0.81,0.82,0.83,0.84,0.85,0.86,0.87,0.88,0.89,0.9,0.91,0.92,0.93,0.94,0.95,0.96,0.97,0.98,0.99],"y":[1199.72571428571,1153.98617142857,1106.74697142857,1058.00811428571,1007.7696,956.031428571429,902.7936,848.056114285714,791.818971428572,734.082171428572,674.845714285715,614.1096,551.873828571429,488.1384,422.903314285714,356.168571428571,287.934171428571,218.200114285714,146.9664,74.2330285714287],"text":["p: 0.80<br />n:  1199.72571<br />factor(m): 0.14","p: 0.81<br />n:  1153.98617<br />factor(m): 0.14","p: 0.82<br />n:  1106.74697<br />factor(m): 0.14","p: 0.83<br />n:  1058.00811<br />factor(m): 0.14","p: 0.84<br />n:  1007.76960<br />factor(m): 0.14","p: 0.85<br />n:   956.03143<br />factor(m): 0.14","p: 0.86<br />n:   902.79360<br />factor(m): 0.14","p: 0.87<br />n:   848.05611<br />factor(m): 0.14","p: 0.88<br />n:   791.81897<br />factor(m): 0.14","p: 0.89<br />n:   734.08217<br />factor(m): 0.14","p: 0.90<br />n:   674.84571<br />factor(m): 0.14","p: 0.91<br />n:   614.10960<br />factor(m): 0.14","p: 0.92<br />n:   551.87383<br />factor(m): 0.14","p: 0.93<br />n:   488.13840<br />factor(m): 0.14","p: 0.94<br />n:   422.90331<br />factor(m): 0.14","p: 0.95<br />n:   356.16857<br />factor(m): 0.14","p: 0.96<br />n:   287.93417<br />factor(m): 0.14","p: 0.97<br />n:   218.20011<br />factor(m): 0.14","p: 0.98<br />n:   146.96640<br />factor(m): 0.14","p: 0.99<br />n:    74.23303<br />factor(m): 0.14"],"type":"scatter","mode":"lines","line":{"width":1.88976377952756,"color":"rgba(199,124,255,1)","dash":"solid"},"hoveron":"points","name":"0.14","legendgroup":"0.14","showlegend":false,"xaxis":"x2","yaxis":"y","hoverinfo":"text","frame":null},{"x":[0.8,0.81,0.82,0.83,0.84,0.85,0.86,0.87,0.88,0.89,0.9,0.91,0.92,0.93,0.94,0.95,0.96,0.97,0.98,0.99],"y":[533.211428571428,512.882742857143,491.887542857143,470.225828571428,447.8976,424.902857142857,401.2416,376.913828571428,351.919542857143,326.258742857143,299.931428571429,272.9376,245.277257142857,216.9504,187.957028571428,158.297142857143,127.970742857143,96.9778285714283,65.3184000000001,32.9924571428572],"text":["p: 0.80<br />n:   533.21143<br />factor(m): 0.14","p: 0.81<br />n:   512.88274<br />factor(m): 0.14","p: 0.82<br />n:   491.88754<br />factor(m): 0.14","p: 0.83<br />n:   470.22583<br />factor(m): 0.14","p: 0.84<br />n:   447.89760<br />factor(m): 0.14","p: 0.85<br />n:   424.90286<br />factor(m): 0.14","p: 0.86<br />n:   401.24160<br />factor(m): 0.14","p: 0.87<br />n:   376.91383<br />factor(m): 0.14","p: 0.88<br />n:   351.91954<br />factor(m): 0.14","p: 0.89<br />n:   326.25874<br />factor(m): 0.14","p: 0.90<br />n:   299.93143<br />factor(m): 0.14","p: 0.91<br />n:   272.93760<br />factor(m): 0.14","p: 0.92<br />n:   245.27726<br />factor(m): 0.14","p: 0.93<br />n:   216.95040<br />factor(m): 0.14","p: 0.94<br />n:   187.95703<br />factor(m): 0.14","p: 0.95<br />n:   158.29714<br />factor(m): 0.14","p: 0.96<br />n:   127.97074<br />factor(m): 0.14","p: 0.97<br />n:    96.97783<br />factor(m): 0.14","p: 0.98<br />n:    65.31840<br />factor(m): 0.14","p: 0.99<br />n:    32.99246<br />factor(m): 0.14"],"type":"scatter","mode":"lines","line":{"width":1.88976377952756,"color":"rgba(199,124,255,1)","dash":"solid"},"hoveron":"points","name":"0.14","legendgroup":"0.14","showlegend":false,"xaxis":"x3","yaxis":"y","hoverinfo":"text","frame":null},{"x":[0.8,0.81,0.82,0.83,0.84,0.85,0.86,0.87,0.88,0.89,0.9,0.91,0.92,0.93,0.94,0.95,0.96,0.97,0.98,0.99],"y":[4199.03999999999,4038.95159999999,3873.61439999999,3703.02839999999,3527.19359999999,3346.10999999999,3159.77759999999,2968.19639999999,2771.3664,2569.2876,2361.96,2149.3836,1931.5584,1708.4844,1480.1616,1246.59,1007.7696,763.700399999997,514.3824,259.8156],"text":["p: 0.80<br />n:  4199.04000<br />factor(m): 0.16","p: 0.81<br />n:  4038.95160<br />factor(m): 0.16","p: 0.82<br />n:  3873.61440<br />factor(m): 0.16","p: 0.83<br />n:  3703.02840<br />factor(m): 0.16","p: 0.84<br />n:  3527.19360<br />factor(m): 0.16","p: 0.85<br />n:  3346.11000<br />factor(m): 0.16","p: 0.86<br />n:  3159.77760<br />factor(m): 0.16","p: 0.87<br />n:  2968.19640<br />factor(m): 0.16","p: 0.88<br />n:  2771.36640<br />factor(m): 0.16","p: 0.89<br />n:  2569.28760<br />factor(m): 0.16","p: 0.90<br />n:  2361.96000<br />factor(m): 0.16","p: 0.91<br />n:  2149.38360<br />factor(m): 0.16","p: 0.92<br />n:  1931.55840<br />factor(m): 0.16","p: 0.93<br />n:  1708.48440<br />factor(m): 0.16","p: 0.94<br />n:  1480.16160<br />factor(m): 0.16","p: 0.95<br />n:  1246.59000<br />factor(m): 0.16","p: 0.96<br />n:  1007.76960<br />factor(m): 0.16","p: 0.97<br />n:   763.70040<br />factor(m): 0.16","p: 0.98<br />n:   514.38240<br />factor(m): 0.16","p: 0.99<br />n:   259.81560<br />factor(m): 0.16"],"type":"scatter","mode":"lines","line":{"width":1.88976377952756,"color":"rgba(255,97,204,1)","dash":"solid"},"hoveron":"points","name":"0.16","legendgroup":"0.16","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[0.8,0.81,0.82,0.83,0.84,0.85,0.86,0.87,0.88,0.89,0.9,0.91,0.92,0.93,0.94,0.95,0.96,0.97,0.98,0.99],"y":[1049.76,1009.7379,968.4036,925.7571,881.7984,836.5275,789.9444,742.0491,692.8416,642.3219,590.49,537.3459,482.8896,427.1211,370.0404,311.6475,251.9424,190.9251,128.5956,64.9539000000001],"text":["p: 0.80<br />n:  1049.76000<br />factor(m): 0.16","p: 0.81<br />n:  1009.73790<br />factor(m): 0.16","p: 0.82<br />n:   968.40360<br />factor(m): 0.16","p: 0.83<br />n:   925.75710<br />factor(m): 0.16","p: 0.84<br />n:   881.79840<br />factor(m): 0.16","p: 0.85<br />n:   836.52750<br />factor(m): 0.16","p: 0.86<br />n:   789.94440<br />factor(m): 0.16","p: 0.87<br />n:   742.04910<br />factor(m): 0.16","p: 0.88<br />n:   692.84160<br />factor(m): 0.16","p: 0.89<br />n:   642.32190<br />factor(m): 0.16","p: 0.90<br />n:   590.49000<br />factor(m): 0.16","p: 0.91<br />n:   537.34590<br />factor(m): 0.16","p: 0.92<br />n:   482.88960<br />factor(m): 0.16","p: 0.93<br />n:   427.12110<br />factor(m): 0.16","p: 0.94<br />n:   370.04040<br />factor(m): 0.16","p: 0.95<br />n:   311.64750<br />factor(m): 0.16","p: 0.96<br />n:   251.94240<br />factor(m): 0.16","p: 0.97<br />n:   190.92510<br />factor(m): 0.16","p: 0.98<br />n:   128.59560<br />factor(m): 0.16","p: 0.99<br />n:    64.95390<br />factor(m): 0.16"],"type":"scatter","mode":"lines","line":{"width":1.88976377952756,"color":"rgba(255,97,204,1)","dash":"solid"},"hoveron":"points","name":"0.16","legendgroup":"0.16","showlegend":false,"xaxis":"x2","yaxis":"y","hoverinfo":"text","frame":null},{"x":[0.8,0.81,0.82,0.83,0.84,0.85,0.86,0.87,0.88,0.89,0.9,0.91,0.92,0.93,0.94,0.95,0.96,0.97,0.98,0.99],"y":[466.56,448.7724,430.4016,411.4476,391.9104,371.79,351.0864,329.7996,307.9296,285.4764,262.44,238.8204,214.6176,189.8316,164.4624,138.51,111.9744,84.8555999999998,57.1536,28.8684],"text":["p: 0.80<br />n:   466.56000<br />factor(m): 0.16","p: 0.81<br />n:   448.77240<br />factor(m): 0.16","p: 0.82<br />n:   430.40160<br />factor(m): 0.16","p: 0.83<br />n:   411.44760<br />factor(m): 0.16","p: 0.84<br />n:   391.91040<br />factor(m): 0.16","p: 0.85<br />n:   371.79000<br />factor(m): 0.16","p: 0.86<br />n:   351.08640<br />factor(m): 0.16","p: 0.87<br />n:   329.79960<br />factor(m): 0.16","p: 0.88<br />n:   307.92960<br />factor(m): 0.16","p: 0.89<br />n:   285.47640<br />factor(m): 0.16","p: 0.90<br />n:   262.44000<br />factor(m): 0.16","p: 0.91<br />n:   238.82040<br />factor(m): 0.16","p: 0.92<br />n:   214.61760<br />factor(m): 0.16","p: 0.93<br />n:   189.83160<br />factor(m): 0.16","p: 0.94<br />n:   164.46240<br />factor(m): 0.16","p: 0.95<br />n:   138.51000<br />factor(m): 0.16","p: 0.96<br />n:   111.97440<br />factor(m): 0.16","p: 0.97<br />n:    84.85560<br />factor(m): 0.16","p: 0.98<br />n:    57.15360<br />factor(m): 0.16","p: 0.99<br />n:    28.86840<br />factor(m): 0.16"],"type":"scatter","mode":"lines","line":{"width":1.88976377952756,"color":"rgba(255,97,204,1)","dash":"solid"},"hoveron":"points","name":"0.16","legendgroup":"0.16","showlegend":false,"xaxis":"x3","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":37.9178082191781,"r":7.30593607305936,"b":40.1826484018265,"l":54.7945205479452},"plot_bgcolor":"rgba(235,235,235,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"xaxis":{"domain":[0,0.322461404653185],"automargin":true,"type":"linear","autorange":false,"range":[0.7905,0.9995],"tickmode":"array","ticktext":["0.80","0.85","0.90","0.95"],"tickvals":[0.8,0.85,0.9,0.95],"categoryorder":"array","categoryarray":["0.80","0.85","0.90","0.95"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"y","title":"","hoverformat":".2f"},"annotations":[{"text":"p","x":0.5,"y":0,"showarrow":false,"ax":0,"ay":0,"font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"xref":"paper","yref":"paper","textangle":-0,"xanchor":"center","yanchor":"top","annotationType":"axis","yshift":-21.9178082191781},{"text":"n","x":0,"y":0.5,"showarrow":false,"ax":0,"ay":0,"font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"xref":"paper","yref":"paper","textangle":-90,"xanchor":"right","yanchor":"center","annotationType":"axis","xshift":-39.4520547945205},{"text":"five_percent","x":0.161230702326593,"y":1,"showarrow":false,"ax":0,"ay":0,"font":{"color":"rgba(26,26,26,1)","family":"","size":11.689497716895},"xref":"paper","yref":"paper","textangle":-0,"xanchor":"center","yanchor":"bottom"},{"text":"ten_percent","x":0.5,"y":1,"showarrow":false,"ax":0,"ay":0,"font":{"color":"rgba(26,26,26,1)","family":"","size":11.689497716895},"xref":"paper","yref":"paper","textangle":-0,"xanchor":"center","yanchor":"bottom"},{"text":"fifteen_percent","x":0.838769297673407,"y":1,"showarrow":false,"ax":0,"ay":0,"font":{"color":"rgba(26,26,26,1)","family":"","size":11.689497716895},"xref":"paper","yref":"paper","textangle":-0,"xanchor":"center","yanchor":"bottom"}],"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-1649.30418,35270.4925799999],"tickmode":"array","ticktext":["0","10000","20000","30000"],"tickvals":[0,10000,20000,30000],"categoryorder":"array","categoryarray":["0","10000","20000","30000"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"x","title":"","hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":0.322461404653185,"y0":0,"y1":1},{"type":"rect","fillcolor":"rgba(217,217,217,1)","line":{"color":"transparent","width":0.66417600664176,"linetype":"solid"},"yref":"paper","xref":"paper","x0":0,"x1":0.322461404653185,"y0":0,"y1":23.37899543379,"yanchor":1,"ysizemode":"pixel"},{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0.344205262013481,"x1":0.655794737986519,"y0":0,"y1":1},{"type":"rect","fillcolor":"rgba(217,217,217,1)","line":{"color":"transparent","width":0.66417600664176,"linetype":"solid"},"yref":"paper","xref":"paper","x0":0.344205262013481,"x1":0.655794737986519,"y0":0,"y1":23.37899543379,"yanchor":1,"ysizemode":"pixel"},{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0.677538595346814,"x1":1,"y0":0,"y1":1},{"type":"rect","fillcolor":"rgba(217,217,217,1)","line":{"color":"transparent","width":0.66417600664176,"linetype":"solid"},"yref":"paper","xref":"paper","x0":0.677538595346814,"x1":1,"y0":0,"y1":23.37899543379,"yanchor":1,"ysizemode":"pixel"}],"xaxis2":{"type":"linear","autorange":false,"range":[0.7905,0.9995],"tickmode":"array","ticktext":["0.80","0.85","0.90","0.95"],"tickvals":[0.8,0.85,0.9,0.95],"categoryorder":"array","categoryarray":["0.80","0.85","0.90","0.95"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"domain":[0.344205262013481,0.655794737986519],"gridcolor":"rgba(255,255,255,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"y","title":"","hoverformat":".2f"},"xaxis3":{"type":"linear","autorange":false,"range":[0.7905,0.9995],"tickmode":"array","ticktext":["0.80","0.85","0.90","0.95"],"tickvals":[0.8,0.85,0.9,0.95],"categoryorder":"array","categoryarray":["0.80","0.85","0.90","0.95"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"domain":[0.677538595346814,1],"gridcolor":"rgba(255,255,255,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"y","title":"","hoverformat":".2f"},"showlegend":true,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.88976377952756,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.689497716895},"title":{"text":"factor(m)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"166e76f823e26":{"x":{},"y":{},"colour":{},"type":"scatter"}},"cur_data":"166e76f823e26","visdat":{"166e76f823e26":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./power_calc_gen_case_control.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Genetic Power Calculator</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./hazratio_chart.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Hazard Ratio Chart from Summary Data</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>

@@ -5,8 +5,7 @@ author: "Chrissy h Roberts"
 
 ## Background
 
-These power calculations are useful for genetic case control studies
-They use the gap package and pbsize2 command
+These power calculations are useful for genetic case control studies They use the gap package and pbsize2 command
 
 citation Jing Hua Zhao (2013). gap: Genetic Analysis Package. R package version 1.1-10.
 

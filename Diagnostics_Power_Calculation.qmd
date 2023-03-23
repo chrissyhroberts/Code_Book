@@ -1,0 +1,93 @@
+---
+title: "Diagnostic Evaluation Power Calculation"
+author: "Chrissy h Roberts"
+---
+
+## Background
+
+For the findings of a proposed study of diagnostic accuracy to be robust, we require a minimum number of infected and uninfected cases. The total number of samples required to accurately evaluate the diagnostic devices can be calculated using the formulas below.
+
+The number $\LARGE n$ of specimens needed to obtain precision in diagnostic performance estimates is calculated using the formula
+
+$\LARGE n = \frac{(1.96+1.28)^2 * (p*(1-p))}{(p-po)^2/m}$
+
+where
+
+$\LARGE p$ is the expected sensitivity of the novel diagnostic
+
+$\LARGE p_{0}$ is the minimum acceptable sensitivity of the novel diagnostic
+
+$\LARGE m$ is the estimated prevalence of infection/disease/condition/state in the population
+
+When $\LARGE n$ is chosen this way, you can design the test to ensure that the lower limit of the confidence interval for the estimate of sensitivity/specificity is not likely to exceed $\LARGE p0$.
+
+This is based on Banoo, S. et al. Evaluation of diagnostic tests for infectious diseases: general principles. Nature Reviews Microbiology 4, S20--S32 (2006).
+
+## Libraries
+
+```{r}
+library(tidyverse)
+library(plotly)
+```
+
+## Define a function that applies the formula
+
+```{r}
+required_specimens_min_acceptable<-function(p,po,m)(((1.96+1.28)^2)*(p*(1-p)))/((p-po)^2)/m
+```
+
+## Create a data set with likely values
+
+```{r}
+
+df<- expand_grid(
+                p = seq(0.80,0.99,0.01),
+                m = seq(0.02,0.16,0.02)
+                )
+```
+
+## Apply the function
+
+### At 1%, 5%, 10% and 15% tolerance in lower limit precision in estimate
+
+```{r}
+
+df.5pc<- df %>% 
+  mutate(
+        po = p-0.05,
+        n = required_specimens_min_acceptable(p = p, po = po, m = m),
+        lower = "five_percent"
+        )
+
+df.10pc<- df %>% 
+  mutate(
+        po = p-0.10,
+        n = required_specimens_min_acceptable(p = p, po = po, m = m),
+        lower = "ten_percent"
+        )
+
+df.15pc<- df %>% 
+  mutate(
+        po = p-0.15,
+        n = required_specimens_min_acceptable(p = p, po = po, m = m),
+        lower = "fifteen_percent"
+        )
+
+df<-bind_rows(df.5pc,df.10pc,df.15pc) %>% 
+  mutate(lower = factor(lower,levels=c("five_percent","ten_percent","fifteen_percent")))
+rm(df.5pc,df.10pc,df.15pc)
+```
+
+## Draw chart
+
+This shows the values of $\LARGE n$ (y axis) for various values of $\LARGE p$
+
+Coloured lines show different underlying prevalence values and facets show different acceptable levels of precision in the estimate, here 5%, 10% and 15%, indicating that for a given value of $\LARGE p$ such as 0.8, a precision as low as 0.75, 0.7 or 0.65 would be minimally acceptable.
+
+The ggplotly view allows you to explore results visually.
+
+```{r}
+ggplotly(ggplot(df,aes(p,n,color=factor(m)))+geom_line()+facet_wrap(.~lower))
+```
+
+

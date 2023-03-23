@@ -1,0 +1,88 @@
+---
+title: "Remove EXIF and anonymise filenames"
+author: "Chrissy h Roberts"
+---
+
+## Background
+
+When sharing images, it is useful to be able to
+
+1\) Remove EXIF data, which can include GPS locations where the photos were taken
+
+Imagemagick is used for this
+
+2\) Rename files to have nonsensical names
+
+Using either **date** or **gdate** on linux or OSX respectively. gdate is part of the **coreutils** package
+
+This tutorial is aimed at OSX users and assumes you have *homebrew* (**brew**) installed.
+
+3\) Flag any files with very high luminance, for instance photos of labels, consent forms etc
+
+This is also done with Imagemagick.
+
+## Remove EXIF data
+
+Install Imagemagick
+
+> brew install imagemagick
+
+Navigate to the folder where your images are stored, then use *mogrify* to make a new copy of each file with the EXIF data stripped out
+
+To test that this works you can read an EXIF metadata from a file like this
+
+> identify -format '%\[EXIF:\*\]' DSC_0974.JPG
+
+You'll see a load of data from the EXIF
+
+After applying the following command
+
+> mogrify -strip DSC_0974.JPG
+
+You should be able to rerun this
+
+> identify -format '%\[EXIF:\*\]' DSC_0974.JPG
+
+and you should now see an empty EXIF, nothing will be shown in the console.
+
+To apply the function to all files in the folder, do this.
+
+> mogrify -strip \*
+
+## Rename all files
+
+To achieve this we will write a simple piece of shell code in the file
+
+> for i in \*.JPG ; do
+>
+> 					mv "\$i" "\${i// /}"
+>
+> 				done
+>
+> for j in \*.JPG ; do
+>
+> 					echo "\$j";
+>
+> 					DATE=\$(gdate +%N \| tr -d \\\\n)
+>
+> 					mv "\$j" "\$DATE.JPG";
+>
+> 				done
+
+### Flag any files with high luminance
+
+> for j in \*.JPG ; do
+>
+> 					LUX=\$(convert \$j -colorspace LAB -channel r -separate +channel -format "%\[mean\]\\n" info: \| tr -d \\\\n)
+>
+> 					if \[\[ \$LUX -gt 1000 \]\]
+>
+> 						then
+>
+> 					echo "\$LUX";
+>
+> 					mv "\$j" "x\$j";
+>
+> 				fi
+>
+> done

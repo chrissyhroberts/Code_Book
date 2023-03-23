@@ -41,6 +41,9 @@ book:
     chapters:
        - Univariate_regressions_reported_as_a_table.qmd
 
+  - part: "Global health"
+    chapters:
+       - Trachoma_Photo_Cleaning.qmd
 
   - part: "Cribsheet [Other people's work]"
     chapters:

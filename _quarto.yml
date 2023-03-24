@@ -20,6 +20,8 @@ book:
        - remove_accents.qmd
        - text_to_speech_R.qmd
        - UK_Postcodes.qmd
+       - photo_cleaning.qmd
+
 
   - part: "Statistics"
     chapters:
@@ -41,9 +43,6 @@ book:
     chapters:
        - Univariate_regressions_reported_as_a_table.qmd
 
-  - part: "Data Security"
-    chapters:
-       - Photo_Cleaning_for_sharing.qmd
 
   - part: "Cribsheet [Other people's work]"
     chapters:

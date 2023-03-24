@@ -1,6 +1,5 @@
 ---
-title: "Photo Cleaning for sharing data anonymously"
-author: "Chrissy Roberts"
+title: "Photo Cleaning For Sharing"
 ---
 
 ## 

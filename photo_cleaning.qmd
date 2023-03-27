@@ -8,17 +8,17 @@ title: "Photo Cleaning For Sharing"
 
 When sharing images, it is useful to be able to...
 
-#### 1) Remove EXIF data, which can include GPS locations where the photos were taken
+#### Remove EXIF data, which can include GPS locations where the photos were taken
 
 Imagemagick is used for this
 
-#### 2) Rename files to have nonsensical names
+#### Rename files to have nonsensical names
 
 Using either **date** or **gdate** on linux or OSX respectively. gdate is part of the **coreutils** package
 
 This tutorial is aimed at OSX users and assumes you have *homebrew* (**brew**) installed. Using it on a PC through the linux subsystem for windows should be easy. Replace brew with apt-get or similar.
 
-#### 3) Flag any files with very high luminance, for instance photos of labels, consent forms etc
+#### Flag any files with very high luminance, for instance photos of labels, consent forms etc
 
 This is also done with Imagemagick.
 

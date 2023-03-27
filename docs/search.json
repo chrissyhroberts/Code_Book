@@ -144,7 +144,7 @@
     "href": "photo_cleaning.html#background",
     "title": "7  Photo Cleaning For Sharing",
     "section": "7.2 Background",
-    "text": "7.2 Background\nWhen sharing images, it is useful to be able to…\n\n7.2.0.1 1) Remove EXIF data, which can include GPS locations where the photos were taken\nImagemagick is used for this\n\n\n7.2.0.2 2) Rename files to have nonsensical names\nUsing either date or gdate on linux or OSX respectively. gdate is part of the coreutils package\nThis tutorial is aimed at OSX users and assumes you have homebrew (brew) installed. Using it on a PC through the linux subsystem for windows should be easy. Replace brew with apt-get or similar.\n\n\n7.2.0.3 3) Flag any files with very high luminance, for instance photos of labels, consent forms etc\nThis is also done with Imagemagick.\nThis script assumes that you’ve put a lot of pictures in the folder data/photos_for_cleaning"
+    "text": "7.2 Background\nWhen sharing images, it is useful to be able to…\n\n7.2.0.1 Remove EXIF data, which can include GPS locations where the photos were taken\nImagemagick is used for this\n\n\n7.2.0.2 Rename files to have nonsensical names\nUsing either date or gdate on linux or OSX respectively. gdate is part of the coreutils package\nThis tutorial is aimed at OSX users and assumes you have homebrew (brew) installed. Using it on a PC through the linux subsystem for windows should be easy. Replace brew with apt-get or similar.\n\n\n7.2.0.3 Flag any files with very high luminance, for instance photos of labels, consent forms etc\nThis is also done with Imagemagick.\nThis script assumes that you’ve put a lot of pictures in the folder data/photos_for_cleaning"
   },
   {
     "objectID": "photo_cleaning.html#libraries",

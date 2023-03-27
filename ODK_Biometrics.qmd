@@ -1,0 +1,12 @@
+---
+title: "ODK Biometrics"
+author: "Chrissy h Roberts"
+---
+
+## Background
+
+This project provides a simple Android app that interfaces with mobile data collection software to allow fingerprint templates to be scanned as part of an XLSForm. We also provide a second app, designed to be run on a computer workstation, which can compare two fingerprint templates and return a matching score.
+
+## Project Link
+
+This project is hosted on a standalone Github Repo - [ODK Biometrics](https://github.com/LSHTM-ORK/ODK_Biometrics)

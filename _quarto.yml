@@ -29,20 +29,19 @@ book:
        - Diagnostics_Power_Calculation.qmd
        - 95CI_point_estimate.qmd
        - hazratio_chart.qmd
+       - Univariate_regressions_reported_as_a_table.qmd
 
-  - part: "Laboratory Methods"
+  - part: "Laboratory/Field Methods"
     chapters:
        - Digital_Luminex.qmd
+       - Univariate_regressions_reported_as_a_table.qmd
 
   - part: "ODK"
     chapters:
+       - ODK_Biometrics.qmd
        - ruODK_basics.qmd
        - diva_gis.qmd
        - ODK_geofencing.qmd
-
-  - part: "tables"
-    chapters:
-       - Univariate_regressions_reported_as_a_table.qmd
 
   - part: "Cribsheet [Other people's work]"
     chapters:

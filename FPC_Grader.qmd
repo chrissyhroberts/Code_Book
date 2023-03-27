@@ -1,0 +1,32 @@
+---
+title: "FPC Grader"
+author: "Chrissy h Roberts"
+---
+
+## Background
+
+### A tool for rapid grading of trachoma using the FPC system
+
+Introduction Trachoma is characterised by clinical assessment of conjunctival disease signs. Some researchers collect photographic evidence of clinical disease at the conjunctiva, but grading photographs can become burdensome when there are many hundreds or thousands to process.
+
+This tool is designed to simplify the task of grading trachoma photos.
+
+### FPC Grading 
+
+The platform implements Dawson's 1981 system (referred to as the FPC system), which involves assessment of follicles (F), papillae (P) and cicatricae (C) on the conjunctivae.
+
+### For more details see
+
+Dawson CR, Jones BR, Tarizzo ML, World Health Organization. Guide to trachoma control in programmes for the prevention of blindness. Geneva, Switzerland: World Health Organization; 1981.
+
+Benefits It provides a system for viewing and recording photo grades without the need to remove the hands from the keyboard. There are no mouse clicks, no need to open photo files, no need to record the results in a file. You simply put the photos to be graded in a folder, run the script and off you go.
+
+The system also records which files have previously been graded and won't allow you to accidentally grade the same file twice. It also keeps track of where you got to, so if you turn it off for a while, when you start it up again, it picks up where you left off.
+
+Our experienced photograders have informally benchmarked this at around 10 photographs per minute in populations with a low trachoma prevalence.
+
+The end result is a tidy data file saved on your computer hard drive. \## Project Link
+
+## Project Link
+
+This project is hosted on a standalone Github Repo - [FPC Grader](https://github.com/chrissyhroberts/FPC_GRADER)

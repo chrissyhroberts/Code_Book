@@ -41,6 +41,7 @@ book:
     chapters:
        - ruODK_basics.qmd
        - diva_gis.qmd
+       - ODK_geofencing.qmd
 
   - part: "tables"
     chapters:

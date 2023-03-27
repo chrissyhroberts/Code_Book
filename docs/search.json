@@ -516,5 +516,40 @@
     "title": "6  Photo Cleaning For Sharing",
     "section": "6.7 Results",
     "text": "6.7 Results\nA file flagged as having high luminance\n\nknitr::include_graphics(gsub(x=df$pictures[which(df$luminance==max(df$luminance))],pattern = \".JPG\",replacement = \".light.JPG\"),error = T)\n\n\n\n\nA file flagged as having low luminance is displayed here\n\nknitr::include_graphics(df$pictures[which(df$luminance==min\n                                          (df$luminance))])"
+  },
+  {
+    "objectID": "ODK_geofencing.html#example-part-1---creating-the-geofence",
+    "href": "ODK_geofencing.html#example-part-1---creating-the-geofence",
+    "title": "15  ODK Geofencing",
+    "section": "15.1 Example : Part 1 - Creating the geofence",
+    "text": "15.1 Example : Part 1 - Creating the geofence\nIn practice it wouldn’t make a lot of sense to make a grid for the whole of the Earth at very high resolution, as you’re likely to be working on a more controlled area and the data set would get very big. So let’s take Australia as an example. You’ll find Australia within the bounds of latitude -42.0 to -10,0.01 and longitude 110 to 155.0, so the matrix need only extend to these coordinates.\nAt 0.01 (1.1km) resolution, a decomposed grid of points covering the whole of Australia is about 12 million points.\nThis is the start point for an example where we extract points that fall within a multi-polygon shape file and feed these in to ODK as the basis of a geofence. The shape files used here come from the Significant Urban Areas, Urban Centres and Localities of Australia. These are a bunch of open source shapefiles that draw polygons around major urban areas in Australia. These data are provided by the Australian Bureau of Statistics. They can be accessed here.\nThe first steps are done in R and use the libraries tidyverse and sf.\n\nRead the polygon shapefile and remove any problematic polygons [here there are some that aren’t in any significant urban area]\n\n\ndownload.file(\"https://www.abs.gov.au/ausstats/subscriber.nsf/log?openagent&1270055004_sua_2016_aust_shape.zip&1270.0.55.004&Data%20Cubes&1E24D1FB300696D2CA2581B1000E15A5&0&July%202016&09.10.2017&Latest\",destfile = \"data/SUA_2016_AUST.zip\")\n\nunzip(zipfile = \"data/SUA_2016_AUST.zip\",exdir = \"data/\")\n\n\nmap = read_sf(\"data/SUA_2016_AUST.shp\")  \nmap <- filter(map,str_detect(map$SUA_NAME16,\"Not in any Significant Urban Area\")==FALSE)\n\n\nNow create a grid of all global points at 0.1 degree resolution. The expand_grid command is useful for making a matrix this way.\n\nglobal.0.1 <- expand_grid(lat = seq(-40.0,-10,0.01), lon = seq(110,150.0,0.01))\n\n\n\n\nConvert the points of the matrix to coordinates compatible with sf objects\n\npnts_sf <- st_as_sf(global.0.1, coords = c('lon', 'lat'), crs = st_crs(map))\n\n\n\n\nFind the intersections of the decomposed matrix points and the template polygons\n\nThis can take a while. In our tests, 12 million points took about 10 minutes to compute\n\n\npnts_sf <- st_as_sf(global.0.1, coords = c('lon', 'lat'), crs = st_crs(map))\n\n\npnts.intersection <- pnts_sf %>% mutate(\n                          intersection = as.integer(st_intersects(geometry, map)), \n                          area = if_else(is.na(intersection), '', map$SUA_NAME16[intersection])\n                                       )\n\n\n\n\nfilter the resulting table to include only data points that are inside polygons\nTidy this up so that lat and lon are in different fields, and provide the name of the area in the third column\n\ninside.polygons<-tibble(filter(pnts.intersection,area!=\"\")) %>%\n  mutate(\n    geometry = as.character(geometry),\n    geometry=str_sub(string = geometry,start = 3,end = str_length(geometry)-1),\n\n    area = as.factor(area)\n  ) %>%\n  separate(geometry, c(\"lon\", \"lat\"), \", \") %>%\n  mutate(\n    lon=format(round(as.numeric(lon), digits=2)) ,\n    lat=format(round(as.numeric(lat), digits=2)) ,\n    key = str_c(lon,lat,sep = \"|\")) %>%\n  select(-intersection)\n\n\n\n\nFinally, export the list to a csv file, which we will use in ODK\n\nwrite_csv(inside.polygons,\"output/geofence.data.csv\")"
+  },
+  {
+    "objectID": "ODK_geofencing.html#geofence-in-decomposed-csv-format",
+    "href": "ODK_geofencing.html#geofence-in-decomposed-csv-format",
+    "title": "15  ODK Geofencing",
+    "section": "15.2 Geofence in decomposed CSV format",
+    "text": "15.2 Geofence in decomposed CSV format\nThe CSV file we just created for Australia at 0.01 degree resolution had 46,000 points that fell within polygons. The table below is a sample of lines"
+  },
+  {
+    "objectID": "ODK_geofencing.html#example-part-2---creating-an-xls-form-that-uses-the-geofence",
+    "href": "ODK_geofencing.html#example-part-2---creating-an-xls-form-that-uses-the-geofence",
+    "title": "15  ODK Geofencing",
+    "section": "15.3 Example : Part 2 - Creating an XLS Form that uses the geofence",
+    "text": "15.3 Example : Part 2 - Creating an XLS Form that uses the geofence\nThe XLSForm is very simple. It consists of\n\nA geopoint question, which captures the point that will be tested against the polygons. Here it is a placement-map type, but this works with GPS collected data too.\nA pair of calculations, which extract the first (Latitude) and second (Longitude) data points from the geopoint. These are rounded to the same resolution as the polygon data (here 2 decimal places, 0.01 degrees)\nAnother calculation, which concatenates the resolution-matched geopoint data in the same format found in the geofence data set\nA note, which displays the resolution-matched geopoint\nA further calculation, which grabs exactly zero or one line of matching data from the geofence data set, which is sideloaded as a csv file\nA note, which displays the name of the matching polygon"
+  },
+  {
+    "objectID": "ODK_geofencing.html#example-part-3---in-action",
+    "href": "ODK_geofencing.html#example-part-3---in-action",
+    "title": "15  ODK Geofencing",
+    "section": "15.4 Example : Part 3 - In action",
+    "text": "15.4 Example : Part 3 - In action\nThis image shows a negative result, with the geopoint just outside the limits of the Forster - Tuncurry area\n\nWhilst this one shows a positive result, with the geopoint well inside the limits of Forster - Tuncurry area"
+  },
+  {
+    "objectID": "ODK_geofencing.html#performance",
+    "href": "ODK_geofencing.html#performance",
+    "title": "15  ODK Geofencing",
+    "section": "15.5 Performance",
+    "text": "15.5 Performance\nThis works fast with 46000 lines (CSV was 1.6 MB) in the geopoint data. We recommend never feeding this a massive data set, but to reduce the geographical scale as you increase the resolution. Remember that XLSForms store GPS data at 6 decimal places, but you aren’t going to get this system to work at that level!\nTo give an example of why not, look at this. Forster - Tuncurry is about 45 km^2. Not a huge area. But as resolution goes up, so the number of points in the matrix expands hugely\n\n\n\n\n\n\n\n\n\nresolution degrees\nGPS decimal places\nresolution (at equator)\npoints in matrix\n\n\n\n\n0.01\n2\n1.1 km\n273\n\n\n0.001\n3\n100 m\n24,926\n\n\n0.0001\n4\n10 m\n2,463,251\n\n\n0.00001\n5\n1 m\n246,020,500\n\n\n\nRemembering that the best resolution the average GPS receiver on a phone will get is about 10 m, we benchmarked performance with 10 metre resolution or 4 decimal places. Conveniently this is also the resolution of the maps that provide the shapefiles.\nThe CSV file is now ~26 MB. Pretty big\nThe form loads on Enketo in about 8 seconds.\nThe resolution is also great\nLook at the boundary of the polygon for Forster - Tuncurry. North of the bridge is inside. South is outside. \nIf we place a marker in ODK on the bridge, it detects the point as being inside the polygon\n\nBut about 10 m south, it detects the point as being outside the polygon\n\nOn ODK Collect, the first time you use this form it will pre-load the data from the CSV, which took about 20 seconds. On subsequent uses, it takes no time at all!\n\nsystem(\"rm data/SUA*\")"
   }
 ]

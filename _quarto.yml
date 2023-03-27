@@ -13,7 +13,7 @@ book:
 
   - part: "R / RStudio"
     chapters:
-      # - extract_model_from_geom_smooth.qmd
+       - extract_model_from_geom_smooth.qmd
        - update_R.qmd
        - utf8_encoding.qmd
        - remove_accents.qmd

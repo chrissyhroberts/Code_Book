@@ -5,10 +5,9 @@ author: "Chrissy h Roberts"
 
 Example code to extract x and y values from a geom_smooth.
 
-The practical example used her is to take discrete values of a value n at monthly intervals across a year. The geom smooth is used to draw a smoothed line across the chart. Then the values of n are extracted from the model before being floored so that we can estimate a new value for each month. 
+The practical example used her is to take discrete values of a value n at monthly intervals across a year. The geom smooth is used to draw a smoothed line across the chart. Then the values of n are extracted from the model before being floored so that we can estimate a new value for each month.
 
-This would be helpful where you have a situation in which there's a month missing in the middle, or where there's an outlier or two. 
-You could achieve the same thing using a regression, but this is a useful approach that ultimately leans back on to polynomial regressions. 
+This would be helpful where you have a situation in which there's a month missing in the middle, or where there's an outlier or two. You could achieve the same thing using a regression, but this is a useful approach that ultimately leans back on to polynomial regressions.
 
 ```{r,warning=F,message=F}
 library(tidyverse)

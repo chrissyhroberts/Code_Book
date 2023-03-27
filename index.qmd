@@ -2,6 +2,8 @@
 
 This code book brings together useful pieces of code that I have created over the years.
 
+.
+
 ### Publications & Documents
 
 ([Documents published by our team](https://chrissyhroberts.github.io/DOCS/))

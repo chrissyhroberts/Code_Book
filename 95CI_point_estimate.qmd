@@ -7,15 +7,15 @@ author: "Chrissy h Roberts"
 
 This simple approach is based on the formula
 
-$p ± z * sqrt((p(1-p))/n))$
+$\LARGE p ± Z * \sqrt\frac{p(1-p)}{n}$
 
 Where
 
-$p$ = population proportion
+$\LARGE p$ = point estimate
 
-$z$ = zcrit value for 95% confidence level (i.e. 1.96 for a 95% confidence interval)
+$\LARGE Z$ = Zcrit value for 95% confidence level (i.e. 1.96 for a 95% confidence interval)
 
-$n$ = sample size
+$\LARGE n$ = sample size
 
 ## Libraries
 
@@ -23,8 +23,6 @@ $n$ = sample size
 library(tidyverse)
 library(knitr)
 ```
-
-## 
 
 Define Some data
 

@@ -1,0 +1,2532 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.335">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Chrissy h Roberts">
+
+<title>Code Book - 17&nbsp; Digital Luminex</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./ODK_Biometrics.html" rel="next">
+<link href="./Consent_Forms_with_QR.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-sidebar floating">
+
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Digital Luminex</span></h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Code Book</a> 
+    </div>
+      </div>
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">Introduction</a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">R | RStudio</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./extract_model_from_geom_smooth.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Extract Model from geom_smooth model</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./update_R.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Update R - Bare Bones</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./utf8_encoding.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Normalise utf8 accented text</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./remove_accents.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Remove_Accents</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./text_to_speech_R.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Text to Speech in R</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./UK_Postcodes.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">UK Postcode Maps</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./photo_cleaning.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Photo Cleaning For Sharing</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">Statistics</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Interrupted_Time_Series.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">A pragmatic Introduction to Interrupted Time Series</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./new_lm_predict_left_predict_right.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">New lm Predict Left &amp; Predict Right</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./power_calc_gen_case_control.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Genetic Power Calculator</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Diagnostics_Power_Calculation.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Diagnostic Evaluation Power Calculation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./CI95_point_estimate.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">95% Confidence Intervals on a point estimate</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./hazratio_chart.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Hazard Ratio Chart from Summary Data</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Univariate_regressions_reported_as_a_table.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Univariate regressions, reported as a table</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">Laboratory | Field Methods</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Univariate_regressions_reported_as_a_table.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Univariate regressions, reported as a table</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Consent_Forms_with_QR.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Consent Forms with Unique IDs and QR Codes</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Digital_Luminex.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Digital Luminex</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">ODK</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ODK_Biometrics.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">ODK Biometrics</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ruODK_basics.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">ruODK Setup and basic functions</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./diva_gis.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">GIS Data to ODK itemlist</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ODK_geofencing.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">ODK Geofencing</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ODK_Pi.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">ODK Pi - A deployable version of ODK on a Raspberry Pi</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true">Cribsheet [Other people’s work]</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Akaike_Information_Criterion.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Akaike information criterion</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#background" id="toc-background" class="nav-link active" data-scroll-target="#background"><span class="toc-section-number">17.0.1</span>  Background</a></li>
+  <li><a href="#libraries" id="toc-libraries" class="nav-link" data-scroll-target="#libraries"><span class="toc-section-number">17.1</span>  Libraries</a></li>
+  <li><a href="#define-functions" id="toc-define-functions" class="nav-link" data-scroll-target="#define-functions"><span class="toc-section-number">17.2</span>  Define Functions</a>
+  <ul class="collapse">
+  <li><a href="#convert-lxb-files-to-csv" id="toc-convert-lxb-files-to-csv" class="nav-link" data-scroll-target="#convert-lxb-files-to-csv"><span class="toc-section-number">17.2.1</span>  Convert LXB Files to CSV</a></li>
+  <li><a href="#aggregate-the-csv-files-in-a-single-df" id="toc-aggregate-the-csv-files-in-a-single-df" class="nav-link" data-scroll-target="#aggregate-the-csv-files-in-a-single-df"><span class="toc-section-number">17.2.2</span>  Aggregate the csv files in a single df</a></li>
+  <li><a href="#apply-mixed-em-to-find-thresholds-on-each-bead" id="toc-apply-mixed-em-to-find-thresholds-on-each-bead" class="nav-link" data-scroll-target="#apply-mixed-em-to-find-thresholds-on-each-bead"><span class="toc-section-number">17.2.3</span>  Apply mixed EM to find thresholds on each bead</a></li>
+  <li><a href="#manually-select-threshold-values" id="toc-manually-select-threshold-values" class="nav-link" data-scroll-target="#manually-select-threshold-values"><span class="toc-section-number">17.2.4</span>  Manually select threshold values</a></li>
+  </ul></li>
+  <li><a href="#apply-the-functions-to-real-data" id="toc-apply-the-functions-to-real-data" class="nav-link" data-scroll-target="#apply-the-functions-to-real-data"><span class="toc-section-number">17.3</span>  Apply the functions to real data</a>
+  <ul class="collapse">
+  <li><a href="#list-the-lxb-files" id="toc-list-the-lxb-files" class="nav-link" data-scroll-target="#list-the-lxb-files"><span class="toc-section-number">17.3.1</span>  List the LXB files</a></li>
+  <li><a href="#apply-the-lxb.parse-function-to-all-lxb-files-in-directory" id="toc-apply-the-lxb.parse-function-to-all-lxb-files-in-directory" class="nav-link" data-scroll-target="#apply-the-lxb.parse-function-to-all-lxb-files-in-directory"><span class="toc-section-number">17.3.2</span>  Apply the lxb.parse function to all lxb files in directory</a></li>
+  <li><a href="#aggregate-the-data" id="toc-aggregate-the-data" class="nav-link" data-scroll-target="#aggregate-the-data"><span class="toc-section-number">17.3.3</span>  Aggregate the data</a></li>
+  <li><a href="#trim-data-to-beads-we-actually-used" id="toc-trim-data-to-beads-we-actually-used" class="nav-link" data-scroll-target="#trim-data-to-beads-we-actually-used"><span class="toc-section-number">17.3.4</span>  Trim data to beads we actually used</a></li>
+  <li><a href="#plot-data-for-all-beads" id="toc-plot-data-for-all-beads" class="nav-link" data-scroll-target="#plot-data-for-all-beads"><span class="toc-section-number">17.3.5</span>  Plot data for all beads</a></li>
+  <li><a href="#show-table-of-bead-counts" id="toc-show-table-of-bead-counts" class="nav-link" data-scroll-target="#show-table-of-bead-counts"><span class="toc-section-number">17.3.6</span>  Show table of bead counts</a></li>
+  <li><a href="#threshold-classify-everything-based-on-automated-em-algorithm" id="toc-threshold-classify-everything-based-on-automated-em-algorithm" class="nav-link" data-scroll-target="#threshold-classify-everything-based-on-automated-em-algorithm"><span class="toc-section-number">17.3.7</span>  Threshold classify everything based on automated EM algorithm</a></li>
+  </ul></li>
+  <li><a href="#summarise-based-on-bead-counts" id="toc-summarise-based-on-bead-counts" class="nav-link" data-scroll-target="#summarise-based-on-bead-counts"><span class="toc-section-number">17.4</span>  Summarise based on bead counts</a></li>
+  <li><a href="#interpretation" id="toc-interpretation" class="nav-link" data-scroll-target="#interpretation"><span class="toc-section-number">17.5</span>  Interpretation</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title d-none d-lg-block"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Digital Luminex</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Chrissy h Roberts </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="background" class="level3" data-number="17.0.1">
+<h3 data-number="17.0.1" class="anchored" data-anchor-id="background"><span class="header-section-number">17.0.1</span> Background</h3>
+<p>This script demonstrates how to read data from a Luminex .LXB file and to apply a ‘digital’ luminex approach. This counts the number of beads that fluoresce above a threshold, rather than looking at the mean fluorescence intensity for a marker on all beads. This is analogous to a ‘digital PCR’ approach.</p>
+<p>In theory this might be a method that requires less inter-plate normalisation as the method is less dependent on average signal strength and more dependent on a within-plate EM model that simply asks what fraction of beads have a positive signal for each marker. Specifically, the actual fluorescence intensity of the markers on the beads is actually very variable from plate to plate, but whatever the fluorescence intensity is, it should still be possible to define a positive and negative population.</p>
+<p>The work uses an approach to reading the LXB files which was originally implemented in the <a href="https://github.com/cran/lxb">lxb</a> package. This is no longer maintained, so a copy of the tar file is included in the packages directory of this repo.</p>
+</section>
+<section id="libraries" class="level2" data-number="17.1">
+<h2 data-number="17.1" class="anchored" data-anchor-id="libraries"><span class="header-section-number">17.1</span> Libraries</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(data.table)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mclust)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mixtools)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"packages/lxb-1.5.tar.gz"</span>, <span class="at">repos =</span> <span class="cn">NULL</span>, <span class="at">type=</span><span class="st">"source"</span>)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lxb)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="define-functions" class="level2" data-number="17.2">
+<h2 data-number="17.2" class="anchored" data-anchor-id="define-functions"><span class="header-section-number">17.2</span> Define Functions</h2>
+<section id="convert-lxb-files-to-csv" class="level3" data-number="17.2.1">
+<h3 data-number="17.2.1" class="anchored" data-anchor-id="convert-lxb-files-to-csv"><span class="header-section-number">17.2.1</span> Convert LXB Files to CSV</h3>
+<p>Create function to import an lxb file, add the well name, convert to a data frame and export a CSV with similar name to original file.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>lxb.parse<span class="ot">&lt;-</span><span class="cf">function</span>(lxbfile)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co">#get the file</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>outputfile<span class="ot">&lt;-</span><span class="fu">gsub</span>(<span class="at">x =</span> lxbfile,<span class="at">pattern =</span> <span class="st">".lxb"</span>,<span class="at">replacement =</span> <span class="st">".csv"</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>well<span class="ot">&lt;-</span><span class="fu">unlist</span>(<span class="fu">strsplit</span>(lxbfile,<span class="at">split =</span> <span class="st">"_"</span>))</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>well<span class="ot">&lt;-</span>well[<span class="fu">length</span>(well)]</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>well<span class="ot">&lt;-</span><span class="fu">gsub</span>(well,<span class="at">pattern =</span> <span class="st">".lxb"</span>,<span class="at">replacement =</span> <span class="st">""</span>)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>lxbdata <span class="ot">&lt;-</span> <span class="fu">readLxb</span>(lxbfile)  </span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>lxbdata <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(lxbdata) </span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(lxbdata)<span class="ot">&lt;-</span><span class="fu">gsub</span>(<span class="fu">names</span>(lxbdata),<span class="at">pattern =</span> <span class="st">" "</span>,<span class="at">replacement =</span> <span class="st">"."</span>)</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>lxbdata<span class="sc">$</span>well<span class="ot">&lt;-</span>well</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="co">#remove invalid beads</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>lxbdata<span class="ot">&lt;-</span>lxbdata[<span class="fu">which</span>(lxbdata<span class="sc">$</span>Bead.Valid<span class="sc">==</span><span class="dv">1</span>),]</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(<span class="at">x =</span> lxbdata,<span class="at">file =</span> outputfile,<span class="at">row.names =</span> F)</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="aggregate-the-csv-files-in-a-single-df" class="level3" data-number="17.2.2">
+<h3 data-number="17.2.2" class="anchored" data-anchor-id="aggregate-the-csv-files-in-a-single-df"><span class="header-section-number">17.2.2</span> Aggregate the csv files in a single df</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">#define a function to </span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>lxb.aggregate.data<span class="ot">&lt;-</span><span class="cf">function</span>(path)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="co">#list only the csv files</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  lxbs<span class="ot">&lt;-</span><span class="fu">list.files</span>(<span class="at">path =</span> path,<span class="at">pattern =</span> <span class="st">"*.csv"</span>,<span class="at">full.names =</span> T)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  tables <span class="ot">&lt;-</span> <span class="fu">lapply</span>(lxbs, fread)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  data.table<span class="sc">::</span><span class="fu">rbindlist</span>(tables)</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="apply-mixed-em-to-find-thresholds-on-each-bead" class="level3" data-number="17.2.3">
+<h3 data-number="17.2.3" class="anchored" data-anchor-id="apply-mixed-em-to-find-thresholds-on-each-bead"><span class="header-section-number">17.2.3</span> Apply mixed EM to find thresholds on each bead</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>lxb.digital.thresholds<span class="ot">&lt;-</span><span class="cf">function</span>(df,<span class="at">pdf.out=</span><span class="cn">FALSE</span>,<span class="at">sd.threshold=</span><span class="dv">5</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  df2<span class="ot">&lt;-</span>df <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(Bead.ID) <span class="sc">%&gt;%</span> <span class="fu">summarise</span>(<span class="at">n=</span><span class="fu">n</span>())</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="co">#get bead values from DF</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  df2<span class="sc">$</span>EM.threshold<span class="ot">&lt;-</span><span class="cn">NA</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(df2<span class="sc">$</span>Bead.ID))</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    fit<span class="ot">&lt;-</span><span class="fu">normalmixEM</span>(df<span class="sc">$</span>RP1L.Peak[<span class="fu">which</span>(df<span class="sc">$</span>Bead.ID<span class="sc">==</span>df2<span class="sc">$</span>Bead.ID[i])])</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    <span class="co">#plot(fit,which=2,breaks=40)</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    df2<span class="sc">$</span>EM.threshold[i]<span class="ot">&lt;-</span>fit<span class="sc">$</span>mu[<span class="fu">which</span>(fit<span class="sc">$</span>mu<span class="sc">==</span><span class="fu">min</span>(fit<span class="sc">$</span>mu))]<span class="sc">+</span>(sd.threshold<span class="sc">*</span>fit<span class="sc">$</span>sigma[<span class="fu">which</span>(fit<span class="sc">$</span>mu<span class="sc">==</span><span class="fu">min</span>(fit<span class="sc">$</span>mu))])</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span>(pdf.out<span class="sc">==</span><span class="cn">TRUE</span>){</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>                      <span class="fu">pdf</span>(<span class="at">file =</span> <span class="fu">paste</span>(<span class="st">"data/Luminex_LXB_Files/"</span>,df2<span class="sc">$</span>Bead.ID[i],<span class="st">".pdf"</span>,<span class="at">sep=</span><span class="st">""</span>))</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>                      <span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>                      <span class="fu">plot</span>(<span class="fu">sort</span>(df<span class="sc">$</span>RP1L.Peak[<span class="fu">which</span>(df<span class="sc">$</span>Bead.ID<span class="sc">==</span>df2<span class="sc">$</span>Bead.ID[i])]))</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>                      <span class="fu">abline</span>(<span class="at">h=</span>df2<span class="sc">$</span>EM.threshold[i],<span class="at">lty=</span><span class="dv">2</span>,<span class="at">col=</span><span class="st">"red"</span>)</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>                      <span class="fu">plot</span>(fit,<span class="at">whichplots =</span> <span class="dv">2</span>)</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>                      <span class="fu">abline</span>(<span class="at">v=</span>df2<span class="sc">$</span>EM.threshold[i],<span class="at">lty=</span><span class="dv">2</span>,<span class="at">col=</span><span class="st">"red"</span>)</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>                                        <span class="fu">dev.off</span>()</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>                      }</span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>  df<span class="ot">&lt;-</span><span class="fu">merge</span>(df,df2,<span class="at">by=</span><span class="st">"Bead.ID"</span>)</span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(df2)</span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>  df<span class="sc">$</span>classification<span class="ot">&lt;-</span><span class="fu">as.numeric</span>(df<span class="sc">$</span>RP1L.Peak<span class="sc">&gt;</span>df<span class="sc">$</span>EM.threshold)  </span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(df)</span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="manually-select-threshold-values" class="level3" data-number="17.2.4">
+<h3 data-number="17.2.4" class="anchored" data-anchor-id="manually-select-threshold-values"><span class="header-section-number">17.2.4</span> Manually select threshold values</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>lxb.digital.thresholds.locator<span class="ot">&lt;-</span><span class="cf">function</span>(df,<span class="at">pdf.out=</span><span class="cn">FALSE</span>,<span class="at">sd.threshold=</span><span class="dv">4</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  df2<span class="ot">&lt;-</span>df <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(Bead.ID) <span class="sc">%&gt;%</span> <span class="fu">summarise</span>(<span class="at">n=</span><span class="fu">n</span>())</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="co">#get bead values from DF</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  df2<span class="sc">$</span>EM.threshold<span class="ot">&lt;-</span><span class="cn">NA</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  df2<span class="sc">$</span>EM.threshold<span class="ot">&lt;-</span><span class="fu">as.numeric</span>(df2<span class="sc">$</span>EM.threshold)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(df2<span class="sc">$</span>Bead.ID))</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    fit<span class="ot">&lt;-</span><span class="fu">normalmixEM</span>(df<span class="sc">$</span>RP1L.Peak[<span class="fu">which</span>(df<span class="sc">$</span>Bead.ID<span class="sc">==</span>df2<span class="sc">$</span>Bead.ID[i])])</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    <span class="co">#plot(fit,which=2,breaks=40)</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>      <span class="fu">plot</span>(fit,<span class="at">whichplots =</span> <span class="dv">2</span>)</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>      EM.threshold<span class="ot">&lt;-</span><span class="fu">locator</span>(<span class="at">n =</span> <span class="dv">1</span>)</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>      df2<span class="sc">$</span>EM.threshold[i]<span class="ot">&lt;-</span>EM.threshold<span class="sc">$</span>x</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>      <span class="fu">abline</span>(<span class="at">v=</span>df2<span class="sc">$</span>EM.threshold[i],<span class="at">lty=</span><span class="dv">2</span>,<span class="at">col=</span><span class="st">"red"</span>)</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>  }  </span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>  df<span class="ot">&lt;-</span><span class="fu">merge</span>(df,df2,<span class="at">by=</span><span class="st">"Bead.ID"</span>)</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(df2)</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>  df<span class="sc">$</span>classification<span class="ot">&lt;-</span><span class="fu">as.numeric</span>(df<span class="sc">$</span>RP1L.Peak<span class="sc">&gt;</span>df<span class="sc">$</span>EM.threshold)  </span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(df)</span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="apply-the-functions-to-real-data" class="level2" data-number="17.3">
+<h2 data-number="17.3" class="anchored" data-anchor-id="apply-the-functions-to-real-data"><span class="header-section-number">17.3</span> Apply the functions to real data</h2>
+<section id="list-the-lxb-files" class="level3" data-number="17.3.1">
+<h3 data-number="17.3.1" class="anchored" data-anchor-id="list-the-lxb-files"><span class="header-section-number">17.3.1</span> List the LXB files</h3>
+<p>Luminex machines spit out one LXB file for each well</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>lxbs<span class="ot">&lt;-</span><span class="fu">list.files</span>(<span class="at">path =</span> <span class="st">"data/Luminex_LXB_Files/"</span>,<span class="at">pattern =</span> <span class="st">"*.lxb"</span>,<span class="at">full.names =</span> T)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>lxbs</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "data/Luminex_LXB_Files//A1.lxb"  "data/Luminex_LXB_Files//A10.lxb"
+ [3] "data/Luminex_LXB_Files//A11.lxb" "data/Luminex_LXB_Files//A12.lxb"
+ [5] "data/Luminex_LXB_Files//A2.lxb"  "data/Luminex_LXB_Files//A3.lxb" 
+ [7] "data/Luminex_LXB_Files//A4.lxb"  "data/Luminex_LXB_Files//A5.lxb" 
+ [9] "data/Luminex_LXB_Files//A6.lxb"  "data/Luminex_LXB_Files//A7.lxb" 
+[11] "data/Luminex_LXB_Files//A8.lxb"  "data/Luminex_LXB_Files//A9.lxb" </code></pre>
+</div>
+</div>
+</section>
+<section id="apply-the-lxb.parse-function-to-all-lxb-files-in-directory" class="level3" data-number="17.3.2">
+<h3 data-number="17.3.2" class="anchored" data-anchor-id="apply-the-lxb.parse-function-to-all-lxb-files-in-directory"><span class="header-section-number">17.3.2</span> Apply the lxb.parse function to all lxb files in directory</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lapply</span>(lxbs,lxb.parse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[[1]]
+NULL
+
+[[2]]
+NULL
+
+[[3]]
+NULL
+
+[[4]]
+NULL
+
+[[5]]
+NULL
+
+[[6]]
+NULL
+
+[[7]]
+NULL
+
+[[8]]
+NULL
+
+[[9]]
+NULL
+
+[[10]]
+NULL
+
+[[11]]
+NULL
+
+[[12]]
+NULL</code></pre>
+</div>
+</div>
+</section>
+<section id="aggregate-the-data" class="level3" data-number="17.3.3">
+<h3 data-number="17.3.3" class="anchored" data-anchor-id="aggregate-the-data"><span class="header-section-number">17.3.3</span> Aggregate the data</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>a<span class="ot">&lt;-</span><span class="fu">lxb.aggregate.data</span>(<span class="at">path =</span> <span class="st">"data/Luminex_LXB_Files/"</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>a<span class="sc">$</span>col<span class="ot">&lt;-</span><span class="fu">substr</span>(a<span class="sc">$</span>well,<span class="at">start =</span> <span class="dv">1</span>,<span class="at">stop =</span> <span class="dv">1</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>a<span class="sc">$</span>row<span class="ot">&lt;-</span><span class="fu">substr</span>(a<span class="sc">$</span>well,<span class="at">start =</span> <span class="dv">2</span>,<span class="at">stop =</span> <span class="dv">3</span>)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">head</span>(a,<span class="dv">20</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<colgroup>
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 0%">
+<col style="width: 0%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: right;">CL1.X</th>
+<th style="text-align: right;">CL1.Y</th>
+<th style="text-align: right;">CL1.Peak</th>
+<th style="text-align: right;">CL1.Ch.Value</th>
+<th style="text-align: right;">CL1.Area</th>
+<th style="text-align: right;">CL1.Valid</th>
+<th style="text-align: right;">CL1.SR</th>
+<th style="text-align: right;">CL1.MBR</th>
+<th style="text-align: right;">CL1.Pass.Mini.Ratio</th>
+<th style="text-align: right;">CL1.Pass.Max.Ratio</th>
+<th style="text-align: right;">CL1.Pass.Nearby</th>
+<th style="text-align: right;">CL1.Pass.Edge</th>
+<th style="text-align: right;">CL2.X</th>
+<th style="text-align: right;">CL2.Y</th>
+<th style="text-align: right;">CL2.Peak</th>
+<th style="text-align: right;">CL2.Ch.Value</th>
+<th style="text-align: right;">CL2.Area</th>
+<th style="text-align: right;">CL2.Valid</th>
+<th style="text-align: right;">CL2.SR</th>
+<th style="text-align: right;">CL2.MBR</th>
+<th style="text-align: right;">CL2.Pass.Mini.Ratio</th>
+<th style="text-align: right;">CL2.Pass.Max.Ratio</th>
+<th style="text-align: right;">CL2.Pass.Nearby</th>
+<th style="text-align: right;">CL2.Pass.Edge</th>
+<th style="text-align: right;">RP1L.X</th>
+<th style="text-align: right;">RP1L.Y</th>
+<th style="text-align: right;">RP1L.Peak</th>
+<th style="text-align: right;">RP1L.Ch.Value</th>
+<th style="text-align: right;">RP1L.Area</th>
+<th style="text-align: right;">RP1L.Valid</th>
+<th style="text-align: right;">RP1L.SR</th>
+<th style="text-align: right;">RP1L.MBR</th>
+<th style="text-align: right;">RP1L.Pass.Mini.Ratio</th>
+<th style="text-align: right;">RP1L.Pass.Max.Ratio</th>
+<th style="text-align: right;">RP1L.Pass.Nearby</th>
+<th style="text-align: right;">RP1L.Pass.Edge</th>
+<th style="text-align: right;">RP1S.X</th>
+<th style="text-align: right;">RP1S.Y</th>
+<th style="text-align: right;">RP1S.Peak</th>
+<th style="text-align: right;">RP1S.Ch.Value</th>
+<th style="text-align: right;">RP1S.Area</th>
+<th style="text-align: right;">RP1S.Valid</th>
+<th style="text-align: right;">RP1S.SR</th>
+<th style="text-align: right;">RP1S.MBR</th>
+<th style="text-align: right;">RP1S.Pass.Mini.Ratio</th>
+<th style="text-align: right;">RP1S.Pass.Max.Ratio</th>
+<th style="text-align: right;">RP1S.Pass.Nearby</th>
+<th style="text-align: right;">RP1S.Pass.Edge</th>
+<th style="text-align: right;">Bead.Valid</th>
+<th style="text-align: right;">CL2.Offset.X</th>
+<th style="text-align: right;">CL2.Offset.Y</th>
+<th style="text-align: right;">CL1_CL2.Dist</th>
+<th style="text-align: right;">RP1.Offset.X</th>
+<th style="text-align: right;">RP1.Offset.Y</th>
+<th style="text-align: right;">CL1.Value</th>
+<th style="text-align: right;">CL2.Value</th>
+<th style="text-align: right;">RP1.Value</th>
+<th style="text-align: right;">Bead.ID</th>
+<th style="text-align: left;">well</th>
+<th style="text-align: left;">col</th>
+<th style="text-align: left;">row</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">1149234516</td>
+<td style="text-align: right;">1092558165</td>
+<td style="text-align: right;">1343</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">16947</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">-1560336802</td>
+<td style="text-align: right;">-462012473</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1149223297</td>
+<td style="text-align: right;">1092479444</td>
+<td style="text-align: right;">1296</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">16974</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1181464885</td>
+<td style="text-align: right;">-1991868891</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1149236985</td>
+<td style="text-align: right;">1092988697</td>
+<td style="text-align: right;">59632</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1135332</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1149236985</td>
+<td style="text-align: right;">1092988697</td>
+<td style="text-align: right;">59632</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">52185</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">-812668335</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">118</td>
+<td style="text-align: right;">118</td>
+<td style="text-align: right;">6103</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: left;">Files//A1</td>
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">il</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1155884337</td>
+<td style="text-align: right;">1093973789</td>
+<td style="text-align: right;">2535</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">32248</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">-1461695296</td>
+<td style="text-align: right;">-1174163721</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1155877959</td>
+<td style="text-align: right;">1094254143</td>
+<td style="text-align: right;">3861</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">49562</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1419346258</td>
+<td style="text-align: right;">-463449520</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1155884214</td>
+<td style="text-align: right;">1094404032</td>
+<td style="text-align: right;">49395</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">777699</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1155884214</td>
+<td style="text-align: right;">1094404032</td>
+<td style="text-align: right;">49395</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">27587</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">-1717978224</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">224</td>
+<td style="text-align: right;">345</td>
+<td style="text-align: right;">3080</td>
+<td style="text-align: right;">26</td>
+<td style="text-align: left;">Files//A1</td>
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">il</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">1141831731</td>
+<td style="text-align: right;">1094397512</td>
+<td style="text-align: right;">7971</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">100698</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">681421247</td>
+<td style="text-align: right;">-1790273464</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1141820439</td>
+<td style="text-align: right;">1093943886</td>
+<td style="text-align: right;">2157</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">26850</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">-402982476</td>
+<td style="text-align: right;">-53427154</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1141835711</td>
+<td style="text-align: right;">1094827668</td>
+<td style="text-align: right;">61485</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1217522</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1141835711</td>
+<td style="text-align: right;">1094827668</td>
+<td style="text-align: right;">61485</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">63810</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1367863707</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">701</td>
+<td style="text-align: right;">187</td>
+<td style="text-align: right;">7463</td>
+<td style="text-align: right;">21</td>
+<td style="text-align: left;">Files//A1</td>
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">il</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1150917202</td>
+<td style="text-align: right;">1097198649</td>
+<td style="text-align: right;">4966</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">60897</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">271482799</td>
+<td style="text-align: right;">-1191083431</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1150911874</td>
+<td style="text-align: right;">1097454201</td>
+<td style="text-align: right;">4016</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">50462</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1850697676</td>
+<td style="text-align: right;">-113029935</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1150918093</td>
+<td style="text-align: right;">1097628233</td>
+<td style="text-align: right;">61767</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1249945</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1150918093</td>
+<td style="text-align: right;">1097628233</td>
+<td style="text-align: right;">61767</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">80109</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">459537696</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">424</td>
+<td style="text-align: right;">352</td>
+<td style="text-align: right;">9369</td>
+<td style="text-align: right;">27</td>
+<td style="text-align: left;">Files//A1</td>
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">il</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">1152361617</td>
+<td style="text-align: right;">1097643907</td>
+<td style="text-align: right;">16662</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">208370</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">-351809365</td>
+<td style="text-align: right;">-2047823587</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1152359059</td>
+<td style="text-align: right;">1097576007</td>
+<td style="text-align: right;">2136</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">28456</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2107587046</td>
+<td style="text-align: right;">76070548</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1152362214</td>
+<td style="text-align: right;">1098073401</td>
+<td style="text-align: right;">59204</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">848208</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1152362214</td>
+<td style="text-align: right;">1098073401</td>
+<td style="text-align: right;">59204</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">33077</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">-1127313627</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1450</td>
+<td style="text-align: right;">198</td>
+<td style="text-align: right;">3868</td>
+<td style="text-align: right;">22</td>
+<td style="text-align: left;">Files//A1</td>
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">il</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1151775855</td>
+<td style="text-align: right;">1098727795</td>
+<td style="text-align: right;">16030</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">203329</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">870860878</td>
+<td style="text-align: right;">1513437910</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1151770676</td>
+<td style="text-align: right;">1098681510</td>
+<td style="text-align: right;">3822</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">47775</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">-758130026</td>
+<td style="text-align: right;">1252485282</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1151776571</td>
+<td style="text-align: right;">1099032358</td>
+<td style="text-align: right;">14198</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">166583</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1151776571</td>
+<td style="text-align: right;">1099032358</td>
+<td style="text-align: right;">14198</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">5589</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1774791597</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1415</td>
+<td style="text-align: right;">333</td>
+<td style="text-align: right;">660</td>
+<td style="text-align: right;">29</td>
+<td style="text-align: left;">Files//A1</td>
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">il</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">1155033097</td>
+<td style="text-align: right;">1100340701</td>
+<td style="text-align: right;">4580</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">59419</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">-1852063166</td>
+<td style="text-align: right;">-1009139138</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1155030331</td>
+<td style="text-align: right;">1100114914</td>
+<td style="text-align: right;">3966</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">51219</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">114335912</td>
+<td style="text-align: right;">-500949543</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1155033148</td>
+<td style="text-align: right;">1100555026</td>
+<td style="text-align: right;">61894</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1325814</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1155033148</td>
+<td style="text-align: right;">1100555026</td>
+<td style="text-align: right;">61894</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">81886</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">-730158204</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">414</td>
+<td style="text-align: right;">357</td>
+<td style="text-align: right;">9577</td>
+<td style="text-align: right;">27</td>
+<td style="text-align: left;">Files//A1</td>
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">il</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1156429977</td>
+<td style="text-align: right;">1102179833</td>
+<td style="text-align: right;">15608</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">198756</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1505756983</td>
+<td style="text-align: right;">1583439109</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1156424231</td>
+<td style="text-align: right;">1102098349</td>
+<td style="text-align: right;">2208</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">28248</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">-1090034562</td>
+<td style="text-align: right;">391667932</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1156429743</td>
+<td style="text-align: right;">1102393783</td>
+<td style="text-align: right;">59594</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1228318</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1156429743</td>
+<td style="text-align: right;">1102393783</td>
+<td style="text-align: right;">59594</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">53059</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">493372241</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1383</td>
+<td style="text-align: right;">197</td>
+<td style="text-align: right;">6205</td>
+<td style="text-align: right;">22</td>
+<td style="text-align: left;">Files//A1</td>
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">il</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">1133053433</td>
+<td style="text-align: right;">1102435101</td>
+<td style="text-align: right;">2559</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">32062</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">-1841237300</td>
+<td style="text-align: right;">-413394956</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1133042566</td>
+<td style="text-align: right;">1102219953</td>
+<td style="text-align: right;">1325</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">16486</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">926199853</td>
+<td style="text-align: right;">962368627</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1133063386</td>
+<td style="text-align: right;">1102648999</td>
+<td style="text-align: right;">40484</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">566360</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1133063386</td>
+<td style="text-align: right;">1102648999</td>
+<td style="text-align: right;">40484</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">20078</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2138917700</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">223</td>
+<td style="text-align: right;">115</td>
+<td style="text-align: right;">2243</td>
+<td style="text-align: right;">13</td>
+<td style="text-align: left;">Files//A1</td>
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">il</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1146917648</td>
+<td style="text-align: right;">1102574438</td>
+<td style="text-align: right;">15451</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">199489</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">9330036</td>
+<td style="text-align: right;">-2058791451</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1146911794</td>
+<td style="text-align: right;">1102523540</td>
+<td style="text-align: right;">2114</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">26610</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1844585360</td>
+<td style="text-align: right;">-208857109</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1146920590</td>
+<td style="text-align: right;">1102788307</td>
+<td style="text-align: right;">59663</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1092730</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1146920590</td>
+<td style="text-align: right;">1102788307</td>
+<td style="text-align: right;">59663</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">45526</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">-1874985181</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1388</td>
+<td style="text-align: right;">185</td>
+<td style="text-align: right;">5324</td>
+<td style="text-align: right;">22</td>
+<td style="text-align: left;">Files//A1</td>
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">il</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">1132034886</td>
+<td style="text-align: right;">1104184846</td>
+<td style="text-align: right;">15495</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">196309</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">-614810869</td>
+<td style="text-align: right;">-1382596637</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1132011269</td>
+<td style="text-align: right;">1104132015</td>
+<td style="text-align: right;">2002</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">27293</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">-1153969394</td>
+<td style="text-align: right;">-422053358</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1132055122</td>
+<td style="text-align: right;">1104398386</td>
+<td style="text-align: right;">60985</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1203448</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1132055122</td>
+<td style="text-align: right;">1104398386</td>
+<td style="text-align: right;">60985</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">51501</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">-199422534</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1366</td>
+<td style="text-align: right;">190</td>
+<td style="text-align: right;">6023</td>
+<td style="text-align: right;">22</td>
+<td style="text-align: left;">Files//A1</td>
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">il</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1148738278</td>
+<td style="text-align: right;">1104800157</td>
+<td style="text-align: right;">2225</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">30448</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">336334840</td>
+<td style="text-align: right;">-1722049420</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1148727247</td>
+<td style="text-align: right;">1104737582</td>
+<td style="text-align: right;">2088</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">27703</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">-1264850604</td>
+<td style="text-align: right;">711461030</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1148740848</td>
+<td style="text-align: right;">1105013572</td>
+<td style="text-align: right;">4811</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">52665</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1148740848</td>
+<td style="text-align: right;">1105013572</td>
+<td style="text-align: right;">4811</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1513</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1664716139</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">212</td>
+<td style="text-align: right;">193</td>
+<td style="text-align: right;">209</td>
+<td style="text-align: right;">19</td>
+<td style="text-align: left;">Files//A1</td>
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">il</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">1154128511</td>
+<td style="text-align: right;">1104521200</td>
+<td style="text-align: right;">16433</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">201733</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">-1224775220</td>
+<td style="text-align: right;">-434514866</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1154122887</td>
+<td style="text-align: right;">1104494251</td>
+<td style="text-align: right;">3611</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">47364</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">317673209</td>
+<td style="text-align: right;">429097738</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1154128747</td>
+<td style="text-align: right;">1104734672</td>
+<td style="text-align: right;">14749</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">226132</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1154128747</td>
+<td style="text-align: right;">1104734672</td>
+<td style="text-align: right;">14749</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">7379</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">-510452285</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1404</td>
+<td style="text-align: right;">330</td>
+<td style="text-align: right;">895</td>
+<td style="text-align: right;">29</td>
+<td style="text-align: left;">Files//A1</td>
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">il</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1121352736</td>
+<td style="text-align: right;">1105125885</td>
+<td style="text-align: right;">4568</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">58170</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1999822347</td>
+<td style="text-align: right;">898421215</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1121307392</td>
+<td style="text-align: right;">1105088368</td>
+<td style="text-align: right;">1294</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">16234</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">-983333522</td>
+<td style="text-align: right;">-1739258039</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1121397014</td>
+<td style="text-align: right;">1105339233</td>
+<td style="text-align: right;">6723</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">93542</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1121397014</td>
+<td style="text-align: right;">1105339233</td>
+<td style="text-align: right;">6723</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2880</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1329047872</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">405</td>
+<td style="text-align: right;">113</td>
+<td style="text-align: right;">370</td>
+<td style="text-align: right;">14</td>
+<td style="text-align: left;">Files//A1</td>
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">il</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">1155909558</td>
+<td style="text-align: right;">1106777421</td>
+<td style="text-align: right;">1199</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">16460</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">821266378</td>
+<td style="text-align: right;">-1246218943</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1155906397</td>
+<td style="text-align: right;">1106722413</td>
+<td style="text-align: right;">2283</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">29468</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1183943161</td>
+<td style="text-align: right;">-426756626</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1155909430</td>
+<td style="text-align: right;">1106990432</td>
+<td style="text-align: right;">17653</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">332506</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1155909430</td>
+<td style="text-align: right;">1106990432</td>
+<td style="text-align: right;">17653</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">11300</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">-250784161</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">115</td>
+<td style="text-align: right;">205</td>
+<td style="text-align: right;">1317</td>
+<td style="text-align: right;">18</td>
+<td style="text-align: left;">Files//A1</td>
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">il</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1155824328</td>
+<td style="text-align: right;">1107578705</td>
+<td style="text-align: right;">4538</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">59342</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1559411272</td>
+<td style="text-align: right;">1151799898</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1155818790</td>
+<td style="text-align: right;">1107546496</td>
+<td style="text-align: right;">4086</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">51988</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">-919791236</td>
+<td style="text-align: right;">351277236</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1155824218</td>
+<td style="text-align: right;">1107685100</td>
+<td style="text-align: right;">60610</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1258483</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1155824218</td>
+<td style="text-align: right;">1107685100</td>
+<td style="text-align: right;">60610</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">58400</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1128053269</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">413</td>
+<td style="text-align: right;">362</td>
+<td style="text-align: right;">6830</td>
+<td style="text-align: right;">27</td>
+<td style="text-align: left;">Files//A1</td>
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">il</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">1155536851</td>
+<td style="text-align: right;">1108324761</td>
+<td style="text-align: right;">15984</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">204814</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">27751286</td>
+<td style="text-align: right;">468010390</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1155531489</td>
+<td style="text-align: right;">1108306151</td>
+<td style="text-align: right;">3837</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">49674</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">-124177506</td>
+<td style="text-align: right;">392542407</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1155536799</td>
+<td style="text-align: right;">1108431004</td>
+<td style="text-align: right;">27421</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">513624</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1155536799</td>
+<td style="text-align: right;">1108431004</td>
+<td style="text-align: right;">27421</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">17913</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">583326885</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1426</td>
+<td style="text-align: right;">346</td>
+<td style="text-align: right;">2034</td>
+<td style="text-align: right;">29</td>
+<td style="text-align: left;">Files//A1</td>
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">il</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1155406742</td>
+<td style="text-align: right;">1108697607</td>
+<td style="text-align: right;">2641</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">33191</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">-1232077645</td>
+<td style="text-align: right;">-149200003</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1155400871</td>
+<td style="text-align: right;">1108654290</td>
+<td style="text-align: right;">2163</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">29448</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2050056381</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1155406717</td>
+<td style="text-align: right;">1108803773</td>
+<td style="text-align: right;">3061</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">42222</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1155406717</td>
+<td style="text-align: right;">1108803773</td>
+<td style="text-align: right;">3061</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1392</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">-1202766431</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">231</td>
+<td style="text-align: right;">205</td>
+<td style="text-align: right;">167</td>
+<td style="text-align: right;">19</td>
+<td style="text-align: left;">Files//A1</td>
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">il</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">1156984613</td>
+<td style="text-align: right;">1108597201</td>
+<td style="text-align: right;">1279</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">16629</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">-1691806559</td>
+<td style="text-align: right;">-659651601</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1156981428</td>
+<td style="text-align: right;">1108475694</td>
+<td style="text-align: right;">2288</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">29547</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">-763044262</td>
+<td style="text-align: right;">583186408</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1156984266</td>
+<td style="text-align: right;">1108703388</td>
+<td style="text-align: right;">47656</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1013692</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1156984266</td>
+<td style="text-align: right;">1108703388</td>
+<td style="text-align: right;">47656</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">36156</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">-1178951951</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">116</td>
+<td style="text-align: right;">206</td>
+<td style="text-align: right;">4014</td>
+<td style="text-align: right;">18</td>
+<td style="text-align: left;">Files//A1</td>
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">il</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1142762190</td>
+<td style="text-align: right;">1109171906</td>
+<td style="text-align: right;">4698</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">58567</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1518863941</td>
+<td style="text-align: right;">-1049339851</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1142752128</td>
+<td style="text-align: right;">1109138271</td>
+<td style="text-align: right;">2183</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">28897</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1038826580</td>
+<td style="text-align: right;">-1612340562</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1142765981</td>
+<td style="text-align: right;">1109277976</td>
+<td style="text-align: right;">39473</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">517176</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1142765981</td>
+<td style="text-align: right;">1109277976</td>
+<td style="text-align: right;">39473</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">18003</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">-1169600992</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">408</td>
+<td style="text-align: right;">201</td>
+<td style="text-align: right;">2048</td>
+<td style="text-align: right;">20</td>
+<td style="text-align: left;">Files//A1</td>
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">il</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section id="trim-data-to-beads-we-actually-used" class="level3" data-number="17.3.4">
+<h3 data-number="17.3.4" class="anchored" data-anchor-id="trim-data-to-beads-we-actually-used"><span class="header-section-number">17.3.4</span> Trim data to beads we actually used</h3>
+<p>The data may include beads that weren’t used in the assay. Here we used a subset of beads and so need to filter the data</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>a<span class="ot">&lt;-</span><span class="fu">subset</span>(a, <span class="at">subset =</span> Bead.ID <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">12</span><span class="sc">:</span><span class="dv">15</span>,<span class="dv">18</span>,<span class="dv">19</span>,<span class="dv">20</span>,<span class="dv">21</span>,<span class="dv">22</span>,<span class="dv">25</span><span class="sc">:</span><span class="dv">30</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="plot-data-for-all-beads" class="level3" data-number="17.3.5">
+<h3 data-number="17.3.5" class="anchored" data-anchor-id="plot-data-for-all-beads"><span class="header-section-number">17.3.5</span> Plot data for all beads</h3>
+<p>CL1 and CL2 are the bead identification lasers.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> a,<span class="fu">aes</span>(<span class="at">x=</span>CL1.Peak,<span class="at">y=</span>CL2.Peak,<span class="at">color=</span><span class="fu">factor</span>(Bead.ID)))<span class="sc">+</span><span class="fu">geom_point</span>()<span class="sc">+</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">trans =</span> <span class="st">"log"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Digital_Luminex_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="show-table-of-bead-counts" class="level3" data-number="17.3.6">
+<h3 data-number="17.3.6" class="anchored" data-anchor-id="show-table-of-bead-counts"><span class="header-section-number">17.3.6</span> Show table of bead counts</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(<span class="fu">factor</span>(a<span class="sc">$</span>Bead.ID),a<span class="sc">$</span>Bead.Valid)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    
+        1
+  12 1554
+  13 1183
+  14 1482
+  15 1283
+  18 1711
+  19 1607
+  20 1375
+  21 1536
+  22 1567
+  25 1684
+  26 1347
+  27 1775
+  28 1490
+  29 1634
+  30 1150</code></pre>
+</div>
+</div>
+</section>
+<section id="threshold-classify-everything-based-on-automated-em-algorithm" class="level3" data-number="17.3.7">
+<h3 data-number="17.3.7" class="anchored" data-anchor-id="threshold-classify-everything-based-on-automated-em-algorithm"><span class="header-section-number">17.3.7</span> Threshold classify everything based on automated EM algorithm</h3>
+<p>This also saves a PDF in the directory <code>data/Luminex_LXB_Files/</code></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>a<span class="ot">&lt;-</span><span class="fu">lxb.digital.thresholds</span>(a,<span class="at">pdf.out =</span> T,<span class="at">sd.threshold =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>number of iterations= 11 </code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>number of iterations= 61 </code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>number of iterations= 42 </code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>number of iterations= 29 </code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>number of iterations= 51 </code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>number of iterations= 45 </code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>number of iterations= 24 </code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>number of iterations= 20 </code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>number of iterations= 49 </code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>number of iterations= 45 </code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>number of iterations= 35 </code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>number of iterations= 23 </code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>number of iterations= 287 </code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>number of iterations= 87 </code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>number of iterations= 20 </code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 15 × 3
+   Bead.ID     n EM.threshold
+     &lt;int&gt; &lt;int&gt;        &lt;dbl&gt;
+ 1      12  1554       82664.
+ 2      13  1183       27482.
+ 3      14  1482       18306.
+ 4      15  1283       13884.
+ 5      18  1711       49013.
+ 6      19  1607       11781.
+ 7      20  1375        8491.
+ 8      21  1536       10624.
+ 9      22  1567       22790.
+10      25  1684       21195.
+11      26  1347       14887.
+12      27  1775       95263.
+13      28  1490        8799.
+14      29  1634       12463.
+15      30  1150       90940.</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="summarise-based-on-bead-counts" class="level2" data-number="17.4">
+<h2 data-number="17.4" class="anchored" data-anchor-id="summarise-based-on-bead-counts"><span class="header-section-number">17.4</span> Summarise based on bead counts</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>aa<span class="ot">&lt;-</span>a <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(Bead.ID,well) <span class="sc">%&gt;%</span> <span class="fu">summarise</span>(<span class="at">count=</span><span class="fu">n</span>(),<span class="at">bead.pos=</span><span class="fu">sum</span>(classification<span class="sc">==</span><span class="dv">1</span>),<span class="at">bead.neg=</span><span class="fu">sum</span>(classification<span class="sc">==</span><span class="dv">0</span>),<span class="at">bead.fraction=</span>(<span class="at">bead.pos=</span><span class="fu">sum</span>(classification<span class="sc">==</span><span class="dv">1</span>)<span class="sc">/</span><span class="fu">n</span>()))</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>aa<span class="sc">$</span>col<span class="ot">&lt;-</span><span class="fu">substr</span>(aa<span class="sc">$</span>well,<span class="at">start =</span> <span class="dv">1</span>,<span class="at">stop =</span> <span class="dv">1</span>)</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>aa<span class="sc">$</span>row<span class="ot">&lt;-</span><span class="fu">substr</span>(aa<span class="sc">$</span>well,<span class="at">start =</span> <span class="dv">2</span>,<span class="at">stop =</span> <span class="dv">3</span>)</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">head</span>(aa,<span class="dv">24</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<colgroup>
+<col style="width: 12%">
+<col style="width: 16%">
+<col style="width: 9%">
+<col style="width: 13%">
+<col style="width: 13%">
+<col style="width: 21%">
+<col style="width: 6%">
+<col style="width: 6%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: right;">Bead.ID</th>
+<th style="text-align: left;">well</th>
+<th style="text-align: right;">count</th>
+<th style="text-align: right;">bead.pos</th>
+<th style="text-align: right;">bead.neg</th>
+<th style="text-align: right;">bead.fraction</th>
+<th style="text-align: left;">col</th>
+<th style="text-align: left;">row</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">12</td>
+<td style="text-align: left;">Files//A1</td>
+<td style="text-align: right;">70</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">70</td>
+<td style="text-align: right;">0.0000000</td>
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">il</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">12</td>
+<td style="text-align: left;">Files//A10</td>
+<td style="text-align: right;">161</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">161</td>
+<td style="text-align: right;">0.0000000</td>
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">il</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">12</td>
+<td style="text-align: left;">Files//A11</td>
+<td style="text-align: right;">139</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">139</td>
+<td style="text-align: right;">0.0000000</td>
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">il</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">12</td>
+<td style="text-align: left;">Files//A12</td>
+<td style="text-align: right;">134</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">134</td>
+<td style="text-align: right;">0.0000000</td>
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">il</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">12</td>
+<td style="text-align: left;">Files//A2</td>
+<td style="text-align: right;">119</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">119</td>
+<td style="text-align: right;">0.0000000</td>
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">il</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">12</td>
+<td style="text-align: left;">Files//A3</td>
+<td style="text-align: right;">139</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">139</td>
+<td style="text-align: right;">0.0000000</td>
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">il</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">12</td>
+<td style="text-align: left;">Files//A4</td>
+<td style="text-align: right;">119</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">119</td>
+<td style="text-align: right;">0.0000000</td>
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">il</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">12</td>
+<td style="text-align: left;">Files//A5</td>
+<td style="text-align: right;">135</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">135</td>
+<td style="text-align: right;">0.0000000</td>
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">il</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">12</td>
+<td style="text-align: left;">Files//A6</td>
+<td style="text-align: right;">151</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">151</td>
+<td style="text-align: right;">0.0000000</td>
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">il</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">12</td>
+<td style="text-align: left;">Files//A7</td>
+<td style="text-align: right;">117</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">117</td>
+<td style="text-align: right;">0.0000000</td>
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">il</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">12</td>
+<td style="text-align: left;">Files//A8</td>
+<td style="text-align: right;">141</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">141</td>
+<td style="text-align: right;">0.0000000</td>
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">il</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">12</td>
+<td style="text-align: left;">Files//A9</td>
+<td style="text-align: right;">129</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">129</td>
+<td style="text-align: right;">0.0000000</td>
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">il</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">13</td>
+<td style="text-align: left;">Files//A1</td>
+<td style="text-align: right;">57</td>
+<td style="text-align: right;">25</td>
+<td style="text-align: right;">32</td>
+<td style="text-align: right;">0.4385965</td>
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">il</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">13</td>
+<td style="text-align: left;">Files//A10</td>
+<td style="text-align: right;">119</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">119</td>
+<td style="text-align: right;">0.0000000</td>
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">il</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">13</td>
+<td style="text-align: left;">Files//A11</td>
+<td style="text-align: right;">88</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">84</td>
+<td style="text-align: right;">0.0454545</td>
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">il</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">13</td>
+<td style="text-align: left;">Files//A12</td>
+<td style="text-align: right;">114</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">111</td>
+<td style="text-align: right;">0.0263158</td>
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">il</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">13</td>
+<td style="text-align: left;">Files//A2</td>
+<td style="text-align: right;">102</td>
+<td style="text-align: right;">35</td>
+<td style="text-align: right;">67</td>
+<td style="text-align: right;">0.3431373</td>
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">il</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">13</td>
+<td style="text-align: left;">Files//A3</td>
+<td style="text-align: right;">106</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">103</td>
+<td style="text-align: right;">0.0283019</td>
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">il</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">13</td>
+<td style="text-align: left;">Files//A4</td>
+<td style="text-align: right;">88</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">82</td>
+<td style="text-align: right;">0.0681818</td>
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">il</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">13</td>
+<td style="text-align: left;">Files//A5</td>
+<td style="text-align: right;">87</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">83</td>
+<td style="text-align: right;">0.0459770</td>
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">il</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">13</td>
+<td style="text-align: left;">Files//A6</td>
+<td style="text-align: right;">107</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">99</td>
+<td style="text-align: right;">0.0747664</td>
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">il</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">13</td>
+<td style="text-align: left;">Files//A7</td>
+<td style="text-align: right;">88</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">84</td>
+<td style="text-align: right;">0.0454545</td>
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">il</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">13</td>
+<td style="text-align: left;">Files//A8</td>
+<td style="text-align: right;">114</td>
+<td style="text-align: right;">76</td>
+<td style="text-align: right;">38</td>
+<td style="text-align: right;">0.6666667</td>
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">il</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">13</td>
+<td style="text-align: left;">Files//A9</td>
+<td style="text-align: right;">113</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">108</td>
+<td style="text-align: right;">0.0442478</td>
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">il</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section id="interpretation" class="level2" data-number="17.5">
+<h2 data-number="17.5" class="anchored" data-anchor-id="interpretation"><span class="header-section-number">17.5</span> Interpretation</h2>
+<p>The bead.fraction is the fraction of all beads in the well which were above the n SD threshold for positivity. This is a digital count converted in to a fraction, which allows a continuous measure to be gained for each</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(aa,<span class="fu">aes</span>(well,bead.fraction))<span class="sc">+</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat=</span><span class="st">"identity"</span>)<span class="sc">+</span></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(.<span class="sc">~</span>Bead.ID)<span class="sc">+</span></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">90</span>, <span class="at">vjust =</span> <span class="fl">0.5</span>, <span class="at">hjust=</span><span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Digital_Luminex_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./Consent_Forms_with_QR.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Consent Forms with Unique IDs and QR Codes</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./ODK_Biometrics.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">ODK Biometrics</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>

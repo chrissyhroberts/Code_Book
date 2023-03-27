@@ -6,12 +6,11 @@ book:
   title: "Code Book"
   author: "Chrissy Roberts"
   date: "3/21/2023"
-  downloads: [pdf]
 
   chapters:
   - index.qmd
 
-  - part: "R / RStudio"
+  - part: "R | RStudio"
     chapters:
        - extract_model_from_geom_smooth.qmd
        - update_R.qmd
@@ -27,11 +26,11 @@ book:
        - new_lm_predict_left_predict_right.qmd
        - power_calc_gen_case_control.qmd
        - Diagnostics_Power_Calculation.qmd
-       - 95CI_point_estimate.qmd
+       - CI95_point_estimate.qmd
        - hazratio_chart.qmd
        - Univariate_regressions_reported_as_a_table.qmd
 
-  - part: "Laboratory/Field Methods"
+  - part: "Laboratory | Field Methods"
     chapters:
        - Univariate_regressions_reported_as_a_table.qmd
        - Consent_Forms_with_QR.qmd
@@ -54,8 +53,6 @@ bibliography: references.bib
 format:
   html:
     theme: cosmo
-  pdf:
-    documentclass: scrreprt
 
 editor: visual
 

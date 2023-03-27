@@ -21,8 +21,6 @@ book:
        - UK_Postcodes.qmd
        - photo_cleaning.qmd
 
-
-
   - part: "Statistics"
     chapters:
        - Interrupted_Time_Series.qmd
@@ -30,8 +28,6 @@ book:
        - power_calc_gen_case_control.qmd
        - Diagnostics_Power_Calculation.qmd
        - 95CI_point_estimate.qmd
-
-
 
   - part: "ggplot, charts, images"
     chapters:
@@ -47,11 +43,9 @@ book:
     chapters:
        - Univariate_regressions_reported_as_a_table.qmd
 
-
   - part: "Cribsheet [Other people's work]"
     chapters:
        - Akaike_Information_Criterion.qmd
-
 
 bibliography: references.bib
 

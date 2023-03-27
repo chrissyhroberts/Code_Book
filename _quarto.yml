@@ -35,6 +35,7 @@ book:
     chapters:
        - Digital_Luminex.qmd
        - Univariate_regressions_reported_as_a_table.qmd
+       - Consent_Forms_with_QR.qmd
 
   - part: "ODK"
     chapters:

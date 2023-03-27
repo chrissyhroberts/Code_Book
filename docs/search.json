@@ -677,5 +677,19 @@
     "title": "16  ODK Biometrics",
     "section": "16.2 Project Link",
     "text": "16.2 Project Link\nThis project is hosted on a standalone Github Repo - ODK Biometrics"
+  },
+  {
+    "objectID": "Consent_Forms_with_QR.html#background",
+    "href": "Consent_Forms_with_QR.html#background",
+    "title": "16  Consent Forms with Unique IDs and QR Codes",
+    "section": "16.1 Background",
+    "text": "16.1 Background\nThis is a very basic example of how R markdown can be scripted to create a set of uniquely barcoded consent forms. By using the QRcode from the consent form to assign unique IDs to participants, the process of assignment and ascertainment is made more robust. There is no need to use stickers or complex systems to assign IDs.\nThe code is an R script that acts as a controller and an RMD file which creates the final PDF/Word forms. The controller assigns IDs, generates QRCodes and sends these to the RMD file, which binds them with the information/consent sheet and creates either PDF or Word files that can be printed.\nThe code in the R file includes a simple system for assigning non-overlapping unique ID (UID) codes."
+  },
+  {
+    "objectID": "Consent_Forms_with_QR.html#project-link",
+    "href": "Consent_Forms_with_QR.html#project-link",
+    "title": "16  Consent Forms with Unique IDs and QR Codes",
+    "section": "16.2 Project Link",
+    "text": "16.2 Project Link\nThis project is hosted on a standalone Github Repo - Unique Consent Forms"
   }
 ]

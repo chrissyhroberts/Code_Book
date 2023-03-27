@@ -81,7 +81,7 @@
     "href": "UK_Postcodes.html#background",
     "title": "6  UK Postcode Maps",
     "section": "6.1 Background",
-    "text": "6.1 Background\nThis is a basic tutorial on how to load shapefiles and geopoints to a leaflet map.\nThere is a lot more detailed information here [https://rstudio.github.io/leaflet/](https://rstudio.github.io/leaflet/)\nThe example is hopefully useful as it uses UK postcode and district shapefiles, which are commonly useful for a variety of purposes.\nUK Postcode data can be found here\n[https://www.freemaptools.com/map-tools.htm](https://www.freemaptools.com/map-tools.htm)\nUK district shapefiles are available here\n[https://www.ordnancesurvey.co.uk/opendatadownload/products.html](https://www.ordnancesurvey.co.uk/opendatadownload/products.html)"
+    "text": "6.1 Background\nThis is a basic tutorial on how to load shapefiles and geopoints to a leaflet map.\nThere is a lot more detailed information here [https://rstudio.github.io/leaflet/](https://rstudio.github.io/leaflet/)\nThe example is hopefully useful as it uses UK postcode and district shapefiles, which are commonly useful for a variety of purposes.\nUK Postcode data can be found here\nhttps://www.freemaptools.com/map-tools.htm\nUK district shapefiles are available here\nhttps://www.ordnancesurvey.co.uk/opendatadownload/products.html"
   },
   {
     "objectID": "UK_Postcodes.html#libraries",
@@ -123,7 +123,7 @@
     "href": "UK_Postcodes.html#make-a-small-sample-of-all-postcodes",
     "title": "6  UK Postcode Maps",
     "section": "6.7 Make a small sample of all postcodes",
-    "text": "6.7 Make a small sample of all postcodes\n\nsample<-ukpostcodes[sample(1:nrow(ukpostcodes),size = 100),] %>% \n  mutate(\n    latitude = as.numeric(latitude),\n    longitude = as.numeric(longitude)\n  )\nhead(sample)\n\n# A tibble: 6 × 4\n       id postcode latitude longitude\n    <dbl> <chr>       <dbl>     <dbl>\n1  361331 SK13 8PE     53.4   -1.95  \n2 1783192 IP14 1GB     52.2    0.986 \n3  105180 W2 2QS       51.5   -0.165 \n4 2643729 ME8 8FH      51.4    0.615 \n5  798492 MK12 5JA     52.1   -0.809 \n6 1245505 E1W 3EF      51.5   -0.0491"
+    "text": "6.7 Make a small sample of all postcodes\n\nsample<-ukpostcodes[sample(1:nrow(ukpostcodes),size = 100),] %>% \n  mutate(\n    latitude = as.numeric(latitude),\n    longitude = as.numeric(longitude)\n  )\nhead(sample)\n\n# A tibble: 6 × 4\n       id postcode latitude longitude\n    <dbl> <chr>       <dbl>     <dbl>\n1  789750 MK42 9PB     52.1    -0.470\n2  801905 ME7 3DT      51.3     0.578\n3 1199236 EX12 4BB     50.7    -3.04 \n4  357746 SK2 5NJ      53.4    -2.12 \n5  400955 SA68 0PB     51.8    -4.77 \n6 1164674 G11 5DA      55.9    -4.31"
   },
   {
     "objectID": "UK_Postcodes.html#read-in-shapefiles-to-a-map",

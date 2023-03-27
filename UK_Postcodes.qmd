@@ -13,11 +13,11 @@ The example is hopefully useful as it uses UK postcode and district shapefiles, 
 
 UK Postcode data can be found here
 
-\[https://www.freemaptools.com/map-tools.htm\](https://www.freemaptools.com/map-tools.htm)
+<https://www.freemaptools.com/map-tools.htm>
 
 UK district shapefiles are available here
 
-\[https://www.ordnancesurvey.co.uk/opendatadownload/products.html\](https://www.ordnancesurvey.co.uk/opendatadownload/products.html)
+<https://www.ordnancesurvey.co.uk/opendatadownload/products.html>
 
 ## Libraries
 

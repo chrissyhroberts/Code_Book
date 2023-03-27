@@ -33,9 +33,9 @@ book:
 
   - part: "Laboratory/Field Methods"
     chapters:
-       - Digital_Luminex.qmd
        - Univariate_regressions_reported_as_a_table.qmd
        - Consent_Forms_with_QR.qmd
+       - Digital_Luminex.qmd
 
   - part: "ODK"
     chapters:

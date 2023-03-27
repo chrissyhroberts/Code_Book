@@ -28,7 +28,7 @@ library(lxb)
 
 ### Convert LXB Files to CSV
 
-Create function to import an lxb file, add the well name, convert to a data frame and export a CSV with similar name to original file
+Create function to import an lxb file, add the well name, convert to a data frame and export a CSV with similar name to original file.
 
 ```{r}
 lxb.parse<-function(lxbfile)

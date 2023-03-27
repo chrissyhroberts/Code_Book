@@ -4,7 +4,7 @@
     "href": "index.html",
     "title": "Code Book",
     "section": "",
-    "text": "Preface\nThis code book brings together useful pieces of code that I have created over the years.\n(Documents published by our team)"
+    "text": "Introduction\nThis code book brings together useful pieces of code that I have created over the years.\n\nPublications & Documents\n(Documents published by our team)"
   },
   {
     "objectID": "95CI_point_estimate.html#find-the-95-ci-on-a-point-estimate",

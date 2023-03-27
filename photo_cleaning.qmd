@@ -6,7 +6,7 @@ title: "Photo Cleaning For Sharing"
 
 ## Background
 
-When sharing images, it is useful to be able to
+When sharing images, it is useful to be able to...
 
 #### 1) Remove EXIF data, which can include GPS locations where the photos were taken
 

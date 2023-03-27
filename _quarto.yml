@@ -42,6 +42,7 @@ book:
        - ruODK_basics.qmd
        - diva_gis.qmd
        - ODK_geofencing.qmd
+       - ODK_Pi.qmd
 
   - part: "Cribsheet [Other people's work]"
     chapters:

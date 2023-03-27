@@ -586,5 +586,96 @@
     "title": "14  Digital Luminex",
     "section": "14.5 Interpretation",
     "text": "14.5 Interpretation\nThe bead.fraction is the fraction of all beads in the well which were above the n SD threshold for positivity. This is a digital count converted in to a fraction, which allows a continuous measure to be gained for each\n\nggplot(aa,aes(well,bead.fraction))+\n  geom_bar(stat=\"identity\")+\n  facet_wrap(.~Bead.ID)+\n  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))"
+  },
+  {
+    "objectID": "ODK_Pi.html",
+    "href": "ODK_Pi.html",
+    "title": "20  ODK Pi - A deployable version of ODK on a Raspberry Pi",
+    "section": "",
+    "text": "21 ODK_Pi\nA deployable ODK Briefcase based data hub based on Raspberry Pi Raspbian."
+  },
+  {
+    "objectID": "ODK_Pi.html#note",
+    "href": "ODK_Pi.html#note",
+    "title": "20  ODK Pi - A deployable version of ODK on a Raspberry Pi",
+    "section": "21.1 Note",
+    "text": "21.1 Note\nThis is quite outdated and requires access to an old version of ODK Briefcase, which is no longer supported. We can’t vouch for security. Consider this an antique!"
+  },
+  {
+    "objectID": "ODK_Pi.html#background",
+    "href": "ODK_Pi.html#background",
+    "title": "20  ODK Pi - A deployable version of ODK on a Raspberry Pi",
+    "section": "21.2 Background",
+    "text": "21.2 Background\nSome of our users are working in areas with little or no internet connection, so a portable hub for aggregating data in the field, which is able to later push data to ODK aggregate is a useful interim/backup device that can also be preconfigured to output CSVs, PDF copies of data and so on for on the ground data needs.\nThe ODK briefcase software provides all the functionality we need for this purpose. The benefits of putting briefcase on to a Raspberry Pi (RPi) are\n\nThe small size and weight of the RPi mean that you could send it in the post, carry it in your pocket and include it as a ‘just in case’ plan B measure for studies where your baggage allowance is only what you can carry.\nDedicated system means you don’t have to ‘donate’ your own laptop to study team for the duration of the work.\nThe RPi costs ~£35 and can be used with a tablet/phone/TV as display and touchscreen/keyboard/mouse as I/O devices\nRuns off pretty much any power source and has low consumption and heat output. Can be run inside a tupperware box, so good off grid, in the rainforest and so on.\nProvides full linux system including encryption/decryption, R, Python, Java etc.\nSD cards can be cloned, meaning that you can take a box of RPis and set up as many hubs as you need if the scale of project grows.\n\nThese instructions should be sufficient to set up a new installation of the Raspbian operating system, then to install any necessary packages and software (including ODK Briefcase). It will also help you to set up the system so that you can work with Android devices via the MTP protocol (which is not especially obvious) and various other tips and tricks that make all these things fit together.\nNothing in this guide is particularly difficult and not novel, but I think this is the first place where everything is listed as a single set of instructions."
+  },
+  {
+    "objectID": "ODK_Pi.html#equipment",
+    "href": "ODK_Pi.html#equipment",
+    "title": "20  ODK Pi - A deployable version of ODK on a Raspberry Pi",
+    "section": "21.3 Equipment",
+    "text": "21.3 Equipment\nRaspberry Pi (Tested on R Pi 3 B+)\nSDHC Micro SD card (16 GB tested) formatted to FAT / FAT32\nNoobs https://www.raspberrypi.org/downloads/noobs/"
+  },
+  {
+    "objectID": "ODK_Pi.html#r-pi-setup",
+    "href": "ODK_Pi.html#r-pi-setup",
+    "title": "20  ODK Pi - A deployable version of ODK on a Raspberry Pi",
+    "section": "21.4 R Pi Setup",
+    "text": "21.4 R Pi Setup\n\nInstall Noobs as per instructions. Tested on Noobs Lite (Network install)\n\nCopy all files from noobs folder on to SDHC card\n\nPlug SD card in to RPi.\n\nPower on the RPi, connect to Wifi, follow steps to install Raspbian and update\n\nYou should now have a basic RPi installation of raspbian\n\nFiddle around with your wifi settings, bluetooth etc.\n\nOpen Terminal\n\n======= ### Get current date and time from internet at startup\nThe RPi doesn’t have a real time clock onboard, so I’d recommend putting on a clock board if using this in the field. Otherwise you’ll be relying on internet time. For the time being though, let’s stick with the basic board and grab internet time at startup.\nsudo nano /etc/rc.local\n\nAdd the following line to the rc.local file above where it says exit 0\n\ndate -s \"$(wget -qSO- --max-redirect=0 google.com 2>&1 | grep Date: | cut -d' ' -f5-8)Z\"\n\n21.4.1 Update list of packages and remove bloatware\nI’m guessing you don’t want to play Minecraft on this RPi (though it is a great game) so let’s save about 1.5 GB of SD card space and remove bloatware that comes preinstalled on this version of Raspbian.\nsudo apt-get update  \nsudo apt-get upgrade\nsudo apt-get remove --purge wolfram-engine scratch2 libreoffice* scratch minecraft-pi sonic-pi dillo gpicview\n\nselect ‘y’ or ‘Y’ when prompted to remove these packages\nclean up leftover dependencies from removed packages\n\nsudo apt-get clean\nsudo apt-get autoremove\n\n\n21.4.2 Add required packages\nThis will add a bunch of useful things that you need\nsudo apt-get install apt-file\nsudo apt-file update\nsudo apt-get install libcurl4-openssl-dev libssl-dev libxml2 libxml2-dev libgdal-dev usbmount \n\n\n21.4.3 Install Java Development Kit (JDK)\nsudo apt-get install ca-certificates-java  \nsudo apt-get install openjdk-9-jre\n\n\n21.4.4 Get odk briefcase\ncurl --silent \"https://api.github.com/repos/opendatakit/briefcase/releases/latest\" | grep \"browser_download_url\" | sed -E 's/.*\"([^\"]+)\".*/\\1/' |xargs wget\n\n\n21.4.5 Set Jar files to open on double click\nYou probably don’t want to have to start ODK Briefcase from the command line every time you use it, so this will make jar files run by double-clicking them\n\nAdd a java.desktop file to tell OS how to handle .jar files\n\nsudo nano /usr/share/applications/java.desktop \n[[Desktop Entry]\nName=Java\nComment=Java\nGenericName=Java\nKeywords=java\nExec=/usr/bin/java -jar %f\nTerminal=false\nX-MultipleArgs=false\nType=Application\nMimeType=application/x-java-archive\nStartupNotify=true\nClose the ‘nano’ text editor by pressing CTRL & C and then press “Y” to save the new file\nAfter adding this file you should be able to find an entry called Java in the Open file with… dialog when you right click the jar file.\nSelect always open with this program and you are set to go.\nODK Briefcase should now be able to download data and export decrypted data when provided with a private key (.pem).\n\n\n21.4.6 Add support for connecting android devices\nAndroid uses the MTP protocol to connect to linux. This is no doubt safer but is a lot weirder than the old fashioned approach where it just mounted your tablet as a USB drive on your computer. Without a bit of jiggery pokery it’s hard to figure out how to find the folders. The next few steps make it much easier.\nsudo apt-get install gvfs-backends gvfs-bin gvfs-fuse gvfs-daemons  \n\nPlug in and unlock an Android device\nFind generic parent location of mount using\n\nmount | grep 'gvfsd-fuse'\n\nexample\n\n\ngvfsd-fuse on /run/user/1000/gvfs type fuse.gvfsd-fuse (rw,nosuid,nodev,relatime,user_id=1000,group_id=1000)\n\n\nthe key folder here is /run/user/1000/gvfs/ but it might be different on your system\nChange to the root directory and create a symlink to the parent directory\n\ncd ~\nln -s /run/user/1000/gvfs Android_Device\n\nOpen a file manager window and select Edit > Preferences > Volume Management\nUnselect “Show available options for removable media…”\n\nYou should now have a folder called “Android_Device” in the root directory. When a device is connected to the RPi, this folder should automagically get a new subfolder for the Android MTP protocol.\n\nConnect an Android device by USB cable\nUnlock the device\nSelect “Yes” to any query about using USB/MTB for transfer\nIf you navigate to the Android_Device folder you should see a folder called mtp:host… This has the device’s file system inside\nIf you don’t see that folder, press F5 to refresh\nWhen you switch devices, press F5 to update the folder.\n\nODK briefcase should now be able to pull all data from devices via the “Android_Devices” Folder.\nNavigate to it and you’ll see a uniquely named folder under which you should see the internal and SD card folders of your device. Inside one or the other will be your ODK folder. That’s the one that ODK Briefcase can pull instances from.\n\n\n21.4.7 Wireless push of instances from Android to RPi\nYou can send forms to the RPi through sftp using the excellent andFTP\n\n\n21.4.8 If you want to run a shell script by double clicking\nThis can be useful if you have downstream stuff going on, or if you want to write a script to control a batch of ODK briefcase operations from the command line interface (CLI).\n\nCreate a *.desktop file in your /usr/share/applications\nExample - do.stuff.sh\n\nnano /usr/share/applications/do.stuff.desktop\n[Desktop Entry]\nVersion=1.0  \nExec=/home/yourname/bin/do.stuff.sh  \nName=SSH Server  \nGenericName=SSH Server  \nComment=Run the do stuff script  \nEncoding=UTF-8  \nTerminal=true  \nType=Application  \nCategories=Application;Network;\nUse open with… and set as default and then script will run on double click\n\n\n21.4.9 Install R and pandoc\nUseful for analysis (R) and reporting (Pandoc) sudo apt-get install r-base r-base-dev pandoc pandoc-citeproc\n\n\n21.4.10 Change priority of WIFI networks\nThis can be useful if you want to control the precedence of networks joined over wifi.\nsudo nano /etc/wpa_supplicant/wpa_supplicant.conf\nAdd priority=2 to the wifi_B block and priority=1 to the wifi_A block in the file. Higher number is higher priority so here wifi_B will be joined by preference\nnetwork={  \n    ssid = \"wifi_A\"  \n    psk = \"passwordOfA\"  \n    priority = 1  \n}  \nnetwork={  \n   ssid = \"wifi_B\"  \n   psk = \"passwordOfB\"  \n   priority = 2  \n}"
+  },
+  {
+    "objectID": "ODK_Pi.html#for-uk-academics-on-eduroam",
+    "href": "ODK_Pi.html#for-uk-academics-on-eduroam",
+    "title": "20  ODK Pi - A deployable version of ODK on a Raspberry Pi",
+    "section": "21.5 For UK academics on Eduroam",
+    "text": "21.5 For UK academics on Eduroam\nEduroam is a UK wide wifi provider for cross-institutional working. It can be hard to set up on RPi, but instructions here should be helpful. Below worked for me.\nsudo nano /etc/wpa_supplicant/wpa_supplicant.conf\nctrl_interface=/var/run/wpa_supplicant\nctrl_interface_group=netdev\n\ncountry=GB\n\nnetwork={\nssid=\"eduroam\"\nkey_mgmt=WPA-EAP\neap=PEAP\nphase2=\"auth=MSCHAPV2\"\nidentity=\"username@youruniversity.ac.uk\"\nanonymous_identity=\"anonymous@youruniversity.ac.uk\"\npassword=\"pwd\"\n}"
+  },
+  {
+    "objectID": "ODK_Pi.html#hotswitching-between-networks",
+    "href": "ODK_Pi.html#hotswitching-between-networks",
+    "title": "20  ODK Pi - A deployable version of ODK on a Raspberry Pi",
+    "section": "21.6 Hotswitching between networks",
+    "text": "21.6 Hotswitching between networks\nLinux provides a nice easy way to switch between networks. A simple sh script would provide a nice clickable way to switch via a GUI, but on RPi you get the added bonus that you can connect physical switches to the pins. A push button could be used to switch between wifi networks (i.e. to move from a fully online network to an offline local wifi network provided by a hotspot. The latter is very useful if you want to use VNC software to allow using an Android tablet as a screen and interface to RPi whilst in the field.\n\nTo shift from one network to another\n\nwpa_cli select_network 0 or number of network is all you need to do."
+  },
+  {
+    "objectID": "ODK_Pi.html#set-up-github",
+    "href": "ODK_Pi.html#set-up-github",
+    "title": "20  ODK Pi - A deployable version of ODK on a Raspberry Pi",
+    "section": "21.7 Set up github",
+    "text": "21.7 Set up github\nGithub provides a nice way to get updated analysis scripts on to the RPi automatically. Git is built in to the Raspbian OS, so you just need to connect to GitHub to get your scripts\ngit config --global user.name \"USERNAME\"  \ngit config --global user.email \"you@youremail.com\"  \ngit config --global core.editor nano\nYou could add a git pull script at startup to ensure that all scripts are updated on startup. Alternatively you could set up a cron task.\nTo run a script after login\nsudo nano /etc/profile\nAdd the following line to the end of the file\n./home/pi/your_script_name.sh"
+  },
+  {
+    "objectID": "ODK_Pi.html#dropbox",
+    "href": "ODK_Pi.html#dropbox",
+    "title": "20  ODK Pi - A deployable version of ODK on a Raspberry Pi",
+    "section": "21.8 Dropbox",
+    "text": "21.8 Dropbox\nDropbox is a convenient way to get data back off an RPi, though not recommended for sensitive data (at the very least you should encrypt the data).\nDropbox integration for RPi is not great, but Dropbox Uploader is an excellent script for moving stuff to and from Dropbox. These instructions are also very useful.\n\nVisit Dropbox Uploader follow the instructions in the README.MD for the most up to date instructions."
+  },
+  {
+    "objectID": "ODK_Pi.html#backup-your-sd-card-so-that-you-can-use-it-elsewhere-or-recover-from-mishaps",
+    "href": "ODK_Pi.html#backup-your-sd-card-so-that-you-can-use-it-elsewhere-or-recover-from-mishaps",
+    "title": "20  ODK Pi - A deployable version of ODK on a Raspberry Pi",
+    "section": "21.9 Backup your SD card so that you can use it elsewhere or recover from mishaps",
+    "text": "21.9 Backup your SD card so that you can use it elsewhere or recover from mishaps\nBEWARE that you have to use the right mount point (in the example I used /dev/disk3). If you try to write to the wrong disk when restoring the SD card, then you will probably brick your system.\nRun df to see what mounts you have. Identify which one is the disk you want to restore to.\nTo clone RPi SD Card sudo dd if=/dev/disk3 of=/Volumes/RPi_Backups/name bs=1m\nTo restore RPi SD Card sudo dd if=/Volumes/RPi_Backups/name of=/dev/disk3 bs=1m"
+  },
+  {
+    "objectID": "ODK_Pi.html#add-a-pitft-screen",
+    "href": "ODK_Pi.html#add-a-pitft-screen",
+    "title": "20  ODK Pi - A deployable version of ODK on a Raspberry Pi",
+    "section": "21.10 Add a PiTFT screen",
+    "text": "21.10 Add a PiTFT screen\nTested using the AdaFruit Assembled 480x320 3.5” TFT+ Touchscreen (Resistive)\n\nTo install the screen\n\nShut down the RPi\nPlug the screen on to the GPIO pins of the RPi\nBoot up to Raspbian\n\n\ncd ~\nwget https://raw.githubusercontent.com/adafruit/Raspberry-Pi-Installer-Scripts/master/adafruit-pitft.sh\nchmod +x adafruit-pitft.sh\nsudo ./adafruit-pitft.sh\nThe script will attempt to install the screen automatically. When prompted to select the configuration, choose the screen you are installing, for instance > 4. PiTFT 3.5” resistive touch (320x480)\nNext you need to select the screen rotation you want, for instance > 1. 90 Degrees (Landscape)\nThe next two steps determine the best setting for the screen\n\nWould you like the console to appear on the PiTFT display?\n\nThis option is good if you want to use the screen as a console window. There’s no HDMI output with this config and to be honest I think it is not what most people want, so select No to this one.\n\nWould you like the HDMI display to mirror to the PiTFT display?\n\nThis option will mirror the HDMI output to the PiTFT screen, so is the better choice for most people. Select Yes to this option.\nAfter rebooting, the screen should start working, with some fairly clunky but functional touch support. (Hint : Use a pointy bit of plastic to get screen to work as a mouse)\n\n21.10.1 Set up screen to work better\n\nOpen terminal then go to Edit menu, followed by Preferences.\nChange the font to something a bit clearer like Monospace 14 Bold\n\nAdd some commands to the bin folder to allow hotswitching of the screen (saves power if you don’t need it on).\n\nMake a command for turning screen off\n\nsudo nano /usr/bin/scroff\nAdd this line to the file\nsudo sh -c 'echo \"0\" > /sys/class/backlight/soc\\:backlig\nht/brightness'\npress CTRL + C and Y to save the file and close nano\n\nMake a command for turning screen on\n\nsudo nano /usr/bin/scron\nAdd this line to the file\nsudo sh -c 'echo \"1\" > /sys/class/backlight/soc\\:backlig\nht/brightness'\npress CTRL + C and Y to save the file and close nano\nMake both commands executable\nsudo chmod +x /usr/bin/scroff\nsudo chmod +x /usr/bin/scron\nThen test that they work\nscroff\nshould turn the screen off and scron should turn it on again.\n\nAdd a software keyboard\nQuite hard to use on tiny screen, but could be useful in a pinch\n\nsudo apt-get install matchbox-keyboard\nsudo apt-get install libmatchbox1 -y \nsudo nano /usr/bin/toggle-matchbox-keyboard.sh\nAdd this text to the toggle-matchbox-keyboard.sh file.\n#!/bin/bash\n#This script toggle the virtual keyboard\n\nPID=`pidof matchbox-keyboard`\nif [ ! -e $PID ]; then\n  killall matchbox-keyboard\nelse\n matchbox-keyboard&\nfi\nThen close file and make executable\nsudo chmod +x /usr/bin/toggle-matchbox-keyboard.sh\nKeyboard can then be accessed through menu > Accessories > Keyboard"
+  },
+  {
+    "objectID": "ODK_Biometrics.html#background",
+    "href": "ODK_Biometrics.html#background",
+    "title": "16  ODK Biometrics",
+    "section": "16.1 Background",
+    "text": "16.1 Background\nThis project provides a simple Android app that interfaces with mobile data collection software to allow fingerprint templates to be scanned as part of an XLSForm. We also provide a second app, designed to be run on a computer workstation, which can compare two fingerprint templates and return a matching score."
+  },
+  {
+    "objectID": "ODK_Biometrics.html#project-link",
+    "href": "ODK_Biometrics.html#project-link",
+    "title": "16  ODK Biometrics",
+    "section": "16.2 Project Link",
+    "text": "16.2 Project Link\nThis project is hosted on a standalone Github Repo - ODK Biometrics"
   }
 ]

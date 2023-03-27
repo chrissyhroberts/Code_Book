@@ -5,7 +5,7 @@ author: "Chrissy h Roberts"
 
 ### Background
 
-This script demonstrates how to read data from a Luminex LXB file and to apply a 'digital' luminex approach. This counts the number of beads that fluoresce above a threshold, rather than looking at the mean fluorescence intensity for a marker on all beads. This is analogous to a 'digital PCR' approach.
+This script demonstrates how to read data from a Luminex .LXB file and to apply a 'digital' luminex approach. This counts the number of beads that fluoresce above a threshold, rather than looking at the mean fluorescence intensity for a marker on all beads. This is analogous to a 'digital PCR' approach.
 
 In theory this might be a method that requires less inter-plate normalisation as the method is less dependent on average signal strength and more dependent on a within-plate EM model that simply asks what fraction of beads have a positive signal for each marker. Specifically, the actual fluorescence intensity of the markers on the beads is actually very variable from plate to plate, but whatever the fluorescence intensity is, it should still be possible to define a positive and negative population.
 

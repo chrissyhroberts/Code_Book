@@ -1,0 +1,210 @@
+---
+title: "Digital Luminex"
+author: "Chrissy h Roberts"
+---
+
+### Background
+
+This script demonstrates how to read data from a Luminex LXB file and to apply a 'digital' luminex approach. This counts the number of beads that fluoresce above a threshold, rather than looking at the mean fluorescence intensity for a marker on all beads. This is analogous to a 'digital PCR' approach.
+
+In theory this might be a method that requires less inter-plate normalisation as the method is less dependent on average signal strength and more dependent on a within-plate EM model that simply asks what fraction of beads have a positive signal for each marker. Specifically, the actual fluorescence intensity of the markers on the beads is actually very variable from plate to plate, but whatever the fluorescence intensity is, it should still be possible to define a positive and negative population.
+
+The work uses an approach to reading the LXB files which was originally implemented in the [lxb](https://github.com/cran/lxb) package. This is no longer maintained, so a copy of the tar file is included in the packages directory of this repo.
+
+## Libraries
+
+```{r,message=F,warning=F}
+library(tidyverse)
+library(knitr)
+library(data.table)
+library(mclust)
+library(mixtools)
+install.packages("packages/lxb-1.5.tar.gz", repos = NULL, type="source")
+library(lxb)
+
+```
+
+## Define Functions
+
+### Convert LXB Files to CSV
+
+Create function to import an lxb file, add the well name, convert to a data frame and export a CSV with similar name to original file
+
+```{r}
+lxb.parse<-function(lxbfile)
+{
+#get the file
+outputfile<-gsub(x = lxbfile,pattern = ".lxb",replacement = ".csv")
+well<-unlist(strsplit(lxbfile,split = "_"))
+well<-well[length(well)]
+well<-gsub(well,pattern = ".lxb",replacement = "")
+lxbdata <- readLxb(lxbfile)  
+lxbdata <- as.data.frame(lxbdata) 
+names(lxbdata)<-gsub(names(lxbdata),pattern = " ",replacement = ".")
+lxbdata$well<-well
+#remove invalid beads
+lxbdata<-lxbdata[which(lxbdata$Bead.Valid==1),]
+write.csv(x = lxbdata,file = outputfile,row.names = F)
+}
+
+
+```
+
+### Aggregate the csv files in a single df
+
+```{r}
+#define a function to 
+lxb.aggregate.data<-function(path)
+{
+  #list only the csv files
+  lxbs<-list.files(path = path,pattern = "*.csv",full.names = T)
+  tables <- lapply(lxbs, fread)
+  data.table::rbindlist(tables)
+}
+
+
+```
+
+### Apply mixed EM to find thresholds on each bead
+
+```{r}
+lxb.digital.thresholds<-function(df,pdf.out=FALSE,sd.threshold=5)
+{
+  df2<-df %>% group_by(Bead.ID) %>% summarise(n=n())
+  #get bead values from DF
+  df2$EM.threshold<-NA
+  
+  for(i in 1:length(df2$Bead.ID))
+  {
+    fit<-normalmixEM(df$RP1L.Peak[which(df$Bead.ID==df2$Bead.ID[i])])
+    #plot(fit,which=2,breaks=40)
+    
+    df2$EM.threshold[i]<-fit$mu[which(fit$mu==min(fit$mu))]+(sd.threshold*fit$sigma[which(fit$mu==min(fit$mu))])
+    if(pdf.out==TRUE){
+                      pdf(file = paste("data/Luminex_LXB_Files/",df2$Bead.ID[i],".pdf",sep=""))
+                      par(mfrow=c(1,2))
+                      plot(sort(df$RP1L.Peak[which(df$Bead.ID==df2$Bead.ID[i])]))
+                      abline(h=df2$EM.threshold[i],lty=2,col="red")
+                      plot(fit,whichplots = 2)
+                      abline(v=df2$EM.threshold[i],lty=2,col="red")
+                                        dev.off()
+                      }
+  }
+  df<-merge(df,df2,by="Bead.ID")
+  print(df2)
+  df$classification<-as.numeric(df$RP1L.Peak>df$EM.threshold)  
+  return(df)
+}
+```
+
+### Manually select threshold values
+
+```{r}
+lxb.digital.thresholds.locator<-function(df,pdf.out=FALSE,sd.threshold=4)
+{
+  df2<-df %>% group_by(Bead.ID) %>% summarise(n=n())
+  #get bead values from DF
+  df2$EM.threshold<-NA
+  df2$EM.threshold<-as.numeric(df2$EM.threshold)
+  
+  for(i in 1:length(df2$Bead.ID))
+  {
+    fit<-normalmixEM(df$RP1L.Peak[which(df$Bead.ID==df2$Bead.ID[i])])
+    #plot(fit,which=2,breaks=40)
+    
+    
+      plot(fit,whichplots = 2)
+      EM.threshold<-locator(n = 1)
+      df2$EM.threshold[i]<-EM.threshold$x
+      abline(v=df2$EM.threshold[i],lty=2,col="red")
+  }  
+    
+  
+  df<-merge(df,df2,by="Bead.ID")
+  print(df2)
+  df$classification<-as.numeric(df$RP1L.Peak>df$EM.threshold)  
+  return(df)
+}
+```
+
+## Apply the functions to real data
+
+### List the LXB files
+
+Luminex machines spit out one LXB file for each well
+
+```{r}
+lxbs<-list.files(path = "data/Luminex_LXB_Files/",pattern = "*.lxb",full.names = T)
+lxbs
+```
+
+### Apply the lxb.parse function to all lxb files in directory
+
+```{r,message=F,warning=F}
+lapply(lxbs,lxb.parse)
+```
+
+### Aggregate the data
+
+```{r}
+a<-lxb.aggregate.data(path = "data/Luminex_LXB_Files/")
+a$col<-substr(a$well,start = 1,stop = 1)
+a$row<-substr(a$well,start = 2,stop = 3)
+kable(head(a,20))
+```
+
+### Trim data to beads we actually used
+
+The data may include beads that weren't used in the assay. Here we used a subset of beads and so need to filter the data
+
+```{r}
+a<-subset(a, subset = Bead.ID %in% c(12:15,18,19,20,21,22,25:30))
+```
+
+### Plot data for all beads
+
+CL1 and CL2 are the bead identification lasers.
+
+```{r}
+ggplot(data = a,aes(x=CL1.Peak,y=CL2.Peak,color=factor(Bead.ID)))+geom_point()+
+  scale_x_continuous(trans = "log")
+```
+
+### Show table of bead counts
+
+```{r}
+table(factor(a$Bead.ID),a$Bead.Valid)
+
+```
+
+### Threshold classify everything based on automated EM algorithm
+
+This also saves a PDF in the directory `data/Luminex_LXB_Files/`
+
+```{r,message=F,warning=F}
+
+a<-lxb.digital.thresholds(a,pdf.out = T,sd.threshold = 3)
+
+```
+
+## Summarise based on bead counts
+
+```{r,message=F}
+aa<-a %>% group_by(Bead.ID,well) %>% summarise(count=n(),bead.pos=sum(classification==1),bead.neg=sum(classification==0),bead.fraction=(bead.pos=sum(classification==1)/n()))
+aa$col<-substr(aa$well,start = 1,stop = 1)
+aa$row<-substr(aa$well,start = 2,stop = 3)
+
+
+kable(head(aa,24))
+```
+
+## Interpretation
+
+The bead.fraction is the fraction of all beads in the well which were above the n SD threshold for positivity. This is a digital count converted in to a fraction, which allows a continuous measure to be gained for each
+
+```{r}
+ggplot(aa,aes(well,bead.fraction))+
+  geom_bar(stat="identity")+
+  facet_wrap(.~Bead.ID)+
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+```

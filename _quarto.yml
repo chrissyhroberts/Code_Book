@@ -11,7 +11,7 @@ book:
   chapters:
   - index.qmd
 
-  - part: "R cleverness"
+  - part: "R / RStudio"
     chapters:
       # - extract_model_from_geom_smooth.qmd
        - update_R.qmd
@@ -28,10 +28,11 @@ book:
        - power_calc_gen_case_control.qmd
        - Diagnostics_Power_Calculation.qmd
        - 95CI_point_estimate.qmd
-
-  - part: "ggplot, charts, images"
-    chapters:
        - hazratio_chart.qmd
+
+  - part: "Laboratory Methods"
+    chapters:
+       - Digital_Luminex.qmd
 
   - part: "ODK"
     chapters:

@@ -14,7 +14,6 @@ book:
   - part: "R cleverness"
     chapters:
       # - extract_model_from_geom_smooth.qmd
-       - 95CI_point_estimate.qmd
        - update_R.qmd
        - utf8_encoding.qmd
        - remove_accents.qmd
@@ -23,12 +22,16 @@ book:
        - photo_cleaning.qmd
 
 
+
   - part: "Statistics"
     chapters:
        - Interrupted_Time_Series.qmd
        - new_lm_predict_left_predict_right.qmd
        - power_calc_gen_case_control.qmd
        - Diagnostics_Power_Calculation.qmd
+       - 95CI_point_estimate.qmd
+
+
 
   - part: "ggplot, charts, images"
     chapters:

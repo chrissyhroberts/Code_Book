@@ -4,6 +4,12 @@ This code book brings together useful pieces of code that I have created over th
 
 .
 
+### Useful Resources Elswhere
+
+[R for Data Science](https://r4ds.had.co.nz/) 
+
+[Tidy Modelling with R](https://www.tmwr.org/index.html)
+
 ### Publications & Documents
 
-([Documents published by our team](https://chrissyhroberts.github.io/DOCS/))
+[Documents published by our team](https://chrissyhroberts.github.io/DOCS/)

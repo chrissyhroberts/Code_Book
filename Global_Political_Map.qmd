@@ -1,0 +1,186 @@
+---
+title: "Draw Political Maps (sf geom_sf)"
+author: "Chrissy h Roberts"
+---
+
+## Background
+
+The sf package provides a seamless integration between R, ggplot, shapefiles, geoJSON and other GIS formats. A bonus here is that sf objects behave like dataframes so you can bind your own data on to an sf object and use your bound data to control things like putting chloropleths on the map.
+
+This shamelessly copies a tutorial found [here](https://r-spatial.org/r/2018/10/25/ggplot2-sf.html).
+
+The ***rnaturalearth*** project has a great set of shape data for countries of the globe.
+
+## Libraries
+
+```{r}
+library(tidyverse)
+library(sf)
+library(knitr)
+library(ggspatial)
+library("rnaturalearth")
+library("rnaturalearthdata")
+```
+
+## Data
+
+```{r}
+
+#call the polygons
+world <- ne_countries(scale = "medium", returnclass = "sf")
+```
+
+## Draw basic polygons
+
+```{r}
+ggplot(data = world) +
+    geom_sf()
+```
+
+## Colour the map with continuous variable
+
+```{r}
+ggplot(data = world) +
+    geom_sf(aes(fill = pop_est)) +
+    scale_fill_viridis_c(option = "plasma", trans = "sqrt")
+```
+
+## Colour the map with factor variable
+
+```{r}
+ggplot(data = world) +
+    geom_sf(aes(fill = continent))
+```
+
+## Change the projection with coord_sf
+
+```{r}
+ggplot(data = world) +
+    geom_sf(aes(fill = continent))+
+    coord_sf(crs = st_crs(3035))
+
+```
+
+## Focus on a specific region
+
+```{r}
+    ggplot(data = world) +
+    geom_sf(aes(fill = continent))+
+      coord_sf(xlim = c(-20.15, 34.12), ylim = c(40, 60), expand = FALSE)
+
+```
+
+## Decorate with scale bar / compass
+
+```{r}
+     ggplot(data = world) +
+              geom_sf(aes(fill = continent))+
+              coord_sf(xlim = c(-20.15, 34.12), ylim = c(40, 60), expand = FALSE) +
+              annotation_scale(location = "br", width_hint = 0.4) +
+              annotation_north_arrow(
+                    location = "bl", which_north = "true", 
+                    pad_x = unit(0.1, "cm"), pad_y = unit(0.3, "cm"),
+                    style = north_arrow_fancy_orienteering) 
+```
+
+## Identify centroids of each polygon
+
+This will be used to place country name labels
+
+```{r}
+
+world = st_make_valid(world)
+world_points<- st_centroid(world)
+world_points <- cbind(world, st_coordinates(st_centroid(world$geometry)))
+
+```
+
+## Add labels
+
+```{r}
+
+ggplot(data = world) +
+              geom_sf(aes(fill = continent))+
+              coord_sf(xlim = c(-20.15, 34.12), ylim = c(40, 60), expand = FALSE) +
+              annotation_scale(location = "br", width_hint = 0.4) +
+              annotation_north_arrow(
+                    location = "bl", which_north = "true", 
+                    pad_x = unit(0.1, "cm"), pad_y = unit(0.3, "cm"),
+                    style = north_arrow_fancy_orienteering) +
+              geom_text(data= world_points,aes(x=X, y=Y, label=name),
+                              color = "darkblue", 
+                              fontface = "bold", 
+                              check_overlap = FALSE,
+                              size=1.5
+                        )
+```
+
+## Add other pretty things
+
+```{r}
+ggplot(data = world) +
+              geom_sf(aes(fill = continent))+
+              coord_sf(xlim = c(-20.15, 34.12), ylim = c(40, 60), expand = FALSE) +
+              annotation_scale(location = "br", width_hint = 0.4) +
+              annotation_north_arrow(
+                    location = "bl", which_north = "true", 
+                    pad_x = unit(0.1, "cm"), pad_y = unit(0.3, "cm"),
+                    style = north_arrow_fancy_orienteering) +
+              geom_text(data= world_points,aes(x=X, y=Y, label=name),
+                              color = "darkblue", 
+                              fontface = "bold", 
+                              check_overlap = FALSE,
+                              size=1.5
+                        )+
+              theme(panel.grid.major = element_line(color = gray(.5), 
+                                                    linetype = "dashed", 
+                                                    size = 0.5
+                                         
+                                                    )
+                  )
+```
+
+### Save as PDF
+
+```{r}
+ggsave(filename = "output/political_map.pdf",dpi = 300)
+```
+
+## Test on new data from some shape files
+
+Using shape files can be quite slow, so here we will only use a few polygons
+
+```{r}
+download.file("https://www.abs.gov.au/ausstats/subscriber.nsf/log?openagent&1270055004_sua_2016_aust_shape.zip&1270.0.55.004&Data%20Cubes&1E24D1FB300696D2CA2581B1000E15A5&0&July%202016&09.10.2017&Latest",destfile = "data/SUA_2016_AUST.zip")
+
+unzip(zipfile = "data/SUA_2016_AUST.zip",exdir = "data/")
+```
+
+## Open Data
+
+```{r}
+map = read_sf("data/SUA_2016_AUST.shp") 
+map = map [1:20,]
+
+```
+
+## Plot map
+
+```{r}
+ggplot(data = map) +
+              geom_sf()+
+              theme(panel.grid.major = element_line(color = gray(.5), 
+                                                    linetype = "dashed", 
+                                                    size = 0.5
+                                                    ),  
+                    legend.position="none"
+
+                  )
+
+```
+
+## Remove data
+
+```{r}
+system("rm data/SUA*")
+```

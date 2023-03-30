@@ -18,6 +18,7 @@ book:
        - remove_accents.qmd
        - text_to_speech_R.qmd
        - UK_Postcodes.qmd
+       - Global_Political_Map.qmd
        - photo_cleaning.qmd
 
   - part: "Statistics"

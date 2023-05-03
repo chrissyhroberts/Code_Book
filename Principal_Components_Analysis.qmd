@@ -1,0 +1,90 @@
+# Principal Components Analysis
+
+A generic pipeline for PCA.
+
+Principal Components Analysis (PCA) is a relatively simple way to identify clusters and to visualise patterns in the profile-wide expression of cytokines. In order to perform PCA in R, we need the data in a wide format.
+
+## Libraries
+
+```{r,echo=F}
+library(tidyverse)
+library(patchwork)
+library(knitr)
+library(broom)
+```
+
+## Set a random seed
+
+```{r}
+set.seed(8882321)
+```
+
+## Dummy Data
+
+Use the R Iris data
+
+```{r,message=F}
+df<-as.tibble(iris)
+kable(df)
+```
+
+The first step in PCA is to run the `prcomp` command on the columns of interest. This is necessarily a complete case table with numeric values, so missing values should be imputed. The `mice` package is good for imputation in R, but isn't used here as the data are mostly complete. There's just one missing value which we'll drop to keep this tutorial focussed.
+
+```{r}
+df.pca <- prcomp(select(iris,Sepal.Length:Petal.Width))
+(df.pca.summary<-summary(df.pca))
+```
+
+```{r}
+(
+  df.importance<-tibble(pc = 1:length(df.pca.summary$importance[1,]),
+                      standard.deviation = df.pca.summary$importance[1,],
+                      prop.of.variance = df.pca.summary$importance[2,],
+                      cumulative.variance = df.pca.summary$importance[3,]
+                        )
+)
+
+```
+
+Whenever you work with PCA, it is useful to start by looking at the scree plots, which show (a) the proportion of all variance in the data that are explained by each principal component and (b) the cumulative proportion of variance explained by PCs 1-n.
+
+```{r}
+ggplot(df.importance,aes(pc,prop.of.variance))+ geom_bar(stat="identity") +
+ggplot(df.importance,aes(pc,cumulative.variance))+geom_bar(stat="identity")
+```
+
+It looks like most of the variance is explained by the first principal component.
+
+The `prcomp` data outputs are not compatible with ggplot, so we'll grab the PC values and add them to our data frame. This is possible because the `prcomp` data is embedded in an object `x` which maps to the original df on a row-by-row basis. This allows merging via the `bind_cols` function.
+
+```{r}
+df<- bind_cols(df,as.data.frame(df.pca$x))
+
+```
+
+Biplots are used to explore PCA data visually. We'll start by looking at PC1 and PC2. Our chart will be scaled on the x and y axes \[using the `aspect ratio` controls within `theme()`\]so that the dimensions of the chart don't misrepresent the proportion of variance explained by each PC. The ellipses show the 95% confidence interval for the various groups.
+
+```{r}
+ggplot(df,aes(PC1,PC2,col=Species))+
+  geom_point() +
+  stat_ellipse(geom="polygon", aes(fill = Species), alpha = 0.2, show.legend = FALSE, level = 0.95)+
+  xlab(label = str_c("PC1 (",round(100*df.importance$prop.of.variance[1],2)," %)",sep = ""))+
+  ylab(label = str_c("PC2 (",round(100*df.importance$prop.of.variance[2],2)," %)",sep = ""))+
+  theme(aspect.ratio=df.importance$prop.of.variance[2]/df.importance$prop.of.variance[1])+
+  ggtitle("Iris data PCA")
+
+
+```
+
+It is hard to interpret this in the context of various features without understanding which variables contributed to the observed variance in the PCA. A `loadings` plot is really useful for this. We can get the Loadings from the `prcomp` object.
+
+```{r message=FALSE, warning=FALSE}
+
+df.pca %>%
+    tidy(matrix = "rotation") %>% 
+    filter(PC=="1" | PC=="2") %>% 
+    ggplot(aes(column,value)) +
+  geom_bar(stat="identity")+
+    facet_grid(PC~.)+
+  coord_flip()
+```

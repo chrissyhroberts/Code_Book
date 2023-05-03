@@ -25,10 +25,11 @@ book:
     chapters:
        - Interrupted_Time_Series.qmd
        - new_lm_predict_left_predict_right.qmd
-       - power_calc_gen_case_control.qmd
        - Diagnostics_Power_Calculation.qmd
        - CI95_point_estimate.qmd
        - hazratio_chart.qmd
+       - power_calc_gen_case_control.qmd
+       - Principal_Components_Analysis.qmd
        - Univariate_regressions_reported_as_a_table.qmd
 
   - part: "Laboratory | Field Methods"

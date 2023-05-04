@@ -2,25 +2,20 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.2.335">
+<meta name="generator" content="quarto-1.0.37">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Chrissy h Roberts">
 
-<title>Code Book - 17&nbsp; Digital Luminex</title>
+<title>Code Book - 19&nbsp; Digital Luminex</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: min(4vw, 1.5em);}
-div.column{flex: auto; overflow-x: auto;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
-ul.task-list li input[type="checkbox"] {
-  width: 0.8em;
-  margin: 0 0.8em 0.2em -1.6em;
-  vertical-align: middle;
-}
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
@@ -59,7 +54,7 @@ code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
 code span.at { color: #7d9029; } /* Attribute */
 code span.bn { color: #40a070; } /* BaseN */
-code span.bu { color: #008000; } /* BuiltIn */
+code span.bu { } /* BuiltIn */
 code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
 code span.ch { color: #4070a0; } /* Char */
 code span.cn { color: #880000; } /* Constant */
@@ -72,7 +67,7 @@ code span.er { color: #ff0000; font-weight: bold; } /* Error */
 code span.ex { } /* Extension */
 code span.fl { color: #40a070; } /* Float */
 code span.fu { color: #06287e; } /* Function */
-code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.im { } /* Import */
 code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 code span.kw { color: #007020; font-weight: bold; } /* Keyword */
 code span.op { color: #666666; } /* Operator */
@@ -135,7 +130,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
     <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Digital Luminex</span></h1>
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Digital Luminex</span></h1>
       <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
         <i class="bi bi-chevron-right"></i>
       </button>
@@ -203,7 +198,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./photo_cleaning.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Photo Cleaning For Sharing</span></a>
+  <a href="./Global_Political_Map.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Draw Political Maps (sf geom_sf)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./photo_cleaning.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Photo Cleaning For Sharing</span></a>
   </div>
 </li>
       </ul>
@@ -218,17 +218,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Interrupted_Time_Series.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">A pragmatic Introduction to Interrupted Time Series</span></a>
+  <a href="./Interrupted_Time_Series.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">A pragmatic Introduction to Interrupted Time Series</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./new_lm_predict_left_predict_right.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">New lm Predict Left &amp; Predict Right</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./power_calc_gen_case_control.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Genetic Power Calculator</span></a>
+  <a href="./new_lm_predict_left_predict_right.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">New lm Predict Left &amp; Predict Right</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -248,7 +243,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Univariate_regressions_reported_as_a_table.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Univariate regressions, reported as a table</span></a>
+  <a href="./power_calc_gen_case_control.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Genetic Power Calculator</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Principal_Components_Analysis.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Principal Components Analysis</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Univariate_regressions_reported_as_a_table.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Univariate regressions, reported as a table</span></a>
   </div>
 </li>
       </ul>
@@ -263,17 +268,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Univariate_regressions_reported_as_a_table.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Univariate regressions, reported as a table</span></a>
+  <a href="./Univariate_regressions_reported_as_a_table.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Univariate regressions, reported as a table</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Consent_Forms_with_QR.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Consent Forms with Unique IDs and QR Codes</span></a>
+  <a href="./Consent_Forms_with_QR.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Consent Forms with Unique IDs and QR Codes</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Digital_Luminex.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Digital Luminex</span></a>
+  <a href="./Digital_Luminex.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Digital Luminex</span></a>
   </div>
 </li>
       </ul>
@@ -288,27 +293,27 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ODK_Biometrics.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">ODK Biometrics</span></a>
+  <a href="./ODK_Biometrics.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">ODK Biometrics</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ruODK_basics.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">ruODK Setup and basic functions</span></a>
+  <a href="./ruODK_basics.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">ruODK Setup and basic functions</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./diva_gis.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">GIS Data to ODK itemlist</span></a>
+  <a href="./diva_gis.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">GIS Data to ODK itemlist</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ODK_geofencing.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">ODK Geofencing</span></a>
+  <a href="./ODK_geofencing.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">ODK Geofencing</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ODK_Pi.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">ODK Pi - A deployable version of ODK on a Raspberry Pi</span></a>
+  <a href="./ODK_Pi.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">ODK Pi - A deployable version of ODK on a Raspberry Pi</span></a>
   </div>
 </li>
       </ul>
@@ -323,7 +328,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Akaike_Information_Criterion.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Akaike information criterion</span></a>
+  <a href="./Akaike_Information_Criterion.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Akaike information criterion</span></a>
   </div>
 </li>
       </ul>
@@ -333,31 +338,31 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </nav>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
+        <nav id="TOC" role="doc-toc">
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#background" id="toc-background" class="nav-link active" data-scroll-target="#background"><span class="toc-section-number">17.0.1</span>  Background</a></li>
-  <li><a href="#libraries" id="toc-libraries" class="nav-link" data-scroll-target="#libraries"><span class="toc-section-number">17.1</span>  Libraries</a></li>
-  <li><a href="#define-functions" id="toc-define-functions" class="nav-link" data-scroll-target="#define-functions"><span class="toc-section-number">17.2</span>  Define Functions</a>
+  <li><a href="#background" id="toc-background" class="nav-link active" data-scroll-target="#background"> <span class="header-section-number">19.0.1</span> Background</a></li>
+  <li><a href="#libraries" id="toc-libraries" class="nav-link" data-scroll-target="#libraries"> <span class="header-section-number">19.1</span> Libraries</a></li>
+  <li><a href="#define-functions" id="toc-define-functions" class="nav-link" data-scroll-target="#define-functions"> <span class="header-section-number">19.2</span> Define Functions</a>
   <ul class="collapse">
-  <li><a href="#convert-lxb-files-to-csv" id="toc-convert-lxb-files-to-csv" class="nav-link" data-scroll-target="#convert-lxb-files-to-csv"><span class="toc-section-number">17.2.1</span>  Convert LXB Files to CSV</a></li>
-  <li><a href="#aggregate-the-csv-files-in-a-single-df" id="toc-aggregate-the-csv-files-in-a-single-df" class="nav-link" data-scroll-target="#aggregate-the-csv-files-in-a-single-df"><span class="toc-section-number">17.2.2</span>  Aggregate the csv files in a single df</a></li>
-  <li><a href="#apply-mixed-em-to-find-thresholds-on-each-bead" id="toc-apply-mixed-em-to-find-thresholds-on-each-bead" class="nav-link" data-scroll-target="#apply-mixed-em-to-find-thresholds-on-each-bead"><span class="toc-section-number">17.2.3</span>  Apply mixed EM to find thresholds on each bead</a></li>
-  <li><a href="#manually-select-threshold-values" id="toc-manually-select-threshold-values" class="nav-link" data-scroll-target="#manually-select-threshold-values"><span class="toc-section-number">17.2.4</span>  Manually select threshold values</a></li>
+  <li><a href="#convert-lxb-files-to-csv" id="toc-convert-lxb-files-to-csv" class="nav-link" data-scroll-target="#convert-lxb-files-to-csv"> <span class="header-section-number">19.2.1</span> Convert LXB Files to CSV</a></li>
+  <li><a href="#aggregate-the-csv-files-in-a-single-df" id="toc-aggregate-the-csv-files-in-a-single-df" class="nav-link" data-scroll-target="#aggregate-the-csv-files-in-a-single-df"> <span class="header-section-number">19.2.2</span> Aggregate the csv files in a single df</a></li>
+  <li><a href="#apply-mixed-em-to-find-thresholds-on-each-bead" id="toc-apply-mixed-em-to-find-thresholds-on-each-bead" class="nav-link" data-scroll-target="#apply-mixed-em-to-find-thresholds-on-each-bead"> <span class="header-section-number">19.2.3</span> Apply mixed EM to find thresholds on each bead</a></li>
+  <li><a href="#manually-select-threshold-values" id="toc-manually-select-threshold-values" class="nav-link" data-scroll-target="#manually-select-threshold-values"> <span class="header-section-number">19.2.4</span> Manually select threshold values</a></li>
   </ul></li>
-  <li><a href="#apply-the-functions-to-real-data" id="toc-apply-the-functions-to-real-data" class="nav-link" data-scroll-target="#apply-the-functions-to-real-data"><span class="toc-section-number">17.3</span>  Apply the functions to real data</a>
+  <li><a href="#apply-the-functions-to-real-data" id="toc-apply-the-functions-to-real-data" class="nav-link" data-scroll-target="#apply-the-functions-to-real-data"> <span class="header-section-number">19.3</span> Apply the functions to real data</a>
   <ul class="collapse">
-  <li><a href="#list-the-lxb-files" id="toc-list-the-lxb-files" class="nav-link" data-scroll-target="#list-the-lxb-files"><span class="toc-section-number">17.3.1</span>  List the LXB files</a></li>
-  <li><a href="#apply-the-lxb.parse-function-to-all-lxb-files-in-directory" id="toc-apply-the-lxb.parse-function-to-all-lxb-files-in-directory" class="nav-link" data-scroll-target="#apply-the-lxb.parse-function-to-all-lxb-files-in-directory"><span class="toc-section-number">17.3.2</span>  Apply the lxb.parse function to all lxb files in directory</a></li>
-  <li><a href="#aggregate-the-data" id="toc-aggregate-the-data" class="nav-link" data-scroll-target="#aggregate-the-data"><span class="toc-section-number">17.3.3</span>  Aggregate the data</a></li>
-  <li><a href="#trim-data-to-beads-we-actually-used" id="toc-trim-data-to-beads-we-actually-used" class="nav-link" data-scroll-target="#trim-data-to-beads-we-actually-used"><span class="toc-section-number">17.3.4</span>  Trim data to beads we actually used</a></li>
-  <li><a href="#plot-data-for-all-beads" id="toc-plot-data-for-all-beads" class="nav-link" data-scroll-target="#plot-data-for-all-beads"><span class="toc-section-number">17.3.5</span>  Plot data for all beads</a></li>
-  <li><a href="#show-table-of-bead-counts" id="toc-show-table-of-bead-counts" class="nav-link" data-scroll-target="#show-table-of-bead-counts"><span class="toc-section-number">17.3.6</span>  Show table of bead counts</a></li>
-  <li><a href="#threshold-classify-everything-based-on-automated-em-algorithm" id="toc-threshold-classify-everything-based-on-automated-em-algorithm" class="nav-link" data-scroll-target="#threshold-classify-everything-based-on-automated-em-algorithm"><span class="toc-section-number">17.3.7</span>  Threshold classify everything based on automated EM algorithm</a></li>
+  <li><a href="#list-the-lxb-files" id="toc-list-the-lxb-files" class="nav-link" data-scroll-target="#list-the-lxb-files"> <span class="header-section-number">19.3.1</span> List the LXB files</a></li>
+  <li><a href="#apply-the-lxb.parse-function-to-all-lxb-files-in-directory" id="toc-apply-the-lxb.parse-function-to-all-lxb-files-in-directory" class="nav-link" data-scroll-target="#apply-the-lxb.parse-function-to-all-lxb-files-in-directory"> <span class="header-section-number">19.3.2</span> Apply the lxb.parse function to all lxb files in directory</a></li>
+  <li><a href="#aggregate-the-data" id="toc-aggregate-the-data" class="nav-link" data-scroll-target="#aggregate-the-data"> <span class="header-section-number">19.3.3</span> Aggregate the data</a></li>
+  <li><a href="#trim-data-to-beads-we-actually-used" id="toc-trim-data-to-beads-we-actually-used" class="nav-link" data-scroll-target="#trim-data-to-beads-we-actually-used"> <span class="header-section-number">19.3.4</span> Trim data to beads we actually used</a></li>
+  <li><a href="#plot-data-for-all-beads" id="toc-plot-data-for-all-beads" class="nav-link" data-scroll-target="#plot-data-for-all-beads"> <span class="header-section-number">19.3.5</span> Plot data for all beads</a></li>
+  <li><a href="#show-table-of-bead-counts" id="toc-show-table-of-bead-counts" class="nav-link" data-scroll-target="#show-table-of-bead-counts"> <span class="header-section-number">19.3.6</span> Show table of bead counts</a></li>
+  <li><a href="#threshold-classify-everything-based-on-automated-em-algorithm" id="toc-threshold-classify-everything-based-on-automated-em-algorithm" class="nav-link" data-scroll-target="#threshold-classify-everything-based-on-automated-em-algorithm"> <span class="header-section-number">19.3.7</span> Threshold classify everything based on automated EM algorithm</a></li>
   </ul></li>
-  <li><a href="#summarise-based-on-bead-counts" id="toc-summarise-based-on-bead-counts" class="nav-link" data-scroll-target="#summarise-based-on-bead-counts"><span class="toc-section-number">17.4</span>  Summarise based on bead counts</a></li>
-  <li><a href="#interpretation" id="toc-interpretation" class="nav-link" data-scroll-target="#interpretation"><span class="toc-section-number">17.5</span>  Interpretation</a></li>
+  <li><a href="#summarise-based-on-bead-counts" id="toc-summarise-based-on-bead-counts" class="nav-link" data-scroll-target="#summarise-based-on-bead-counts"> <span class="header-section-number">19.4</span> Summarise based on bead counts</a></li>
+  <li><a href="#interpretation" id="toc-interpretation" class="nav-link" data-scroll-target="#interpretation"> <span class="header-section-number">19.5</span> Interpretation</a></li>
   </ul>
 </nav>
     </div>
@@ -366,7 +371,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Digital Luminex</span></h1>
+<h1 class="title d-none d-lg-block"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Digital Luminex</span></h1>
 </div>
 
 
@@ -380,21 +385,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           </div>
   </div>
     
-  
     
   </div>
   
 
 </header>
 
-<section id="background" class="level3" data-number="17.0.1">
-<h3 data-number="17.0.1" class="anchored" data-anchor-id="background"><span class="header-section-number">17.0.1</span> Background</h3>
+<section id="background" class="level3" data-number="19.0.1">
+<h3 data-number="19.0.1" class="anchored" data-anchor-id="background"><span class="header-section-number">19.0.1</span> Background</h3>
 <p>This script demonstrates how to read data from a Luminex .LXB file and to apply a ‘digital’ luminex approach. This counts the number of beads that fluoresce above a threshold, rather than looking at the mean fluorescence intensity for a marker on all beads. This is analogous to a ‘digital PCR’ approach.</p>
 <p>In theory this might be a method that requires less inter-plate normalisation as the method is less dependent on average signal strength and more dependent on a within-plate EM model that simply asks what fraction of beads have a positive signal for each marker. Specifically, the actual fluorescence intensity of the markers on the beads is actually very variable from plate to plate, but whatever the fluorescence intensity is, it should still be possible to define a positive and negative population.</p>
 <p>The work uses an approach to reading the LXB files which was originally implemented in the <a href="https://github.com/cran/lxb">lxb</a> package. This is no longer maintained, so a copy of the tar file is included in the packages directory of this repo.</p>
 </section>
-<section id="libraries" class="level2" data-number="17.1">
-<h2 data-number="17.1" class="anchored" data-anchor-id="libraries"><span class="header-section-number">17.1</span> Libraries</h2>
+<section id="libraries" class="level2" data-number="19.1">
+<h2 data-number="19.1" class="anchored" data-anchor-id="libraries"><span class="header-section-number">19.1</span> Libraries</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
@@ -405,10 +409,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lxb)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="define-functions" class="level2" data-number="17.2">
-<h2 data-number="17.2" class="anchored" data-anchor-id="define-functions"><span class="header-section-number">17.2</span> Define Functions</h2>
-<section id="convert-lxb-files-to-csv" class="level3" data-number="17.2.1">
-<h3 data-number="17.2.1" class="anchored" data-anchor-id="convert-lxb-files-to-csv"><span class="header-section-number">17.2.1</span> Convert LXB Files to CSV</h3>
+<section id="define-functions" class="level2" data-number="19.2">
+<h2 data-number="19.2" class="anchored" data-anchor-id="define-functions"><span class="header-section-number">19.2</span> Define Functions</h2>
+<section id="convert-lxb-files-to-csv" class="level3" data-number="19.2.1">
+<h3 data-number="19.2.1" class="anchored" data-anchor-id="convert-lxb-files-to-csv"><span class="header-section-number">19.2.1</span> Convert LXB Files to CSV</h3>
 <p>Create function to import an lxb file, add the well name, convert to a data frame and export a CSV with similar name to original file.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>lxb.parse<span class="ot">&lt;-</span><span class="cf">function</span>(lxbfile)</span>
@@ -428,8 +432,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="aggregate-the-csv-files-in-a-single-df" class="level3" data-number="17.2.2">
-<h3 data-number="17.2.2" class="anchored" data-anchor-id="aggregate-the-csv-files-in-a-single-df"><span class="header-section-number">17.2.2</span> Aggregate the csv files in a single df</h3>
+<section id="aggregate-the-csv-files-in-a-single-df" class="level3" data-number="19.2.2">
+<h3 data-number="19.2.2" class="anchored" data-anchor-id="aggregate-the-csv-files-in-a-single-df"><span class="header-section-number">19.2.2</span> Aggregate the csv files in a single df</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">#define a function to </span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>lxb.aggregate.data<span class="ot">&lt;-</span><span class="cf">function</span>(path)</span>
@@ -441,8 +445,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="apply-mixed-em-to-find-thresholds-on-each-bead" class="level3" data-number="17.2.3">
-<h3 data-number="17.2.3" class="anchored" data-anchor-id="apply-mixed-em-to-find-thresholds-on-each-bead"><span class="header-section-number">17.2.3</span> Apply mixed EM to find thresholds on each bead</h3>
+<section id="apply-mixed-em-to-find-thresholds-on-each-bead" class="level3" data-number="19.2.3">
+<h3 data-number="19.2.3" class="anchored" data-anchor-id="apply-mixed-em-to-find-thresholds-on-each-bead"><span class="header-section-number">19.2.3</span> Apply mixed EM to find thresholds on each bead</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>lxb.digital.thresholds<span class="ot">&lt;-</span><span class="cf">function</span>(df,<span class="at">pdf.out=</span><span class="cn">FALSE</span>,<span class="at">sd.threshold=</span><span class="dv">5</span>)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>{</span>
@@ -473,8 +477,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="manually-select-threshold-values" class="level3" data-number="17.2.4">
-<h3 data-number="17.2.4" class="anchored" data-anchor-id="manually-select-threshold-values"><span class="header-section-number">17.2.4</span> Manually select threshold values</h3>
+<section id="manually-select-threshold-values" class="level3" data-number="19.2.4">
+<h3 data-number="19.2.4" class="anchored" data-anchor-id="manually-select-threshold-values"><span class="header-section-number">19.2.4</span> Manually select threshold values</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>lxb.digital.thresholds.locator<span class="ot">&lt;-</span><span class="cf">function</span>(df,<span class="at">pdf.out=</span><span class="cn">FALSE</span>,<span class="at">sd.threshold=</span><span class="dv">4</span>)</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>{</span>
@@ -504,10 +508,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </section>
 </section>
-<section id="apply-the-functions-to-real-data" class="level2" data-number="17.3">
-<h2 data-number="17.3" class="anchored" data-anchor-id="apply-the-functions-to-real-data"><span class="header-section-number">17.3</span> Apply the functions to real data</h2>
-<section id="list-the-lxb-files" class="level3" data-number="17.3.1">
-<h3 data-number="17.3.1" class="anchored" data-anchor-id="list-the-lxb-files"><span class="header-section-number">17.3.1</span> List the LXB files</h3>
+<section id="apply-the-functions-to-real-data" class="level2" data-number="19.3">
+<h2 data-number="19.3" class="anchored" data-anchor-id="apply-the-functions-to-real-data"><span class="header-section-number">19.3</span> Apply the functions to real data</h2>
+<section id="list-the-lxb-files" class="level3" data-number="19.3.1">
+<h3 data-number="19.3.1" class="anchored" data-anchor-id="list-the-lxb-files"><span class="header-section-number">19.3.1</span> List the LXB files</h3>
 <p>Luminex machines spit out one LXB file for each well</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>lxbs<span class="ot">&lt;-</span><span class="fu">list.files</span>(<span class="at">path =</span> <span class="st">"data/Luminex_LXB_Files/"</span>,<span class="at">pattern =</span> <span class="st">"*.lxb"</span>,<span class="at">full.names =</span> T)</span>
@@ -522,8 +526,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 </section>
-<section id="apply-the-lxb.parse-function-to-all-lxb-files-in-directory" class="level3" data-number="17.3.2">
-<h3 data-number="17.3.2" class="anchored" data-anchor-id="apply-the-lxb.parse-function-to-all-lxb-files-in-directory"><span class="header-section-number">17.3.2</span> Apply the lxb.parse function to all lxb files in directory</h3>
+<section id="apply-the-lxb.parse-function-to-all-lxb-files-in-directory" class="level3" data-number="19.3.2">
+<h3 data-number="19.3.2" class="anchored" data-anchor-id="apply-the-lxb.parse-function-to-all-lxb-files-in-directory"><span class="header-section-number">19.3.2</span> Apply the lxb.parse function to all lxb files in directory</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lapply</span>(lxbs,lxb.parse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -565,8 +569,8 @@ NULL</code></pre>
 </div>
 </div>
 </section>
-<section id="aggregate-the-data" class="level3" data-number="17.3.3">
-<h3 data-number="17.3.3" class="anchored" data-anchor-id="aggregate-the-data"><span class="header-section-number">17.3.3</span> Aggregate the data</h3>
+<section id="aggregate-the-data" class="level3" data-number="19.3.3">
+<h3 data-number="19.3.3" class="anchored" data-anchor-id="aggregate-the-data"><span class="header-section-number">19.3.3</span> Aggregate the data</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>a<span class="ot">&lt;-</span><span class="fu">lxb.aggregate.data</span>(<span class="at">path =</span> <span class="st">"data/Luminex_LXB_Files/"</span>)</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>a<span class="sc">$</span>col<span class="ot">&lt;-</span><span class="fu">substr</span>(a<span class="sc">$</span>well,<span class="at">start =</span> <span class="dv">1</span>,<span class="at">stop =</span> <span class="dv">1</span>)</span>
@@ -1968,15 +1972,15 @@ NULL</code></pre>
 </div>
 </div>
 </section>
-<section id="trim-data-to-beads-we-actually-used" class="level3" data-number="17.3.4">
-<h3 data-number="17.3.4" class="anchored" data-anchor-id="trim-data-to-beads-we-actually-used"><span class="header-section-number">17.3.4</span> Trim data to beads we actually used</h3>
+<section id="trim-data-to-beads-we-actually-used" class="level3" data-number="19.3.4">
+<h3 data-number="19.3.4" class="anchored" data-anchor-id="trim-data-to-beads-we-actually-used"><span class="header-section-number">19.3.4</span> Trim data to beads we actually used</h3>
 <p>The data may include beads that weren’t used in the assay. Here we used a subset of beads and so need to filter the data</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>a<span class="ot">&lt;-</span><span class="fu">subset</span>(a, <span class="at">subset =</span> Bead.ID <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">12</span><span class="sc">:</span><span class="dv">15</span>,<span class="dv">18</span>,<span class="dv">19</span>,<span class="dv">20</span>,<span class="dv">21</span>,<span class="dv">22</span>,<span class="dv">25</span><span class="sc">:</span><span class="dv">30</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="plot-data-for-all-beads" class="level3" data-number="17.3.5">
-<h3 data-number="17.3.5" class="anchored" data-anchor-id="plot-data-for-all-beads"><span class="header-section-number">17.3.5</span> Plot data for all beads</h3>
+<section id="plot-data-for-all-beads" class="level3" data-number="19.3.5">
+<h3 data-number="19.3.5" class="anchored" data-anchor-id="plot-data-for-all-beads"><span class="header-section-number">19.3.5</span> Plot data for all beads</h3>
 <p>CL1 and CL2 are the bead identification lasers.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> a,<span class="fu">aes</span>(<span class="at">x=</span>CL1.Peak,<span class="at">y=</span>CL2.Peak,<span class="at">color=</span><span class="fu">factor</span>(Bead.ID)))<span class="sc">+</span><span class="fu">geom_point</span>()<span class="sc">+</span></span>
@@ -1986,8 +1990,8 @@ NULL</code></pre>
 </div>
 </div>
 </section>
-<section id="show-table-of-bead-counts" class="level3" data-number="17.3.6">
-<h3 data-number="17.3.6" class="anchored" data-anchor-id="show-table-of-bead-counts"><span class="header-section-number">17.3.6</span> Show table of bead counts</h3>
+<section id="show-table-of-bead-counts" class="level3" data-number="19.3.6">
+<h3 data-number="19.3.6" class="anchored" data-anchor-id="show-table-of-bead-counts"><span class="header-section-number">19.3.6</span> Show table of bead counts</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(<span class="fu">factor</span>(a<span class="sc">$</span>Bead.ID),a<span class="sc">$</span>Bead.Valid)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -2011,55 +2015,55 @@ NULL</code></pre>
 </div>
 </div>
 </section>
-<section id="threshold-classify-everything-based-on-automated-em-algorithm" class="level3" data-number="17.3.7">
-<h3 data-number="17.3.7" class="anchored" data-anchor-id="threshold-classify-everything-based-on-automated-em-algorithm"><span class="header-section-number">17.3.7</span> Threshold classify everything based on automated EM algorithm</h3>
+<section id="threshold-classify-everything-based-on-automated-em-algorithm" class="level3" data-number="19.3.7">
+<h3 data-number="19.3.7" class="anchored" data-anchor-id="threshold-classify-everything-based-on-automated-em-algorithm"><span class="header-section-number">19.3.7</span> Threshold classify everything based on automated EM algorithm</h3>
 <p>This also saves a PDF in the directory <code>data/Luminex_LXB_Files/</code></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>a<span class="ot">&lt;-</span><span class="fu">lxb.digital.thresholds</span>(a,<span class="at">pdf.out =</span> T,<span class="at">sd.threshold =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>number of iterations= 11 </code></pre>
+<pre><code>number of iterations= 14 </code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>number of iterations= 61 </code></pre>
+<pre><code>number of iterations= 57 </code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>number of iterations= 42 </code></pre>
+<pre><code>number of iterations= 41 </code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>number of iterations= 29 </code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>number of iterations= 51 </code></pre>
+<pre><code>number of iterations= 56 </code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>number of iterations= 45 </code></pre>
+<pre><code>number of iterations= 53 </code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>number of iterations= 24 </code></pre>
+<pre><code>number of iterations= 21 </code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>number of iterations= 20 </code></pre>
+<pre><code>number of iterations= 32 </code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>number of iterations= 49 </code></pre>
+<pre><code>number of iterations= 48 </code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>number of iterations= 45 </code></pre>
+<pre><code>number of iterations= 41 </code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>number of iterations= 35 </code></pre>
+<pre><code>number of iterations= 41 </code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>number of iterations= 23 </code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>number of iterations= 287 </code></pre>
+<pre><code>number of iterations= 200 </code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>number of iterations= 87 </code></pre>
+<pre><code>number of iterations= 100 </code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>number of iterations= 20 </code></pre>
+<pre><code>number of iterations= 18 </code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 15 × 3
@@ -2074,18 +2078,18 @@ NULL</code></pre>
  7      20  1375        8491.
  8      21  1536       10624.
  9      22  1567       22790.
-10      25  1684       21195.
+10      25  1684       21194.
 11      26  1347       14887.
 12      27  1775       95263.
-13      28  1490        8799.
+13      28  1490        8797.
 14      29  1634       12463.
 15      30  1150       90940.</code></pre>
 </div>
 </div>
 </section>
 </section>
-<section id="summarise-based-on-bead-counts" class="level2" data-number="17.4">
-<h2 data-number="17.4" class="anchored" data-anchor-id="summarise-based-on-bead-counts"><span class="header-section-number">17.4</span> Summarise based on bead counts</h2>
+<section id="summarise-based-on-bead-counts" class="level2" data-number="19.4">
+<h2 data-number="19.4" class="anchored" data-anchor-id="summarise-based-on-bead-counts"><span class="header-section-number">19.4</span> Summarise based on bead counts</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>aa<span class="ot">&lt;-</span>a <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(Bead.ID,well) <span class="sc">%&gt;%</span> <span class="fu">summarise</span>(<span class="at">count=</span><span class="fu">n</span>(),<span class="at">bead.pos=</span><span class="fu">sum</span>(classification<span class="sc">==</span><span class="dv">1</span>),<span class="at">bead.neg=</span><span class="fu">sum</span>(classification<span class="sc">==</span><span class="dv">0</span>),<span class="at">bead.fraction=</span>(<span class="at">bead.pos=</span><span class="fu">sum</span>(classification<span class="sc">==</span><span class="dv">1</span>)<span class="sc">/</span><span class="fu">n</span>()))</span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>aa<span class="sc">$</span>col<span class="ot">&lt;-</span><span class="fu">substr</span>(aa<span class="sc">$</span>well,<span class="at">start =</span> <span class="dv">1</span>,<span class="at">stop =</span> <span class="dv">1</span>)</span>
@@ -2363,8 +2367,8 @@ NULL</code></pre>
 </div>
 </div>
 </section>
-<section id="interpretation" class="level2" data-number="17.5">
-<h2 data-number="17.5" class="anchored" data-anchor-id="interpretation"><span class="header-section-number">17.5</span> Interpretation</h2>
+<section id="interpretation" class="level2" data-number="19.5">
+<h2 data-number="19.5" class="anchored" data-anchor-id="interpretation"><span class="header-section-number">19.5</span> Interpretation</h2>
 <p>The bead.fraction is the fraction of all beads in the well which were above the n SD threshold for positivity. This is a digital count converted in to a fraction, which allows a continuous measure to be gained for each</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(aa,<span class="fu">aes</span>(well,bead.fraction))<span class="sc">+</span></span>
@@ -2421,24 +2425,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     button.classList.add('code-copy-button-checked');
     var currentTitle = button.getAttribute("title");
     button.setAttribute("title", "Copied!");
-    let tooltip;
-    if (window.bootstrap) {
-      button.setAttribute("data-bs-toggle", "tooltip");
-      button.setAttribute("data-bs-placement", "left");
-      button.setAttribute("data-bs-title", "Copied!");
-      tooltip = new bootstrap.Tooltip(button, 
-        { trigger: "manual", 
-          customClass: "code-copy-button-tooltip",
-          offset: [0, -8]});
-      tooltip.show();    
-    }
     setTimeout(function() {
-      if (tooltip) {
-        tooltip.hide();
-        button.removeAttribute("data-bs-title");
-        button.removeAttribute("data-bs-toggle");
-        button.removeAttribute("data-bs-placement");
-      }
       button.setAttribute("title", currentTitle);
       button.classList.remove('code-copy-button-checked');
     }, 1000);
@@ -2466,62 +2453,43 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   for (var i=0; i<noterefs.length; i++) {
     const ref = noterefs[i];
     tippyHover(ref, function() {
-      // use id or data attribute instead here
-      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      let href = ref.getAttribute('href');
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
       return note.innerHTML;
     });
   }
-  const findCites = (el) => {
-    const parentEl = el.parentElement;
-    if (parentEl) {
-      const cites = parentEl.dataset.cites;
-      if (cites) {
-        return {
-          el,
-          cites: cites.split(' ')
-        };
-      } else {
-        return findCites(el.parentElement)
-      }
-    } else {
-      return undefined;
-    }
-  };
   var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
   for (var i=0; i<bibliorefs.length; i++) {
     const ref = bibliorefs[i];
-    const citeInfo = findCites(ref);
-    if (citeInfo) {
-      tippyHover(citeInfo.el, function() {
-        var popup = window.document.createElement('div');
-        citeInfo.cites.forEach(function(cite) {
-          var citeDiv = window.document.createElement('div');
-          citeDiv.classList.add('hanging-indent');
-          citeDiv.classList.add('csl-entry');
-          var biblioDiv = window.document.getElementById('ref-' + cite);
-          if (biblioDiv) {
-            citeDiv.innerHTML = biblioDiv.innerHTML;
-          }
-          popup.appendChild(citeDiv);
-        });
-        return popup.innerHTML;
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
       });
-    }
+      return popup.innerHTML;
+    });
   }
 });
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="./Consent_Forms_with_QR.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Consent Forms with Unique IDs and QR Codes</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Consent Forms with Unique IDs and QR Codes</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="./ODK_Biometrics.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">ODK Biometrics</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">ODK Biometrics</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

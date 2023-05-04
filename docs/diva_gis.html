@@ -2,25 +2,20 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.2.335">
+<meta name="generator" content="quarto-1.0.37">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Chrissy h Roberts">
 
-<title>Code Book - 20&nbsp; GIS Data to ODK itemlist</title>
+<title>Code Book - 22&nbsp; GIS Data to ODK itemlist</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: min(4vw, 1.5em);}
-div.column{flex: auto; overflow-x: auto;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
-ul.task-list li input[type="checkbox"] {
-  width: 0.8em;
-  margin: 0 0.8em 0.2em -1.6em;
-  vertical-align: middle;
-}
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
@@ -59,7 +54,7 @@ code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
 code span.at { color: #7d9029; } /* Attribute */
 code span.bn { color: #40a070; } /* BaseN */
-code span.bu { color: #008000; } /* BuiltIn */
+code span.bu { } /* BuiltIn */
 code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
 code span.ch { color: #4070a0; } /* Char */
 code span.cn { color: #880000; } /* Constant */
@@ -72,7 +67,7 @@ code span.er { color: #ff0000; font-weight: bold; } /* Error */
 code span.ex { } /* Extension */
 code span.fl { color: #40a070; } /* Float */
 code span.fu { color: #06287e; } /* Function */
-code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.im { } /* Import */
 code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 code span.kw { color: #007020; font-weight: bold; } /* Keyword */
 code span.op { color: #666666; } /* Operator */
@@ -135,7 +130,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
     <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">GIS Data to ODK itemlist</span></h1>
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">GIS Data to ODK itemlist</span></h1>
       <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
         <i class="bi bi-chevron-right"></i>
       </button>
@@ -203,7 +198,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./photo_cleaning.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Photo Cleaning For Sharing</span></a>
+  <a href="./Global_Political_Map.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Draw Political Maps (sf geom_sf)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./photo_cleaning.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Photo Cleaning For Sharing</span></a>
   </div>
 </li>
       </ul>
@@ -218,17 +218,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Interrupted_Time_Series.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">A pragmatic Introduction to Interrupted Time Series</span></a>
+  <a href="./Interrupted_Time_Series.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">A pragmatic Introduction to Interrupted Time Series</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./new_lm_predict_left_predict_right.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">New lm Predict Left &amp; Predict Right</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./power_calc_gen_case_control.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Genetic Power Calculator</span></a>
+  <a href="./new_lm_predict_left_predict_right.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">New lm Predict Left &amp; Predict Right</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -248,7 +243,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Univariate_regressions_reported_as_a_table.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Univariate regressions, reported as a table</span></a>
+  <a href="./power_calc_gen_case_control.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Genetic Power Calculator</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Principal_Components_Analysis.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Principal Components Analysis</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Univariate_regressions_reported_as_a_table.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Univariate regressions, reported as a table</span></a>
   </div>
 </li>
       </ul>
@@ -263,17 +268,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Univariate_regressions_reported_as_a_table.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Univariate regressions, reported as a table</span></a>
+  <a href="./Univariate_regressions_reported_as_a_table.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Univariate regressions, reported as a table</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Consent_Forms_with_QR.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Consent Forms with Unique IDs and QR Codes</span></a>
+  <a href="./Consent_Forms_with_QR.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Consent Forms with Unique IDs and QR Codes</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Digital_Luminex.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Digital Luminex</span></a>
+  <a href="./Digital_Luminex.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Digital Luminex</span></a>
   </div>
 </li>
       </ul>
@@ -288,27 +293,27 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ODK_Biometrics.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">ODK Biometrics</span></a>
+  <a href="./ODK_Biometrics.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">ODK Biometrics</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ruODK_basics.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">ruODK Setup and basic functions</span></a>
+  <a href="./ruODK_basics.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">ruODK Setup and basic functions</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./diva_gis.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">GIS Data to ODK itemlist</span></a>
+  <a href="./diva_gis.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">GIS Data to ODK itemlist</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ODK_geofencing.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">ODK Geofencing</span></a>
+  <a href="./ODK_geofencing.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">ODK Geofencing</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ODK_Pi.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">ODK Pi - A deployable version of ODK on a Raspberry Pi</span></a>
+  <a href="./ODK_Pi.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">ODK Pi - A deployable version of ODK on a Raspberry Pi</span></a>
   </div>
 </li>
       </ul>
@@ -323,7 +328,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Akaike_Information_Criterion.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Akaike information criterion</span></a>
+  <a href="./Akaike_Information_Criterion.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Akaike information criterion</span></a>
   </div>
 </li>
       </ul>
@@ -333,23 +338,23 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </nav>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
+        <nav id="TOC" role="doc-toc">
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#background" id="toc-background" class="nav-link active" data-scroll-target="#background"><span class="toc-section-number">20.1</span>  Background</a></li>
-  <li><a href="#data" id="toc-data" class="nav-link" data-scroll-target="#data"><span class="toc-section-number">20.2</span>  Data</a></li>
-  <li><a href="#libraries" id="toc-libraries" class="nav-link" data-scroll-target="#libraries"><span class="toc-section-number">20.3</span>  Libraries</a>
+  <li><a href="#background" id="toc-background" class="nav-link active" data-scroll-target="#background"> <span class="header-section-number">22.1</span> Background</a></li>
+  <li><a href="#data" id="toc-data" class="nav-link" data-scroll-target="#data"> <span class="header-section-number">22.2</span> Data</a></li>
+  <li><a href="#libraries" id="toc-libraries" class="nav-link" data-scroll-target="#libraries"> <span class="header-section-number">22.3</span> Libraries</a>
   <ul class="collapse">
-  <li><a href="#create-a-folder-to-house-data" id="toc-create-a-folder-to-house-data" class="nav-link" data-scroll-target="#create-a-folder-to-house-data"><span class="toc-section-number">20.3.1</span>  Create a folder to house data</a></li>
-  <li><a href="#define-target-countries" id="toc-define-target-countries" class="nav-link" data-scroll-target="#define-target-countries"><span class="toc-section-number">20.3.2</span>  Define target countries</a></li>
+  <li><a href="#create-a-folder-to-house-data" id="toc-create-a-folder-to-house-data" class="nav-link" data-scroll-target="#create-a-folder-to-house-data"> <span class="header-section-number">22.3.1</span> Create a folder to house data</a></li>
+  <li><a href="#define-target-countries" id="toc-define-target-countries" class="nav-link" data-scroll-target="#define-target-countries"> <span class="header-section-number">22.3.2</span> Define target countries</a></li>
   </ul></li>
-  <li><a href="#download-and-bind-data" id="toc-download-and-bind-data" class="nav-link" data-scroll-target="#download-and-bind-data"><span class="toc-section-number">20.4</span>  Download and bind data</a></li>
-  <li><a href="#define-function-to-remove-accents" id="toc-define-function-to-remove-accents" class="nav-link" data-scroll-target="#define-function-to-remove-accents"><span class="toc-section-number">20.5</span>  Define function to remove accents</a></li>
-  <li><a href="#tidy-data" id="toc-tidy-data" class="nav-link" data-scroll-target="#tidy-data"><span class="toc-section-number">20.6</span>  Tidy data</a></li>
-  <li><a href="#show-output" id="toc-show-output" class="nav-link" data-scroll-target="#show-output"><span class="toc-section-number">20.7</span>  Show output</a></li>
-  <li><a href="#write-output-to-itemsets.csv" id="toc-write-output-to-itemsets.csv" class="nav-link" data-scroll-target="#write-output-to-itemsets.csv"><span class="toc-section-number">20.8</span>  Write output to itemsets.csv</a></li>
-  <li><a href="#delete-the-raw-data" id="toc-delete-the-raw-data" class="nav-link" data-scroll-target="#delete-the-raw-data"><span class="toc-section-number">20.9</span>  Delete the raw data</a></li>
+  <li><a href="#download-and-bind-data" id="toc-download-and-bind-data" class="nav-link" data-scroll-target="#download-and-bind-data"> <span class="header-section-number">22.4</span> Download and bind data</a></li>
+  <li><a href="#define-function-to-remove-accents" id="toc-define-function-to-remove-accents" class="nav-link" data-scroll-target="#define-function-to-remove-accents"> <span class="header-section-number">22.5</span> Define function to remove accents</a></li>
+  <li><a href="#tidy-data" id="toc-tidy-data" class="nav-link" data-scroll-target="#tidy-data"> <span class="header-section-number">22.6</span> Tidy data</a></li>
+  <li><a href="#show-output" id="toc-show-output" class="nav-link" data-scroll-target="#show-output"> <span class="header-section-number">22.7</span> Show output</a></li>
+  <li><a href="#write-output-to-itemsets.csv" id="toc-write-output-to-itemsets.csv" class="nav-link" data-scroll-target="#write-output-to-itemsets.csv"> <span class="header-section-number">22.8</span> Write output to itemsets.csv</a></li>
+  <li><a href="#delete-the-raw-data" id="toc-delete-the-raw-data" class="nav-link" data-scroll-target="#delete-the-raw-data"> <span class="header-section-number">22.9</span> Delete the raw data</a></li>
   </ul>
 </nav>
     </div>
@@ -358,7 +363,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">GIS Data to ODK itemlist</span></h1>
+<h1 class="title d-none d-lg-block"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">GIS Data to ODK itemlist</span></h1>
 </div>
 
 
@@ -372,47 +377,46 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           </div>
   </div>
     
-  
     
   </div>
   
 
 </header>
 
-<section id="background" class="level2" data-number="20.1">
-<h2 data-number="20.1" class="anchored" data-anchor-id="background"><span class="header-section-number">20.1</span> Background</h2>
+<section id="background" class="level2" data-number="22.1">
+<h2 data-number="22.1" class="anchored" data-anchor-id="background"><span class="header-section-number">22.1</span> Background</h2>
 <p>Using Administrative data from [DIVA-GIS](www.diva-gis.org), this script will convert the geographical administrative data (levels 0-3) for one or more country and output an itemsets.csv file that works with ODK and preserves accented characters (tested only on roman characters). The primary purpose here is to create a list that is compatible with the cascading select system that ODK uses to filter down to more granular responses in questions where you’d want to capture district &gt; area &gt; village or similar.</p>
 <p>This also removes accents from internal variables like the XLSForm ‘name’ column.</p>
 <p>Accents will appear on screen, but won’t be preserved in data frames. This is desirable because working with mixed data that may or may not include accents is a pain.</p>
 </section>
-<section id="data" class="level2" data-number="20.2">
-<h2 data-number="20.2" class="anchored" data-anchor-id="data"><span class="header-section-number">20.2</span> Data</h2>
+<section id="data" class="level2" data-number="22.2">
+<h2 data-number="22.2" class="anchored" data-anchor-id="data"><span class="header-section-number">22.2</span> Data</h2>
 <p>You will need to get administrative data from [DIVA GIS](http://www.diva-gis.org/datadown#) for each of the countries you want to include.</p>
 <p>Unzip this data to a folder in the same directory as this script,</p>
 <p><strong>This example uses Uganda and Democratic Republic of Congo.</strong></p>
 </section>
-<section id="libraries" class="level2" data-number="20.3">
-<h2 data-number="20.3" class="anchored" data-anchor-id="libraries"><span class="header-section-number">20.3</span> Libraries</h2>
+<section id="libraries" class="level2" data-number="22.3">
+<h2 data-number="22.3" class="anchored" data-anchor-id="libraries"><span class="header-section-number">22.3</span> Libraries</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<section id="create-a-folder-to-house-data" class="level3" data-number="20.3.1">
-<h3 data-number="20.3.1" class="anchored" data-anchor-id="create-a-folder-to-house-data"><span class="header-section-number">20.3.1</span> Create a folder to house data</h3>
+<section id="create-a-folder-to-house-data" class="level3" data-number="22.3.1">
+<h3 data-number="22.3.1" class="anchored" data-anchor-id="create-a-folder-to-house-data"><span class="header-section-number">22.3.1</span> Create a folder to house data</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">dir.exists</span>(<span class="st">"data/divadownload/"</span>)){<span class="fu">dir.create</span>(<span class="st">"data/divadownload"</span>)}</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">system</span>(<span class="st">"rm -rf data/divadownload/*"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="define-target-countries" class="level3" data-number="20.3.2">
-<h3 data-number="20.3.2" class="anchored" data-anchor-id="define-target-countries"><span class="header-section-number">20.3.2</span> Define target countries</h3>
+<section id="define-target-countries" class="level3" data-number="22.3.2">
+<h3 data-number="22.3.2" class="anchored" data-anchor-id="define-target-countries"><span class="header-section-number">22.3.2</span> Define target countries</h3>
 <p>Specify ISO codes (3 digit) to tell R which data sets to include. A full list of ISO codes is available [here](#https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3 )</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>countries<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="st">"UGA"</span>,<span class="st">"COD"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>
-<section id="download-and-bind-data" class="level2" data-number="20.4">
-<h2 data-number="20.4" class="anchored" data-anchor-id="download-and-bind-data"><span class="header-section-number">20.4</span> Download and bind data</h2>
+<section id="download-and-bind-data" class="level2" data-number="22.4">
+<h2 data-number="22.4" class="anchored" data-anchor-id="download-and-bind-data"><span class="header-section-number">22.4</span> Download and bind data</h2>
 <p>For each country, find the data set in the folder structure and load up then bind together</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">timeout=</span><span class="dv">120</span>)</span>
@@ -437,8 +441,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="define-function-to-remove-accents" class="level2" data-number="20.5">
-<h2 data-number="20.5" class="anchored" data-anchor-id="define-function-to-remove-accents"><span class="header-section-number">20.5</span> Define function to remove accents</h2>
+<section id="define-function-to-remove-accents" class="level2" data-number="22.5">
+<h2 data-number="22.5" class="anchored" data-anchor-id="define-function-to-remove-accents"><span class="header-section-number">22.5</span> Define function to remove accents</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">#define function to remove accents from text</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>removeAccents<span class="ot">&lt;-</span><span class="cf">function</span>(x)</span>
@@ -453,8 +457,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="tidy-data" class="level2" data-number="20.6">
-<h2 data-number="20.6" class="anchored" data-anchor-id="tidy-data"><span class="header-section-number">20.6</span> Tidy data</h2>
+<section id="tidy-data" class="level2" data-number="22.6">
+<h2 data-number="22.6" class="anchored" data-anchor-id="tidy-data"><span class="header-section-number">22.6</span> Tidy data</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Set correct names so that label is descriptive country name</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(full.data.output)[<span class="fu">which</span>(<span class="fu">names</span>(full.data.output)<span class="sc">==</span><span class="st">"NAME_0"</span>)]<span class="ot">&lt;-</span><span class="st">"label"</span></span>
@@ -538,8 +542,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb6-80"><a href="#cb6-80" aria-hidden="true" tabindex="-1"></a>output<span class="sc">$</span>NAME_3<span class="ot">&lt;-</span><span class="fu">removeAccents</span>(output<span class="sc">$</span>NAME_3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="show-output" class="level2" data-number="20.7">
-<h2 data-number="20.7" class="anchored" data-anchor-id="show-output"><span class="header-section-number">20.7</span> Show output</h2>
+<section id="show-output" class="level2" data-number="22.7">
+<h2 data-number="22.7" class="anchored" data-anchor-id="show-output"><span class="header-section-number">22.7</span> Show output</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">head</span>(output,<span class="dv">100</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
@@ -1572,14 +1576,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 </section>
-<section id="write-output-to-itemsets.csv" class="level2" data-number="20.8">
-<h2 data-number="20.8" class="anchored" data-anchor-id="write-output-to-itemsets.csv"><span class="header-section-number">20.8</span> Write output to itemsets.csv</h2>
+<section id="write-output-to-itemsets.csv" class="level2" data-number="22.8">
+<h2 data-number="22.8" class="anchored" data-anchor-id="write-output-to-itemsets.csv"><span class="header-section-number">22.8</span> Write output to itemsets.csv</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(<span class="at">x =</span> output,<span class="at">file =</span> <span class="st">"output/diva_itemsets.csv"</span>,<span class="at">quote =</span> F,<span class="at">row.names =</span> F)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="delete-the-raw-data" class="level2" data-number="20.9">
-<h2 data-number="20.9" class="anchored" data-anchor-id="delete-the-raw-data"><span class="header-section-number">20.9</span> Delete the raw data</h2>
+<section id="delete-the-raw-data" class="level2" data-number="22.9">
+<h2 data-number="22.9" class="anchored" data-anchor-id="delete-the-raw-data"><span class="header-section-number">22.9</span> Delete the raw data</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">system</span>(<span class="st">"rm -rf data/divadownload/"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -1629,24 +1633,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     button.classList.add('code-copy-button-checked');
     var currentTitle = button.getAttribute("title");
     button.setAttribute("title", "Copied!");
-    let tooltip;
-    if (window.bootstrap) {
-      button.setAttribute("data-bs-toggle", "tooltip");
-      button.setAttribute("data-bs-placement", "left");
-      button.setAttribute("data-bs-title", "Copied!");
-      tooltip = new bootstrap.Tooltip(button, 
-        { trigger: "manual", 
-          customClass: "code-copy-button-tooltip",
-          offset: [0, -8]});
-      tooltip.show();    
-    }
     setTimeout(function() {
-      if (tooltip) {
-        tooltip.hide();
-        button.removeAttribute("data-bs-title");
-        button.removeAttribute("data-bs-toggle");
-        button.removeAttribute("data-bs-placement");
-      }
       button.setAttribute("title", currentTitle);
       button.classList.remove('code-copy-button-checked');
     }, 1000);
@@ -1674,62 +1661,43 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   for (var i=0; i<noterefs.length; i++) {
     const ref = noterefs[i];
     tippyHover(ref, function() {
-      // use id or data attribute instead here
-      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      let href = ref.getAttribute('href');
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
       return note.innerHTML;
     });
   }
-  const findCites = (el) => {
-    const parentEl = el.parentElement;
-    if (parentEl) {
-      const cites = parentEl.dataset.cites;
-      if (cites) {
-        return {
-          el,
-          cites: cites.split(' ')
-        };
-      } else {
-        return findCites(el.parentElement)
-      }
-    } else {
-      return undefined;
-    }
-  };
   var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
   for (var i=0; i<bibliorefs.length; i++) {
     const ref = bibliorefs[i];
-    const citeInfo = findCites(ref);
-    if (citeInfo) {
-      tippyHover(citeInfo.el, function() {
-        var popup = window.document.createElement('div');
-        citeInfo.cites.forEach(function(cite) {
-          var citeDiv = window.document.createElement('div');
-          citeDiv.classList.add('hanging-indent');
-          citeDiv.classList.add('csl-entry');
-          var biblioDiv = window.document.getElementById('ref-' + cite);
-          if (biblioDiv) {
-            citeDiv.innerHTML = biblioDiv.innerHTML;
-          }
-          popup.appendChild(citeDiv);
-        });
-        return popup.innerHTML;
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
       });
-    }
+      return popup.innerHTML;
+    });
   }
 });
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="./ruODK_basics.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">ruODK Setup and basic functions</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">ruODK Setup and basic functions</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="./ODK_geofencing.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">ODK Geofencing</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">ODK Geofencing</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

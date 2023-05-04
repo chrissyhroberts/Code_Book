@@ -19,7 +19,7 @@ library(broom)
 set.seed(8882321)
 ```
 
-## Dummy Data
+## Load iris data
 
 Use the R Iris data
 
@@ -30,10 +30,14 @@ kable(df)
 
 The first step in PCA is to run the `prcomp` command on the columns of interest. This is necessarily a complete case table with numeric values, so missing values should be imputed. The `mice` package is good for imputation in R, but isn't used here as the data are mostly complete. There's just one missing value which we'll drop to keep this tutorial focussed.
 
+## Prcomp 
+
 ```{r}
 df.pca <- prcomp(select(iris,Sepal.Length:Petal.Width))
 (df.pca.summary<-summary(df.pca))
 ```
+
+## Extract importance data used for scree plots
 
 ```{r}
 (
@@ -48,6 +52,8 @@ df.pca <- prcomp(select(iris,Sepal.Length:Petal.Width))
 
 Whenever you work with PCA, it is useful to start by looking at the scree plots, which show (a) the proportion of all variance in the data that are explained by each principal component and (b) the cumulative proportion of variance explained by PCs 1-n.
 
+## Scree plot
+
 ```{r}
 ggplot(df.importance,aes(pc,prop.of.variance))+ geom_bar(stat="identity") +
 ggplot(df.importance,aes(pc,cumulative.variance))+geom_bar(stat="identity")
@@ -57,10 +63,14 @@ It looks like most of the variance is explained by the first principal component
 
 The `prcomp` data outputs are not compatible with ggplot, so we'll grab the PC values and add them to our data frame. This is possible because the `prcomp` data is embedded in an object `x` which maps to the original df on a row-by-row basis. This allows merging via the `bind_cols` function.
 
+## Add PC variables to data frame
+
 ```{r}
 df<- bind_cols(df,as.data.frame(df.pca$x))
 
 ```
+
+## Biplot PC1/PC2
 
 Biplots are used to explore PCA data visually. We'll start by looking at PC1 and PC2. Our chart will be scaled on the x and y axes \[using the `aspect ratio` controls within `theme()`\]so that the dimensions of the chart don't misrepresent the proportion of variance explained by each PC. The ellipses show the 95% confidence interval for the various groups.
 
@@ -75,6 +85,8 @@ ggplot(df,aes(PC1,PC2,col=Species))+
 
 
 ```
+
+### Loadings plot PC1/PC2
 
 It is hard to interpret this in the context of various features without understanding which variables contributed to the observed variance in the PCA. A `loadings` plot is really useful for this. We can get the Loadings from the `prcomp` object.
 

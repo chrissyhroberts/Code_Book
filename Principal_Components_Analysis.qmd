@@ -30,7 +30,7 @@ kable(df)
 
 The first step in PCA is to run the `prcomp` command on the columns of interest. This is necessarily a complete case table with numeric values, so missing values should be imputed. The `mice` package is good for imputation in R, but isn't used here as the data are mostly complete. There's just one missing value which we'll drop to keep this tutorial focussed.
 
-## Prcomp 
+## Prcomp
 
 ```{r}
 df.pca <- prcomp(select(iris,Sepal.Length:Petal.Width))

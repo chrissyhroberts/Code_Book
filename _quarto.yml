@@ -20,6 +20,7 @@ book:
        - UK_Postcodes.qmd
        - Global_Political_Map.qmd
        - photo_cleaning.qmd
+       - filename_changer.qmd
 
   - part: "Statistics"
     chapters:

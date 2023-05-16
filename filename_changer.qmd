@@ -1,0 +1,56 @@
+# Rename files procedurally
+
+You'll sometimes have folders with filenames that make no sense to you or need organising.
+
+This script simply reads a list of files, does stuff to the names and then saves the changes.
+
+## Libraries
+
+```{r,warning=F,message=F}
+library(tidyverse)
+```
+
+## Procedure
+
+### Get a list of the original file names
+
+```{r}
+xx<-list.files("data/filenames/",full.names = T,recursive = T)
+xx
+```
+
+### 
+Manipulate the strings
+
+```{r}
+xxx<-case_when(
+               str_detect (xx,"_A") ~ str_replace(xx, "_A", "_D"),
+               str_detect (xx,"_B") ~ str_replace(xx, "_B", "_A"),
+               str_detect (xx,"_C") ~ str_replace(xx, "_C", "_B"),
+               str_detect (xx,"_D") ~ str_replace(xx, "_D", "_C")
+                )
+xxx
+```
+
+### 
+Loop across all names, replacing the filename where needed
+
+```{r}
+
+for(i in 1:length(xx)){
+  print(i)
+  print(str_c(xx[i]," ",xxx[i]))
+
+  if(xx[i]!=xxx[i]){
+  system(
+        str_c("mv ",xx[i]," ",xxx[i])
+      )
+  }
+  }
+
+
+
+```
+
+### 
+

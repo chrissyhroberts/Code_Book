@@ -1,0 +1,15 @@
+# Research study folder template
+
+Stored in the folder data/ there are two sets of folders designed to be used as a start point for data management in research and trials. I've found these useful for organising myself in a standardised way and the trial folders are appropriate to a trial master file.
+
+### Research study
+
+```{r}
+fs::dir_tree(path = "data/Generic_Research_Folders/" , recurse = TRUE)
+```
+
+## Clinical trial
+
+```{r}
+fs::dir_tree(path = "data/Generic_Trial_Folders/" , recurse = TRUE)
+```

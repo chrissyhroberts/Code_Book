@@ -38,6 +38,7 @@ book:
        - Univariate_regressions_reported_as_a_table.qmd
        - Consent_Forms_with_QR.qmd
        - Digital_Luminex.qmd
+       - Generic_Research_Data_Folder_Design.qmd
 
   - part: "ODK"
     chapters:

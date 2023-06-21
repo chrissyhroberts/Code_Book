@@ -8,7 +8,7 @@
 
 <meta name="author" content="Chrissy h Roberts">
 
-<title>Code Book - 3&nbsp; Normalise utf8 accented text</title>
+<title>Code Book - 10&nbsp; Normalise utf8 accented text</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -89,7 +89,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./remove_accents.html" rel="next">
+<link href="./Interrupted_Time_Series.html" rel="next">
 <link href="./update_R.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -130,7 +130,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
     <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Normalise utf8 accented text</span></h1>
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Normalise utf8 accented text</span></h1>
       <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
         <i class="bi bi-chevron-right"></i>
       </button>
@@ -168,47 +168,52 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./extract_model_from_geom_smooth.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Extract Model from geom_smooth model</span></a>
+  <a href="./big_data_IO_benchmarks.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Big data I/O benchmarks</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./update_R.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Update R - Bare Bones</span></a>
+  <a href="./extract_model_from_geom_smooth.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Extract Model from geom_smooth model</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./utf8_encoding.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Normalise utf8 accented text</span></a>
+  <a href="./filename_changer.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Rename files procedurally</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./remove_accents.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Remove_Accents</span></a>
+  <a href="./Global_Political_Map.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Draw Political Maps (sf geom_sf)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./text_to_speech_R.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Text to Speech in R</span></a>
+  <a href="./photo_cleaning.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Photo Cleaning For Sharing</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./UK_Postcodes.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">UK Postcode Maps</span></a>
+  <a href="./remove_accents.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Remove_Accents</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Global_Political_Map.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Draw Political Maps (sf geom_sf)</span></a>
+  <a href="./text_to_speech_R.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Text to Speech in R</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./photo_cleaning.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Photo Cleaning For Sharing</span></a>
+  <a href="./UK_Postcodes.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">UK Postcode Maps</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./filename_changer.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Rename files procedurally</span></a>
+  <a href="./update_R.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Update R - Bare Bones</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./utf8_encoding.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Normalise utf8 accented text</span></a>
   </div>
 </li>
       </ul>
@@ -223,42 +228,42 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Interrupted_Time_Series.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">A pragmatic Introduction to Interrupted Time Series</span></a>
+  <a href="./Interrupted_Time_Series.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">A pragmatic Introduction to Interrupted Time Series</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./new_lm_predict_left_predict_right.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">New lm Predict Left &amp; Predict Right</span></a>
+  <a href="./new_lm_predict_left_predict_right.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">New lm Predict Left &amp; Predict Right</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Diagnostics_Power_Calculation.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Diagnostic Evaluation Power Calculation</span></a>
+  <a href="./Diagnostics_Power_Calculation.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Diagnostic Evaluation Power Calculation</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./CI95_point_estimate.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">95% Confidence Intervals on a point estimate</span></a>
+  <a href="./CI95_point_estimate.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">95% Confidence Intervals on a point estimate</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./hazratio_chart.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Hazard Ratio Chart from Summary Data</span></a>
+  <a href="./hazratio_chart.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Hazard Ratio Chart from Summary Data</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./power_calc_gen_case_control.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Genetic Power Calculator</span></a>
+  <a href="./power_calc_gen_case_control.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Genetic Power Calculator</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Principal_Components_Analysis.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Principal Components Analysis</span></a>
+  <a href="./Principal_Components_Analysis.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Principal Components Analysis</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Univariate_regressions_reported_as_a_table.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Univariate regressions, reported as a table</span></a>
+  <a href="./Univariate_regressions_reported_as_a_table.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Univariate regressions, reported as a table</span></a>
   </div>
 </li>
       </ul>
@@ -273,22 +278,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Univariate_regressions_reported_as_a_table.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Univariate regressions, reported as a table</span></a>
+  <a href="./Univariate_regressions_reported_as_a_table.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Univariate regressions, reported as a table</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Consent_Forms_with_QR.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Consent Forms with Unique IDs and QR Codes</span></a>
+  <a href="./Consent_Forms_with_QR.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Consent Forms with Unique IDs and QR Codes</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Digital_Luminex.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Digital Luminex</span></a>
+  <a href="./Digital_Luminex.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Digital Luminex</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Generic_Research_Data_Folder_Design.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Research study folder template</span></a>
+  <a href="./Generic_Research_Data_Folder_Design.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Research study folder template</span></a>
   </div>
 </li>
       </ul>
@@ -303,27 +308,27 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ODK_Biometrics.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">ODK Biometrics</span></a>
+  <a href="./ODK_Biometrics.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">ODK Biometrics</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ruODK_basics.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">ruODK Setup and basic functions</span></a>
+  <a href="./ruODK_basics.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">ruODK Setup and basic functions</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./diva_gis.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">GIS Data to ODK itemlist</span></a>
+  <a href="./diva_gis.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">GIS Data to ODK itemlist</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ODK_geofencing.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">ODK Geofencing</span></a>
+  <a href="./ODK_geofencing.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">ODK Geofencing</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ODK_Pi.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">ODK Pi - A deployable version of ODK on a Raspberry Pi</span></a>
+  <a href="./ODK_Pi.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">ODK Pi - A deployable version of ODK on a Raspberry Pi</span></a>
   </div>
 </li>
       </ul>
@@ -338,7 +343,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Akaike_Information_Criterion.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">Akaike information criterion</span></a>
+  <a href="./Akaike_Information_Criterion.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Akaike information criterion</span></a>
   </div>
 </li>
       </ul>
@@ -352,10 +357,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#background" id="toc-background" class="nav-link active" data-scroll-target="#background"> <span class="header-section-number">3.1</span> Background</a>
+  <li><a href="#background" id="toc-background" class="nav-link active" data-scroll-target="#background"> <span class="header-section-number">10.1</span> Background</a>
   <ul class="collapse">
-  <li><a href="#libraries" id="toc-libraries" class="nav-link" data-scroll-target="#libraries"> <span class="header-section-number">3.1.1</span> Libraries</a></li>
-  <li><a href="#dummy-data" id="toc-dummy-data" class="nav-link" data-scroll-target="#dummy-data"> <span class="header-section-number">3.1.2</span> Dummy data</a></li>
+  <li><a href="#libraries" id="toc-libraries" class="nav-link" data-scroll-target="#libraries"> <span class="header-section-number">10.1.1</span> Libraries</a></li>
+  <li><a href="#dummy-data" id="toc-dummy-data" class="nav-link" data-scroll-target="#dummy-data"> <span class="header-section-number">10.1.2</span> Dummy data</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -365,7 +370,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Normalise utf8 accented text</span></h1>
+<h1 class="title d-none d-lg-block"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Normalise utf8 accented text</span></h1>
 </div>
 
 
@@ -385,19 +390,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 </header>
 
-<section id="background" class="level2" data-number="3.1">
-<h2 data-number="3.1" class="anchored" data-anchor-id="background"><span class="header-section-number">3.1</span> Background</h2>
+<section id="background" class="level2" data-number="10.1">
+<h2 data-number="10.1" class="anchored" data-anchor-id="background"><span class="header-section-number">10.1</span> Background</h2>
 <p>Accented text can cause problems for R.</p>
 <p>This method shows how to convert all accents from mixed encodings to UTF-8 text .</p>
 <p>Problems like this often emerge with data shared between PC/Mac/Linux and with data exported from Excel. The simple solution is to use the <strong><em>Encoding()</em></strong> function from the <strong><em>utf8</em></strong> package.</p>
-<section id="libraries" class="level3" data-number="3.1.1">
-<h3 data-number="3.1.1" class="anchored" data-anchor-id="libraries"><span class="header-section-number">3.1.1</span> Libraries</h3>
+<section id="libraries" class="level3" data-number="10.1.1">
+<h3 data-number="10.1.1" class="anchored" data-anchor-id="libraries"><span class="header-section-number">10.1.1</span> Libraries</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(utf8)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="dummy-data" class="level3" data-number="3.1.2">
-<h3 data-number="3.1.2" class="anchored" data-anchor-id="dummy-data"><span class="header-section-number">3.1.2</span> Dummy data</h3>
+<section id="dummy-data" class="level3" data-number="10.1.2">
+<h3 data-number="10.1.2" class="anchored" data-anchor-id="dummy-data"><span class="header-section-number">10.1.2</span> Dummy data</h3>
 <p>Here we define a vector x, which has accents. To simulate the problem, we set encoding to be mixed between UTF-8 and bytes, but the second entry is actually encoded in Latin <em>byte</em> format with the leading byte <em>0xE7 rather than in UTF-8.</em></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"fa\u00E7ile"</span>, <span class="st">"fa</span><span class="sc">\xE7</span><span class="st">ile"</span>, <span class="st">"fa</span><span class="sc">\xC3\xA7</span><span class="st">ile"</span>)</span>
@@ -525,12 +530,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="./update_R.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Update R - Bare Bones</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Update R - Bare Bones</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./remove_accents.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Remove_Accents</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./Interrupted_Time_Series.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">A pragmatic Introduction to Interrupted Time Series</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

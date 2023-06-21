@@ -12,15 +12,18 @@ book:
 
   - part: "R | RStudio"
     chapters:
+       - big_data_IO_benchmarks.qmd
        - extract_model_from_geom_smooth.qmd
-       - update_R.qmd
-       - utf8_encoding.qmd
+       - filename_changer.qmd
+       - Global_Political_Map.qmd
+       - photo_cleaning.qmd
        - remove_accents.qmd
        - text_to_speech_R.qmd
        - UK_Postcodes.qmd
-       - Global_Political_Map.qmd
-       - photo_cleaning.qmd
-       - filename_changer.qmd
+       - update_R.qmd
+       - utf8_encoding.qmd
+
+
 
   - part: "Statistics"
     chapters:

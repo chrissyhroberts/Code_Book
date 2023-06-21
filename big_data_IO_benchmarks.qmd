@@ -1,0 +1,103 @@
+# Big data I/O benchmarks
+
+This is a simple vignette which tests out a variety of ways to read and write data files.
+
+For the most part, CSV is preferred data format because it is human readable, but it rapidly becomes unwieldy as the size increases (rows, columns, both). Working with multithreaded I/O interfaces and with binary/database formats can make things much faster.
+
+Here, we simulate a reasonably large data set with 10 million rows and three variables and then test I/O speeds.
+
+These tests include
+
+`read_csv()` and `write_csv()` from tidyverse/dplyr
+
+`fread()` from data.table
+
+`read_parquet()` and `write_parquet()` from arrow package
+
+`read_feather()` and `write_feather()` from arrow package
+
+## Libraries
+
+```{r,warning=F,message=F}
+library(tidyverse)
+library(data.table)
+library(arrow)
+```
+
+## Create data frame
+
+```{r}
+
+df<-tibble( a = sample(x = c(1:50),10e6,replace=TRUE),
+            b = sample(x = c(1:50),10e6,replace=TRUE),
+            cc = sample(x = c(1:50),10e6,replace=TRUE)
+            )
+
+```
+
+## Benchmarks Write functions
+
+### `write_csv()`
+
+```{r}
+gc();system.time(write_csv(df,"data/tmp.csv"))
+str_c("size : ",round(file.info("data/tmp.csv")$size/10^6,2)," MB")
+```
+
+### `saveRDS`
+
+```{r}
+gc();system.time(saveRDS(df,"data/tmp.rds"))
+str_c("size : ",round(file.info("data/tmp.rds")$size/10^6,2)," MB")
+```
+
+### `write_feather()`
+
+```{r}
+system.time(write_feather(df,"data/tmp.feather"))
+str_c("size : ",round(file.info("data/tmp.feather")$size/10^6,2)," MB")
+```
+
+### `write_parquet()`
+
+```{r}
+system.time(write_parquet(df,"data/tmp.parquet"))
+str_c("size : ",round(file.info("data/tmp.parquet")$size/10^6,2)," MB")
+
+```
+
+## Benchmark Read functions
+
+### `read_csv()` 
+
+```{r,warning=F,message=F}
+rm(df);system.time(df<-read_csv("data/tmp.csv"),gcFirst = T)
+```
+
+### `fread()`
+
+```{r}
+rm(df);system.time(df<-fread("data/tmp.csv"),gcFirst = T)
+```
+
+### `read_feather()`
+
+```{r}
+rm(df);system.time(df<-read_feather("data/tmp.feather"),gcFirst = T)
+
+```
+
+### `read_parquet()`
+
+```{r}
+rm(df);system.time(df<-read_parquet("data/tmp.parquet"),gcFirst = T)
+```
+
+Tidy up
+
+```{r}
+file.remove("data/tmp.csv","data/tmp.feather","data/tmp.parquet","data/tmp.rds")
+
+
+
+```

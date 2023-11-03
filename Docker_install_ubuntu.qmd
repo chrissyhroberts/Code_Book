@@ -1,0 +1,126 @@
+---
+title: "Install Docker "
+author: "Chrissy Roberts"
+---
+
+Docker is a useful way to run linux in containers on systems that don't have a built in linux (Mostly Macs since the Linux Subsystem for Windows came along).
+
+Setting it up so that you can have a sandbox linux environment on your Mac is pretty easy.
+
+## Example
+
+In this example, we will show how to create a minimal installation of Ubuntu, link it to a folder on your host system so that you can move files back and forth, then install OpenBUGS, a stats program that runs only on Linux or Windows.
+
+## Create folders
+
+Figure out what folder you want to share between your mac and the linux container
+
+I'm using
+
+`/Users/icrucrob/Documents/Datasets/docker_shared`
+
+to create a folder, start a terminal, navigate to wherever you want with cd and then use mkdir
+
+`cd /Users/icrucrob/Documents/Datasets/mkdir`
+
+`docker_shared`
+
+## Create specification for a docker container (dockerfile)
+
+`cd /Users/icrucrob/Documents/Datasets/`
+
+`nano docker_minimal`
+
+Paste the following text in to nano, then press `CTRL` + `x` followed by `y` and then `enter` to save the dockerfile and quit nano.
+
+```         
+FROM ubuntu:20.04
+
+# Update package repositories and install packages
+RUN apt-get update && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+```
+
+## Build the docker container
+
+`docker buildx build -t minimal-ubuntu -f ./docker_minimal .`
+
+If successful, you should see something like this
+
+```         
+[+] Building 9.5s (7/7) FINISHED docker:desktop-linux => [internal] load .dockerignore 0.0s 
+=> => transferring context: 2B 0.0s => [internal] load build definition from docker_minimal 0.0s 
+=> => transferring dockerfile: 574B 0.0s => [internal] load metadata for docker.io/library/ubuntu:20.04 1.6s 
+=> [auth] library/ubuntu:pull token for registry-1.docker.io 0.0s 
+=> [1/2] FROM docker.io/library/ubuntu:20.04@sha256:ed4a42283d9943135ed8 3.5s 
+=> => resolve docker.io/library/ubuntu:20.04@sha256:ed4a42283d9943135ed8 0.0s 
+=> => sha256:bf40b7bc7a11b43785755d3c5f23dee03b08e988b32 2.30kB / 2.30kB 0.0s 
+=> => sha256:96d54c3075c9eeaed5561fd620828fd6bb5d80eca 27.51MB / 27.51MB 1.7s 
+=> => sha256:ed4a42283d9943135ed87d4ee34e542f7f5ad9ecf2f 1.13kB / 1.13kB 0.0s 
+=> => sha256:218bb51abbd1864df8be26166f847547b3851a89999ca7b 424B / 424B 0.0s 
+=> => extracting sha256:96d54c3075c9eeaed5561fd620828fd6bb5d80ecae7cb25f 1.7s 
+=> [2/2] RUN apt-get update && apt-get clean && rm -rf /var/lib/ 4.3s 
+=> exporting to image 0.0s 
+=> => exporting layers 0.0s 
+=> => writing image sha256:8d6b3dce84d6cf918e6ca8f2ec806ddd3aa1a018f8447 0.0s 
+=> => naming to docker.io/library/minimal-ubuntu 0.0s
+```
+
+## Start the container
+
+`docker run -it -v /Users/icrucrob/Documents/Datasets/docker_shared:/chrissy minimal-ubuntu`
+
+You should now be able to start and stop the container using the GUI of the docker dashboard. Access the terminal through the exec tab.
+
+Any files you put in the shared folder will persist on both machines.
+
+## Install dependencies
+
+This should be done in the docker container's terminal
+
+`apt update`
+
+`apt upgrade`
+
+`apt install curl`
+
+`apt install cmake`
+
+`apt install gcc`
+
+`apt install gcc-multilib`
+
+`apt install man-db`
+
+`apt install gawk`
+
+## Get the OpenBUGS source
+
+`curl https://www.mrc-bsu.cam.ac.uk/wp-content/uploads/2018/04/OpenBUGS-3.2.3.tar.gz –output OpenBUGS-3.2.3.tar.gz`
+
+## Install OpenBUGS
+
+`tar -xvzf OpenBUGS-3.2.3.tar.gz`
+
+`cd OpenBUGS-3.2.3`
+
+`./configure`
+
+`make`
+
+`make install`
+
+`unminimize`
+
+## Check the installation
+
+`OpenBUGS`
+
+If it is working, you should see the OpenBUGS prompt
+
+```         
+OpenBUGS version 3.2.3 rev 1012
+type 'modelQuit()' to quit
+OpenBUGS> 
+```

@@ -27,7 +27,7 @@ kable(df)
 Make a ggplot object with a geom_smooth()
 
 ```{r,warning=F,message=F}
-p <- ggplot(df, aes(month, n))+geom_smooth() +geom_point()
+p <- ggplot(df, aes(month, n))+geom_smooth(method = "lm") +geom_point()
 p
 ```
 

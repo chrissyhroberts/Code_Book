@@ -1,3 +1,8 @@
+---
+title: "Install Docker "
+author: "Chrissy Roberts"
+---
+
 # Big data I/O benchmarks
 
 This is a simple vignette which tests out a variety of ways to read and write data files.
@@ -22,6 +27,7 @@ These tests include
 library(tidyverse)
 library(data.table)
 library(arrow)
+library(reticulate)
 ```
 
 ## Create data frame
@@ -68,7 +74,7 @@ str_c("size : ",round(file.info("data/tmp.parquet")$size/10^6,2)," MB")
 
 ## Benchmark Read functions
 
-### `read_csv()` 
+### `read_csv()`
 
 ```{r,warning=F,message=F}
 rm(df);system.time(df<-read_csv("data/tmp.csv"),gcFirst = T)
@@ -93,11 +99,48 @@ rm(df);system.time(df<-read_feather("data/tmp.feather"),gcFirst = T)
 rm(df);system.time(df<-read_parquet("data/tmp.parquet"),gcFirst = T)
 ```
 
-Tidy up
+### Compare convert csv to parquet in R or python
+
+#### R
+
+```{r,warning=F,message=F}
+
+rm(df)
+
+a<-system.time(df<-read_csv("data/tmp.csv"),gcFirst = T)[3]
+b<-system.time(write_parquet(df,"data/tmp.parquet"),gcFirst = T)[3]
+a+b
+
+
+```
+
+#### **Python**
+
+```{python}
+import sys
+import pandas as pd
+import sys
+import pyarrow
+import time
+
+
+start = time.time()
+df = pd.read_csv("data/tmp.csv")
+
+df.to_parquet("data/tmp.parquet2")
+end = time.time()
+print(end - start)
+
+
+```
+
+Running this as a script in the terminal is much faster
+
+use `python3 script.py tmp.csv tmp.parquet`
+
+### Tidy up
 
 ```{r}
-file.remove("data/tmp.csv","data/tmp.feather","data/tmp.parquet","data/tmp.rds")
-
-
+file.remove("data/tmp.csv", "data/tmp.feather", "data/tmp.parquet", "data/tmp.rds")
 
 ```

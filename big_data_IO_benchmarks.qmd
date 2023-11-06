@@ -127,14 +127,14 @@ import time
 start = time.time()
 df = pd.read_csv("data/tmp.csv")
 
-df.to_parquet("data/tmp.parquet2")
+#df.to_parquet("data/tmp.parquet")
 end = time.time()
 print(end - start)
 
 
 ```
 
-Running this as a script in the terminal is much faster
+Running this as a script in the terminal is much faster and for some reason this crashes quarto. Through R it takes almost the same time.
 
 use `python3 script.py tmp.csv tmp.parquet`
 

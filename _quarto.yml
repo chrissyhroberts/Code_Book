@@ -54,6 +54,7 @@ book:
   - part: "Python, bash and other code"
     chapters:
        - Docker_install_ubuntu.qmd
+       - Join_photos_randomly.qmd
 
   - part: "Cribsheet [Other people's work]"
     chapters:

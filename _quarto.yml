@@ -12,7 +12,6 @@ book:
 
   - part: "R | RStudio"
     chapters:
-       - big_data_IO_benchmarks.qmd
        - extract_model_from_geom_smooth.qmd
        - filename_changer.qmd
        - Global_Political_Map.qmd

@@ -1,0 +1,1585 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Code Book - 24&nbsp; ruODK Setup and basic functions</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./diva_gis.html" rel="next">
+<link href="./ODK_Biometrics.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./ODK_Biometrics.html">ODK</a></li><li class="breadcrumb-item"><a href="./ruODK_basics.html"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">ruODK Setup and basic functions</span></a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Code Book</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introduction</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text">R | RStudio</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./extract_model_from_geom_smooth.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Extract Model from geom_smooth model</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./filename_changer.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Rename files procedurally</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Global_Political_Map.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Draw Political Maps (sf geom_sf)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./photo_cleaning.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Photo Cleaning For Sharing</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./remove_accents.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Remove_Accents</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./text_to_speech_R.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Text to Speech in R</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./UK_Postcodes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">UK Postcode Maps</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./update_R.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Update R - Bare Bones</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./utf8_encoding.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Normalise utf8 accented text</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+ <span class="menu-text">Statistics</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Cox-PH.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Survival Analysis with Cox-PH</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Interrupted_Time_Series.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">A pragmatic Introduction to Interrupted Time Series</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./new_lm_predict_left_predict_right.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">New lm Predict Left &amp; Predict Right</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Diagnostics_Power_Calculation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Diagnostic Evaluation Power Calculation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./CI95_point_estimate.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">95% Confidence Intervals on a point estimate</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./hazratio_chart.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Hazard Ratio Chart from Summary Data</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./power_calc_gen_case_control.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Genetic Power Calculator</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Principal_Components_Analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Principal Components Analysis</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Univariate_regressions_reported_as_a_table.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Univariate regressions, reported as a table</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+ <span class="menu-text">Laboratory | Field Methods</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Univariate_regressions_reported_as_a_table.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Univariate regressions, reported as a table</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Consent_Forms_with_QR.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Consent Forms with Unique IDs and QR Codes</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Digital_Luminex.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Digital Luminex</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Generic_Research_Data_Folder_Design.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Research study folder template</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">
+ <span class="menu-text">ODK</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ODK_Biometrics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">ODK Biometrics</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ruODK_basics.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">ruODK Setup and basic functions</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./diva_gis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">GIS Data to ODK itemlist</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ODK_geofencing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">ODK Geofencing</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ODK_Pi.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">ODK Pi - A deployable version of ODK on a Raspberry Pi</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true">
+ <span class="menu-text">Python, bash and other code</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Docker_install_ubuntu.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Install Docker</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Join_photos_randomly.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Join Photos side-by-side with tracked random arrangement</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="true">
+ <span class="menu-text">Cribsheet [Other people’s work]</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Akaike_Information_Criterion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Akaike information criterion</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#background" id="toc-background" class="nav-link active" data-scroll-target="#background"><span class="header-section-number">24.1</span> Background</a></li>
+  <li><a href="#add-your-credentials-to-r.environ" id="toc-add-your-credentials-to-r.environ" class="nav-link" data-scroll-target="#add-your-credentials-to-r.environ"><span class="header-section-number">24.2</span> Add your credentials to <em>r.environ</em></a></li>
+  <li><a href="#using-ruodk-to-download-a-data-set" id="toc-using-ruodk-to-download-a-data-set" class="nav-link" data-scroll-target="#using-ruodk-to-download-a-data-set"><span class="header-section-number">24.3</span> Using ruODK to download a data set</a>
+  <ul class="collapse">
+  <li><a href="#libraries" id="toc-libraries" class="nav-link" data-scroll-target="#libraries"><span class="header-section-number">24.3.1</span> Libraries</a></li>
+  <li><a href="#connect-to-server" id="toc-connect-to-server" class="nav-link" data-scroll-target="#connect-to-server"><span class="header-section-number">24.3.2</span> Connect to server</a></li>
+  <li><a href="#show-a-list-of-projects" id="toc-show-a-list-of-projects" class="nav-link" data-scroll-target="#show-a-list-of-projects"><span class="header-section-number">24.3.3</span> Show a list of projects</a></li>
+  <li><a href="#show-a-list-of-forms-that-are-included-in-the-project" id="toc-show-a-list-of-forms-that-are-included-in-the-project" class="nav-link" data-scroll-target="#show-a-list-of-forms-that-are-included-in-the-project"><span class="header-section-number">24.3.4</span> Show a list of forms that are included in the project</a></li>
+  <li><a href="#show-details-about-a-specific-form" id="toc-show-details-about-a-specific-form" class="nav-link" data-scroll-target="#show-details-about-a-specific-form"><span class="header-section-number">24.3.5</span> Show details about a specific form</a></li>
+  <li><a href="#show-a-list-of-submissions-to-a-specific-form" id="toc-show-a-list-of-submissions-to-a-specific-form" class="nav-link" data-scroll-target="#show-a-list-of-submissions-to-a-specific-form"><span class="header-section-number">24.3.6</span> Show a list of submissions to a specific form</a></li>
+  <li><a href="#pull-submissions" id="toc-pull-submissions" class="nav-link" data-scroll-target="#pull-submissions"><span class="header-section-number">24.3.7</span> Pull submissions</a></li>
+  <li><a href="#show-data" id="toc-show-data" class="nav-link" data-scroll-target="#show-data"><span class="header-section-number">24.3.8</span> Show data</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">ruODK Setup and basic functions</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="background" class="level2" data-number="24.1">
+<h2 data-number="24.1" class="anchored" data-anchor-id="background"><span class="header-section-number">24.1</span> Background</h2>
+<p>ruODK is a great package for interacting with ODK Central via R. Full details of how to use it are <a href="https://github.com/ropensci/ruODK">here</a>.</p>
+<p>To connect your ODK Central account to R, you’ll need to set up your passwords in the <em>r.environ</em> file so they’re not exposed in scripts. Your passwords will be stored in plain text on your <em>r.environ</em> so be cautious about which machines you work with this way. There’s also options to add you password manually each time, but we’ll assume you’re on a secure machine when you do this.</p>
+</section>
+<section id="add-your-credentials-to-r.environ" class="level2" data-number="24.2">
+<h2 data-number="24.2" class="anchored" data-anchor-id="add-your-credentials-to-r.environ"><span class="header-section-number">24.2</span> Add your credentials to <em>r.environ</em></h2>
+<p>Run this command to open the <em>r.environ</em> file</p>
+<blockquote class="blockquote">
+<p><strong>usethis::edit_r_environ(scope = “user”)</strong></p>
+</blockquote>
+<p>Inside renviron file, be careful not to delete anything, but add these lines (substituting your ODK central URL and email address in the appropriate places.</p>
+<blockquote class="blockquote">
+<p><strong>ODKC_URL=“https://central.xxx.com”</strong></p>
+<p><strong>ODKC_UN=“mustafa.orbach@xxx.com”</strong></p>
+</blockquote>
+<p>On a new line, add the password you use to log in to the system. Substitute <em>xxx</em> for your password</p>
+<blockquote class="blockquote">
+<p><strong>ODKC_PW=“xxx”</strong></p>
+</blockquote>
+<p>On a new line, add your password for decryption (if you use project level encryption). Substitute <em>xxx</em> for your password</p>
+<blockquote class="blockquote">
+<p><strong>ODKC_PP=“xxx”</strong></p>
+</blockquote>
+<p>Finally, save the <em>r.environ</em> file and restart R to load it in to R.</p>
+</section>
+<section id="using-ruodk-to-download-a-data-set" class="level2" data-number="24.3">
+<h2 data-number="24.3" class="anchored" data-anchor-id="using-ruodk-to-download-a-data-set"><span class="header-section-number">24.3</span> Using ruODK to download a data set</h2>
+<section id="libraries" class="level3" data-number="24.3.1">
+<h3 data-number="24.3.1" class="anchored" data-anchor-id="libraries"><span class="header-section-number">24.3.1</span> Libraries</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ruODK)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+✔ dplyr     1.1.3     ✔ readr     2.1.4
+✔ forcats   1.0.0     ✔ stringr   1.5.0
+✔ ggplot2   3.4.4     ✔ tibble    3.2.1
+✔ lubridate 1.9.3     ✔ tidyr     1.3.0
+✔ purrr     1.0.2     
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="connect-to-server" class="level3" data-number="24.3.2">
+<h3 data-number="24.3.2" class="anchored" data-anchor-id="connect-to-server"><span class="header-section-number">24.3.2</span> Connect to server</h3>
+<p>My servers are at central.lshtm.ac.uk. You need to change this to yours. <strong>Sys.getenv()</strong> pulls the passwords from the <em>r.environ</em> file in a way that is more secure than just adding to the script.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">#connect to server</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>ruODK<span class="sc">::</span><span class="fu">ru_setup</span>(</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">url =</span> <span class="st">"https://central.lshtm.ac.uk"</span>,</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">un =</span> <span class="fu">Sys.getenv</span>(<span class="st">"ODKC_UN"</span>),</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">pw =</span> <span class="fu">Sys.getenv</span>(<span class="st">"ODKC_PW"</span>),</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">tz =</span> <span class="st">"Europe/London"</span>,</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">verbose =</span> <span class="cn">TRUE</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>&lt;ruODK settings&gt;
+  Default ODK Central Project ID:  
+  Default ODK Central Form ID:  
+  Default ODK Central URL: https://central.lshtm.ac.uk 
+  Default ODK Central Username: chrissy.roberts@lshtm.ac.uk 
+  Default ODK Central Password: run ruODK::get_default_pw() to show 
+  Default ODK Central Passphrase: run ruODK::get_default_pp() to show 
+  Default Time Zone: Europe/London 
+  Default ODK Central Version: 1.1 
+  Default HTTP GET retries: 3 
+  Verbose messages: TRUE 
+  Test ODK Central Project ID:  
+  Test ODK Central Form ID:  
+  Test ODK Central Form ID (ZIP tests):  
+  Test ODK Central Form ID (Attachment tests):  
+  Test ODK Central Form ID (Parsing tests):  
+  Test ODK Central Form ID (WKT tests):  
+  Test ODK Central URL:  
+  Test ODK Central Username:  
+  Test ODK Central Password: run ruODK::get_test_pw() to show 
+  Test ODK Central Passphrase: run ruODK::get_test_pp() to show 
+  Test ODK Central Version: 1.1 </code></pre>
+</div>
+</div>
+</section>
+<section id="show-a-list-of-projects" class="level3" data-number="24.3.3">
+<h3 data-number="24.3.3" class="anchored" data-anchor-id="show-a-list-of-projects"><span class="header-section-number">24.3.3</span> Show a list of projects</h3>
+<p>You’ll want to know the pid number, given here as <code>id</code></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(ruODK<span class="sc">::</span><span class="fu">project_list</span>()[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>,<span class="sc">-</span><span class="dv">9</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<colgroup>
+<col style="width: 2%">
+<col style="width: 15%">
+<col style="width: 6%">
+<col style="width: 4%">
+<col style="width: 3%">
+<col style="width: 13%">
+<col style="width: 13%">
+<col style="width: 5%">
+<col style="width: 3%">
+<col style="width: 5%">
+<col style="width: 4%">
+<col style="width: 13%">
+<col style="width: 6%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: right;">id</th>
+<th style="text-align: left;">name</th>
+<th style="text-align: left;">description</th>
+<th style="text-align: left;">archived</th>
+<th style="text-align: right;">key_id</th>
+<th style="text-align: left;">created_at</th>
+<th style="text-align: left;">updated_at</th>
+<th style="text-align: left;">deleted_at</th>
+<th style="text-align: right;">forms</th>
+<th style="text-align: right;">app_users</th>
+<th style="text-align: right;">datasets</th>
+<th style="text-align: left;">last_submission</th>
+<th style="text-align: left;">last_entity</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">138</td>
+<td style="text-align: left;">000_entities_chrissy_roberts</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">FALSE</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: left;">2023-10-16T12:20:44.601Z</td>
+<td style="text-align: left;">2023-10-17T10:22:12.362Z</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">2023-10-16T21:16:44.950Z</td>
+<td style="text-align: left;">NA</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">37</td>
+<td style="text-align: left;">000_Scratch_Project__Chrissy</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">FALSE</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: left;">2021-06-10T11:43:13.735Z</td>
+<td style="text-align: left;">2023-07-21T14:20:50.404Z</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">24</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">2023-11-17T15:33:21.949Z</td>
+<td style="text-align: left;">NA</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section id="show-a-list-of-forms-that-are-included-in-the-project" class="level3" data-number="24.3.4">
+<h3 data-number="24.3.4" class="anchored" data-anchor-id="show-a-list-of-forms-that-are-included-in-the-project"><span class="header-section-number">24.3.4</span> Show a list of forms that are included in the project</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(ruODK<span class="sc">::</span><span class="fu">form_list</span>(<span class="at">pid =</span> <span class="dv">37</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<colgroup>
+<col style="width: 1%">
+<col style="width: 7%">
+<col style="width: 0%">
+<col style="width: 3%">
+<col style="width: 7%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 0%">
+<col style="width: 1%">
+<col style="width: 3%">
+<col style="width: 4%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 2%">
+<col style="width: 7%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 7%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 7%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: right;">project_id</th>
+<th style="text-align: left;">xml_form_id</th>
+<th style="text-align: left;">state</th>
+<th style="text-align: left;">enketo_id</th>
+<th style="text-align: left;">enketo_once_id</th>
+<th style="text-align: left;">created_at</th>
+<th style="text-align: left;">updated_at</th>
+<th style="text-align: right;">key_id</th>
+<th style="text-align: left;">version</th>
+<th style="text-align: left;">hash</th>
+<th style="text-align: left;">sha</th>
+<th style="text-align: left;">sha256</th>
+<th style="text-align: left;">draft_token</th>
+<th style="text-align: left;">published_at</th>
+<th style="text-align: left;">name</th>
+<th style="text-align: right;">submissions</th>
+<th style="text-align: left;">entity_related</th>
+<th style="text-align: right;">review_states_received</th>
+<th style="text-align: right;">review_states_has_issues</th>
+<th style="text-align: right;">review_states_edited</th>
+<th style="text-align: left;">last_submission</th>
+<th style="text-align: left;">excel_content_type</th>
+<th style="text-align: right;">created_by_id</th>
+<th style="text-align: left;">created_by_type</th>
+<th style="text-align: left;">created_by_display_name</th>
+<th style="text-align: left;">created_by_created_at</th>
+<th style="text-align: left;">created_by_updated_at</th>
+<th style="text-align: left;">created_by_deleted_at</th>
+<th style="text-align: left;">fid</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">37</td>
+<td style="text-align: left;">AN_Monitor</td>
+<td style="text-align: left;">open</td>
+<td style="text-align: left;">gGwfHzOgg3dMejAgIZHOU1FcuzyRobK</td>
+<td style="text-align: left;">11c1c76d466f72e471d12b11c9f5d223a5987a23dade79a42d9ed3db663c51a8</td>
+<td style="text-align: left;">2023-07-21 15:14:40</td>
+<td style="text-align: left;">2023-07-21 15:20:50</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">bfb550086d060c85ca5c98bd31575537</td>
+<td style="text-align: left;">42b9d1742e0387b387bebd8ab3f2542f262d92a7</td>
+<td style="text-align: left;">d3d6f0abb2c8c28af73b75bbc815bc20545056feda7a88526ae7ce7c15d01f99</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">2023-07-21 15:18:26</td>
+<td style="text-align: left;">AN_Monitor</td>
+<td style="text-align: right;">32</td>
+<td style="text-align: left;">FALSE</td>
+<td style="text-align: right;">31</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">2023-08-02T10:40:40.969Z</td>
+<td style="text-align: left;">application/vnd.openxmlformats-officedocument.spreadsheetml.sheet</td>
+<td style="text-align: right;">19</td>
+<td style="text-align: left;">user</td>
+<td style="text-align: left;">Chrissy h. Roberts (SA)</td>
+<td style="text-align: left;">2020-10-13 13:38:03</td>
+<td style="text-align: left;">2020-10-16 12:26:24</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">AN_Monitor</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">37</td>
+<td style="text-align: left;">Badger-2040-Test-Acquire</td>
+<td style="text-align: left;">open</td>
+<td style="text-align: left;">XO8gzUmvHtUl8DchjYiLbzltj2EaljN</td>
+<td style="text-align: left;">8b4cbaad7ef0d1c35041f326a23748e41bcd8fcce320f86ce23e765152f5191e</td>
+<td style="text-align: left;">2023-07-17 13:46:34</td>
+<td style="text-align: left;">2023-07-21 15:20:50</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: left;">1688347654</td>
+<td style="text-align: left;">aad5b860f0a9b0802746814931600ca3</td>
+<td style="text-align: left;">2fd1201f2064b45e515c713d422ab5702188120f</td>
+<td style="text-align: left;">87e283cf98c4b9fb70caf491d7ab955c3d45991cd748227c8bc5a5e1477914ca</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">2023-07-17 13:47:22</td>
+<td style="text-align: left;">Badger 2040 Test Acquire</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">FALSE</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">2023-07-17T12:49:07.408Z</td>
+<td style="text-align: left;">application/vnd.openxmlformats-officedocument.spreadsheetml.sheet</td>
+<td style="text-align: right;">19</td>
+<td style="text-align: left;">user</td>
+<td style="text-align: left;">Chrissy h. Roberts (SA)</td>
+<td style="text-align: left;">2020-10-13 13:38:03</td>
+<td style="text-align: left;">2020-10-16 12:26:24</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">Badger-2040-Test-Acquire</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">37</td>
+<td style="text-align: left;">barcode</td>
+<td style="text-align: left;">open</td>
+<td style="text-align: left;">JhyeDvlWAsCHf9QHEGBMTHhCxav9Sas</td>
+<td style="text-align: left;">ffb06698afb54d556ad46662c2d2525ba75e998703f5d67dba452f1a70bc652a</td>
+<td style="text-align: left;">2023-07-17 13:31:00</td>
+<td style="text-align: left;">2023-07-21 15:20:50</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">bf0a782e17e8b5b49118ed29f96016a4</td>
+<td style="text-align: left;">55988cd4a0cfc3b72f321d507df721d21dabf5e5</td>
+<td style="text-align: left;">9898f5db30d7bf585f414bf3f0076220cb3ca9b34134d1665cf4a0d494e11f0e</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">2023-07-17 13:31:07</td>
+<td style="text-align: left;">barcode</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: left;">FALSE</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">2023-07-17T12:36:05.736Z</td>
+<td style="text-align: left;">application/vnd.openxmlformats-officedocument.spreadsheetml.sheet</td>
+<td style="text-align: right;">19</td>
+<td style="text-align: left;">user</td>
+<td style="text-align: left;">Chrissy h. Roberts (SA)</td>
+<td style="text-align: left;">2020-10-13 13:38:03</td>
+<td style="text-align: left;">2020-10-16 12:26:24</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">barcode</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">37</td>
+<td style="text-align: left;">Book1</td>
+<td style="text-align: left;">open</td>
+<td style="text-align: left;">iEJdbcIkiiy4EJRbbrSXZLT5UV3H5Dd</td>
+<td style="text-align: left;">a12692041174d95b2bf77c641c4cc59b06a6118b9f132ff897441acdabf429a7</td>
+<td style="text-align: left;">2023-10-03 10:45:21</td>
+<td style="text-align: left;">2023-10-03 11:20:59</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: left;">6</td>
+<td style="text-align: left;">98a93fbbc315d701ec2a1c00fea9f3e1</td>
+<td style="text-align: left;">51645db17b4ab4d1b65c1e0802aa184be88415a5</td>
+<td style="text-align: left;">73363d42cbe6a93b9eab810a172bf60369c588adff289fc484c13acd2aaaadb1</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">2023-10-03 10:45:30</td>
+<td style="text-align: left;">Book1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">FALSE</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">application/vnd.openxmlformats-officedocument.spreadsheetml.sheet</td>
+<td style="text-align: right;">19</td>
+<td style="text-align: left;">user</td>
+<td style="text-align: left;">Chrissy h. Roberts (SA)</td>
+<td style="text-align: left;">2020-10-13 13:38:03</td>
+<td style="text-align: left;">2020-10-16 12:26:24</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">Book1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">37</td>
+<td style="text-align: left;">Book2</td>
+<td style="text-align: left;">open</td>
+<td style="text-align: left;">iMFxucJ5QoVlX8Fk58DJ2oa1MDbw1sV</td>
+<td style="text-align: left;">4904830bafa8a7cb0e4d28fe0311d5e272a9aa0bdac6d32bac3f0c9ec95ca1ff</td>
+<td style="text-align: left;">2023-10-03 11:21:25</td>
+<td style="text-align: left;">2023-10-03 11:22:13</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">254cd7fe492ee632cfa3f09f337c8641</td>
+<td style="text-align: left;">f1807ff6ae156a1f9ac1e178367fc576e9602158</td>
+<td style="text-align: left;">3267505c477fb1b76a567e1f7958d6b2afadc7eb870d19b2a702bb5c2cfbe4b9</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">2023-10-03 11:22:13</td>
+<td style="text-align: left;">Book2</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">FALSE</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">application/vnd.openxmlformats-officedocument.spreadsheetml.sheet</td>
+<td style="text-align: right;">19</td>
+<td style="text-align: left;">user</td>
+<td style="text-align: left;">Chrissy h. Roberts (SA)</td>
+<td style="text-align: left;">2020-10-13 13:38:03</td>
+<td style="text-align: left;">2020-10-16 12:26:24</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">Book2</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">37</td>
+<td style="text-align: left;">bsc4</td>
+<td style="text-align: left;">open</td>
+<td style="text-align: left;">ujsgQE0BigNyuMsWcfCwZQJo3soXbcH</td>
+<td style="text-align: left;">758767be4f73ee6f7e5224d71c04b38b199c7f0d6c6da4d173a8ce4870062821</td>
+<td style="text-align: left;">2023-11-03 09:45:40</td>
+<td style="text-align: left;">2023-11-03 09:45:44</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">093d3ca75cc80d42bd35a0bb60f30832</td>
+<td style="text-align: left;">3fe5b79e18603dfe9baa40b3745fb6ae2d393504</td>
+<td style="text-align: left;">6eafbe8e38f0f70408bf4b003e507939ac8e093979d540261734dc00cb33c4e1</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">2023-11-03 09:45:44</td>
+<td style="text-align: left;">botswana spectacle compliance questionnaire</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">FALSE</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">application/vnd.openxmlformats-officedocument.spreadsheetml.sheet</td>
+<td style="text-align: right;">19</td>
+<td style="text-align: left;">user</td>
+<td style="text-align: left;">Chrissy h. Roberts (SA)</td>
+<td style="text-align: left;">2020-10-13 13:38:03</td>
+<td style="text-align: left;">2020-10-16 12:26:24</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">bsc4</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">37</td>
+<td style="text-align: left;">deja_vu</td>
+<td style="text-align: left;">open</td>
+<td style="text-align: left;">mfAXNBr1eZMZujYooScRiKpr1qAA2x8</td>
+<td style="text-align: left;">e5b8c3e94accd393038a389a09e013685241610d91df20c4bf1d04aef8bb13ff</td>
+<td style="text-align: left;">2023-06-09 18:11:30</td>
+<td style="text-align: left;">2023-07-21 15:20:50</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">31bf3382e15635e5e6b026c0d714ced9</td>
+<td style="text-align: left;">ca2f839c483e598349ba94ae30130964ee543906</td>
+<td style="text-align: left;">c149d95797e9dc82cb81168b66dc0a3ddb5129007168fc2be5d63eb0b255e936</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">2023-06-09 18:12:03</td>
+<td style="text-align: left;">deja_vu</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">FALSE</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">application/vnd.openxmlformats-officedocument.spreadsheetml.sheet</td>
+<td style="text-align: right;">19</td>
+<td style="text-align: left;">user</td>
+<td style="text-align: left;">Chrissy h. Roberts (SA)</td>
+<td style="text-align: left;">2020-10-13 13:38:03</td>
+<td style="text-align: left;">2020-10-16 12:26:24</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">deja_vu</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">37</td>
+<td style="text-align: left;">dynamic_image</td>
+<td style="text-align: left;">open</td>
+<td style="text-align: left;">W0ce45XegHMKg5hIpu6TvjREmZXDemG</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">2023-06-14 14:05:39</td>
+<td style="text-align: left;">2023-07-21 15:20:50</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: left;">20230614_2122</td>
+<td style="text-align: left;">52f43580b65f9dbf2989443ab9ba8e00</td>
+<td style="text-align: left;">b7cf5d0af2745911b245602e905a1802dcdcb221</td>
+<td style="text-align: left;">6397c943464b458e1bb2e3cd2186cc8e09b9ff1f3a3b03f8dd7a828ca6afa220</td>
+<td style="text-align: left;">vpqM<span class="math inline">\(DrUXdUXlt3sMxKzuMR3uUlpEIi38qEOtFPZc2BBL1NdXOlR4H1HWSmwnEA6 |NA |DynamicImage | 0|FALSE | 0| 0| 0|NA |application/vnd.openxmlformats-officedocument.spreadsheetml.sheet | 19|user |Chrissy h. Roberts (SA) |2020-10-13 13:38:03 |2020-10-16 12:26:24 |NA |dynamic_image | | 37|Consent_Online |open |w1HeDySCXDaDttbDMNcHYiKqcsIdEfF |558feac954aec8f6e1ace5a5f8df307f39764450f133030ab2c4493a1c3c598b |2022-10-21 11:25:43 |2023-07-21 15:20:50 | NA|1 |cf910d1d93c659fe238c0a5d51d0e695 |c183764c1da7991a79bd4f8c53a2346f7863e04c |557fbec6339a464faa53c37ffb66d6af6e4051bcb61436f5a40b0a19474fc57e |NA |2022-10-21 11:58:58 |Eureka Study | 3|FALSE | 2| 0| 1|2023-08-03T13:25:28.961Z |application/vnd.openxmlformats-officedocument.spreadsheetml.sheet | 19|user |Chrissy h. Roberts (SA) |2020-10-13 13:38:03 |2020-10-16 12:26:24 |NA |Consent_Online | | 37|form_with_id |open |uvFBa4B0ZUFicVILv4CgHUTmCi1wvzb |93ba398d78627670f0cf746b0881a38c0b9b11b84741cd945337c6507291d96b |2023-10-03 10:40:44 |2023-10-03 11:18:06 | NA|34 |f2a03f1c5f37c4575e618a8926830cd9 |463e75fed8e88b957cac1ade28a23b870dad377d |accbab9816a566ecf7bd643364f4a28fcf8f23bda9b78e09cbbd8389144d841b |NA |2023-10-03 11:18:06 |form_with_id | 8|FALSE | 8| 0| 0|2023-10-03T10:17:32.503Z |application/vnd.openxmlformats-officedocument.spreadsheetml.sheet | 19|user |Chrissy h. Roberts (SA) |2020-10-13 13:38:03 |2020-10-16 12:26:24 |NA |form_with_id | | 37|geopoint_map |open |aPU4FTAcx124KGvWwtOUJhoVniE1GQT |ecce075b71472afbf97fce27a53c1298114cfbe1c129d16684e2e2e9e70d01a7 |2022-07-21 11:00:49 |2023-07-21 15:20:50 | NA| |f0b34efc38940a990396576f4643a008 |2d96e27527c1de28998373e741ed64515d9bf8d5 |c7aaf2141eef6b69a355d4c36af3c46341f876a921ebc5d11c55d26109cea6c2 |NA |2022-07-21 13:09:42 |geopoint_map | 4|FALSE | 2| 0| 2|2023-06-22T09:57:57.153Z |application/vnd.openxmlformats-officedocument.spreadsheetml.sheet | 19|user |Chrissy h. Roberts (SA) |2020-10-13 13:38:03 |2020-10-16 12:26:24 |NA |geopoint_map | | 37|geopoint_test |open |reXze8unsqqOaOVPuUtuHheIDLYkik3 |e174bc81e0ea052e8d282915d638dbb0bc83085ff03ef7ebd90fb5714f3710f4 |2022-06-16 12:19:45 |2023-07-21 15:20:50 | NA| |dacea051c12f44b2241eb51b83157c4c |73083a0de82fde3fad47c11471cc97d6e5d1d1b0 |d2817c391c1c4bfba9a9fe9baed5a6190f784d44aafec8fb3d57011b36e48aa2 |NA |2022-06-16 12:20:55 |geopoint_test | 0|FALSE | 0| 0| 0|NA |application/vnd.openxmlformats-officedocument.spreadsheetml.sheet | 19|user |Chrissy h. Roberts (SA) |2020-10-13 13:38:03 |2020-10-16 12:26:24 |NA |geopoint_test | | 37|Guinée questionnaire sur l'implémentation 22 Septembre 2022 V5 |open |nXDh9ihm5xWo4zzIoE3xvh6gQ5m6noy |39dcb9596b208fdc147665f2b40ffe3cdbd3130722e44e2cad977fa258e2f22f |2022-09-22 11:42:24 |2023-11-03 09:44:41 | NA| |15bfaa3400d9aefe5cc72171abe2a035 |71f3ca02bbb9a91a29deaeef10de97699db0256c |b13c00b634b6774c32604d9202e558438d8973c41542495eae5c7fd50ac48b79 |NA |2023-11-03 09:44:41 |Guinée questionnaire sur l'implémentation 22 Septembre 2022 V5 | 0|FALSE | 0| 0| 0|NA |application/vnd.openxmlformats-officedocument.spreadsheetml.sheet | 19|user |Chrissy h. Roberts (SA) |2020-10-13 13:38:03 |2020-10-16 12:26:24 |NA |Guinée questionnaire sur l'implémentation 22 Septembre 2022 V5 | | 37|indexed_repeat_with_internal_cascading_select |open |wYI980zrjTKRLugyaeVbmfgQgPkO5lA |5bcb31a950f149af7ae1c13fa3938867354586d7c516436295a7025e09b08fce |2022-06-09 08:35:34 |2023-07-21 15:20:50 | NA| |e61dbda049489bcff50d5d21603a34f0 |053a5d0dd254a88926c733046d41cfd2687df10c |1b303413342ce3f4361dc06841054146b0ecc7e64deb8d173f9c701e2af080ac |NA |2022-06-09 08:36:48 |indexed_repeat_with_internal_cascading_select | 3|FALSE | 1| 0| 1|2022-06-09T07:38:12.442Z |application/vnd.openxmlformats-officedocument.spreadsheetml.sheet | 19|user |Chrissy h. Roberts (SA) |2020-10-13 13:38:03 |2020-10-16 12:26:24 |NA |indexed_repeat_with_internal_cascading_select | | 37|ODK XLSForm Template v2023.1 |open |EBrgrhBwmZRZTy7JcVyNOags9ncZvaL |07a4ac52a6bdf3c7a5743b0bdc0586a0405f767c5bc614918a789cc343054556 |2023-11-17 13:36:18 |2023-11-17 15:32:50 | NA|20231117153234 |21b90a37a21cfeae9024e7db8f843b30 |b0c3cb83e85b66435e002b08cdc254d9cdf51980 |00bd59695d5075616deb7a257bad9fa82ca7623c1c94760116ace7a7ec1e10b9 |NA |2023-11-17 15:32:50 |ODK XLSForm Template v2023.1 | 3|FALSE | 3| 0| 0|2023-11-17T15:33:21.949Z |application/vnd.openxmlformats-officedocument.spreadsheetml.sheet | 19|user |Chrissy h. Roberts (SA) |2020-10-13 13:38:03 |2020-10-16 12:26:24 |NA |ODK XLSForm Template v2023.1 | | 37|period.diary |open |wn1QkzNaPx5RvYBcwvEPBNOyrPb7LiE |523e22e3eafa21d4313e53ebedf28e1fd4cafe1508e42c1fe8cb9e2c24f08004 |2022-06-14 22:40:55 |2023-07-21 15:20:50 | NA| |d4ce754877a34b1ab1c66f4c0ece4f03 |3dbca6a7253e712218ec4d00ebd4889cdc32f8ac |961ac4fa9273c7fc28454352f6d48a63265b434b5347076ae4348282e0f0f9a6 |NA |2023-07-12 14:28:02 |period.diary | 2|FALSE | 0| 0| 2|2023-07-12T13:28:55.318Z |application/vnd.openxmlformats-officedocument.spreadsheetml.sheet | 19|user |Chrissy h. Roberts (SA) |2020-10-13 13:38:03 |2020-10-16 12:26:24 |NA |period.diary | | 37|prepopulate.example |open |6PjXO9YhLRDcfZdORRWZKApXzzxA1vF |fe45e799aab8e1b7a21a15ee491bcc8c095e7fc4ecb95345274b47667c3114b5 |2021-06-10 13:26:35 |2023-07-21 15:20:50 | NA|1 |9518e5bc127b144b11fd469684b3ac80 |a8261359f6216499c2a137a7608ae8235966485b |ccdd0dd114efbfc17f88e1ff3cab084385d28ce31cff800704298e294ff75154 |NA |2021-06-10 13:27:20 |prepopulate.example | 13|FALSE | 8| 0| 5|2021-06-10T12:53:25.956Z |application/vnd.openxmlformats-officedocument.spreadsheetml.sheet | 19|user |Chrissy h. Roberts (SA) |2020-10-13 13:38:03 |2020-10-16 12:26:24 |NA |prepopulate.example | | 37|scan |open |m8ndkVZvroSdbeaZtzd8jIJNNpgcGo8 |NA |2023-07-07 12:19:41 |2023-07-21 15:20:50 | NA| |8cf728f37c1e5a6a57991a55be531002 |6f1f9e9731bf630907fea298780b91a872a71828 |52455f3ba145c05b950ac9877cefe8e471276f7b70b261be88186cc19c97e12b |h18rXzcd\)</span>sXAgB5YudHU7tN5PDTWSjYiMSmGSuKaoZXb8Yg7xsNlmATELAemAu9F</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">scan</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">FALSE</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">application/vnd.openxmlformats-officedocument.spreadsheetml.sheet</td>
+<td style="text-align: right;">19</td>
+<td style="text-align: left;">user</td>
+<td style="text-align: left;">Chrissy h. Roberts (SA)</td>
+<td style="text-align: left;">2020-10-13 13:38:03</td>
+<td style="text-align: left;">2020-10-16 12:26:24</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">scan</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">37</td>
+<td style="text-align: left;">socialcontact</td>
+<td style="text-align: left;">open</td>
+<td style="text-align: left;">59KbfDuxbnASccLDIO8k1mncP8D6915</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">2022-07-20 11:36:55</td>
+<td style="text-align: left;">2023-07-21 15:20:50</td>
+<td style="text-align: right;">3100</td>
+<td style="text-align: left;">20192310</td>
+<td style="text-align: left;">0a4bc27525b822f379a5522423107270</td>
+<td style="text-align: left;">685dd2f797cc3b2c75596ef6ec5032239c68a2b1</td>
+<td style="text-align: left;">a007fede67456309bf5f49188dcdafc4579d687860c013ff1e938949f2a9a974</td>
+<td style="text-align: left;">i7K!YgHLrOSCLwb9qcg8wm8nSOa21TBM5kFGHOB6HEMA0l0UfQbxml4QSZmQl3QB</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">Social_Contact_Survey</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">FALSE</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">19</td>
+<td style="text-align: left;">user</td>
+<td style="text-align: left;">Chrissy h. Roberts (SA)</td>
+<td style="text-align: left;">2020-10-13 13:38:03</td>
+<td style="text-align: left;">2020-10-16 12:26:24</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">socialcontact</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">37</td>
+<td style="text-align: left;">states</td>
+<td style="text-align: left;">open</td>
+<td style="text-align: left;">dMP1Efe2fCyn9BcW4q3QXDjxLCb97hw</td>
+<td style="text-align: left;">83286e46cfe4b556cb1cd45e91d75bebd26709906f7dcf41aa59024f0861b4a9</td>
+<td style="text-align: left;">2023-06-13 17:23:48</td>
+<td style="text-align: left;">2023-07-21 15:20:50</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">fb485b922d4b568d7096e995faf56d7f</td>
+<td style="text-align: left;">2599294b363c40796c2575860e6a94d524d6431c</td>
+<td style="text-align: left;">fbe8dd65167d828a9812346633335f1e7cfc8dce7bb6dab618ba94bab0d38744</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">2023-06-13 17:50:44</td>
+<td style="text-align: left;">states</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">FALSE</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">application/vnd.openxmlformats-officedocument.spreadsheetml.sheet</td>
+<td style="text-align: right;">19</td>
+<td style="text-align: left;">user</td>
+<td style="text-align: left;">Chrissy h. Roberts (SA)</td>
+<td style="text-align: left;">2020-10-13 13:38:03</td>
+<td style="text-align: left;">2020-10-16 12:26:24</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">states</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">37</td>
+<td style="text-align: left;">iov_v4</td>
+<td style="text-align: left;">open</td>
+<td style="text-align: left;">zO5rRQ9qdHzWWCJ7CMIuxi3TNRatfYF</td>
+<td style="text-align: left;">5b9a5a604ad8cd36d753fe7a97742c04ce2496090564fe67983b11c8c9ed7f2e</td>
+<td style="text-align: left;">2023-06-13 11:17:19</td>
+<td style="text-align: left;">2023-07-21 15:20:50</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">1a27a53332476c816f62fbc311377374</td>
+<td style="text-align: left;">ba5b8619c0369fe60868dfae1dce3c78b3a4a567</td>
+<td style="text-align: left;">b640ba40e05a7347f223a5e3050e27eefa15d8571e01f26db32db1c5d97ff9fb</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">2023-06-13 13:56:14</td>
+<td style="text-align: left;">Trachoma Grader Exam v4</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">FALSE</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">19</td>
+<td style="text-align: left;">user</td>
+<td style="text-align: left;">Chrissy h. Roberts (SA)</td>
+<td style="text-align: left;">2020-10-13 13:38:03</td>
+<td style="text-align: left;">2020-10-16 12:26:24</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">iov_v4</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">37</td>
+<td style="text-align: left;">trachoma_grading_test</td>
+<td style="text-align: left;">open</td>
+<td style="text-align: left;">vv2zLC5LcjGaE4XuvUVcRfZ8sAcLGFs</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">2023-06-13 14:51:03</td>
+<td style="text-align: left;">2023-07-21 15:20:50</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">857e24f535a2e4f7dfc022f201c2c5f3</td>
+<td style="text-align: left;">2e14abea6e83b9a22b82d34c2a6fdb3d79f0f213</td>
+<td style="text-align: left;">030c65210ff544a069b0f6266a07169b563e22553b8e5b54b441a3852c8116de</td>
+<td style="text-align: left;">qp1QzD1Zi0FRqiV2wdMPpgVWYB2TSWmSnNLU$Uy7OR7tlDwu1bqrS7acCZIJ6eFt</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">trachoma_grading_test</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">FALSE</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">application/vnd.openxmlformats-officedocument.spreadsheetml.sheet</td>
+<td style="text-align: right;">19</td>
+<td style="text-align: left;">user</td>
+<td style="text-align: left;">Chrissy h. Roberts (SA)</td>
+<td style="text-align: left;">2020-10-13 13:38:03</td>
+<td style="text-align: left;">2020-10-16 12:26:24</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">trachoma_grading_test</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">37</td>
+<td style="text-align: left;">Version 4 MSc ODK FORM</td>
+<td style="text-align: left;">open</td>
+<td style="text-align: left;">1txKNg1kWWsSZ7rBb9H9NlvvxwguIca</td>
+<td style="text-align: left;">d8bbab33debd16bc5879e707933c50a8c615d816d28245c33f5c085340e2f44f</td>
+<td style="text-align: left;">2023-10-03 10:28:29</td>
+<td style="text-align: left;">2023-10-03 10:28:51</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">2f1794f1769f7e1bfdc94f7f5d503998</td>
+<td style="text-align: left;">d94e791991fb2ea82a1d3684798c2c8569b947ec</td>
+<td style="text-align: left;">0929c85e60f026828cdfaeb6fd103c1302e3cb6e000f34a78abc4736afaaf82e</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">2023-10-03 10:28:33</td>
+<td style="text-align: left;">Version 4 MSc ODK FORM</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">FALSE</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">application/vnd.openxmlformats-officedocument.spreadsheetml.sheet</td>
+<td style="text-align: right;">19</td>
+<td style="text-align: left;">user</td>
+<td style="text-align: left;">Chrissy h. Roberts (SA)</td>
+<td style="text-align: left;">2020-10-13 13:38:03</td>
+<td style="text-align: left;">2020-10-16 12:26:24</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">Version 4 MSc ODK FORM</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">37</td>
+<td style="text-align: left;">Zim_Photos</td>
+<td style="text-align: left;">open</td>
+<td style="text-align: left;">Qmh4mHegPlAi65mGG8E6cg9npzsPtAx</td>
+<td style="text-align: left;">bbcb36e9fe0ed7cca8982cc4ca8f12ca432615ee63899d36568bb9c867201810</td>
+<td style="text-align: left;">2022-09-09 10:48:36</td>
+<td style="text-align: left;">2023-07-21 15:20:50</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">118c629659e9e59d18bcbdf248019d16</td>
+<td style="text-align: left;">667a2e0e3e795282b18bbe30f813e8458c169377</td>
+<td style="text-align: left;">0bdf80ebc607cff4806ba0019092e102d203691504cab25672aac6dc9a8901fe</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">2022-09-09 10:48:54</td>
+<td style="text-align: left;">Zim_Photos</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">FALSE</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">application/vnd.openxmlformats-officedocument.spreadsheetml.sheet</td>
+<td style="text-align: right;">19</td>
+<td style="text-align: left;">user</td>
+<td style="text-align: left;">Chrissy h. Roberts (SA)</td>
+<td style="text-align: left;">2020-10-13 13:38:03</td>
+<td style="text-align: left;">2020-10-16 12:26:24</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">Zim_Photos</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section id="show-details-about-a-specific-form" class="level3" data-number="24.3.5">
+<h3 data-number="24.3.5" class="anchored" data-anchor-id="show-details-about-a-specific-form"><span class="header-section-number">24.3.5</span> Show details about a specific form</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(ruODK<span class="sc">::</span><span class="fu">form_detail</span>(<span class="at">pid =</span> <span class="dv">37</span>,<span class="at">fid =</span> <span class="st">"geopoint_map"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<colgroup>
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 3%">
+<col style="width: 2%">
+<col style="width: 5%">
+<col style="width: 11%">
+<col style="width: 6%">
+<col style="width: 10%">
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 14%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">name</th>
+<th style="text-align: left;">fid</th>
+<th style="text-align: left;">version</th>
+<th style="text-align: left;">state</th>
+<th style="text-align: right;">submissions</th>
+<th style="text-align: left;">created_at</th>
+<th style="text-align: right;">created_by_id</th>
+<th style="text-align: left;">created_by</th>
+<th style="text-align: left;">updated_at</th>
+<th style="text-align: left;">published_at</th>
+<th style="text-align: left;">last_submission</th>
+<th style="text-align: left;">hash</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">geopoint_map</td>
+<td style="text-align: left;">geopoint_map</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">open</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: left;">2022-07-21T10:00:49.605Z</td>
+<td style="text-align: right;">19</td>
+<td style="text-align: left;">Chrissy h. Roberts (SA)</td>
+<td style="text-align: left;">2023-07-21T14:20:50.416Z</td>
+<td style="text-align: left;">2022-07-21T12:09:42.248Z</td>
+<td style="text-align: left;">2023-06-22T09:57:57.153Z</td>
+<td style="text-align: left;">f0b34efc38940a990396576f4643a008</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section id="show-a-list-of-submissions-to-a-specific-form" class="level3" data-number="24.3.6">
+<h3 data-number="24.3.6" class="anchored" data-anchor-id="show-a-list-of-submissions-to-a-specific-form"><span class="header-section-number">24.3.6</span> Show a list of submissions to a specific form</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(ruODK<span class="sc">::</span><span class="fu">submission_list</span>(<span class="at">pid =</span> <span class="dv">37</span>,<span class="at">fid =</span> <span class="st">"geopoint_map"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<colgroup>
+<col style="width: 2%">
+<col style="width: 0%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 0%">
+<col style="width: 9%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 72%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">instance_id</th>
+<th style="text-align: right;">submitter_id</th>
+<th style="text-align: left;">device_id</th>
+<th style="text-align: left;">created_at</th>
+<th style="text-align: left;">updated_at</th>
+<th style="text-align: left;">review_state</th>
+<th style="text-align: left;">user_agent</th>
+<th style="text-align: right;">submitter_id_2</th>
+<th style="text-align: left;">submitter_type</th>
+<th style="text-align: left;">submitter_display_name</th>
+<th style="text-align: left;">submitter_created_at</th>
+<th style="text-align: left;">submitter_updated_at</th>
+<th style="text-align: left;">submitter_deleted_at</th>
+<th style="text-align: left;">current_version</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">uuid:e6fe41e0-d9b3-49bf-8562-962e883f6b18</td>
+<td style="text-align: right;">19</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">2023-06-22 10:57:57</td>
+<td style="text-align: left;">2023-07-06 11:46:52</td>
+<td style="text-align: left;">edited</td>
+<td style="text-align: left;">Enketo/5.0.2 Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.5 Safari/605.1.15</td>
+<td style="text-align: right;">19</td>
+<td style="text-align: left;">user</td>
+<td style="text-align: left;">Chrissy h. Roberts (SA)</td>
+<td style="text-align: left;">2020-10-13 13:38:03</td>
+<td style="text-align: left;">2020-10-16 12:26:24</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">19 , 2023-07-06T10:46:52.783Z , uuid:a3c73d2b-0136-443e-ab9c-d831919245e2, TRUE , 19 , user , Chrissy h. Roberts (SA) , 2020-10-13T12:38:03.905Z , 2020-10-16T11:26:24.184Z</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">uuid:0a671884-27ed-4eb8-9102-310149899678</td>
+<td style="text-align: right;">1094</td>
+<td style="text-align: left;">collect:v2m4bt3bE9ZfeMfi</td>
+<td style="text-align: left;">2022-07-21 13:13:51</td>
+<td style="text-align: left;">2023-07-11 11:54:56</td>
+<td style="text-align: left;">edited</td>
+<td style="text-align: left;">org.odk.collect.android/v2022.3-beta.2 Dalvik/2.1.0 (Linux; U; Android 12; Pixel 4a Build/SQ3A.220705.003.A1)</td>
+<td style="text-align: right;">1094</td>
+<td style="text-align: left;">field_key</td>
+<td style="text-align: left;">chrissy</td>
+<td style="text-align: left;">2021-11-03 12:44:28</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">19 , 2023-07-11T10:54:56.640Z , uuid:16219910-28f2-407c-90ac-6f758713b176, TRUE , 19 , user , Chrissy h. Roberts (SA) , 2020-10-13T12:38:03.905Z , 2020-10-16T11:26:24.184Z</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">uuid:9f6a1fd4-3394-4e5a-b013-e344272cdf70</td>
+<td style="text-align: right;">1094</td>
+<td style="text-align: left;">collect:v2m4bt3bE9ZfeMfi</td>
+<td style="text-align: left;">2022-07-21 13:13:24</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">org.odk.collect.android/v2022.3-beta.2 Dalvik/2.1.0 (Linux; U; Android 12; Pixel 4a Build/SQ3A.220705.003.A1)</td>
+<td style="text-align: right;">1094</td>
+<td style="text-align: left;">field_key</td>
+<td style="text-align: left;">chrissy</td>
+<td style="text-align: left;">2021-11-03 12:44:28</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">1094 , 2022-07-21T12:13:24.100Z , uuid:9f6a1fd4-3394-4e5a-b013-e344272cdf70 , TRUE , collect:v2m4bt3bE9ZfeMfi , org.odk.collect.android/v2022.3-beta.2 Dalvik/2.1.0 (Linux; U; Android 12; Pixel 4a Build/SQ3A.220705.003.A1), 1094 , field_key , chrissy , 2021-11-03T12:44:28.375Z</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">uuid:0a65e09e-18e5-4fd3-bbe8-4c57529ccc89</td>
+<td style="text-align: right;">1094</td>
+<td style="text-align: left;">collect:v2m4bt3bE9ZfeMfi</td>
+<td style="text-align: left;">2022-07-21 13:11:19</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">org.odk.collect.android/v2022.3-beta.2 Dalvik/2.1.0 (Linux; U; Android 12; Pixel 4a Build/SQ3A.220705.003.A1)</td>
+<td style="text-align: right;">1094</td>
+<td style="text-align: left;">field_key</td>
+<td style="text-align: left;">chrissy</td>
+<td style="text-align: left;">2021-11-03 12:44:28</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">1094 , 2022-07-21T12:11:19.019Z , uuid:0a65e09e-18e5-4fd3-bbe8-4c57529ccc89 , TRUE , collect:v2m4bt3bE9ZfeMfi , org.odk.collect.android/v2022.3-beta.2 Dalvik/2.1.0 (Linux; U; Android 12; Pixel 4a Build/SQ3A.220705.003.A1), 1094 , field_key , chrissy , 2021-11-03T12:44:28.375Z</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section id="pull-submissions" class="level3" data-number="24.3.7">
+<h3 data-number="24.3.7" class="anchored" data-anchor-id="pull-submissions"><span class="header-section-number">24.3.7</span> Pull submissions</h3>
+<p>ruODK is very powerful and can get quite complicated. The most basic thing you need is a dataframe with your submissions. Here’s how to get one.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>df<span class="ot">&lt;-</span>ruODK<span class="sc">::</span><span class="fu">odata_submission_get</span>(<span class="at">pid =</span> <span class="st">"37"</span>,<span class="at">fid=</span><span class="st">"geopoint_map"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="show-data" class="level3" data-number="24.3.8">
+<h3 data-number="24.3.8" class="anchored" data-anchor-id="show-data"><span class="header-section-number">24.3.8</span> Show data</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(df[,<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<colgroup>
+<col style="width: 26%">
+<col style="width: 24%">
+<col style="width: 24%">
+<col style="width: 24%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: right;">geopoint_longitude</th>
+<th style="text-align: right;">geopoint_latitude</th>
+<th style="text-align: right;">geopoint_altitude</th>
+<th style="text-align: right;">geopoint_accuracy</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">152.528542</td>
+<td style="text-align: right;">-32.19346</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">-2.929474</td>
+<td style="text-align: right;">60.74228</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">152.504487</td>
+<td style="text-align: right;">-32.18187</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">152.526883</td>
+<td style="text-align: right;">-32.20085</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./ODK_Biometrics.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">ODK Biometrics</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./diva_gis.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">GIS Data to ODK itemlist</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>

@@ -1,0 +1,1382 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Chrissy h Roberts">
+
+<title>Code Book - 11&nbsp; A pragmatic Introduction to Interrupted Time Series</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./new_lm_predict_left_predict_right.html" rel="next">
+<link href="./Cox_PH.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+<script src="site_libs/htmlwidgets-1.6.2/htmlwidgets.js"></script>
+<link href="site_libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet">
+<script src="site_libs/datatables-binding-0.30/datatables.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<link href="site_libs/dt-core-1.13.4/css/jquery.dataTables.min.css" rel="stylesheet">
+<link href="site_libs/dt-core-1.13.4/css/jquery.dataTables.extra.css" rel="stylesheet">
+<script src="site_libs/dt-core-1.13.4/js/jquery.dataTables.min.js"></script>
+<link href="site_libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet">
+<script src="site_libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
+
+
+</head>
+
+<body class="nav-sidebar floating">
+
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./Cox_PH.html">Statistics</a></li><li class="breadcrumb-item"><a href="./Interrupted_Time_Series.html"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">A pragmatic Introduction to Interrupted Time Series</span></a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Code Book</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introduction</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text">R | RStudio</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./extract_model_from_geom_smooth.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Extract Model from geom_smooth model</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./filename_changer.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Rename files procedurally</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Global_Political_Map.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Draw Political Maps (sf geom_sf)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./photo_cleaning.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Photo Cleaning For Sharing</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./remove_accents.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Remove_Accents</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./text_to_speech_R.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Text to Speech in R</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./UK_Postcodes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">UK Postcode Maps</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./update_R.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Update R - Bare Bones</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./utf8_encoding.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Normalise utf8 accented text</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+ <span class="menu-text">Statistics</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Cox_PH.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Survival Analysis with Cox-PH</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Interrupted_Time_Series.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">A pragmatic Introduction to Interrupted Time Series</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./new_lm_predict_left_predict_right.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">New lm Predict Left &amp; Predict Right</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Diagnostics_Power_Calculation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Diagnostic Evaluation Power Calculation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./CI95_point_estimate.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">95% Confidence Intervals on a point estimate</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./hazratio_chart.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Hazard Ratio Chart from Summary Data</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./power_calc_gen_case_control.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Genetic Power Calculator</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Principal_Components_Analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Principal Components Analysis</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Univariate_regressions_reported_as_a_table.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Univariate regressions, reported as a table</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+ <span class="menu-text">Laboratory | Field Methods</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Univariate_regressions_reported_as_a_table.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Univariate regressions, reported as a table</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Consent_Forms_with_QR.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Consent Forms with Unique IDs and QR Codes</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Digital_Luminex.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Digital Luminex</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Generic_Research_Data_Folder_Design.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Research study folder template</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">
+ <span class="menu-text">ODK</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ODK_Biometrics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">ODK Biometrics</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ruODK_basics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">ruODK Setup and basic functions</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./diva_gis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">GIS Data to ODK itemlist</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ODK_geofencing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">ODK Geofencing</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ODK_Pi.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">ODK Pi - A deployable version of ODK on a Raspberry Pi</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true">
+ <span class="menu-text">Python, bash and other code</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Docker_install_ubuntu.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Install Docker</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Join_photos_randomly.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Join Photos side-by-side with tracked random arrangement</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="true">
+ <span class="menu-text">Cribsheet [Other people’s work]</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Akaike_Information_Criterion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Akaike information criterion</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">11.1</span> Introduction</a>
+  <ul class="collapse">
+  <li><a href="#this-document-provides-examples-of-three-main-type-of-its-analysis" id="toc-this-document-provides-examples-of-three-main-type-of-its-analysis" class="nav-link" data-scroll-target="#this-document-provides-examples-of-three-main-type-of-its-analysis"><span class="header-section-number">11.1.1</span> This document provides examples of three main type of ITS analysis</a></li>
+  </ul></li>
+  <li><a href="#part-one---uncontrolled-its-one-intervention" id="toc-part-one---uncontrolled-its-one-intervention" class="nav-link" data-scroll-target="#part-one---uncontrolled-its-one-intervention"><span class="header-section-number">11.2</span> Part One - Uncontrolled ITS, one intervention</a></li>
+  <li><a href="#part-two---uncontrolled-its-two-interventions" id="toc-part-two---uncontrolled-its-two-interventions" class="nav-link" data-scroll-target="#part-two---uncontrolled-its-two-interventions"><span class="header-section-number">11.3</span> Part Two - Uncontrolled ITS, two interventions</a></li>
+  <li><a href="#part-three---controlled-its-one-intervention" id="toc-part-three---controlled-its-one-intervention" class="nav-link" data-scroll-target="#part-three---controlled-its-one-intervention"><span class="header-section-number">11.4</span> Part Three - Controlled ITS, one intervention</a></li>
+  <li><a href="#final-word" id="toc-final-word" class="nav-link" data-scroll-target="#final-word"><span class="header-section-number">11.5</span> Final word</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">A pragmatic Introduction to Interrupted Time Series</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Chrissy h Roberts </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="introduction" class="level2" data-number="11.1">
+<h2 data-number="11.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">11.1</span> Introduction</h2>
+<p>This is a brief introduction to Interrupted Time Series analyses. It’s intended for use by people who have done some reading and understand about concepts like autocorrelation.</p>
+<p>I mean, I won’t be explaining all the technical stuff. This is really here to help you get things done. Buyer beware, you can make mistakes that will jack up your game, so think hard before you publish stuff.</p>
+<p>The methods below will show you how to carry out an interrupted time series (ITS) using generalised least squares, accounting for autocorrelation via a corARMA model. We’ll start out with some fairly simple models, then build up to something a bit more complicated, before going on to add a control group.</p>
+<p>We’re going to simulate a study where we are interested to know whether the values of a quantity (quantity.x) have changed significantly in response to some kind of intervention. If it helps you to think of a real-world situation, imagine we take weekly measurements of how many bacteria are found on the handles of public toilet doors. Our intervention might be placing signs about handwashing on all the doors. Can we say that putting up the signs correlated with a decrease in the number of bacteria counted each week?</p>
+<p>At the core of this analysis is the concept of a counterfactual. We’ll be doing some modelling to estimate what did happen (the factual scenario) and what we expect would have happened (the counterfactual scenario) if we had never hung up the signs about handwashing.</p>
+<p>We’ll be measuring whether the parameter <em>quantity.x</em> changes in response to the <em>Intervention</em>, but there are different kinds of change that we might expect.</p>
+<p>The change could take two forms including</p>
+<ul>
+<li>A step change immediately after the intervention
+<ul>
+<li>for instance because the signs are so effective that everyone suddenly starts washing their hands much better</li>
+</ul></li>
+<li>A slope/trend change after the intervention
+<ul>
+<li>because over time, the presence of the signs conditions more and more people to wash their hands. Alternatively, maybe after an initial step change down, it starts to creep back up because people start to ignore the signs</li>
+</ul></li>
+</ul>
+<p>Different real world scenarios may or may not be compatible with the assumptions that these types of change could occur, so use your knowledge to decide which ones to model.</p>
+<section id="this-document-provides-examples-of-three-main-type-of-its-analysis" class="level3" data-number="11.1.1">
+<h3 data-number="11.1.1" class="anchored" data-anchor-id="this-document-provides-examples-of-three-main-type-of-its-analysis"><span class="header-section-number">11.1.1</span> This document provides examples of three main type of ITS analysis</h3>
+<ul>
+<li>Part One - Uncontrolled ITS, one intervention</li>
+<li>Part Two - Uncontrolled ITS, two interventions</li>
+<li>Part Three - Controlled ITS, one intervention</li>
+</ul>
+<p>In each case we will build a data set that shows each component of the model in a fairly longhand format. It’s totally possible to use fewer variables and to use interactions (shown further down this document) to model all the various components of the ITS, but this is harder to understand to the novice and harder to decode when it comes to reconciling the data frame against the model coefficients that will be used to interpret what effects the interruption had.</p>
+<hr>
+</section>
+</section>
+<section id="part-one---uncontrolled-its-one-intervention" class="level2" data-number="11.2">
+<h2 data-number="11.2" class="anchored" data-anchor-id="part-one---uncontrolled-its-one-intervention"><span class="header-section-number">11.2</span> Part One - Uncontrolled ITS, one intervention</h2>
+<p>We’ll create a dummy dataframe, where</p>
+<ul>
+<li><strong>Time</strong> = A number, the time in study weeks (1 - 100 weeks)</li>
+<li><strong>Intervention</strong> = A binary indication of whether the Intervention has taken place at Time x</li>
+<li><strong>Post.intervention.time</strong> = A number, the time elapsed since the Intervention</li>
+<li><strong>quantity.x</strong> = The thing we want to measure</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create a dummy dataframe</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Here the interruption takes place at week 51</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>df<span class="ot">&lt;-</span><span class="fu">tibble</span>(</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">Time =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>,</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">Intervention =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">0</span>,<span class="dv">50</span>),<span class="fu">rep</span>(<span class="dv">1</span>,<span class="dv">50</span>)),</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">Post.intervention.time =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">0</span>,<span class="dv">50</span>),<span class="dv">1</span><span class="sc">:</span><span class="dv">50</span>),</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">quantity.x =</span> <span class="fu">c</span>(<span class="fu">sort</span>(<span class="fu">sample</span>(<span class="dv">200</span><span class="sc">:</span><span class="dv">300</span>,<span class="at">size =</span> <span class="dv">50</span>,<span class="at">replace =</span> T),<span class="at">decreasing =</span> T)<span class="sc">+</span><span class="fu">sample</span>(<span class="sc">-</span><span class="dv">20</span><span class="sc">:</span><span class="dv">20</span>,<span class="dv">50</span>,<span class="at">replace =</span> T),<span class="fu">c</span>(<span class="fu">sort</span>(<span class="fu">sample</span>(<span class="dv">20</span><span class="sc">:</span><span class="dv">170</span>,<span class="at">size =</span> <span class="dv">50</span>,<span class="at">replace =</span> T),<span class="at">decreasing =</span> T)<span class="sc">+</span><span class="fu">sample</span>(<span class="sc">-</span><span class="dv">40</span><span class="sc">:</span><span class="dv">40</span>,<span class="dv">50</span>,<span class="at">replace =</span> T)))</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">datatable</span>(df,<span class="at">options =</span> <span class="fu">list</span>(<span class="at">pageLength =</span> <span class="dv">100</span>, <span class="at">scrollY =</span> <span class="st">"200px"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+
+<div class="datatables html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-4a477c110aa6020b3c38" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-4a477c110aa6020b3c38">{"x":{"filter":"none","vertical":false,"data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54","55","56","57","58","59","60","61","62","63","64","65","66","67","68","69","70","71","72","73","74","75","76","77","78","79","80","81","82","83","84","85","86","87","88","89","90","91","92","93","94","95","96","97","98","99","100"],[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50],[279,316,311,299,286,288,302,276,268,294,251,277,271,260,253,263,237,250,273,248,262,229,228,234,249,238,254,254,226,236,254,248,229,210,214,232,233,227,203,211,223,201,193,227,216,199,192,214,205,214,138,129,193,182,141,164,139,140,180,129,163,107,145,104,122,140,93,133,133,128,114,129,128,102,110,64,84,98,110,58,93,47,34,23,36,88,37,23,39,50,43,62,46,45,28,8,54,40,3,43]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Time<\/th>\n      <th>Intervention<\/th>\n      <th>Post.intervention.time<\/th>\n      <th>quantity.x<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":100,"scrollY":"200px","columnDefs":[{"className":"dt-right","targets":[1,2,3,4]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<p>In the simplest form, the ITS model looks like this</p>
+<p><strong>gls(quantity.x ~ Time + Intervention + Post.intervention.time, data = df,method=“ML”)</strong></p>
+<p>Using the <strong>gls</strong> command from the <em>nlme</em> package, we can create a model that describes the change in quantity.x across time</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>model.a <span class="ot">=</span> <span class="fu">gls</span>(quantity.x <span class="sc">~</span> Time <span class="sc">+</span> Intervention <span class="sc">+</span> Post.intervention.time, <span class="at">data =</span> df,<span class="at">method=</span><span class="st">"ML"</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Show a summary of the model</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model.a)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Generalized least squares fit by maximum likelihood
+  Model: quantity.x ~ Time + Intervention + Post.intervention.time 
+  Data: df 
+       AIC      BIC    logLik
+  873.8388 886.8647 -431.9194
+
+Coefficients:
+                           Value Std.Error   t-value p-value
+(Intercept)            295.58286  5.327482  55.48266  0.0000
+Time                    -1.97815  0.181824 -10.87947  0.0000
+Intervention           -24.84346  7.423687  -3.34651  0.0012
+Post.intervention.time  -1.11957  0.257138  -4.35395  0.0000
+
+ Correlation: 
+                       (Intr) Time   Intrvn
+Time                   -0.870              
+Intervention            0.348 -0.600       
+Post.intervention.time  0.615 -0.707 -0.017
+
+Standardized residuals:
+        Min          Q1         Med          Q3         Max 
+-2.39341496 -0.72665716  0.03963433  0.86022509  1.98295020 
+
+Residual standard error: 18.17879 
+Degrees of freedom: 100 total; 96 residual</code></pre>
+</div>
+</div>
+<p>These coefficients have real world meaning and are not there to be ignored.</p>
+<p>This tells us that the modelled line passes the y axis at 295.6 units and that prior to the intervention, the average value of quantity.x was falling by 1.98 units per week. At the intervention, there was a step change of -24.8 units and subsequent to the intervention there was a trend in which the value of quantity.x fell by <em>an additional</em> 1.12 units per week. The last distinction is important because that means that after the intervention, the weekly decrease in quantity.x was 1.98 + 1.12 = 3.10</p>
+<p>These statistics tell us whether the changes that happened at different timepoints were significant with respect to what the line was doing before the interruption. These values can be used to calculate the overall difference in quantity.x between times [i] and [ii] using this formula</p>
+<p><strong>quantity.x[i] = 308.27918 + (Time[i]*-1.97565) + (Intervention[i]*-27.33565) + (Post.intervention.time[i]*-1.17575)</strong></p>
+<p><strong>quantity.x[ii] = 308.27918 + (Time[ii]*-1.97565) + (Intervention[ii]*-27.33565) + (Post.intervention.time[ii]*-1.17575)</strong></p>
+<p><strong>absolute difference = difference(quantity.x[i] , quantity.x[ii])</strong></p>
+<p>But what would be nice would be to calculate the counterfactual scenario where the intervention didn’t happen and to estimate the difference between the factual values of quantity.x at time [i] and the counterfactuals at the same time [i]. This is coming up later.</p>
+<p>It’s nice to add values from models to the df, so we will next copy the modelled values of quantity.x in to the df using the <strong>predictSE.gls</strong> command from the <strong>AICcmodavg</strong> package.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>df<span class="ot">&lt;-</span>df <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">model.a.predictions =</span> <span class="fu">predictSE.gls</span> (model.a, df, <span class="at">se.fit=</span>T)<span class="sc">$</span>fit,</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">model.a.se =</span> <span class="fu">predictSE.gls</span> (model.a, df, <span class="at">se.fit=</span>T)<span class="sc">$</span>se</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Note that we captured both the predicted value of quantity.x and also the standard error on the estimate. We’ll need that to show the error margins and to draw confidence intervals on our charts.</p>
+<p>Let’s draw a picture on which we will show the raw data points, then add the modelled data as a line describing the factual observations and a ribbon showing the 95% confidence interval on the model</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(df,<span class="fu">aes</span>(Time,quantity.x))<span class="sc">+</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> model.a.predictions <span class="sc">-</span> (<span class="fl">1.96</span><span class="sc">*</span>model.a.se), <span class="at">ymax =</span> model.a.predictions <span class="sc">+</span> (<span class="fl">1.96</span><span class="sc">*</span>model.a.se)), <span class="at">fill =</span> <span class="st">"lightgreen"</span>)<span class="sc">+</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(Time,model.a.predictions),<span class="at">color=</span><span class="st">"black"</span>,<span class="at">lty=</span><span class="dv">1</span>)<span class="sc">+</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha=</span><span class="fl">0.3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Interrupted_Time_Series_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Before we get too much further though, we need to look at autocorrelation in the data. gls allows us to add corARMA structures by specifying values for p (the autoregressive order) and q (the moving average order).</p>
+<p>A gls model with a corARMA correction looks like this</p>
+<p><strong>gls(quantity.x ~ Time + Intervention + Post.intervention.time, data = df,correlation= corARMA(p=1, q=1, form = ~ Time),method=“ML”)</strong></p>
+<p>but the critical issue is how to choose the correct values of p and q. There’s lots of information about this online, so read carefully because it is important. Whether you exactly understand what this is all about or not, you’ll still need to take steps to minimise the problem empirically. What I do here is to apply different values of p and q to the gls model, capturing the value of the Akaike Information Criterion (AIC) for each model. Whichever combination of values of p and q returns the smallest AIC value is the best fit for our modelling.</p>
+<p>Realistically there’s some margin for human biases here. It’s hard to exactly define good numbers to put in to this analysis. I’d recommend a broad range of values because sometime autocorrelations can be quite lagged.</p>
+<p>We’ll start by defining the basic model and then creating a basic R function that can apply different values of p and q to that model</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>mod<span class="fl">.1</span> <span class="ot">=</span> quantity.x <span class="sc">~</span> Time <span class="sc">+</span> Intervention <span class="sc">+</span> Post.intervention.time</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>fx <span class="ot">=</span> <span class="cf">function</span>(pval,qval){<span class="fu">summary</span>(<span class="fu">gls</span>(mod<span class="fl">.1</span>, <span class="at">data =</span> df, <span class="at">correlation=</span> <span class="fu">corARMA</span>(<span class="at">p=</span>pval,<span class="at">q=</span>qval, <span class="at">form =</span> <span class="sc">~</span> Time),<span class="at">method=</span><span class="st">"ML"</span>))<span class="sc">$</span>AIC}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Our start point is the AIC value of the model we ran earlier where neither p or q were specified (i.e.&nbsp;no autocorrelation)</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">=</span> <span class="fu">summary</span>(<span class="fu">gls</span>(mod<span class="fl">.1</span>, <span class="at">data =</span> df,<span class="at">method=</span><span class="st">"ML"</span>))<span class="sc">$</span>AIC</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">message</span>(<span class="fu">str_c</span> (<span class="st">"AIC Uncorrelated model = "</span>,p))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>AIC Uncorrelated model = 873.838811568721</code></pre>
+</div>
+</div>
+<p>Next we can create a grid of combinations of values of p and q</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>autocorrel <span class="ot">=</span> <span class="fu">expand.grid</span>(<span class="at">pval =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">2</span>, <span class="at">qval =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Then we apply the function to all possible combinations of p and q. Expect some not to work with this dummy data set.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span><span class="fu">nrow</span>(autocorrel)){p[i] <span class="ot">=</span> <span class="fu">try</span>(<span class="fu">summary</span>(<span class="fu">gls</span>(mod<span class="fl">.1</span>, <span class="at">data =</span> df, <span class="at">correlation=</span> <span class="fu">corARMA</span>(<span class="at">p=</span>autocorrel<span class="sc">$</span>pval[i],<span class="at">q=</span>autocorrel<span class="sc">$</span>qval[i], <span class="at">form =</span> <span class="sc">~</span> Time),<span class="at">method=</span><span class="st">"ML"</span>))<span class="sc">$</span>AIC)}</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>autocorrel<span class="ot">&lt;-</span> autocorrel <span class="sc">%&gt;%</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">AIC =</span> <span class="fu">as.numeric</span>(p)) <span class="sc">%&gt;%</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(AIC)</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>autocorrel</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  pval qval      AIC
+1    0    0 873.8388
+2    0    1 875.8225
+3    1    0 875.8239
+4    1    1 875.8486
+5    0    2 877.6252
+6    2    0 877.6315
+7    2    1 877.8159
+8    1    2 879.6470
+9    2    2 879.8083</code></pre>
+</div>
+</div>
+<p>In this dataset, the best values of p and q appear to be p = 2 and q = 2 Let’s see what effect that has on our model by comparing it to the original model.a</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>model.b <span class="ot">=</span> <span class="fu">gls</span>(quantity.x <span class="sc">~</span> Time <span class="sc">+</span> Intervention <span class="sc">+</span> Post.intervention.time, <span class="at">data =</span> df,<span class="at">method=</span><span class="st">"ML"</span>, <span class="at">correlation=</span> <span class="fu">corARMA</span>(<span class="at">p=</span><span class="dv">2</span>,<span class="at">q=</span><span class="dv">2</span>, <span class="at">form =</span> <span class="sc">~</span> Time))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">coefficients</span>(model.a)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>           (Intercept)                   Time           Intervention 
+            295.582857              -1.978151             -24.843457 
+Post.intervention.time 
+             -1.119568 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">coefficients</span>(model.b)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>           (Intercept)                   Time           Intervention 
+            295.729095              -1.987147             -24.161953 
+Post.intervention.time 
+             -1.123327 </code></pre>
+</div>
+</div>
+<p>You can see that there’s some quite small changes to the values here, but I didn’t make a dataset that had a lot of autocorrelation in it. I’m sure there are datasets out there where you’d see a big effect. Do also keep in mind that <strong>Post.intervention.time</strong> describes a weekly trend, so over long time periods, the error would creep up.</p>
+<p>OK, so now we’ve dealt with the autocorrelation, let’s assign the predicted values of model.b on to the df</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>df<span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span> </span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>      <span class="at">model.b.predictions =</span> <span class="fu">predictSE.gls</span> (model.b, df, <span class="at">se.fit=</span>T)<span class="sc">$</span>fit,</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">model.b.se =</span> <span class="fu">predictSE.gls</span> (model.b, df, <span class="at">se.fit=</span>T)<span class="sc">$</span>se</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>        )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Next we need to ask what would have happened if there had been no intervention. This is the counterfactual model.</p>
+<p>The gls model for the counterfactual looks like this…</p>
+<p><strong>gls(quantity.x ~ Time, data = df,method=“ML”)</strong></p>
+<p>There’s nothing clever about this, it’s the same model as we had before, only we’ve taken out the intervention and post intervention arguments. Our aim here is to calculate the pre-intervention trend and simply to extrapolate out beyond the intervention time point. This can be done with the <strong>predictSE.gls</strong> function.</p>
+<p>To create the counterfactual model, we have to make a new df which truncates the data at the time point immediately before the intervention. Then we run predict on the model, providiing the original df as ‘newdata’.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>df2<span class="ot">&lt;-</span><span class="fu">filter</span>(df,Time<span class="sc">&lt;</span><span class="dv">51</span>)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>model.c <span class="ot">=</span> <span class="fu">gls</span>(quantity.x <span class="sc">~</span> Time, <span class="at">data =</span> df2, <span class="at">correlation=</span> <span class="fu">corARMA</span>(<span class="at">p=</span><span class="dv">1</span>, <span class="at">q=</span><span class="dv">1</span>, <span class="at">form =</span> <span class="sc">~</span> Time),<span class="at">method=</span><span class="st">"ML"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Let’s have a look at how the new counterfactual (model.c) model compares to the factual model (model.a).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">coefficients</span>(model.a)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>           (Intercept)                   Time           Intervention 
+            295.582857              -1.978151             -24.843457 
+Post.intervention.time 
+             -1.119568 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">coefficients</span>(model.c)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>(Intercept)        Time 
+ 295.282158   -1.966667 </code></pre>
+</div>
+</div>
+<p>As you can see here, the intercept and slope of the factual and counterfactual models are almost identical, which is what we wanted. If you were a purist who cared about those little differences, you could use the actual values from model.a to calculate the counterfactuals manually by doing this</p>
+<p>y = 310.3877551 + (Time * -2.4089316)</p>
+<p>That’s great in terms of accuracy of your y value estimates, but it is much harder to calculate the standard errors manually so your precision/confidence intervals becomes a real pain. This is especially true when the model gets more complicated (as we’ll see in part two).</p>
+<p>So let’s accept a little error in the accuracy and use ‘predict’ because it gives us nice precise confidence estimates, let’s make a new variable with predictions of the counterfactual model, providing the full 100 week data frame as ‘newdata’</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>df<span class="ot">&lt;-</span>df <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">model.c.predictions =</span> <span class="fu">predictSE.gls</span> (model.c, <span class="at">newdata =</span> df, <span class="at">se.fit=</span>T)<span class="sc">$</span>fit,</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">model.c.se =</span> <span class="fu">predictSE.gls</span> (model.c, df, <span class="at">se.fit=</span>T)<span class="sc">$</span>se</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Next we can plot the chart</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(df,<span class="fu">aes</span>(Time,quantity.x))<span class="sc">+</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> model.c.predictions <span class="sc">-</span> (<span class="fl">1.96</span><span class="sc">*</span>model.c.se), <span class="at">ymax =</span> model.c.predictions <span class="sc">+</span> (<span class="fl">1.96</span><span class="sc">*</span>model.c.se)), <span class="at">fill =</span> <span class="st">"pink"</span>)<span class="sc">+</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(Time,model.c.predictions),<span class="at">color=</span><span class="st">"red"</span>,<span class="at">lty=</span><span class="dv">2</span>)<span class="sc">+</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> model.b.predictions <span class="sc">-</span> (<span class="fl">1.96</span><span class="sc">*</span>model.b.se), <span class="at">ymax =</span> model.b.predictions <span class="sc">+</span> (<span class="fl">1.96</span><span class="sc">*</span>model.b.se)), <span class="at">fill =</span> <span class="st">"lightgreen"</span>)<span class="sc">+</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(Time,model.b.predictions),<span class="at">color=</span><span class="st">"black"</span>,<span class="at">lty=</span><span class="dv">1</span>)<span class="sc">+</span></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha=</span><span class="fl">0.3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Interrupted_Time_Series_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>The solid line with green ribbon is the factual data, the red dashed line with the pink ribbon is the counterfactual. Using the rule of thumb that if the confidence intervals don’t overlap, there’s something significant happening, we can conclude that the interruption preceded a significant step change in quantity.x. That the lines also diverge suggests that there could be a significant trend change.</p>
+<p>The last remaining thing we need to do is to calculate those relative differences. This is easy because we’ve been adding the modelled values to the df as variables. To get a list of the relative differences at different timepoints, we really only have to do subtract the factual from the counterfactual.</p>
+<p>Here’ we can ask for the relative differences at weeks 1 (start), 50 (pre-intervention), 51 (immediate post-intervention) and 100 (end of the study)</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">format</span>(df<span class="sc">$</span>model.b.predictions<span class="sc">-</span>df<span class="sc">$</span>model.c.predictions,<span class="at">scientific =</span> F)[<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">50</span>,<span class="dv">51</span>,<span class="dv">100</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>             1             50             51            100 
+"  0.42645664" " -0.57708425" "-25.88284429" "-81.92939766" </code></pre>
+</div>
+</div>
+<p>Here we can see that pre-intervention, the difference between factual and counterfactual is essentially zero, which is what we expect. At week 51 we see that the difference is 26 units, almost the same as the step change we saw in the coefficients for model.b above. At week 100 the factual data are 82 units lower than the counterfactual, which is the combined effect of the intervention step change and the intervention trend change.</p>
+<hr>
+</section>
+<section id="part-two---uncontrolled-its-two-interventions" class="level2" data-number="11.3">
+<h2 data-number="11.3" class="anchored" data-anchor-id="part-two---uncontrolled-its-two-interventions"><span class="header-section-number">11.3</span> Part Two - Uncontrolled ITS, two interventions</h2>
+<p>Some designs may include multiple interventions and it is fairly simple to extend the model to account for this kind of thing We’ll make a new data set that includes a second intervention and a post-intervention-2 trend.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create a dummy dataframe</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Here the interruption takes place at week 51</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>df3<span class="ot">&lt;-</span><span class="fu">tibble</span>(</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">Time =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">150</span>,</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">Intervention =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">0</span>,<span class="dv">50</span>),<span class="fu">rep</span>(<span class="dv">1</span>,<span class="dv">100</span>)),</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">Post.intervention.time =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">0</span>,<span class="dv">50</span>),<span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>),</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">Intervention.2 =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">0</span>,<span class="dv">100</span>),<span class="fu">rep</span>(<span class="dv">1</span>,<span class="dv">50</span>)),</span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">Post.intervention.2.time =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">0</span>,<span class="dv">100</span>),<span class="dv">1</span><span class="sc">:</span><span class="dv">50</span>),</span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">quantity.x =</span> <span class="fu">c</span>(<span class="fu">sort</span>(<span class="fu">sample</span>(<span class="dv">2000</span><span class="sc">:</span><span class="dv">2500</span>,<span class="at">size =</span> <span class="dv">50</span>,<span class="at">replace =</span> T),<span class="at">decreasing =</span> T)<span class="sc">+</span><span class="fu">sample</span>(<span class="sc">-</span><span class="dv">20</span><span class="sc">:</span><span class="dv">20</span>,<span class="dv">50</span>,<span class="at">replace =</span> T),<span class="fu">c</span>(<span class="fu">sort</span>(<span class="fu">sample</span>(<span class="dv">200</span><span class="sc">:</span><span class="dv">1700</span>,<span class="at">size =</span> <span class="dv">50</span>,<span class="at">replace =</span> T),<span class="at">decreasing =</span> T)<span class="sc">+</span><span class="fu">sample</span>(<span class="sc">-</span><span class="dv">40</span><span class="sc">:</span><span class="dv">40</span>,<span class="dv">50</span>,<span class="at">replace =</span> T)),<span class="fu">c</span>(<span class="fu">sort</span>(<span class="fu">sample</span>(<span class="dv">200</span><span class="sc">:</span><span class="dv">450</span>,<span class="at">size =</span> <span class="dv">50</span>,<span class="at">replace =</span> T),<span class="at">decreasing =</span> F)<span class="sc">+</span><span class="fu">sample</span>(<span class="sc">-</span><span class="dv">40</span><span class="sc">:</span><span class="dv">40</span>,<span class="dv">50</span>,<span class="at">replace =</span> T)))</span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a><span class="fu">datatable</span>(df3,<span class="at">options =</span> <span class="fu">list</span>(<span class="at">pageLength =</span> <span class="dv">100</span>, <span class="at">scrollY =</span> <span class="st">"200px"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+
+<div class="datatables html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-7a47bcbb9d7d20639edd" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-7a47bcbb9d7d20639edd">{"x":{"filter":"none","vertical":false,"data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54","55","56","57","58","59","60","61","62","63","64","65","66","67","68","69","70","71","72","73","74","75","76","77","78","79","80","81","82","83","84","85","86","87","88","89","90","91","92","93","94","95","96","97","98","99","100","101","102","103","104","105","106","107","108","109","110","111","112","113","114","115","116","117","118","119","120","121","122","123","124","125","126","127","128","129","130","131","132","133","134","135","136","137","138","139","140","141","142","143","144","145","146","147","148","149","150"],[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129,130,131,132,133,134,135,136,137,138,139,140,141,142,143,144,145,146,147,148,149,150],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50],[2475,2460,2482,2457,2472,2463,2452,2428,2396,2395,2389,2391,2388,2367,2345,2343,2336,2322,2310,2320,2296,2288,2292,2253,2255,2286,2279,2241,2253,2267,2236,2165,2183,2159,2177,2177,2160,2158,2158,2156,2156,2116,2128,2143,2138,2111,2039,2027,2015,2006,1701,1609,1582,1603,1543,1596,1536,1515,1492,1465,1448,1420,1377,1362,1329,1350,1329,1383,1336,1318,1220,1242,1197,1109,1051,1000,1032,1007,925,911,866,847,818,854,865,822,742,720,636,644,613,601,595,538,359,341,361,319,284,234,209,220,224,220,221,263,242,214,222,221,299,231,244,295,289,272,276,298,278,325,279,260,265,332,289,319,303,324,289,331,317,299,367,358,342,375,324,319,376,353,354,393,374,378,436,400,415,384,457,449]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Time<\/th>\n      <th>Intervention<\/th>\n      <th>Post.intervention.time<\/th>\n      <th>Intervention.2<\/th>\n      <th>Post.intervention.2.time<\/th>\n      <th>quantity.x<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":100,"scrollY":"200px","columnDefs":[{"className":"dt-right","targets":[1,2,3,4,5,6]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<p>The new ITS model looks like this</p>
+<p><strong>gls(quantity.x ~ Time + Intervention + Post.intervention.time + Intervention.2 + Post.intervention.2.time, data = df,method=“ML”, correlation= corARMA(p=2,q=2, form = ~ Time))</strong></p>
+<p>Remember that you should probably deal with autocorrelation at this point. The method is the same as before, so I won’t reproduce it here. I’m just going to make up some values for p and q</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>model.d <span class="ot">=</span> <span class="fu">gls</span>(quantity.x <span class="sc">~</span> Time <span class="sc">+</span> Intervention <span class="sc">+</span> Post.intervention.time <span class="sc">+</span> Intervention<span class="fl">.2</span> <span class="sc">+</span> Post.intervention.<span class="fl">2.</span>time, <span class="at">data =</span> df3,<span class="at">method=</span><span class="st">"ML"</span>, <span class="at">correlation=</span> <span class="fu">corARMA</span>(<span class="at">p=</span><span class="dv">2</span>,<span class="at">q=</span><span class="dv">2</span>, <span class="at">form =</span> <span class="sc">~</span> Time))</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Show a summary of the model</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model.d)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Generalized least squares fit by maximum likelihood
+  Model: quantity.x ~ Time + Intervention + Post.intervention.time + Intervention.2 +      Post.intervention.2.time 
+  Data: df3 
+       AIC      BIC    logLik
+  1473.666 1506.783 -725.8331
+
+Correlation Structure: ARMA(2,2)
+ Formula: ~Time 
+ Parameter estimate(s):
+       Phi1        Phi2      Theta1      Theta2 
+ 0.90046122 -0.06218047 -0.29449966 -0.04482047 
+
+Coefficients:
+                             Value Std.Error   t-value p-value
+(Intercept)              2490.3446 29.917024  83.24172  0.0000
+Time                       -8.6791  0.940667  -9.22652  0.0000
+Intervention             -277.7190 27.936760  -9.94099  0.0000
+Post.intervention.time    -20.7962  1.488490 -13.97137  0.0000
+Intervention.2            -69.5904 27.959035  -2.48901  0.0139
+Post.intervention.2.time   32.9576  1.488490  22.14162  0.0000
+
+ Correlation: 
+                         (Intr) Time   Intrvn Pst.n. Intr.2
+Time                     -0.841                            
+Intervention              0.178 -0.398                     
+Post.intervention.time    0.613 -0.820 -0.012              
+Intervention.2           -0.026  0.059  0.092 -0.275       
+Post.intervention.2.time -0.094  0.217  0.308 -0.619 -0.042
+
+Standardized residuals:
+       Min         Q1        Med         Q3        Max 
+-2.5939940 -0.6025778 -0.1496218  0.3918488  3.1601189 
+
+Residual standard error: 42.68343 
+Degrees of freedom: 150 total; 144 residual</code></pre>
+</div>
+</div>
+<p>Referring back to the earlier, more simple example, you can probably see that these coefficients are easy to explain.</p>
+<ul>
+<li>The <strong>intercept</strong> is still the initial average value of quantity.x</li>
+<li><strong>Time</strong> is the pre-intervention slope</li>
+<li><strong>Intervention</strong> describes the step change that occurs at the intervention timepoint</li>
+<li><strong>Post.intervention.time</strong> describes the additional slope change that occurs at the intervention timepoint</li>
+<li><strong>Intervention.2</strong> describes the step change that occurs at the timepoint of the second intervention</li>
+<li><strong>Post.intervention.2.time</strong> describes the additional slope change that occurs at the timepoint of the second intervention</li>
+</ul>
+<p>Let’s grab the estimated modelled values for the new two intervention study</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>df3<span class="ot">&lt;-</span>df3 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">model.d.predictions =</span> <span class="fu">predictSE.gls</span> (model.d, df3, <span class="at">se.fit=</span>T)<span class="sc">$</span>fit,</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">model.d.se =</span> <span class="fu">predictSE.gls</span> (model.d, df3, <span class="at">se.fit=</span>T)<span class="sc">$</span>se</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Let’s draw a picture on which we will show the raw data points, then add the modelled data as a line describing the factual observations and a ribbon showing the 95% confidence interval on the model</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(df3,<span class="fu">aes</span>(Time,quantity.x))<span class="sc">+</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> model.d.predictions <span class="sc">-</span> (<span class="fl">1.96</span><span class="sc">*</span>model.d.se), <span class="at">ymax =</span> model.d.predictions <span class="sc">+</span> (<span class="fl">1.96</span><span class="sc">*</span>model.d.se)), <span class="at">fill =</span> <span class="st">"lightgreen"</span>)<span class="sc">+</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(Time,model.d.predictions),<span class="at">color=</span><span class="st">"black"</span>,<span class="at">lty=</span><span class="dv">1</span>)<span class="sc">+</span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha=</span><span class="fl">0.3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Interrupted_Time_Series_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>let’s calculate the first counterfactual, that there were no interventions</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>df4<span class="ot">&lt;-</span><span class="fu">filter</span>(df3,Time<span class="sc">&lt;</span><span class="dv">51</span>)</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>model.e <span class="ot">=</span> <span class="fu">gls</span>(quantity.x <span class="sc">~</span> Time, <span class="at">data =</span> df4, <span class="at">correlation=</span> <span class="fu">corARMA</span>(<span class="at">p=</span><span class="dv">1</span>, <span class="at">q=</span><span class="dv">1</span>, <span class="at">form =</span> <span class="sc">~</span> Time),<span class="at">method=</span><span class="st">"ML"</span>)</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>df3<span class="ot">&lt;-</span>df3 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(</span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">model.e.predictions =</span> <span class="fu">predictSE.gls</span> (model.e, <span class="at">newdata =</span> df3, <span class="at">se.fit=</span>T)<span class="sc">$</span>fit,</span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">model.e.se =</span> <span class="fu">predictSE.gls</span> (model.e, df3, <span class="at">se.fit=</span>T)<span class="sc">$</span>se</span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>and then the second counterfactual, that only the first intervention happened</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>df5<span class="ot">&lt;-</span><span class="fu">filter</span>(df3,Time<span class="sc">&lt;</span><span class="dv">101</span>)</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>model.f <span class="ot">=</span> <span class="fu">gls</span>(quantity.x <span class="sc">~</span> Time <span class="sc">+</span> Intervention <span class="sc">+</span> Post.intervention.time, <span class="at">data =</span> df5, <span class="at">correlation=</span> <span class="fu">corARMA</span>(<span class="at">p=</span><span class="dv">1</span>, <span class="at">q=</span><span class="dv">1</span>, <span class="at">form =</span> <span class="sc">~</span> Time),<span class="at">method=</span><span class="st">"ML"</span>)</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>df3<span class="ot">&lt;-</span>df3 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">model.f.predictions =</span> <span class="fu">predictSE.gls</span> (model.f, <span class="at">newdata =</span> df3, <span class="at">se.fit=</span>T)<span class="sc">$</span>fit,</span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">model.f.se =</span> <span class="fu">predictSE.gls</span> (model.f, df3, <span class="at">se.fit=</span>T)<span class="sc">$</span>se</span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Finally, let’s draw the chart that shows the factual data (black,green), the first (red, pink) and second (navy, turquoise) counterfactuals</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(df3,<span class="fu">aes</span>(Time,quantity.x))<span class="sc">+</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> model.f.predictions <span class="sc">-</span> (<span class="fl">1.96</span><span class="sc">*</span>model.d.se), <span class="at">ymax =</span> model.f.predictions <span class="sc">+</span> (<span class="fl">1.96</span><span class="sc">*</span>model.e.se)), <span class="at">fill =</span> <span class="st">"lightblue"</span>)<span class="sc">+</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(Time,model.f.predictions),<span class="at">color=</span><span class="st">"blue"</span>,<span class="at">lty=</span><span class="dv">2</span>)<span class="sc">+</span></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> model.e.predictions <span class="sc">-</span> (<span class="fl">1.96</span><span class="sc">*</span>model.d.se), <span class="at">ymax =</span> model.e.predictions <span class="sc">+</span> (<span class="fl">1.96</span><span class="sc">*</span>model.e.se)), <span class="at">fill =</span> <span class="st">"pink"</span>)<span class="sc">+</span></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(Time,model.e.predictions),<span class="at">color=</span><span class="st">"red"</span>,<span class="at">lty=</span><span class="dv">2</span>)<span class="sc">+</span></span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> model.d.predictions <span class="sc">-</span> (<span class="fl">1.96</span><span class="sc">*</span>model.d.se), <span class="at">ymax =</span> model.d.predictions <span class="sc">+</span> (<span class="fl">1.96</span><span class="sc">*</span>model.d.se)), <span class="at">fill =</span> <span class="st">"lightgreen"</span>)<span class="sc">+</span></span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(Time,model.d.predictions),<span class="at">color=</span><span class="st">"black"</span>,<span class="at">lty=</span><span class="dv">1</span>)<span class="sc">+</span></span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha=</span><span class="fl">0.3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Interrupted_Time_Series_files/figure-html/unnamed-chunk-23-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>You can use the stored modelled values to do any calculations you want with regards to the relative differences. Remember that some things can’t ever go below zero and that your hypothesis probably isn’t that there’s a linear trend that continues forever. Think carefully about your counterfactuals in this context.</p>
+<hr>
+</section>
+<section id="part-three---controlled-its-one-intervention" class="level2" data-number="11.4">
+<h2 data-number="11.4" class="anchored" data-anchor-id="part-three---controlled-its-one-intervention"><span class="header-section-number">11.4</span> Part Three - Controlled ITS, one intervention</h2>
+<p>Controlled ITS is about as good as it gets when it comes to time series. The control allows you to calibrate the ITS to account for independent secular and periodic changes. Let’s say that quantity.x and quantity.y are related. Both have exhibited some kind of long-range secular change (for instance there’s the pre-intervention trend in the examples above). Let’s say that both quantity.x and quantity.y are experiencing a parallel trend pre-intervention.</p>
+<p>The intervention is intented to affect change in quantity.x, but not quantity.y, so post-intervention trends in quantity.y can be taken account for in our model, strenghtening our results.</p>
+<p>Let’s make a data set.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create a dummy dataframe</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Here the interruption takes place at week 51</span></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>df.x<span class="ot">&lt;-</span><span class="fu">tibble</span>(</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="dv">1</span>,</span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">Time =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>,</span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">x.Time =</span> x<span class="sc">*</span>Time,</span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">Intervention =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">0</span>,<span class="dv">50</span>),<span class="fu">rep</span>(<span class="dv">1</span>,<span class="dv">50</span>)),</span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">x.Intervention =</span> x<span class="sc">*</span>Intervention,</span>
+<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">Post.intervention.time =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">0</span>,<span class="dv">50</span>),<span class="dv">1</span><span class="sc">:</span><span class="dv">50</span>),</span>
+<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">x.Post.intervention.time =</span> x <span class="sc">*</span> Post.intervention.time,</span>
+<span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">quantity.x =</span> <span class="fu">c</span>(<span class="fu">sort</span>(<span class="fu">sample</span>(<span class="dv">200</span><span class="sc">:</span><span class="dv">300</span>,<span class="at">size =</span> <span class="dv">50</span>,<span class="at">replace =</span> T),<span class="at">decreasing =</span> T)<span class="sc">+</span><span class="fu">sample</span>(<span class="sc">-</span><span class="dv">20</span><span class="sc">:</span><span class="dv">20</span>,<span class="dv">50</span>,<span class="at">replace =</span> T),<span class="fu">c</span>(<span class="fu">sort</span>(<span class="fu">sample</span>(<span class="dv">20</span><span class="sc">:</span><span class="dv">170</span>,<span class="at">size =</span> <span class="dv">50</span>,<span class="at">replace =</span> T),<span class="at">decreasing =</span> T)<span class="sc">+</span><span class="fu">sample</span>(<span class="sc">-</span><span class="dv">40</span><span class="sc">:</span><span class="dv">40</span>,<span class="dv">50</span>,<span class="at">replace =</span> T)))</span>
+<span id="cb35-12"><a href="#cb35-12" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb35-13"><a href="#cb35-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-14"><a href="#cb35-14" aria-hidden="true" tabindex="-1"></a>df.y<span class="ot">&lt;-</span><span class="fu">tibble</span>(</span>
+<span id="cb35-15"><a href="#cb35-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="dv">0</span>,</span>
+<span id="cb35-16"><a href="#cb35-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">Time =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>,</span>
+<span id="cb35-17"><a href="#cb35-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">x.Time =</span> x<span class="sc">*</span>Time,</span>
+<span id="cb35-18"><a href="#cb35-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">Intervention =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">0</span>,<span class="dv">50</span>),<span class="fu">rep</span>(<span class="dv">1</span>,<span class="dv">50</span>)),</span>
+<span id="cb35-19"><a href="#cb35-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">x.Intervention =</span> x<span class="sc">*</span>Intervention,</span>
+<span id="cb35-20"><a href="#cb35-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">Post.intervention.time =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">0</span>,<span class="dv">50</span>),<span class="dv">1</span><span class="sc">:</span><span class="dv">50</span>),</span>
+<span id="cb35-21"><a href="#cb35-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">x.Post.intervention.time =</span> x <span class="sc">*</span> Post.intervention.time,</span>
+<span id="cb35-22"><a href="#cb35-22" aria-hidden="true" tabindex="-1"></a>  <span class="at">quantity.x =</span> <span class="fu">c</span>(<span class="fu">sort</span>(<span class="fu">sample</span>(<span class="dv">500</span><span class="sc">:</span><span class="dv">600</span>,<span class="at">size =</span> <span class="dv">50</span>,<span class="at">replace =</span> T),<span class="at">decreasing =</span> T)<span class="sc">+</span><span class="fu">sample</span>(<span class="sc">-</span><span class="dv">20</span><span class="sc">:</span><span class="dv">20</span>,<span class="dv">50</span>,<span class="at">replace =</span> T),<span class="fu">c</span>(<span class="fu">sort</span>(<span class="fu">sample</span>(<span class="dv">280</span><span class="sc">:</span><span class="dv">500</span>,<span class="at">size =</span> <span class="dv">50</span>,<span class="at">replace =</span> T),<span class="at">decreasing =</span> T)<span class="sc">+</span><span class="fu">sample</span>(<span class="sc">-</span><span class="dv">40</span><span class="sc">:</span><span class="dv">40</span>,<span class="dv">50</span>,<span class="at">replace =</span> T)))</span>
+<span id="cb35-23"><a href="#cb35-23" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb35-24"><a href="#cb35-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-25"><a href="#cb35-25" aria-hidden="true" tabindex="-1"></a>df6 <span class="ot">=</span> <span class="fu">bind_rows</span>(df.x,df.y) <span class="sc">%&gt;%</span> </span>
+<span id="cb35-26"><a href="#cb35-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(Time,x)</span>
+<span id="cb35-27"><a href="#cb35-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-28"><a href="#cb35-28" aria-hidden="true" tabindex="-1"></a><span class="fu">datatable</span>(df6,<span class="at">options =</span> <span class="fu">list</span>(<span class="at">pageLength =</span> <span class="dv">200</span>, <span class="at">scrollY =</span> <span class="st">"200px"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+
+<div class="datatables html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-9ece4f53d0e499952e17" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-9ece4f53d0e499952e17">{"x":{"filter":"none","vertical":false,"data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54","55","56","57","58","59","60","61","62","63","64","65","66","67","68","69","70","71","72","73","74","75","76","77","78","79","80","81","82","83","84","85","86","87","88","89","90","91","92","93","94","95","96","97","98","99","100","101","102","103","104","105","106","107","108","109","110","111","112","113","114","115","116","117","118","119","120","121","122","123","124","125","126","127","128","129","130","131","132","133","134","135","136","137","138","139","140","141","142","143","144","145","146","147","148","149","150","151","152","153","154","155","156","157","158","159","160","161","162","163","164","165","166","167","168","169","170","171","172","173","174","175","176","177","178","179","180","181","182","183","184","185","186","187","188","189","190","191","192","193","194","195","196","197","198","199","200"],[0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],[1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11,12,12,13,13,14,14,15,15,16,16,17,17,18,18,19,19,20,20,21,21,22,22,23,23,24,24,25,25,26,26,27,27,28,28,29,29,30,30,31,31,32,32,33,33,34,34,35,35,36,36,37,37,38,38,39,39,40,40,41,41,42,42,43,43,44,44,45,45,46,46,47,47,48,48,49,49,50,50,51,51,52,52,53,53,54,54,55,55,56,56,57,57,58,58,59,59,60,60,61,61,62,62,63,63,64,64,65,65,66,66,67,67,68,68,69,69,70,70,71,71,72,72,73,73,74,74,75,75,76,76,77,77,78,78,79,79,80,80,81,81,82,82,83,83,84,84,85,85,86,86,87,87,88,88,89,89,90,90,91,91,92,92,93,93,94,94,95,95,96,96,97,97,98,98,99,99,100,100],[0,1,0,2,0,3,0,4,0,5,0,6,0,7,0,8,0,9,0,10,0,11,0,12,0,13,0,14,0,15,0,16,0,17,0,18,0,19,0,20,0,21,0,22,0,23,0,24,0,25,0,26,0,27,0,28,0,29,0,30,0,31,0,32,0,33,0,34,0,35,0,36,0,37,0,38,0,39,0,40,0,41,0,42,0,43,0,44,0,45,0,46,0,47,0,48,0,49,0,50,0,51,0,52,0,53,0,54,0,55,0,56,0,57,0,58,0,59,0,60,0,61,0,62,0,63,0,64,0,65,0,66,0,67,0,68,0,69,0,70,0,71,0,72,0,73,0,74,0,75,0,76,0,77,0,78,0,79,0,80,0,81,0,82,0,83,0,84,0,85,0,86,0,87,0,88,0,89,0,90,0,91,0,92,0,93,0,94,0,95,0,96,0,97,0,98,0,99,0,100],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11,12,12,13,13,14,14,15,15,16,16,17,17,18,18,19,19,20,20,21,21,22,22,23,23,24,24,25,25,26,26,27,27,28,28,29,29,30,30,31,31,32,32,33,33,34,34,35,35,36,36,37,37,38,38,39,39,40,40,41,41,42,42,43,43,44,44,45,45,46,46,47,47,48,48,49,49,50,50],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,2,0,3,0,4,0,5,0,6,0,7,0,8,0,9,0,10,0,11,0,12,0,13,0,14,0,15,0,16,0,17,0,18,0,19,0,20,0,21,0,22,0,23,0,24,0,25,0,26,0,27,0,28,0,29,0,30,0,31,0,32,0,33,0,34,0,35,0,36,0,37,0,38,0,39,0,40,0,41,0,42,0,43,0,44,0,45,0,46,0,47,0,48,0,49,0,50],[603,314,590,295,600,292,583,275,581,289,577,304,577,303,562,297,593,290,568,285,555,270,577,273,558,285,561,256,565,276,547,257,571,263,580,250,557,258,556,263,558,244,537,236,541,268,542,239,550,231,535,236,551,257,532,242,540,256,529,241,552,236,542,240,537,228,538,251,499,241,535,224,502,219,530,219,500,218,499,235,498,218,508,218,508,237,494,216,504,209,490,223,506,210,516,219,502,198,514,192,506,148,486,171,473,151,489,134,512,141,503,183,504,178,502,152,430,114,424,159,407,111,448,160,410,112,468,167,463,164,459,137,417,140,421,150,414,133,383,146,381,103,410,99,352,99,406,134,352,92,376,55,370,117,399,85,365,112,348,50,372,37,377,72,384,62,324,83,347,50,308,89,327,96,290,80,314,36,315,59,338,51,337,61,261,86,273,13,261,37,260,25,253,38,299,1,294,23,269,52]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>x<\/th>\n      <th>Time<\/th>\n      <th>x.Time<\/th>\n      <th>Intervention<\/th>\n      <th>x.Intervention<\/th>\n      <th>Post.intervention.time<\/th>\n      <th>x.Post.intervention.time<\/th>\n      <th>quantity.x<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":200,"scrollY":"200px","columnDefs":[{"className":"dt-right","targets":[1,2,3,4,5,6,7,8]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[10,25,50,100,200]}},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<p>Look carefully at the dataset. I’ve introduced the variable x (which differentiates between the control (0) and test (1) groups, plus some new <em>Interaction</em> terms including x.Time, x.Intervention and x.Post.intervention.time. Each of these is just the value of the variable, multiplied by x (which indicates control variables [0, i.e.&nbsp;quantity.y] or variables of interest [1, i.e.&nbsp;quantity.x]). This makes those variables null for the controls and meaninful step or trend changes for the lines of the data relating to quantity.x</p>
+<p>The ITS model is now a little more complicated. Again, I’ve skipped the step where we test different values of p and q. You should not skip that!</p>
+<p>gls(quantity.x ~ Time + x.Time + Intervention + x.Intervention + Post.intervention.time + x.Post.intervention.time, data = df6, correlation= corARMA(p=1, q=1, form = ~ Time|x),method=“ML”)</p>
+<p>Note that we’ve had to change the <strong>form = ~ Time|x)</strong> argument in the corARMA to account for the fact that it needs to correct for autocorrelation across time and across the two groups where x == 1 and x == 0</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>model.g <span class="ot">=</span> <span class="fu">gls</span>(quantity.x <span class="sc">~</span> x <span class="sc">+</span> Time <span class="sc">+</span> x.Time <span class="sc">+</span> Intervention <span class="sc">+</span> x.Intervention <span class="sc">+</span> Post.intervention.time <span class="sc">+</span> x.Post.intervention.time, <span class="at">data =</span> df6,<span class="at">method=</span><span class="st">"ML"</span>, <span class="at">correlation=</span> <span class="fu">corARMA</span>(<span class="at">p=</span><span class="dv">2</span>,<span class="at">q=</span><span class="dv">2</span>, <span class="at">form =</span> <span class="sc">~</span> Time<span class="sc">|</span>x))</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Show a summary of the model</span></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model.g)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Generalized least squares fit by maximum likelihood
+  Model: quantity.x ~ x + Time + x.Time + Intervention + x.Intervention +      Post.intervention.time + x.Post.intervention.time 
+  Data: df6 
+       AIC      BIC   logLik
+  1748.264 1791.142 -861.132
+
+Correlation Structure: ARMA(2,2)
+ Formula: ~Time | x 
+ Parameter estimate(s):
+      Phi1       Phi2     Theta1     Theta2 
+-0.8226711 -0.3081739  0.9423439  0.5332840 
+
+Coefficients:
+                             Value Std.Error   t-value p-value
+(Intercept)               593.4091  6.057145  97.96844  0.0000
+x                        -294.0878  8.566097 -34.33160  0.0000
+Time                       -1.9758  0.206268  -9.57865  0.0000
+x.Time                      0.0394  0.291707   0.13497  0.8928
+Intervention               12.1990  8.368284   1.45777  0.1465
+x.Intervention            -40.2387 11.834541  -3.40011  0.0008
+Post.intervention.time     -2.9357  0.293268 -10.01029  0.0000
+x.Post.intervention.time    1.9162  0.414743   4.62014  0.0000
+
+ Correlation: 
+                         (Intr) x      Time   x.Time Intrvn x.Intr Pst.n.
+x                        -0.707                                          
+Time                     -0.869  0.615                                   
+x.Time                    0.615 -0.869 -0.707                            
+Intervention              0.342 -0.242 -0.594  0.420                     
+x.Intervention           -0.242  0.342  0.420 -0.594 -0.707              
+Post.intervention.time    0.616 -0.435 -0.711  0.503 -0.018  0.012       
+x.Post.intervention.time -0.435  0.616  0.503 -0.711  0.012 -0.018 -0.707
+
+Standardized residuals:
+        Min          Q1         Med          Q3         Max 
+-2.48762378 -0.68548597 -0.02441616  0.68659430  2.13099255 
+
+Residual standard error: 18.42259 
+Degrees of freedom: 200 total; 192 residual</code></pre>
+</div>
+</div>
+<p>If you were a fancy Dan with these things, you could also use interaction terms in your model to achieve the same result</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>model.h <span class="ot">=</span> <span class="fu">gls</span>(quantity.x <span class="sc">~</span> Time<span class="sc">*</span>x <span class="sc">+</span> Intervention<span class="sc">*</span>x <span class="sc">+</span> Post.intervention.time<span class="sc">*</span>x, <span class="at">data =</span> df6,<span class="at">method=</span><span class="st">"ML"</span>, <span class="at">correlation=</span> <span class="fu">corARMA</span>(<span class="at">p=</span><span class="dv">2</span>,<span class="at">q=</span><span class="dv">2</span>, <span class="at">form =</span> <span class="sc">~</span> Time<span class="sc">|</span>x))</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Show a summary of the model</span></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model.h)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Generalized least squares fit by maximum likelihood
+  Model: quantity.x ~ Time * x + Intervention * x + Post.intervention.time *      x 
+  Data: df6 
+       AIC      BIC   logLik
+  1748.264 1791.142 -861.132
+
+Correlation Structure: ARMA(2,2)
+ Formula: ~Time | x 
+ Parameter estimate(s):
+      Phi1       Phi2     Theta1     Theta2 
+-0.8226711 -0.3081738  0.9423439  0.5332840 
+
+Coefficients:
+                             Value Std.Error   t-value p-value
+(Intercept)               593.4091  6.057145  97.96844  0.0000
+Time                       -1.9758  0.206268  -9.57865  0.0000
+x                        -294.0878  8.566097 -34.33160  0.0000
+Intervention               12.1990  8.368284   1.45777  0.1465
+Post.intervention.time     -2.9357  0.293268 -10.01029  0.0000
+Time:x                      0.0394  0.291707   0.13497  0.8928
+x:Intervention            -40.2387 11.834541  -3.40011  0.0008
+x:Post.intervention.time    1.9162  0.414743   4.62014  0.0000
+
+ Correlation: 
+                         (Intr) Time   x      Intrvn Pst.n. Time:x x:Intr
+Time                     -0.869                                          
+x                        -0.707  0.615                                   
+Intervention              0.342 -0.594 -0.242                            
+Post.intervention.time    0.616 -0.711 -0.435 -0.018                     
+Time:x                    0.615 -0.707 -0.869  0.420  0.503              
+x:Intervention           -0.242  0.420  0.342 -0.707  0.012 -0.594       
+x:Post.intervention.time -0.435  0.503  0.616  0.012 -0.707 -0.711 -0.018
+
+Standardized residuals:
+        Min          Q1         Med          Q3         Max 
+-2.48762378 -0.68548597 -0.02441616  0.68659430  2.13099255 
+
+Residual standard error: 18.42259 
+Degrees of freedom: 200 total; 192 residual</code></pre>
+</div>
+</div>
+<p>See, they’re identical! Personally I prefer to have the variables like x.Intervention written out in my datasets in full. Working with interactions confuses me and I also don’t like the way R presents the coefficients out of order.</p>
+<p>So let’s look at the longhand version in detail</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">coefficients</span>(model.g)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>             (Intercept)                        x                     Time 
+            593.40907021            -294.08779642              -1.97576601 
+                  x.Time             Intervention           x.Intervention 
+              0.03937222              12.19903376             -40.23870252 
+  Post.intervention.time x.Post.intervention.time 
+             -2.93569500               1.91617161 </code></pre>
+</div>
+</div>
+<p>The interpretation of this is as follows</p>
+<ul>
+<li><strong>Intercept</strong> is the average value of the control group at the start of the study</li>
+<li><strong>x</strong> is the difference between Intercept and the value of quantity.x at the start of the study. To calculate the actual value on the y axis, you’d do 593.4-294.1 = 299.3. When we draw the chart below, you’ll see that the line for quantity.x starts at 299.3 units at week 1.</li>
+<li><strong>Time</strong> is the pre-intervention slope for the control group</li>
+<li><strong>x.Time</strong> is the difference between Time and the values of quantity.x (see how the control group influences our results!)</li>
+<li><strong>Intervention</strong> describes the step change that occurs at the intervention timepoint in the control group</li>
+<li><strong>x.Intervention</strong> describes the difference in the step changes that occurs at the intervention timepoint betweent the two groups</li>
+<li><strong>Post.intervention.time</strong> describes the slope change that occurs at the intervention timepoint in the control group</li>
+<li><strong>x.Post.intervention.time</strong> describes the difference in the slope changes that occurs at the intervention timepoint in the control group</li>
+</ul>
+<p>Let’s grab the estimated modelled values for the new controlled intervention study</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>df6<span class="ot">&lt;-</span>df6 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">model.g.predictions =</span> <span class="fu">predictSE.gls</span> (model.g, df6, <span class="at">se.fit=</span>T)<span class="sc">$</span>fit,</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">model.g.se =</span> <span class="fu">predictSE.gls</span> (model.g, df6, <span class="at">se.fit=</span>T)<span class="sc">$</span>se</span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Then draw a picture on which we will show the raw data points, then add the modelled data as a line describing the factual observations and a ribbon showing the 95% confidence interval on the model</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(df6,<span class="fu">aes</span>(Time,quantity.x))<span class="sc">+</span><span class="fu">geom_point</span>(<span class="at">color=</span><span class="st">"grey"</span>)<span class="sc">+</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> model.g.predictions <span class="sc">-</span> (<span class="fl">1.96</span><span class="sc">*</span>model.g.se), <span class="at">ymax =</span> model.g.predictions <span class="sc">+</span> (<span class="fl">1.96</span><span class="sc">*</span>model.g.se),<span class="at">fill=</span><span class="fu">factor</span>(x)),<span class="at">alpha=</span><span class="fl">0.4</span>)<span class="sc">+</span></span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(Time,model.g.predictions,<span class="at">color=</span><span class="fu">factor</span>(x)),<span class="at">lty=</span><span class="dv">1</span>)<span class="sc">+</span></span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha=</span><span class="fl">0.3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Interrupted_Time_Series_files/figure-html/unnamed-chunk-29-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>So let’s calculate the counterfactuals for each of these and add the predictions to the data set</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>df7<span class="ot">&lt;-</span><span class="fu">filter</span>(df6,Time<span class="sc">&lt;</span><span class="dv">51</span>)</span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>model.i <span class="ot">=</span> <span class="fu">gls</span>(quantity.x <span class="sc">~</span> x <span class="sc">+</span> Time <span class="sc">+</span> x.Time, <span class="at">data =</span> df7, <span class="at">correlation=</span> <span class="fu">corARMA</span>(<span class="at">p=</span><span class="dv">1</span>, <span class="at">q=</span><span class="dv">1</span>, <span class="at">form =</span> <span class="sc">~</span> Time<span class="sc">|</span>x),<span class="at">method=</span><span class="st">"ML"</span>)</span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>df6<span class="ot">&lt;-</span>df6 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(</span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">model.i.predictions =</span> <span class="fu">predictSE.gls</span> (model.i, <span class="at">newdata =</span> df6, <span class="at">se.fit=</span>T)<span class="sc">$</span>fit,</span>
+<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">model.i.se =</span> <span class="fu">predictSE.gls</span> (model.i, df6, <span class="at">se.fit=</span>T)<span class="sc">$</span>se</span>
+<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Then plot the results</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(df6,<span class="fu">aes</span>(Time,quantity.x))<span class="sc">+</span><span class="fu">geom_point</span>(<span class="at">color=</span><span class="st">"grey"</span>)<span class="sc">+</span></span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> model.g.predictions <span class="sc">-</span> (<span class="fl">1.96</span><span class="sc">*</span>model.g.se), <span class="at">ymax =</span> model.g.predictions <span class="sc">+</span> (<span class="fl">1.96</span><span class="sc">*</span>model.g.se),<span class="at">fill=</span><span class="fu">factor</span>(x)),<span class="at">alpha=</span><span class="fl">0.4</span>)<span class="sc">+</span></span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> model.i.predictions <span class="sc">-</span> (<span class="fl">1.96</span><span class="sc">*</span>model.i.se), <span class="at">ymax =</span> model.i.predictions <span class="sc">+</span> (<span class="fl">1.96</span><span class="sc">*</span>model.i.se),<span class="at">fill=</span><span class="fu">factor</span>(x)),<span class="at">alpha=</span><span class="fl">0.2</span>)<span class="sc">+</span></span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(Time,model.g.predictions,<span class="at">color=</span><span class="fu">factor</span>(x)),<span class="at">lty=</span><span class="dv">1</span>)<span class="sc">+</span></span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(Time,model.i.predictions,<span class="at">color=</span><span class="fu">factor</span>(x)),<span class="at">lty=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Interrupted_Time_Series_files/figure-html/unnamed-chunk-31-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>We can see that in the group of interest, there’s been a big change in the amount of quantity.x since the intervention, but there’s also been a big change in quantity.y the control group. Is the effect we are seeing in the group of interest just happening because of the decline that is happening in both groups, which could indicate that some extrinsic factor influenced change in both groups. If this were the case (assuming that the control group is NOT affected by the intervention) then we’d be incorrectly attributing the result to the intervetion.</p>
+<p>Looking closely at the tables of coefficients, we can find some clues. Let’s look back at the fully controlled analysis</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model.g)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Generalized least squares fit by maximum likelihood
+  Model: quantity.x ~ x + Time + x.Time + Intervention + x.Intervention +      Post.intervention.time + x.Post.intervention.time 
+  Data: df6 
+       AIC      BIC   logLik
+  1748.264 1791.142 -861.132
+
+Correlation Structure: ARMA(2,2)
+ Formula: ~Time | x 
+ Parameter estimate(s):
+      Phi1       Phi2     Theta1     Theta2 
+-0.8226711 -0.3081739  0.9423439  0.5332840 
+
+Coefficients:
+                             Value Std.Error   t-value p-value
+(Intercept)               593.4091  6.057145  97.96844  0.0000
+x                        -294.0878  8.566097 -34.33160  0.0000
+Time                       -1.9758  0.206268  -9.57865  0.0000
+x.Time                      0.0394  0.291707   0.13497  0.8928
+Intervention               12.1990  8.368284   1.45777  0.1465
+x.Intervention            -40.2387 11.834541  -3.40011  0.0008
+Post.intervention.time     -2.9357  0.293268 -10.01029  0.0000
+x.Post.intervention.time    1.9162  0.414743   4.62014  0.0000
+
+ Correlation: 
+                         (Intr) x      Time   x.Time Intrvn x.Intr Pst.n.
+x                        -0.707                                          
+Time                     -0.869  0.615                                   
+x.Time                    0.615 -0.869 -0.707                            
+Intervention              0.342 -0.242 -0.594  0.420                     
+x.Intervention           -0.242  0.342  0.420 -0.594 -0.707              
+Post.intervention.time    0.616 -0.435 -0.711  0.503 -0.018  0.012       
+x.Post.intervention.time -0.435  0.616  0.503 -0.711  0.012 -0.018 -0.707
+
+Standardized residuals:
+        Min          Q1         Med          Q3         Max 
+-2.48762378 -0.68548597 -0.02441616  0.68659430  2.13099255 
+
+Residual standard error: 18.42259 
+Degrees of freedom: 200 total; 192 residual</code></pre>
+</div>
+</div>
+<p>We need to look closely at the numbers here.</p>
+<p>In this case, there was a pre-intervention decline in the control group (-1.98 units/week). The quantity.x group was also declining, at a very slightly lower rate (-1.94 units/week)</p>
+<p>At the time of the intervention, the control group exhibited a step change of 12.20 units. The quantity.x group meanwhile went down 40.24 units relative to that, so overall it goes down 28.04 units.</p>
+<p>Finally, post-intervention, the rate of decline in the control group dipped (-2.94 units/week) whilst the quantity.x group actually went down less steeply (-2.94 + 1.92 = -1.02 units/week).</p>
+<p>We might not care too much about these specific rates and numbers. Mostly we care about the big headline number of how much quantity.x has changed compared to the counterfactual, but do take one last look at the table, where the p-values tell you if each coefficient represents an independently significant change.</p>
+<p>In this case, Time is significant, indicating that there was a significant change with time prior to the intervention. x.Time is not significant, which means that the pre-intervention trends for quantity.x and the control group are the same. I interpret this to mean that both groups were exhibiting similar trends prior to intervention</p>
+<p>Meanwhile, neither Intervention, nor x.Intervention are significant, so maybe we should interpret this to mean that the intervention did not have any immediate effect in the form of a step change.</p>
+<p>Finally, both Post.intervention.time and x.Post.intervention.time are significant, which suggests that something influenced the trends in both groups, but that the quantity.x group was affected differently to the control. That much is clear from the pictures, but how we interpret it is something to think about.</p>
+<p>It’s possible that the Intervention affected both groups, which would suggest that this is a badly chosen control.</p>
+<p>It’s also possible that some extrinsic factor affected both groups around the time that the intervention happened. That’s not good because it leaves us in a position where we can’t determine how much of the effect is due to the intervention and how much is due to the other factors.</p>
+<p>In this dummy data, the controls are pretty bad because they change a lot. This is why a lot of the challenge of doing time series</p>
+<p>Let’s finally prove what the control is doing (and not doing) by looking at the numbers. At the end of the study, the fully controlled ITS model estimates that there’s a difference between the factual and counterfactual values of quantity.x</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>df6<span class="sc">$</span>model.g.predictions[<span class="dv">200</span>]<span class="sc">-</span>df6<span class="sc">$</span>model.i.predictions[<span class="dv">200</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      200 
+-79.46584 </code></pre>
+</div>
+</div>
+<p>Let’s then compare that estimate to an estimate from the same data, but uncontrolled.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>model.j <span class="ot">=</span> <span class="fu">gls</span>(quantity.x <span class="sc">~</span> Time <span class="sc">+</span> Intervention  <span class="sc">+</span> Post.intervention.time , <span class="at">data =</span> df.x,<span class="at">method=</span><span class="st">"ML"</span>, <span class="at">correlation=</span> <span class="fu">corARMA</span>(<span class="at">p=</span><span class="dv">2</span>,<span class="at">q=</span><span class="dv">2</span>, <span class="at">form =</span> <span class="sc">~</span> Time))</span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>df.x <span class="ot">&lt;-</span> df.x <span class="sc">%&gt;%</span> </span>
+<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">model.j.predictions =</span> <span class="fu">predictSE.gls</span> (model.j, <span class="at">newdata =</span> df.x, <span class="at">se.fit=</span>T)<span class="sc">$</span>fit,</span>
+<span id="cb50-6"><a href="#cb50-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">model.j.se =</span> <span class="fu">predictSE.gls</span> (model.j, df.x, <span class="at">se.fit=</span>T)<span class="sc">$</span>se  </span>
+<span id="cb50-7"><a href="#cb50-7" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb50-8"><a href="#cb50-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-9"><a href="#cb50-9" aria-hidden="true" tabindex="-1"></a>df8<span class="ot">&lt;-</span><span class="fu">filter</span>(df.x,Time<span class="sc">&lt;</span><span class="dv">51</span>)</span>
+<span id="cb50-10"><a href="#cb50-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-11"><a href="#cb50-11" aria-hidden="true" tabindex="-1"></a>model.k <span class="ot">=</span> <span class="fu">gls</span>(quantity.x <span class="sc">~</span> Time, <span class="at">data =</span> df8, <span class="at">correlation=</span> <span class="fu">corARMA</span>(<span class="at">p=</span><span class="dv">1</span>, <span class="at">q=</span><span class="dv">1</span>, <span class="at">form =</span> <span class="sc">~</span> Time),<span class="at">method=</span><span class="st">"ML"</span>)</span>
+<span id="cb50-12"><a href="#cb50-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-13"><a href="#cb50-13" aria-hidden="true" tabindex="-1"></a>df.x<span class="ot">&lt;-</span>df.x <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(</span>
+<span id="cb50-14"><a href="#cb50-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">model.k.predictions =</span> <span class="fu">predictSE.gls</span> (model.k, <span class="at">newdata =</span> df.x, <span class="at">se.fit=</span>T)<span class="sc">$</span>fit,</span>
+<span id="cb50-15"><a href="#cb50-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">model.k.se =</span> <span class="fu">predictSE.gls</span> (model.k, df.x, <span class="at">se.fit=</span>T)<span class="sc">$</span>se</span>
+<span id="cb50-16"><a href="#cb50-16" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb50-17"><a href="#cb50-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-18"><a href="#cb50-18" aria-hidden="true" tabindex="-1"></a>df.x<span class="sc">$</span>model.j.predictions[<span class="dv">100</span>]<span class="sc">-</span>df.x<span class="sc">$</span>model.k.predictions[<span class="dv">100</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      100 
+-78.41196 </code></pre>
+</div>
+</div>
+<p>There’s not much in it here. In both cases, we estimate a change of around 78 to 79 units in the value of quantity.x Really the controls are there to give you a subjective (eyeballing the charts) and statistical view (looking at the summary tables) of whether you should worry that extrinsic factors might have led you to incorrectly attributing the results to your intervention. In my opinion this is a bit of a silly game because you can’t really ever know whether a control group is being affected by the intervention, the extrinsic factor, or both. If you’ve defined your control group before you start, you might be shooting yourself in the foot by choosing the wrong thing. If you haven’t you might be cherry picking a control group simply because it doesn’t change when you, for instance, check it with an uncorrected time series analysis.</p>
+<p>In the former case, you don’t know what to do with the data, nor know how to interpret the effects. In the latter case, there’s not really a lot of point, because a control group you’ve specifically cherry-picked for lack of any effect won’t contribute much to the model and so has little value in the statistics or analysis.</p>
+<p>Controlled ITS is pretty much the gold standard, though personally I don’t think it often adds much to use the control. Some people like to use synthesised controls, which is probably more robust.</p>
+</section>
+<section id="final-word" class="level2" data-number="11.5">
+<h2 data-number="11.5" class="anchored" data-anchor-id="final-word"><span class="header-section-number">11.5</span> Final word</h2>
+<p>You should now be able to do a fairly robust interrupted time series, using controls if you want and calculating counterfactuals for each part of the model. Why not try modifying the controlled ITS to have two interruptions? Or maybe add some periodic covariates, adding effects for seasons, or specific calendar events, or temperature, humidity, region…</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./Cox_PH.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Survival Analysis with Cox-PH</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./new_lm_predict_left_predict_right.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">New lm Predict Left &amp; Predict Right</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>

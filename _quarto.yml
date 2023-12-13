@@ -26,7 +26,7 @@ book:
 
   - part: "Statistics"
     chapters:
-       - Cox-PH.qmd
+       - Cox_PH.qmd
        - Interrupted_Time_Series.qmd
        - new_lm_predict_left_predict_right.qmd
        - Diagnostics_Power_Calculation.qmd

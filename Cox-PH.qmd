@@ -1,0 +1,78 @@
+# Survival Analysis with Cox-PH
+
+```{r,warning=F,message=F,echo=F}
+library (survival)
+library(survminer)
+library(tidyverse)
+library(knitr)
+```
+
+Set a random seed for reproducibility
+
+```{r}
+set.seed(2349871)
+```
+
+## Create dummy dataset
+
+You would provide a real data set at this point. The data are basically a tibble/df in which you provide a list of times at which a case became either an event/failure or censored (lost-to-followup or end of study). The key variables are some kind of time to event variable and a status variable indicating whether the case is an event of censored at that time to event. Additional covariates to the model can be added at this stage (here age and sex are included).
+
+```{r,message=F,warning=F}
+
+# Create a dummy dataset
+n <- 400  # Number of observations
+
+dummy_data = tibble(
+time_to_event = rexp(n, rate = 0.1),  # Generate random survival times (exponentially distributed)
+status = rbinom(n, size = 1, prob = 0.7),  # Generate censoring status (0=censored, 1=event)
+age = rnorm(n, mean = 50, sd = 10),
+sex = sample(c("Male", "Female"), size = n, replace = TRUE)
+)
+
+kable(dummy_data[1:50,])
+```
+
+## Fit a Cox Proportional Hazards (Cox-PH) model
+
+The example below applies a Cox-PH model which tests whether survival is explained by age and sex.
+
+```{r}
+# Fit a Cox Proportional Hazards model
+cox_model <- coxph(Surv(time_to_event, status) ~ age + sex, data = dummy_data)
+
+# Summary of the Cox PH model
+summary(cox_model)
+
+```
+
+**exp(coef)** is essentially an odds ratio similar to those in a logistic regression.
+
+In this example, being male carries a proportional hazard of 1.04 (95% CI 0.76 - 1.22) compared to being female.
+
+If you like P values, **Pr(\>\|z\|)** is exactly that.
+
+## Plot the survival curve as a null model (no strata)
+
+```{r,warning=F,message=F,}
+ggsurvplot(survfit(cox_model), 
+           data = dummy_data, 
+           pval = TRUE,
+           risk.table = TRUE, 
+           risk.table.title = "Survival Table",
+           surv.scale = "percent", # You can change this to other scales like "probability"
+           )
+```
+
+## Plot the survival curve's strata
+
+```{r,warning=F,message=F}
+# Plot separate survival curves for each sex without covariates
+ggsurvplot(survfit(Surv(time_to_event, status) ~ sex, data = dummy_data), 
+           data = dummy_data, pval = TRUE, 
+           risk.table = TRUE, risk.table.title = "Survival Table",
+           surv.scale = "percent", # You can change this to other scales like "probability"
+           palette = c("blue", "red"), # Colors for the curves
+           conf.int = TRUE, # Show confidence intervals
+           ggtheme = theme_minimal())
+
+```

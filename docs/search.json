@@ -971,5 +971,33 @@
     "title": "29  Akaike information criterion",
     "section": "29.9 Example methods",
     "text": "29.9 Example methods\nWe used AIC model selection to distinguish among a set of possible models describing the relationship between age, sex, sweetened beverage consumption, and body mass index. The best-fit model, carrying 97% of the cumulative model weight, included every parameter with no interaction effects.\nAfter finding the best-fit model you can go ahead and run the model and evaluate the results. The output of your model evaluation can be reported in the results section of your paper."
+  },
+  {
+    "objectID": "Cox-PH.html#create-dummy-dataset",
+    "href": "Cox-PH.html#create-dummy-dataset",
+    "title": "10  Survival Analysis with Cox-PH",
+    "section": "10.1 Create dummy dataset",
+    "text": "10.1 Create dummy dataset\nYou would provide a real data set at this point. The data are basically a tibble/df in which you provide a list of times at which a case became either an event/failure or censored (lost-to-followup or end of study). The key variables are some kind of time to event variable and a status variable indicating whether the case is an event of censored at that time to event. Additional covariates to the model can be added at this stage (here age and sex are included).\n\n# Create a dummy dataset\nn &lt;- 400  # Number of observations\n\ndummy_data = tibble(\ntime_to_event = rexp(n, rate = 0.1),  # Generate random survival times (exponentially distributed)\nstatus = rbinom(n, size = 1, prob = 0.7),  # Generate censoring status (0=censored, 1=event)\nage = rnorm(n, mean = 50, sd = 10),\nsex = sample(c(\"Male\", \"Female\"), size = n, replace = TRUE)\n)\n\nkable(dummy_data[1:50,])\n\n\n\n\ntime_to_event\nstatus\nage\nsex\n\n\n\n\n6.4259592\n1\n73.52660\nMale\n\n\n11.3442077\n1\n50.50222\nMale\n\n\n15.8966574\n1\n47.92458\nMale\n\n\n6.1306312\n0\n34.29717\nMale\n\n\n58.2474850\n1\n65.48380\nFemale\n\n\n0.4385206\n1\n63.72518\nMale\n\n\n10.0999956\n1\n32.78718\nMale\n\n\n13.5452954\n1\n56.69594\nMale\n\n\n23.2616671\n1\n64.06368\nFemale\n\n\n6.6305375\n0\n39.57934\nMale\n\n\n3.4124873\n1\n61.01491\nMale\n\n\n23.5613451\n1\n50.57658\nFemale\n\n\n3.8873929\n0\n34.14120\nFemale\n\n\n1.1609957\n0\n47.86545\nMale\n\n\n7.3992159\n1\n48.14969\nMale\n\n\n1.7074045\n1\n56.48242\nFemale\n\n\n9.3024589\n1\n36.99522\nFemale\n\n\n1.8850863\n1\n46.75785\nMale\n\n\n4.6354830\n1\n58.60437\nMale\n\n\n29.5769145\n1\n44.64723\nMale\n\n\n5.6988664\n1\n70.97436\nFemale\n\n\n5.3396220\n1\n51.40127\nFemale\n\n\n40.7519661\n1\n62.81860\nFemale\n\n\n18.0089650\n1\n55.68285\nFemale\n\n\n8.3860447\n1\n40.10967\nFemale\n\n\n23.7233388\n0\n60.90075\nFemale\n\n\n6.0299401\n1\n61.08140\nMale\n\n\n31.6667163\n0\n56.45674\nFemale\n\n\n17.7834710\n0\n45.85618\nMale\n\n\n5.2062141\n0\n31.72840\nFemale\n\n\n29.3489706\n1\n31.11502\nMale\n\n\n5.8314029\n0\n68.58975\nFemale\n\n\n9.5656533\n1\n57.35988\nFemale\n\n\n9.5373625\n1\n31.96376\nFemale\n\n\n3.9880189\n1\n39.38484\nFemale\n\n\n0.9741962\n1\n47.02667\nFemale\n\n\n21.2487088\n1\n49.89334\nMale\n\n\n0.2024743\n1\n38.72542\nMale\n\n\n11.0601524\n0\n56.76905\nFemale\n\n\n0.7781064\n1\n48.57265\nFemale\n\n\n0.2124087\n0\n47.65967\nFemale\n\n\n2.5668218\n0\n39.14320\nFemale\n\n\n0.9209163\n0\n43.30243\nMale\n\n\n0.4046106\n1\n38.73970\nFemale\n\n\n0.2666237\n1\n35.87988\nFemale\n\n\n31.9501408\n0\n48.21734\nMale\n\n\n18.3300585\n1\n49.74158\nFemale\n\n\n23.7308642\n0\n35.02793\nFemale\n\n\n29.3767633\n1\n37.16292\nFemale\n\n\n42.9618447\n0\n51.02196\nMale"
+  },
+  {
+    "objectID": "Cox-PH.html#fit-a-cox-proportional-hazards-cox-ph-model",
+    "href": "Cox-PH.html#fit-a-cox-proportional-hazards-cox-ph-model",
+    "title": "10  Survival Analysis with Cox-PH",
+    "section": "10.2 Fit a Cox Proportional Hazards (Cox-PH) model",
+    "text": "10.2 Fit a Cox Proportional Hazards (Cox-PH) model\nThe example below applies a Cox-PH model which tests whether survival is explained by age and sex.\n\n# Fit a Cox Proportional Hazards model\ncox_model &lt;- coxph(Surv(time_to_event, status) ~ age + sex, data = dummy_data)\n\n# Summary of the Cox PH model\nsummary(cox_model)\n\nCall:\ncoxph(formula = Surv(time_to_event, status) ~ age + sex, data = dummy_data)\n\n  n= 400, number of events= 280 \n\n             coef exp(coef)  se(coef)      z Pr(&gt;|z|)\nage     -0.002994  0.997011  0.005842 -0.512    0.608\nsexMale -0.038460  0.962270  0.120164 -0.320    0.749\n\n        exp(coef) exp(-coef) lower .95 upper .95\nage        0.9970      1.003    0.9857     1.008\nsexMale    0.9623      1.039    0.7603     1.218\n\nConcordance= 0.513  (se = 0.02 )\nLikelihood ratio test= 0.39  on 2 df,   p=0.8\nWald test            = 0.39  on 2 df,   p=0.8\nScore (logrank) test = 0.39  on 2 df,   p=0.8\n\n\nexp(coef) is essentially an odds ratio similar to those in a logistic regression.\nIn this example, being male carries a proportional hazard of 1.04 (95% CI 0.76 - 1.22) compared to being female.\nIf you like P values, Pr(&gt;|z|) is exactly that."
+  },
+  {
+    "objectID": "Cox-PH.html#plot-the-survival-curve-as-a-null-model-no-strata",
+    "href": "Cox-PH.html#plot-the-survival-curve-as-a-null-model-no-strata",
+    "title": "10  Survival Analysis with Cox-PH",
+    "section": "10.3 Plot the survival curve as a null model (no strata)",
+    "text": "10.3 Plot the survival curve as a null model (no strata)\n\nggsurvplot(survfit(cox_model), \n           data = dummy_data, \n           pval = TRUE,\n           risk.table = TRUE, \n           risk.table.title = \"Survival Table\",\n           surv.scale = \"percent\", # You can change this to other scales like \"probability\"\n           )"
+  },
+  {
+    "objectID": "Cox-PH.html#plot-the-survival-curves-strata",
+    "href": "Cox-PH.html#plot-the-survival-curves-strata",
+    "title": "10  Survival Analysis with Cox-PH",
+    "section": "10.4 Plot the survival curve’s strata",
+    "text": "10.4 Plot the survival curve’s strata\n\n# Plot separate survival curves for each sex without covariates\nggsurvplot(survfit(Surv(time_to_event, status) ~ sex, data = dummy_data), \n           data = dummy_data, pval = TRUE, \n           risk.table = TRUE, risk.table.title = \"Survival Table\",\n           surv.scale = \"percent\", # You can change this to other scales like \"probability\"\n           palette = c(\"blue\", \"red\"), # Colors for the curves\n           conf.int = TRUE, # Show confidence intervals\n           ggtheme = theme_minimal())"
   }
 ]

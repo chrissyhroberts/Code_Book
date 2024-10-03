@@ -1,0 +1,502 @@
+---
+title: "Basics of R"
+format: html
+editor: visual
+---
+
+This section is intended to provide a very bare bones explanation of how to do some things in R.
+
+It covers some basic methods including reading and writing data, manipulating and reshaping datasets with tidyverse verbs and drawing some simple charts with ggplot2. For much better resources, please use <https://r4ds.hadley.nz/> which is awesome.
+
+This is a work in progress.
+
+## Load Libraries
+
+Libraries (also known as packages) allow R to do things it can't do out of the box. \
+You can install packages using the `install.packages("packagename")` syntax. If you haven't used R before then you should first install the tidyverse packages by typing `install.packages("tidyverse")`
+
+You should always load the libraries you'll be using at the top of your script.
+
+```{r}
+
+library(tidyverse)
+```
+
+## Write CSV files
+
+We'll be using the iris dataset, which is built in and which can be accessed by typing `iris`.
+
+We need a toy dataset to work with, so let's start by saving a copy of `iris` as a csv file. This is backwards from what we normally do, which is to save a data set at the end, but will serve our purpose here.
+
+```{r}
+
+write_csv(iris, "iris.csv")  # Saving to CSV
+
+```
+
+Check that it appears in the files list on the right
+
+## Read CSV files
+
+Next let's read the file back in and assign it to a data frame
+
+The `<-` symbol assigns the data contained in the file to an **object** in the R environment.
+
+You can have as many or as few objects as you need.
+
+```{r}
+
+iris_data <- read_csv("iris.csv")
+```
+
+The messages are important. Check which variables have been assigned to which **class**
+
+-   **chr**:
+
+    -   Full Form: **character**
+
+    -   Used for columns containing text data (strings).
+
+-   **dbl or num**:
+
+    -   Full Form: **double/number**
+
+    -   Represents floating-point numbers (numeric values with decimal places).
+
+    -   This is the most common numeric data type used in R for real numbers.
+
+-   **int**:
+
+    -   Full Form: **integer**
+
+    -   Used for whole numbers.
+
+-   **lgl**:
+
+    -   Full Form: **logical**
+
+    -   Used for boolean (TRUE/FALSE) values.
+
+-   **fct**:
+
+    -   Full Form: **factor**
+
+    -   Used for categorical data (discrete values like categories, levels, or groups).
+
+-   **dttm**:
+
+    -   Full Form: **date-time**
+
+    -   Represents date and time objects (POSIXct class) which include both date and time information.
+
+-   **date**:
+
+    -   Full Form: **Date**
+
+    -   Used for date objects, containing only date information (year, month, day).
+
+-   **time**:
+
+    -   Full Form: **time**
+
+    -   Used for time objects (sometimes seen when working with time series data, though less common than date or POSIXct).
+
+-   **lst**:
+
+    -   Full Form: **list**
+
+    -   Represents a list column, which can hold any type of R object, including vectors, data frames, or even other lists.
+
+## Look at the structure of an object
+
+```{r}
+str(iris_data)
+```
+
+## Look at the contents of an object
+
+```{r}
+iris_data
+```
+
+### Summary of the data set
+
+```{r}
+summary(iris_data)
+```
+
+## Pipes
+
+The **`%>%`** pipe operator, commonly called the "pipe," is one of the most important tools in the **tidyverse**. It is used to pass the result of one function into the next function, making your code cleaner and easier to read by chaining operations together.
+
+### How the Pipe Works:
+
+The pipe takes the output of the expression on its left and passes it as the **first argument** to the function on its right.
+
+$$ \texttt{result} \leftarrow \texttt{data} \\ \hspace{2cm} \% \! > \! \% \, \texttt{operation}_1 \\ \hspace{2cm} \% \! > \! \% \, \texttt{operation}_2 \\ \hspace{2cm} \vdots \\ \hspace{2cm} \% \! > \! \% \, \texttt{operation}_n$$
+
+### Simple Explanation:
+
+-   Without the pipe, you would need to **nest** functions, which can make the code harder to read:
+
+`summarise(group_by(filter(df, Species == "setosa"), Species), mean_length = mean(Sepal.Length))`
+
+-   With the **`%>%`** pipe, you can write it more **readable** by breaking each step down:
+
+    ```{r}
+
+    iris_data %>%
+      filter(Sepal.Length >5.8) %>%
+      group_by(Species) %>%
+      summarise(mean_length = mean(Sepal.Length))
+
+
+    ```
+
+### Benefits of Using the Pipe:
+
+-   **Improves readability**: It reads like a logical sequence of steps.
+
+-   **Reduces the need for intermediate variables**: You don’t need to create multiple intermediate objects.
+
+-   **Simplifies function chaining**: Functions are applied one after the other, making it clear what happens at each step.
+
+## Single Table Verbs (basic)
+
+All the main actions in tidyverse take a tibble (the new name for a dataframe), do something with it and then return another tibble. These are the 'single table verbs'.
+
+-   These are the main functions you'll need to learn.
+
+-   All of them accept lists, where you separate items with a comma.
+
+### Filter
+
+-   **`filter()`**:
+
+    -   Filters rows based on specified conditions.
+
+    -   Returns only the rows that meet the condition(s).
+
+```{r}
+iris_data %>% 
+  filter(
+    Species == "setosa",
+    Sepal.Length > 4.3)
+```
+
+### Logic
+
+-   You can provide `logical operators`\` to any verb to make complex queries
+
+    -   `==` Equals
+
+    -   != Not Equals
+
+    -   `>` more than
+
+    -   `<` less than
+
+    -   `>=` more than or equal to
+
+    -   `<=` less than or equal to
+
+    -   `|` or
+
+    -   `&` and
+
+    -   `!` not
+
+    -   `+` add
+
+    -   `-` subtract
+
+    -   `%%` modulo
+
+### AND (&)
+
+Filtering rows where Sepal.Length is greater than 5 AND Species is not setosa
+
+```{r}
+
+iris_data %>% 
+  filter(
+    Sepal.Length > 5 & Species != "setosa"
+    )
+
+```
+
+### OR (\|)
+
+Filtering rows where Sepal.Length is less than 5 OR Species is setosa
+
+```{r}
+
+iris_data %>% 
+  filter(
+    Sepal.Length < 5 | Species == "setosa"
+    )
+
+```
+
+### NOT (!)
+
+Filtering rows where Species is NOT "setosa" by negating the test with `!` placed at the start. Compare to above where `!=` was used for `not-equal`. Here it tests if the species equals setosa, then returns all rows where that is NOT true.
+
+```{r}
+
+iris_data %>% 
+  filter(
+    !(Species == "setosa")
+    )
+
+
+```
+
+### 
+
+### Arrange
+
+-   **`arrange()`**:
+
+    -   Orders rows of a tibble by one or more columns.
+
+    -   Can sort in ascending or descending order.
+
+    -   Using a `list` will sort by item 1, then item 2, then item 3.
+
+    -   As with filter, this function can accept a list of actions that are carried out sequentially
+
+```{r}
+
+iris_data %>% 
+  arrange(
+    Sepal.Length,
+    Sepal.Width,
+    Species
+    )
+```
+
+```{r}
+iris_data %>% 
+  arrange(
+    !Sepal.Length,
+    Sepal.Width,
+    Species
+    )
+```
+
+### Select
+
+-   **`select()`**:
+
+    -   Selects specific columns from a data frame or tibble.
+
+    -   Useful for reducing data to only the columns of interest.
+
+    -   As with other verbs, a sequential set of actions is possible
+
+```{r}
+iris_data %>% 
+  select(
+    Sepal.Length, 
+    Species
+    )
+
+```
+
+-   It's also possible to negate an action,
+
+```{r}
+iris_data %>% 
+  select(
+    !Species
+    )
+```
+
+### Mutate
+
+-   **`mutate()`**:
+
+    -   Adds new columns or modifies existing columns in a tibble.
+
+    -   Commonly used for creating calculated columns.
+
+```{r}
+iris_data %>%
+  mutate(
+    Petal.Ratio = Petal.Length / Petal.Width,
+    Petal.Area = Petal.Length * Petal.Width
+         )
+```
+
+### Pivot_longer
+
+-   **`pivot_longer()`**:
+
+    -   Converts wide data to long format (stacking columns into rows).
+
+    -   Useful for transforming data when working with multiple measurement columns.
+
+    -   We'll use `relig_income` as an example data set. This is in WIDE format.
+
+```{r}
+relig_income
+```
+
+-   To pivot this data set, we provide
+
+    -   `cols =` : The columns that will be used to pivot in to the new 'values' column. Here we want all columns from the dataset except the `religion` column which provides the labels, so simply exclude that one with `!religion`. You could also specify specific columns with a list `cols = c("<$10k","$10-20k","$20-30k")`
+
+```{r}
+relig_income_long <- relig_income %>%
+    pivot_longer(
+      cols = !religion, 
+      names_to = "income", 
+      values_to = "n")
+
+relig_income_long
+
+
+```
+
+### Pivot_wider
+
+This is the exact opposite of pivot_longer. You'll be taking the values of a column (here `income`) that you want to pivot to be the new column `names` in the wide format tibble, then distributing the `values` of another column (here `count`) to the appropriate columns and rows (here `religion`).
+
+```{r}
+relig_income_long %>%
+  pivot_wider(
+    id_cols = religion,
+    names_from = income, 
+    values_from = n
+    )
+
+```
+
+## Using pipes and verbs together
+
+To do a series of things to a tibble, you simply pipe the verbs
+
+```{r}
+
+relig_income %>%
+    pivot_longer(  
+      cols = !religion, 
+      names_to = "income", 
+      values_to = "count") %>% 
+
+    filter(
+      income != "Don't know/refused"
+          ) %>% 
+
+    arrange(
+      income,
+      religion
+          )
+
+```
+
+-   You can include notes if it helps you.
+
+-   Using indentation also really helps
+
+```{r}
+
+relig_income %>%
+  
+    # Pivot the table to be long format
+    pivot_longer(  
+      cols = !religion, 
+      names_to = "income", 
+      values_to = "count") %>% 
+  
+    # Remove lines where no income data was provided
+    filter(
+      income != "Don't know/refused"
+          ) %>% 
+  
+    # Sort the data to sho 
+    arrange(
+      income,
+      religion
+          )
+```
+
+## Single Table Verbs ( for grouping)
+
+### Summarise
+
+-   **`summarise()`**:
+
+    -   Creates summary statistics for each group, such as mean, median, or sum.
+
+    -   Often used after `group_by()` to apply a function to each group.
+
+```{r}
+
+
+```
+
+### Group_by
+
+-   **`group_by()`**:
+
+    -   Groups data by one or more columns, often used in conjunction with `summarise()` for grouped operations.
+
+```{r}
+
+```
+
+### Reframe
+
+### Summary of Exclusive Helper Functions:
+
+-   **Conditional Operations**: `case_when()`, `if_else()`
+
+-   **Range Check**: `between()`
+
+-   **Missing Value Handling**: `coalesce()`, `is.na()`
+
+-   **Cumulative Functions**: `cumsum()`, `cummean()`, `cumall()`, `cumany()`
+
+-   **Row-based Operations**: `lag()`, `lead()`, `nth()`, `row_number()`
+
+-   **Summarizing or Counting**: `n()`, `pmin()`, `pmax()`, `any()`, `all()`
+
+These helper functions are used specifically within verbs like `mutate()`, `filter()`, `summarise()`, `arrange()`, and others to perform specialized operations inside the context of a single table.
+
+### Case_when
+
+### Rename
+
+-   **`rename()`**:
+
+    -   Renames columns in a tibble.
+
+    -   Helpful for cleaning up column names for clarity.
+
+```{r}
+
+```
+
+-   **`left_join()` / `right_join()` / `inner_join()` / `full_join()`**:
+
+    -   Joins two data frames by matching columns.
+
+    -   Each type of join behaves differently based on the desired outcome (e.g., `left_join()` keeps all rows from the left table).
+
+```{r}
+
+```
+
+-   **`separate()`**:
+
+    -   Splits a single column into multiple columns based on a separator.
+
+```{r}
+
+```
+
+-   **`unite()`**:
+
+    -   Combines multiple columns into one.

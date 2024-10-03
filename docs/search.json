@@ -1,0 +1,431 @@
+[
+  {
+    "objectID": "ODK_geofencing.html",
+    "href": "ODK_geofencing.html",
+    "title": "25  ODK Geofencing",
+    "section": "",
+    "text": "25.1 Example : Part 1 - Creating the geofence\nIn practice it wouldn’t make a lot of sense to make a grid for the whole of the Earth at very high resolution, as you’re likely to be working on a more controlled area and the data set would get very big. So let’s take Australia as an example. You’ll find Australia within the bounds of latitude -42.0 to -10,0.01 and longitude 110 to 155.0, so the matrix need only extend to these coordinates.\nAt 0.01 (1.1km) resolution, a decomposed grid of points covering the whole of Australia is about 12 million points.\nThis is the start point for an example where we extract points that fall within a multi-polygon shape file and feed these in to ODK as the basis of a geofence. The shape files used here come from the Significant Urban Areas, Urban Centres and Localities of Australia. These are a bunch of open source shapefiles that draw polygons around major urban areas in Australia. These data are provided by the Australian Bureau of Statistics. They can be accessed here.\nThe first steps are done in R and use the libraries tidyverse and sf.\ndownload.file(\"https://www.abs.gov.au/ausstats/subscriber.nsf/log?openagent&1270055004_sua_2016_aust_shape.zip&1270.0.55.004&Data%20Cubes&1E24D1FB300696D2CA2581B1000E15A5&0&July%202016&09.10.2017&Latest\",destfile = \"data/SUA_2016_AUST.zip\")\n\nunzip(zipfile = \"data/SUA_2016_AUST.zip\",exdir = \"data/\")\nmap = read_sf(\"data/SUA_2016_AUST.shp\")  \nmap &lt;- filter(map,str_detect(map$SUA_NAME16,\"Not in any Significant Urban Area\")==FALSE)",
+    "crumbs": [
+      "ODK",
+      "<span class='chapter-number'>25</span>  <span class='chapter-title'>ODK Geofencing</span>"
+    ]
+  },
+  {
+    "objectID": "ODK_geofencing.html#example-part-1---creating-the-geofence",
+    "href": "ODK_geofencing.html#example-part-1---creating-the-geofence",
+    "title": "25  ODK Geofencing",
+    "section": "",
+    "text": "Read the polygon shapefile and remove any problematic polygons [here there are some that aren’t in any significant urban area]\n\n\n\n\nNow create a grid of all global points at 0.1 degree resolution. The expand_grid command is useful for making a matrix this way.\n\nglobal.0.1 &lt;- expand_grid(lat = seq(-40.0,-10,0.01), lon = seq(110,150.0,0.01))\n\n\n\n\nConvert the points of the matrix to coordinates compatible with sf objects\n\npnts_sf &lt;- st_as_sf(global.0.1, coords = c('lon', 'lat'), crs = st_crs(map))\n\n\n\n\nFind the intersections of the decomposed matrix points and the template polygons\n\nThis can take a while. In our tests, 12 million points took about 10 minutes to compute\n\n\npnts_sf &lt;- st_as_sf(global.0.1, coords = c('lon', 'lat'), crs = st_crs(map))\n\n\npnts.intersection &lt;- pnts_sf %&gt;% mutate(\n                          intersection = as.integer(st_intersects(geometry, map)), \n                          area = if_else(is.na(intersection), '', map$SUA_NAME16[intersection])\n                                       )\n\n\n\n\nfilter the resulting table to include only data points that are inside polygons\nTidy this up so that lat and lon are in different fields, and provide the name of the area in the third column\n\ninside.polygons&lt;-tibble(filter(pnts.intersection,area!=\"\")) %&gt;%\n  mutate(\n    geometry = as.character(geometry),\n    geometry=str_sub(string = geometry,start = 3,end = str_length(geometry)-1),\n\n    area = as.factor(area)\n  ) %&gt;%\n  separate(geometry, c(\"lon\", \"lat\"), \", \") %&gt;%\n  mutate(\n    lon=format(round(as.numeric(lon), digits=2)) ,\n    lat=format(round(as.numeric(lat), digits=2)) ,\n    key = str_c(lon,lat,sep = \"|\")) %&gt;%\n  select(-intersection)\n\n\n\n\nFinally, export the list to a csv file, which we will use in ODK\n\nwrite_csv(inside.polygons,\"output/geofence.data.csv\")",
+    "crumbs": [
+      "ODK",
+      "<span class='chapter-number'>25</span>  <span class='chapter-title'>ODK Geofencing</span>"
+    ]
+  },
+  {
+    "objectID": "ODK_geofencing.html#geofence-in-decomposed-csv-format",
+    "href": "ODK_geofencing.html#geofence-in-decomposed-csv-format",
+    "title": "25  ODK Geofencing",
+    "section": "25.2 Geofence in decomposed CSV format",
+    "text": "25.2 Geofence in decomposed CSV format\nThe CSV file we just created for Australia at 0.01 degree resolution had 46,000 points that fell within polygons. The table below is a sample of lines",
+    "crumbs": [
+      "ODK",
+      "<span class='chapter-number'>25</span>  <span class='chapter-title'>ODK Geofencing</span>"
+    ]
+  },
+  {
+    "objectID": "ODK_geofencing.html#example-part-2---creating-an-xls-form-that-uses-the-geofence",
+    "href": "ODK_geofencing.html#example-part-2---creating-an-xls-form-that-uses-the-geofence",
+    "title": "25  ODK Geofencing",
+    "section": "25.3 Example : Part 2 - Creating an XLS Form that uses the geofence",
+    "text": "25.3 Example : Part 2 - Creating an XLS Form that uses the geofence\nThe XLSForm is very simple. It consists of\n\nA geopoint question, which captures the point that will be tested against the polygons. Here it is a placement-map type, but this works with GPS collected data too.\nA pair of calculations, which extract the first (Latitude) and second (Longitude) data points from the geopoint. These are rounded to the same resolution as the polygon data (here 2 decimal places, 0.01 degrees)\nAnother calculation, which concatenates the resolution-matched geopoint data in the same format found in the geofence data set\nA note, which displays the resolution-matched geopoint\nA further calculation, which grabs exactly zero or one line of matching data from the geofence data set, which is sideloaded as a csv file\nA note, which displays the name of the matching polygon",
+    "crumbs": [
+      "ODK",
+      "<span class='chapter-number'>25</span>  <span class='chapter-title'>ODK Geofencing</span>"
+    ]
+  },
+  {
+    "objectID": "ODK_geofencing.html#example-part-3---in-action",
+    "href": "ODK_geofencing.html#example-part-3---in-action",
+    "title": "25  ODK Geofencing",
+    "section": "25.4 Example : Part 3 - In action",
+    "text": "25.4 Example : Part 3 - In action\nThis image shows a negative result, with the geopoint just outside the limits of the Forster - Tuncurry area\n\nWhilst this one shows a positive result, with the geopoint well inside the limits of Forster - Tuncurry area",
+    "crumbs": [
+      "ODK",
+      "<span class='chapter-number'>25</span>  <span class='chapter-title'>ODK Geofencing</span>"
+    ]
+  },
+  {
+    "objectID": "ODK_geofencing.html#performance",
+    "href": "ODK_geofencing.html#performance",
+    "title": "25  ODK Geofencing",
+    "section": "25.5 Performance",
+    "text": "25.5 Performance\nThis works fast with 46000 lines (CSV was 1.6 MB) in the geopoint data. We recommend never feeding this a massive data set, but to reduce the geographical scale as you increase the resolution. Remember that XLSForms store GPS data at 6 decimal places, but you aren’t going to get this system to work at that level!\nTo give an example of why not, look at this. Forster - Tuncurry is about 45 km^2. Not a huge area. But as resolution goes up, so the number of points in the matrix expands hugely\n\n\n\n\n\n\n\n\n\nresolution degrees\nGPS decimal places\nresolution (at equator)\npoints in matrix\n\n\n\n\n0.01\n2\n1.1 km\n273\n\n\n0.001\n3\n100 m\n24,926\n\n\n0.0001\n4\n10 m\n2,463,251\n\n\n0.00001\n5\n1 m\n246,020,500\n\n\n\nRemembering that the best resolution the average GPS receiver on a phone will get is about 10 m, we benchmarked performance with 10 metre resolution or 4 decimal places. Conveniently this is also the resolution of the maps that provide the shapefiles.\nThe CSV file is now ~26 MB. Pretty big\nThe form loads on Enketo in about 8 seconds.\nThe resolution is also great\nLook at the boundary of the polygon for Forster - Tuncurry. North of the bridge is inside. South is outside. \nIf we place a marker in ODK on the bridge, it detects the point as being inside the polygon\n\nBut about 10 m south, it detects the point as being outside the polygon\n\nOn ODK Collect, the first time you use this form it will pre-load the data from the CSV, which took about 20 seconds. On subsequent uses, it takes no time at all!\n\nsystem(\"rm data/SUA*\")",
+    "crumbs": [
+      "ODK",
+      "<span class='chapter-number'>25</span>  <span class='chapter-title'>ODK Geofencing</span>"
+    ]
+  },
+  {
+    "objectID": "ODK_Pi.html",
+    "href": "ODK_Pi.html",
+    "title": "26  ODK Pi - A deployable version of ODK on a Raspberry Pi",
+    "section": "",
+    "text": "27 ODK_Pi\nA deployable ODK Briefcase based data hub based on Raspberry Pi Raspbian.",
+    "crumbs": [
+      "ODK",
+      "<span class='chapter-number'>26</span>  <span class='chapter-title'>ODK Pi - A deployable version of ODK on a Raspberry Pi</span>"
+    ]
+  },
+  {
+    "objectID": "ODK_Pi.html#note",
+    "href": "ODK_Pi.html#note",
+    "title": "26  ODK Pi - A deployable version of ODK on a Raspberry Pi",
+    "section": "27.1 Note",
+    "text": "27.1 Note\nThis is quite outdated and requires access to an old version of ODK Briefcase, which is no longer supported. We can’t vouch for security. Consider this an antique!",
+    "crumbs": [
+      "ODK",
+      "<span class='chapter-number'>26</span>  <span class='chapter-title'>ODK Pi - A deployable version of ODK on a Raspberry Pi</span>"
+    ]
+  },
+  {
+    "objectID": "ODK_Pi.html#background",
+    "href": "ODK_Pi.html#background",
+    "title": "26  ODK Pi - A deployable version of ODK on a Raspberry Pi",
+    "section": "27.2 Background",
+    "text": "27.2 Background\nSome of our users are working in areas with little or no internet connection, so a portable hub for aggregating data in the field, which is able to later push data to ODK aggregate is a useful interim/backup device that can also be preconfigured to output CSVs, PDF copies of data and so on for on the ground data needs.\nThe ODK briefcase software provides all the functionality we need for this purpose. The benefits of putting briefcase on to a Raspberry Pi (RPi) are\n\nThe small size and weight of the RPi mean that you could send it in the post, carry it in your pocket and include it as a ‘just in case’ plan B measure for studies where your baggage allowance is only what you can carry.\nDedicated system means you don’t have to ‘donate’ your own laptop to study team for the duration of the work.\nThe RPi costs ~£35 and can be used with a tablet/phone/TV as display and touchscreen/keyboard/mouse as I/O devices\nRuns off pretty much any power source and has low consumption and heat output. Can be run inside a tupperware box, so good off grid, in the rainforest and so on.\nProvides full linux system including encryption/decryption, R, Python, Java etc.\nSD cards can be cloned, meaning that you can take a box of RPis and set up as many hubs as you need if the scale of project grows.\n\nThese instructions should be sufficient to set up a new installation of the Raspbian operating system, then to install any necessary packages and software (including ODK Briefcase). It will also help you to set up the system so that you can work with Android devices via the MTP protocol (which is not especially obvious) and various other tips and tricks that make all these things fit together.\nNothing in this guide is particularly difficult and not novel, but I think this is the first place where everything is listed as a single set of instructions.",
+    "crumbs": [
+      "ODK",
+      "<span class='chapter-number'>26</span>  <span class='chapter-title'>ODK Pi - A deployable version of ODK on a Raspberry Pi</span>"
+    ]
+  },
+  {
+    "objectID": "ODK_Pi.html#equipment",
+    "href": "ODK_Pi.html#equipment",
+    "title": "26  ODK Pi - A deployable version of ODK on a Raspberry Pi",
+    "section": "27.3 Equipment",
+    "text": "27.3 Equipment\nRaspberry Pi (Tested on R Pi 3 B+)\nSDHC Micro SD card (16 GB tested) formatted to FAT / FAT32\nNoobs https://www.raspberrypi.org/downloads/noobs/",
+    "crumbs": [
+      "ODK",
+      "<span class='chapter-number'>26</span>  <span class='chapter-title'>ODK Pi - A deployable version of ODK on a Raspberry Pi</span>"
+    ]
+  },
+  {
+    "objectID": "ODK_Pi.html#r-pi-setup",
+    "href": "ODK_Pi.html#r-pi-setup",
+    "title": "26  ODK Pi - A deployable version of ODK on a Raspberry Pi",
+    "section": "27.4 R Pi Setup",
+    "text": "27.4 R Pi Setup\n\nInstall Noobs as per instructions. Tested on Noobs Lite (Network install)\n\nCopy all files from noobs folder on to SDHC card\n\nPlug SD card in to RPi.\n\nPower on the RPi, connect to Wifi, follow steps to install Raspbian and update\n\nYou should now have a basic RPi installation of raspbian\n\nFiddle around with your wifi settings, bluetooth etc.\n\nOpen Terminal\n\n======= ### Get current date and time from internet at startup\nThe RPi doesn’t have a real time clock onboard, so I’d recommend putting on a clock board if using this in the field. Otherwise you’ll be relying on internet time. For the time being though, let’s stick with the basic board and grab internet time at startup.\nsudo nano /etc/rc.local\n\nAdd the following line to the rc.local file above where it says exit 0\n\ndate -s \"$(wget -qSO- --max-redirect=0 google.com 2&gt;&1 | grep Date: | cut -d' ' -f5-8)Z\"\n\n27.4.1 Update list of packages and remove bloatware\nI’m guessing you don’t want to play Minecraft on this RPi (though it is a great game) so let’s save about 1.5 GB of SD card space and remove bloatware that comes preinstalled on this version of Raspbian.\nsudo apt-get update  \nsudo apt-get upgrade\nsudo apt-get remove --purge wolfram-engine scratch2 libreoffice* scratch minecraft-pi sonic-pi dillo gpicview\n\nselect ‘y’ or ‘Y’ when prompted to remove these packages\nclean up leftover dependencies from removed packages\n\nsudo apt-get clean\nsudo apt-get autoremove\n\n\n27.4.2 Add required packages\nThis will add a bunch of useful things that you need\nsudo apt-get install apt-file\nsudo apt-file update\nsudo apt-get install libcurl4-openssl-dev libssl-dev libxml2 libxml2-dev libgdal-dev usbmount \n\n\n27.4.3 Install Java Development Kit (JDK)\nsudo apt-get install ca-certificates-java  \nsudo apt-get install openjdk-9-jre\n\n\n27.4.4 Get odk briefcase\ncurl --silent \"https://api.github.com/repos/opendatakit/briefcase/releases/latest\" | grep \"browser_download_url\" | sed -E 's/.*\"([^\"]+)\".*/\\1/' |xargs wget\n\n\n27.4.5 Set Jar files to open on double click\nYou probably don’t want to have to start ODK Briefcase from the command line every time you use it, so this will make jar files run by double-clicking them\n\nAdd a java.desktop file to tell OS how to handle .jar files\n\nsudo nano /usr/share/applications/java.desktop \n[[Desktop Entry]\nName=Java\nComment=Java\nGenericName=Java\nKeywords=java\nExec=/usr/bin/java -jar %f\nTerminal=false\nX-MultipleArgs=false\nType=Application\nMimeType=application/x-java-archive\nStartupNotify=true\nClose the ‘nano’ text editor by pressing CTRL & C and then press “Y” to save the new file\nAfter adding this file you should be able to find an entry called Java in the Open file with… dialog when you right click the jar file.\nSelect always open with this program and you are set to go.\nODK Briefcase should now be able to download data and export decrypted data when provided with a private key (.pem).\n\n\n27.4.6 Add support for connecting android devices\nAndroid uses the MTP protocol to connect to linux. This is no doubt safer but is a lot weirder than the old fashioned approach where it just mounted your tablet as a USB drive on your computer. Without a bit of jiggery pokery it’s hard to figure out how to find the folders. The next few steps make it much easier.\nsudo apt-get install gvfs-backends gvfs-bin gvfs-fuse gvfs-daemons  \n\nPlug in and unlock an Android device\nFind generic parent location of mount using\n\nmount | grep 'gvfsd-fuse'\n\nexample\n\n\ngvfsd-fuse on /run/user/1000/gvfs type fuse.gvfsd-fuse (rw,nosuid,nodev,relatime,user_id=1000,group_id=1000)\n\n\nthe key folder here is /run/user/1000/gvfs/ but it might be different on your system\nChange to the root directory and create a symlink to the parent directory\n\ncd ~\nln -s /run/user/1000/gvfs Android_Device\n\nOpen a file manager window and select Edit &gt; Preferences &gt; Volume Management\nUnselect “Show available options for removable media…”\n\nYou should now have a folder called “Android_Device” in the root directory. When a device is connected to the RPi, this folder should automagically get a new subfolder for the Android MTP protocol.\n\nConnect an Android device by USB cable\nUnlock the device\nSelect “Yes” to any query about using USB/MTB for transfer\nIf you navigate to the Android_Device folder you should see a folder called mtp:host… This has the device’s file system inside\nIf you don’t see that folder, press F5 to refresh\nWhen you switch devices, press F5 to update the folder.\n\nODK briefcase should now be able to pull all data from devices via the “Android_Devices” Folder.\nNavigate to it and you’ll see a uniquely named folder under which you should see the internal and SD card folders of your device. Inside one or the other will be your ODK folder. That’s the one that ODK Briefcase can pull instances from.\n\n\n27.4.7 Wireless push of instances from Android to RPi\nYou can send forms to the RPi through sftp using the excellent andFTP\n\n\n27.4.8 If you want to run a shell script by double clicking\nThis can be useful if you have downstream stuff going on, or if you want to write a script to control a batch of ODK briefcase operations from the command line interface (CLI).\n\nCreate a *.desktop file in your /usr/share/applications\nExample - do.stuff.sh\n\nnano /usr/share/applications/do.stuff.desktop\n[Desktop Entry]\nVersion=1.0  \nExec=/home/yourname/bin/do.stuff.sh  \nName=SSH Server  \nGenericName=SSH Server  \nComment=Run the do stuff script  \nEncoding=UTF-8  \nTerminal=true  \nType=Application  \nCategories=Application;Network;\nUse open with… and set as default and then script will run on double click\n\n\n27.4.9 Install R and pandoc\nUseful for analysis (R) and reporting (Pandoc) sudo apt-get install r-base r-base-dev pandoc pandoc-citeproc\n\n\n27.4.10 Change priority of WIFI networks\nThis can be useful if you want to control the precedence of networks joined over wifi.\nsudo nano /etc/wpa_supplicant/wpa_supplicant.conf\nAdd priority=2 to the wifi_B block and priority=1 to the wifi_A block in the file. Higher number is higher priority so here wifi_B will be joined by preference\nnetwork={  \n    ssid = \"wifi_A\"  \n    psk = \"passwordOfA\"  \n    priority = 1  \n}  \nnetwork={  \n   ssid = \"wifi_B\"  \n   psk = \"passwordOfB\"  \n   priority = 2  \n}",
+    "crumbs": [
+      "ODK",
+      "<span class='chapter-number'>26</span>  <span class='chapter-title'>ODK Pi - A deployable version of ODK on a Raspberry Pi</span>"
+    ]
+  },
+  {
+    "objectID": "ODK_Pi.html#for-uk-academics-on-eduroam",
+    "href": "ODK_Pi.html#for-uk-academics-on-eduroam",
+    "title": "26  ODK Pi - A deployable version of ODK on a Raspberry Pi",
+    "section": "27.5 For UK academics on Eduroam",
+    "text": "27.5 For UK academics on Eduroam\nEduroam is a UK wide wifi provider for cross-institutional working. It can be hard to set up on RPi, but instructions here should be helpful. Below worked for me.\nsudo nano /etc/wpa_supplicant/wpa_supplicant.conf\nctrl_interface=/var/run/wpa_supplicant\nctrl_interface_group=netdev\n\ncountry=GB\n\nnetwork={\nssid=\"eduroam\"\nkey_mgmt=WPA-EAP\neap=PEAP\nphase2=\"auth=MSCHAPV2\"\nidentity=\"username@youruniversity.ac.uk\"\nanonymous_identity=\"anonymous@youruniversity.ac.uk\"\npassword=\"pwd\"\n}",
+    "crumbs": [
+      "ODK",
+      "<span class='chapter-number'>26</span>  <span class='chapter-title'>ODK Pi - A deployable version of ODK on a Raspberry Pi</span>"
+    ]
+  },
+  {
+    "objectID": "ODK_Pi.html#hotswitching-between-networks",
+    "href": "ODK_Pi.html#hotswitching-between-networks",
+    "title": "26  ODK Pi - A deployable version of ODK on a Raspberry Pi",
+    "section": "27.6 Hotswitching between networks",
+    "text": "27.6 Hotswitching between networks\nLinux provides a nice easy way to switch between networks. A simple sh script would provide a nice clickable way to switch via a GUI, but on RPi you get the added bonus that you can connect physical switches to the pins. A push button could be used to switch between wifi networks (i.e. to move from a fully online network to an offline local wifi network provided by a hotspot. The latter is very useful if you want to use VNC software to allow using an Android tablet as a screen and interface to RPi whilst in the field.\n\nTo shift from one network to another\n\nwpa_cli select_network 0 or number of network is all you need to do.",
+    "crumbs": [
+      "ODK",
+      "<span class='chapter-number'>26</span>  <span class='chapter-title'>ODK Pi - A deployable version of ODK on a Raspberry Pi</span>"
+    ]
+  },
+  {
+    "objectID": "ODK_Pi.html#set-up-github",
+    "href": "ODK_Pi.html#set-up-github",
+    "title": "26  ODK Pi - A deployable version of ODK on a Raspberry Pi",
+    "section": "27.7 Set up github",
+    "text": "27.7 Set up github\nGithub provides a nice way to get updated analysis scripts on to the RPi automatically. Git is built in to the Raspbian OS, so you just need to connect to GitHub to get your scripts\ngit config --global user.name \"USERNAME\"  \ngit config --global user.email \"you@youremail.com\"  \ngit config --global core.editor nano\nYou could add a git pull script at startup to ensure that all scripts are updated on startup. Alternatively you could set up a cron task.\nTo run a script after login\nsudo nano /etc/profile\nAdd the following line to the end of the file\n./home/pi/your_script_name.sh",
+    "crumbs": [
+      "ODK",
+      "<span class='chapter-number'>26</span>  <span class='chapter-title'>ODK Pi - A deployable version of ODK on a Raspberry Pi</span>"
+    ]
+  },
+  {
+    "objectID": "ODK_Pi.html#dropbox",
+    "href": "ODK_Pi.html#dropbox",
+    "title": "26  ODK Pi - A deployable version of ODK on a Raspberry Pi",
+    "section": "27.8 Dropbox",
+    "text": "27.8 Dropbox\nDropbox is a convenient way to get data back off an RPi, though not recommended for sensitive data (at the very least you should encrypt the data).\nDropbox integration for RPi is not great, but Dropbox Uploader is an excellent script for moving stuff to and from Dropbox. These instructions are also very useful.\n\nVisit Dropbox Uploader follow the instructions in the README.MD for the most up to date instructions.",
+    "crumbs": [
+      "ODK",
+      "<span class='chapter-number'>26</span>  <span class='chapter-title'>ODK Pi - A deployable version of ODK on a Raspberry Pi</span>"
+    ]
+  },
+  {
+    "objectID": "ODK_Pi.html#backup-your-sd-card-so-that-you-can-use-it-elsewhere-or-recover-from-mishaps",
+    "href": "ODK_Pi.html#backup-your-sd-card-so-that-you-can-use-it-elsewhere-or-recover-from-mishaps",
+    "title": "26  ODK Pi - A deployable version of ODK on a Raspberry Pi",
+    "section": "27.9 Backup your SD card so that you can use it elsewhere or recover from mishaps",
+    "text": "27.9 Backup your SD card so that you can use it elsewhere or recover from mishaps\nBEWARE that you have to use the right mount point (in the example I used /dev/disk3). If you try to write to the wrong disk when restoring the SD card, then you will probably brick your system.\nRun df to see what mounts you have. Identify which one is the disk you want to restore to.\nTo clone RPi SD Card sudo dd if=/dev/disk3 of=/Volumes/RPi_Backups/name bs=1m\nTo restore RPi SD Card sudo dd if=/Volumes/RPi_Backups/name of=/dev/disk3 bs=1m",
+    "crumbs": [
+      "ODK",
+      "<span class='chapter-number'>26</span>  <span class='chapter-title'>ODK Pi - A deployable version of ODK on a Raspberry Pi</span>"
+    ]
+  },
+  {
+    "objectID": "ODK_Pi.html#add-a-pitft-screen",
+    "href": "ODK_Pi.html#add-a-pitft-screen",
+    "title": "26  ODK Pi - A deployable version of ODK on a Raspberry Pi",
+    "section": "27.10 Add a PiTFT screen",
+    "text": "27.10 Add a PiTFT screen\nTested using the AdaFruit Assembled 480x320 3.5” TFT+ Touchscreen (Resistive)\n\nTo install the screen\n\nShut down the RPi\nPlug the screen on to the GPIO pins of the RPi\nBoot up to Raspbian\n\n\ncd ~\nwget https://raw.githubusercontent.com/adafruit/Raspberry-Pi-Installer-Scripts/master/adafruit-pitft.sh\nchmod +x adafruit-pitft.sh\nsudo ./adafruit-pitft.sh\nThe script will attempt to install the screen automatically. When prompted to select the configuration, choose the screen you are installing, for instance &gt; 4. PiTFT 3.5” resistive touch (320x480)\nNext you need to select the screen rotation you want, for instance &gt; 1. 90 Degrees (Landscape)\nThe next two steps determine the best setting for the screen\n\nWould you like the console to appear on the PiTFT display?\n\nThis option is good if you want to use the screen as a console window. There’s no HDMI output with this config and to be honest I think it is not what most people want, so select No to this one.\n\nWould you like the HDMI display to mirror to the PiTFT display?\n\nThis option will mirror the HDMI output to the PiTFT screen, so is the better choice for most people. Select Yes to this option.\nAfter rebooting, the screen should start working, with some fairly clunky but functional touch support. (Hint : Use a pointy bit of plastic to get screen to work as a mouse)\n\n27.10.1 Set up screen to work better\n\nOpen terminal then go to Edit menu, followed by Preferences.\nChange the font to something a bit clearer like Monospace 14 Bold\n\nAdd some commands to the bin folder to allow hotswitching of the screen (saves power if you don’t need it on).\n\nMake a command for turning screen off\n\nsudo nano /usr/bin/scroff\nAdd this line to the file\nsudo sh -c 'echo \"0\" &gt; /sys/class/backlight/soc\\:backlig\nht/brightness'\npress CTRL + C and Y to save the file and close nano\n\nMake a command for turning screen on\n\nsudo nano /usr/bin/scron\nAdd this line to the file\nsudo sh -c 'echo \"1\" &gt; /sys/class/backlight/soc\\:backlig\nht/brightness'\npress CTRL + C and Y to save the file and close nano\nMake both commands executable\nsudo chmod +x /usr/bin/scroff\nsudo chmod +x /usr/bin/scron\nThen test that they work\nscroff\nshould turn the screen off and scron should turn it on again.\n\nAdd a software keyboard\nQuite hard to use on tiny screen, but could be useful in a pinch\n\nsudo apt-get install matchbox-keyboard\nsudo apt-get install libmatchbox1 -y \nsudo nano /usr/bin/toggle-matchbox-keyboard.sh\nAdd this text to the toggle-matchbox-keyboard.sh file.\n#!/bin/bash\n#This script toggle the virtual keyboard\n\nPID=`pidof matchbox-keyboard`\nif [ ! -e $PID ]; then\n  killall matchbox-keyboard\nelse\n matchbox-keyboard&\nfi\nThen close file and make executable\nsudo chmod +x /usr/bin/toggle-matchbox-keyboard.sh\nKeyboard can then be accessed through menu &gt; Accessories &gt; Keyboard",
+    "crumbs": [
+      "ODK",
+      "<span class='chapter-number'>26</span>  <span class='chapter-title'>ODK Pi - A deployable version of ODK on a Raspberry Pi</span>"
+    ]
+  },
+  {
+    "objectID": "Docker_install_ubuntu.html",
+    "href": "Docker_install_ubuntu.html",
+    "title": "27  Install Docker",
+    "section": "",
+    "text": "27.1 Example\nIn this example, we will show how to create a minimal installation of Ubuntu, link it to a folder on your host system so that you can move files back and forth, then install OpenBUGS, a stats program that runs only on Linux or Windows.",
+    "crumbs": [
+      "Python, bash and other code",
+      "<span class='chapter-number'>27</span>  <span class='chapter-title'>Install Docker</span>"
+    ]
+  },
+  {
+    "objectID": "Docker_install_ubuntu.html#create-folders",
+    "href": "Docker_install_ubuntu.html#create-folders",
+    "title": "27  Install Docker",
+    "section": "27.2 Create folders",
+    "text": "27.2 Create folders\nFigure out what folder you want to share between your mac and the linux container\nI’m using\n/Users/icrucrob/Documents/Datasets/docker_shared\nto create a folder, start a terminal, navigate to wherever you want with cd and then use mkdir\ncd /Users/icrucrob/Documents/Datasets/mkdir\ndocker_shared",
+    "crumbs": [
+      "Python, bash and other code",
+      "<span class='chapter-number'>27</span>  <span class='chapter-title'>Install Docker</span>"
+    ]
+  },
+  {
+    "objectID": "Docker_install_ubuntu.html#create-specification-for-a-docker-container-dockerfile",
+    "href": "Docker_install_ubuntu.html#create-specification-for-a-docker-container-dockerfile",
+    "title": "27  Install Docker",
+    "section": "27.3 Create specification for a docker container (dockerfile)",
+    "text": "27.3 Create specification for a docker container (dockerfile)\ncd /Users/icrucrob/Documents/Datasets/\nnano docker_minimal\nPaste the following text in to nano, then press CTRL + x followed by y and then enter to save the dockerfile and quit nano.\nFROM ubuntu:20.04\n\n# Update package repositories and install packages\nRUN apt-get update && \\\n    apt-get clean && \\\n    rm -rf /var/lib/apt/lists/*",
+    "crumbs": [
+      "Python, bash and other code",
+      "<span class='chapter-number'>27</span>  <span class='chapter-title'>Install Docker</span>"
+    ]
+  },
+  {
+    "objectID": "Docker_install_ubuntu.html#build-the-docker-container",
+    "href": "Docker_install_ubuntu.html#build-the-docker-container",
+    "title": "27  Install Docker",
+    "section": "27.4 Build the docker container",
+    "text": "27.4 Build the docker container\ndocker buildx build -t minimal-ubuntu -f ./docker_minimal .\nIf successful, you should see something like this\n[+] Building 9.5s (7/7) FINISHED docker:desktop-linux =&gt; [internal] load .dockerignore 0.0s \n=&gt; =&gt; transferring context: 2B 0.0s =&gt; [internal] load build definition from docker_minimal 0.0s \n=&gt; =&gt; transferring dockerfile: 574B 0.0s =&gt; [internal] load metadata for docker.io/library/ubuntu:20.04 1.6s \n=&gt; [auth] library/ubuntu:pull token for registry-1.docker.io 0.0s \n=&gt; [1/2] FROM docker.io/library/ubuntu:20.04@sha256:ed4a42283d9943135ed8 3.5s \n=&gt; =&gt; resolve docker.io/library/ubuntu:20.04@sha256:ed4a42283d9943135ed8 0.0s \n=&gt; =&gt; sha256:bf40b7bc7a11b43785755d3c5f23dee03b08e988b32 2.30kB / 2.30kB 0.0s \n=&gt; =&gt; sha256:96d54c3075c9eeaed5561fd620828fd6bb5d80eca 27.51MB / 27.51MB 1.7s \n=&gt; =&gt; sha256:ed4a42283d9943135ed87d4ee34e542f7f5ad9ecf2f 1.13kB / 1.13kB 0.0s \n=&gt; =&gt; sha256:218bb51abbd1864df8be26166f847547b3851a89999ca7b 424B / 424B 0.0s \n=&gt; =&gt; extracting sha256:96d54c3075c9eeaed5561fd620828fd6bb5d80ecae7cb25f 1.7s \n=&gt; [2/2] RUN apt-get update && apt-get clean && rm -rf /var/lib/ 4.3s \n=&gt; exporting to image 0.0s \n=&gt; =&gt; exporting layers 0.0s \n=&gt; =&gt; writing image sha256:8d6b3dce84d6cf918e6ca8f2ec806ddd3aa1a018f8447 0.0s \n=&gt; =&gt; naming to docker.io/library/minimal-ubuntu 0.0s",
+    "crumbs": [
+      "Python, bash and other code",
+      "<span class='chapter-number'>27</span>  <span class='chapter-title'>Install Docker</span>"
+    ]
+  },
+  {
+    "objectID": "Docker_install_ubuntu.html#start-the-container",
+    "href": "Docker_install_ubuntu.html#start-the-container",
+    "title": "27  Install Docker",
+    "section": "27.5 Start the container",
+    "text": "27.5 Start the container\ndocker run -it -v /Users/icrucrob/Documents/Datasets/docker_shared:/chrissy minimal-ubuntu\nYou should now be able to start and stop the container using the GUI of the docker dashboard. Access the terminal through the exec tab.\nAny files you put in the shared folder will persist on both machines.",
+    "crumbs": [
+      "Python, bash and other code",
+      "<span class='chapter-number'>27</span>  <span class='chapter-title'>Install Docker</span>"
+    ]
+  },
+  {
+    "objectID": "Docker_install_ubuntu.html#install-dependencies",
+    "href": "Docker_install_ubuntu.html#install-dependencies",
+    "title": "27  Install Docker",
+    "section": "27.6 Install dependencies",
+    "text": "27.6 Install dependencies\nThis should be done in the docker container’s terminal\napt update\napt upgrade\napt install curl\napt install cmake\napt install gcc\napt install gcc-multilib\napt install man-db\napt install gawk",
+    "crumbs": [
+      "Python, bash and other code",
+      "<span class='chapter-number'>27</span>  <span class='chapter-title'>Install Docker</span>"
+    ]
+  },
+  {
+    "objectID": "Docker_install_ubuntu.html#get-the-openbugs-source",
+    "href": "Docker_install_ubuntu.html#get-the-openbugs-source",
+    "title": "27  Install Docker",
+    "section": "27.7 Get the OpenBUGS source",
+    "text": "27.7 Get the OpenBUGS source\ncurl https://www.mrc-bsu.cam.ac.uk/wp-content/uploads/2018/04/OpenBUGS-3.2.3.tar.gz –output OpenBUGS-3.2.3.tar.gz",
+    "crumbs": [
+      "Python, bash and other code",
+      "<span class='chapter-number'>27</span>  <span class='chapter-title'>Install Docker</span>"
+    ]
+  },
+  {
+    "objectID": "Docker_install_ubuntu.html#install-openbugs",
+    "href": "Docker_install_ubuntu.html#install-openbugs",
+    "title": "27  Install Docker",
+    "section": "27.8 Install OpenBUGS",
+    "text": "27.8 Install OpenBUGS\ntar -xvzf OpenBUGS-3.2.3.tar.gz\ncd OpenBUGS-3.2.3\n./configure\nmake\nmake install\nunminimize",
+    "crumbs": [
+      "Python, bash and other code",
+      "<span class='chapter-number'>27</span>  <span class='chapter-title'>Install Docker</span>"
+    ]
+  },
+  {
+    "objectID": "Docker_install_ubuntu.html#check-the-installation",
+    "href": "Docker_install_ubuntu.html#check-the-installation",
+    "title": "27  Install Docker",
+    "section": "27.9 Check the installation",
+    "text": "27.9 Check the installation\nOpenBUGS\nIf it is working, you should see the OpenBUGS prompt\nOpenBUGS version 3.2.3 rev 1012\ntype 'modelQuit()' to quit\nOpenBUGS&gt;",
+    "crumbs": [
+      "Python, bash and other code",
+      "<span class='chapter-number'>27</span>  <span class='chapter-title'>Install Docker</span>"
+    ]
+  },
+  {
+    "objectID": "Join_photos_randomly.html",
+    "href": "Join_photos_randomly.html",
+    "title": "28  Join Photos side-by-side with tracked random arrangement",
+    "section": "",
+    "text": "28.1 Background\nThis python script was written to support a team who needed paired photos to be shown side by side, but with randomisation of which photo went on the left and which on the right in each pair.",
+    "crumbs": [
+      "Python, bash and other code",
+      "<span class='chapter-number'>28</span>  <span class='chapter-title'>Join Photos side-by-side with tracked random arrangement</span>"
+    ]
+  },
+  {
+    "objectID": "Join_photos_randomly.html#inputs",
+    "href": "Join_photos_randomly.html#inputs",
+    "title": "28  Join Photos side-by-side with tracked random arrangement",
+    "section": "28.2 Inputs",
+    "text": "28.2 Inputs\nThe inputs are (1) a folder in of image files with unique names\n\nlist.files(\"data/join_photos_randomly/in/\")\n\n[1] \"A.jpg\" \"B.jpg\" \"C.jpg\" \"D.jpg\" \"E.jpg\" \"F.jpg\"\n\n\n\n\n\n\n\n\nand (2) a file photo_pairs_in.csv which lists the pairs and provides a subject identifier.\n\nlibrary(tidyverse)\ndf&lt;-read_csv(\"data/join_photos_randomly/photo_pairs_in.csv\")\n(df)\n\n# A tibble: 3 × 3\n  subject prewash postwash\n    &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   \n1       1 A.jpg   B.jpg   \n2       2 C.jpg   D.jpg   \n3       3 E.jpg   F.jpg",
+    "crumbs": [
+      "Python, bash and other code",
+      "<span class='chapter-number'>28</span>  <span class='chapter-title'>Join Photos side-by-side with tracked random arrangement</span>"
+    ]
+  },
+  {
+    "objectID": "Join_photos_randomly.html#python-script",
+    "href": "Join_photos_randomly.html#python-script",
+    "title": "28  Join Photos side-by-side with tracked random arrangement",
+    "section": "28.3 Python script",
+    "text": "28.3 Python script\nCreate a new text document (photo_joiner.py) and save to the same folder as the input csv file.\n##################################################################\n# PHOTO JOINER WITH RANDOMISER\n# This script takes a list of paired photos and joins them\n# Joining is side by side\n# and randomised\n# The script creates a new joined image file in the out folder\n# and also records which image was on the left, which on the right\n#\n# Core code is copyright Chrissy h Roberts\n# Chrissy.Roberts@LSHTM.ac.uk\n# CC-BY 4.0 (https://creativecommons.org/licenses/by/4.0/)\n#\n# Imported libraries are used according to their individual licenses\n# Pillow library used under License: Historical Permission Notice and Disclaimer (HPND) (HPND)\n# Pillow written by Jeffrey A. Clark (Alex)\n##################################################################\n# Import libraries needed for this analysis\n\nimport os\nimport random\nimport csv\nfrom PIL import Image\n\n\n# Input directory containing your photo pairs\ninput_dir = \"in\"\n\n# Output directory for saving the joined images\noutput_dir = \"out\"\n\n# Input CSV file containing subject and photo filenames\ninput_csv_file = \"photo_pairs_in.csv\"\n\n# Output CSV file for logging\noutput_csv_file = \"photo_pairs_out.csv\"\n\n# Set the random seed for reproducible randomness\nrandom_seed = 42  # You can change this seed to any integer you prefer\nrandom.seed(random_seed)\n\n# Create a dictionary to map subjects to photo pairs\nsubject_to_photos = {}\n\n# Read the input CSV file and populate the dictionary\nwith open(input_csv_file, \"r\") as csv_file:\n    csv_reader = csv.DictReader(csv_file)\n    for row in csv_reader:\n        subject = row[\"subject\"]\n        prewash_photo = row[\"prewash\"]\n        postwash_photo = row[\"postwash\"]\n        subject_to_photos[subject] = (prewash_photo, postwash_photo)\n\n# Create a new CSV file for logging with \"left\" and \"right\" columns\ncsv_file = open(output_csv_file, \"w\", newline=\"\")\ncsv_writer = csv.writer(csv_file)\ncsv_writer.writerow([\"subject\", \"left\", \"right\"])\n\n# Process and rename the photos for each subject\nfor subject, (prewash_photo, postwash_photo) in subject_to_photos.items():\n    # Randomly assign which photo is on the left and which is on the right\n    if random.choice([True, False]):\n        left_photo, right_photo = prewash_photo, postwash_photo\n    else:\n        left_photo, right_photo = postwash_photo, prewash_photo\n\n    # Load the left and right photos using PIL\n    left_image = Image.open(os.path.join(input_dir, left_photo))\n    right_image = Image.open(os.path.join(input_dir, right_photo))\n\n    # Concatenate the photos horizontally\n    joined_image = Image.new(\"RGB\", (left_image.width + right_image.width, left_image.height))\n    joined_image.paste(left_image, (0, 0))\n    joined_image.paste(right_image, (left_image.width, 0))\n\n    # Save the joined photo in the output directory\n    joined_photo_filename = f\"{subject}.jpg\"\n    joined_image.save(os.path.join(output_dir, joined_photo_filename))\n\n    # Write the new mapping to the output CSV file\n    csv_writer.writerow([subject, left_photo, right_photo])\n\n    print(f\"Processed subject {subject}: {left_photo} + {right_photo} =&gt; {joined_photo_filename}\")\n\n# Close the output CSV file\ncsv_file.close()\nTo run this script, open a terminal, change directory to the folder and type python3 photo_joiner.py",
+    "crumbs": [
+      "Python, bash and other code",
+      "<span class='chapter-number'>28</span>  <span class='chapter-title'>Join Photos side-by-side with tracked random arrangement</span>"
+    ]
+  },
+  {
+    "objectID": "Join_photos_randomly.html#outputs",
+    "href": "Join_photos_randomly.html#outputs",
+    "title": "28  Join Photos side-by-side with tracked random arrangement",
+    "section": "28.4 Outputs",
+    "text": "28.4 Outputs\nThe outputs are saved in a folder (out) in the form of the joined photos\n\n\n\nNote that no correction is made for the sizes, so some clipping will occur if the larger photo is on the right. We recommend using photos that have a consistent size.\nThe data on which photos were on the left or right is stored in the photo_pairs_out.csv file.\n\nlibrary(tidyverse)\ndf&lt;-read_csv(\"data/join_photos_randomly/photo_pairs_out.csv\")\n(df)\n\n# A tibble: 3 × 3\n  subject left  right\n    &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;\n1       1 A.jpg B.jpg\n2       2 C.jpg D.jpg\n3       3 F.jpg E.jpg",
+    "crumbs": [
+      "Python, bash and other code",
+      "<span class='chapter-number'>28</span>  <span class='chapter-title'>Join Photos side-by-side with tracked random arrangement</span>"
+    ]
+  },
+  {
+    "objectID": "Akaike_Information_Criterion.html",
+    "href": "Akaike_Information_Criterion.html",
+    "title": "29  Akaike information criterion",
+    "section": "",
+    "text": "29.1 Example\nYou want to know whether drinking sugar-sweetened beverages influences body weight. You have collected secondary data from a national health survey that contains observations on sugar-sweetened beverage consumption, age, sex, and BMI (body mass index).\nTo find out which of these variables are important for predicting the relationship between sugar-sweetened beverage consumption and body weight, you create several possible models and compare them using AIC.",
+    "crumbs": [
+      "Cribsheet [Other people's work]",
+      "<span class='chapter-number'>29</span>  <span class='chapter-title'>Akaike information criterion</span>"
+    ]
+  },
+  {
+    "objectID": "Akaike_Information_Criterion.html#when-to-use-aic",
+    "href": "Akaike_Information_Criterion.html#when-to-use-aic",
+    "title": "29  Akaike information criterion",
+    "section": "29.2 When to use AIC",
+    "text": "29.2 When to use AIC\nIn statistics, AIC is most often used for model selection. By calculating and comparing the AIC scores of several possible models, you can choose the one that is the best fit for the data.\nWhen testing a hypothesis, you might gather data on variables that you aren’t certain about, especially if you are exploring a new idea. You want to know which of the independent variables you have measured explain the variation in your dependent variable.\nA good way to find out is to create a set of models, each containing a different combination of the independent variables you have measured. These combinations should be based on:\nYour knowledge of the study system – avoid using parameters that are not logically connected, since you can find spurious correlations between almost anything!\nYour experimental design – for example, if you have split two treatments up among test subjects, then there is probably no reason to test for an interaction between the two treatments.\nOnce you’ve created several possible models, you can use AIC to compare them. Lower AIC scores are better, and AIC penalizes models that use more parameters. So if two models explain the same amount of variation, the one with fewer parameters will have a lower AIC score and will be the better-fit model.",
+    "crumbs": [
+      "Cribsheet [Other people's work]",
+      "<span class='chapter-number'>29</span>  <span class='chapter-title'>Akaike information criterion</span>"
+    ]
+  },
+  {
+    "objectID": "Akaike_Information_Criterion.html#model-selection-example",
+    "href": "Akaike_Information_Criterion.html#model-selection-example",
+    "title": "29  Akaike information criterion",
+    "section": "29.3 Model selection example",
+    "text": "29.3 Model selection example\nIn a study of how hours spent studying and test format (multiple choice vs. written answers) affect test scores, you create two models:\nFinal test score in response to hours spent studying\nFinal test score in response to hours spent studying + test format\nYou find an r2 of 0.45 with a p-value less than 0.05 for model 1, and an r2 of 0.46 with a p-value less than 0.05 for model 2. Model 2 fits the data slightly better – but was it worth it to add another parameter just to get this small increase in model fit?\nYou run an AIC test to find out, which shows that model 1 has the lower AIC score because it requires less information to predict with almost the exact same level of precision. Another way to think of this is that the increased precision in model 2 could have happened by chance.\nFrom the AIC test, you decide that model 1 is the best model for your study.",
+    "crumbs": [
+      "Cribsheet [Other people's work]",
+      "<span class='chapter-number'>29</span>  <span class='chapter-title'>Akaike information criterion</span>"
+    ]
+  },
+  {
+    "objectID": "Akaike_Information_Criterion.html#how-to-compare-models-using-aic",
+    "href": "Akaike_Information_Criterion.html#how-to-compare-models-using-aic",
+    "title": "29  Akaike information criterion",
+    "section": "29.4 How to compare models using AIC",
+    "text": "29.4 How to compare models using AIC\nAIC determines the relative information value of the model using the maximum likelihood estimate and the number of parameters (independent variables) in the model. The formula for AIC is:\nThe mathematical formula for calculating Akaike information criterion.\nK is the number of independent variables used and L is the log-likelihood estimate (a.k.a. the likelihood that the model could have produced your observed y-values). The default K is always 2, so if your model uses one independent variable your K will be 3, if it uses two independent variables your K will be 4, and so on.\nTo compare models using AIC, you need to calculate the AIC of each model. If a model is more than 2 AIC units lower than another, then it is considered significantly better than that model.\nYou can easily calculate AIC by hand if you have the log-likelihood of your model, but calculating log-likelihood is complicated! Most statistical software will include a function for calculating AIC. We will use R to run our AIC analysis.",
+    "crumbs": [
+      "Cribsheet [Other people's work]",
+      "<span class='chapter-number'>29</span>  <span class='chapter-title'>Akaike information criterion</span>"
+    ]
+  },
+  {
+    "objectID": "Akaike_Information_Criterion.html#aic-in-r",
+    "href": "Akaike_Information_Criterion.html#aic-in-r",
+    "title": "29  Akaike information criterion",
+    "section": "29.5 AIC in R",
+    "text": "29.5 AIC in R\nTo compare several models, you can first create the full set of models you want to compare and then run aictab() on the set.\nFor the sugar-sweetened beverage data, we’ll create a set of models that include the three predictor variables (age, sex, and beverage consumption) in various combinations.\nLoad the dataset\n\nlibrary(tidyverse)\n\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.1.4     ✔ readr     2.1.5\n✔ forcats   1.0.0     ✔ stringr   1.5.1\n✔ ggplot2   3.5.1     ✔ tibble    3.2.1\n✔ lubridate 1.9.3     ✔ tidyr     1.3.1\n✔ purrr     1.0.2     \n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors\n\nlibrary(knitr)\nbmi.data &lt;- read_csv(\"data/bmi.data.csv\")\n\nRows: 500 Columns: 4\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (1): sex\ndbl (3): age, consumption, bmi\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\n\n\nCreate the models\nFirst, we can test how each variable performs separately.\n\nage.mod &lt;- lm(bmi ~ age, data = bmi.data)\nsummary(age.mod)\n\n\nCall:\nlm(formula = bmi ~ age, data = bmi.data)\n\nResiduals:\n     Min       1Q   Median       3Q      Max \n-2.71849 -1.19268  0.01787  1.22263  3.14220 \n\nCoefficients:\n             Estimate Std. Error t value Pr(&gt;|t|)    \n(Intercept) 18.559837   0.137912  134.58   &lt;2e-16 ***\nage          0.167221   0.002777   60.22   &lt;2e-16 ***\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\nResidual standard error: 1.408 on 498 degrees of freedom\nMultiple R-squared:  0.8793,    Adjusted R-squared:  0.879 \nF-statistic:  3627 on 1 and 498 DF,  p-value: &lt; 2.2e-16\n\n\n\nsex.mod &lt;- lm(bmi ~ sex, data = bmi.data)\nsummary(sex.mod)\n\n\nCall:\nlm(formula = bmi ~ sex, data = bmi.data)\n\nResiduals:\n    Min      1Q  Median      3Q     Max \n-8.7079 -3.3001 -0.1313  3.3804  8.6094 \n\nCoefficients:\n            Estimate Std. Error t value Pr(&gt;|t|)    \n(Intercept)  26.4397     0.2654  99.605   &lt;2e-16 ***\nsexMale      -0.9078     0.3612  -2.513   0.0123 *  \n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\nResidual standard error: 4.026 on 498 degrees of freedom\nMultiple R-squared:  0.01252,   Adjusted R-squared:  0.01054 \nF-statistic: 6.316 on 1 and 498 DF,  p-value: 0.01228\n\n\n\nconsumption.mod &lt;- lm(bmi ~ consumption, data = bmi.data)\nsummary(consumption.mod)\n\n\nCall:\nlm(formula = bmi ~ consumption, data = bmi.data)\n\nResiduals:\n    Min      1Q  Median      3Q     Max \n-8.5273 -3.3595 -0.0708  3.2778  8.1281 \n\nCoefficients:\n            Estimate Std. Error t value Pr(&gt;|t|)    \n(Intercept)  25.2960     0.6443  39.261   &lt;2e-16 ***\nconsumption   0.9416     0.8909   1.057    0.291    \n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\nResidual standard error: 4.047 on 498 degrees of freedom\nMultiple R-squared:  0.002238,  Adjusted R-squared:  0.0002343 \nF-statistic: 1.117 on 1 and 498 DF,  p-value: 0.2911\n\n\nNext, we want to know if the combination of age and sex are better at describing variation in BMI on their own, without including beverage consumption.\n\nage.sex.mod &lt;- lm(bmi ~ age + sex, data = bmi.data)\nsummary(age.sex.mod)\n\n\nCall:\nlm(formula = bmi ~ age + sex, data = bmi.data)\n\nResiduals:\n     Min       1Q   Median       3Q      Max \n-2.58304 -1.20104 -0.01705  1.23201  2.97899 \n\nCoefficients:\n            Estimate Std. Error t value Pr(&gt;|t|)    \n(Intercept) 18.75529    0.15760 119.008   &lt;2e-16 ***\nage          0.16668    0.00277  60.165   &lt;2e-16 ***\nsexMale     -0.31748    0.12602  -2.519   0.0121 *  \n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\nResidual standard error: 1.4 on 497 degrees of freedom\nMultiple R-squared:  0.8808,    Adjusted R-squared:  0.8803 \nF-statistic:  1836 on 2 and 497 DF,  p-value: &lt; 2.2e-16\n\n\nWe also want to know whether the combination of age, sex, and beverage consumption is better at describing the variation in BMI than any of the previous models.\n\ncombination.mod &lt;- lm(bmi ~ age + sex + consumption, data = bmi.data)\nsummary(combination.mod)\n\n\nCall:\nlm(formula = bmi ~ age + sex + consumption, data = bmi.data)\n\nResiduals:\n     Min       1Q   Median       3Q      Max \n-2.67918 -1.18845  0.00031  1.22444  2.48676 \n\nCoefficients:\n            Estimate Std. Error t value Pr(&gt;|t|)    \n(Intercept) 17.78422    0.26730  66.534  &lt; 2e-16 ***\nage          0.16703    0.00272  61.398  &lt; 2e-16 ***\nsexMale     -0.28402    0.12392  -2.292   0.0223 *  \nconsumption  1.35082    0.30323   4.455 1.04e-05 ***\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\nResidual standard error: 1.374 on 496 degrees of freedom\nMultiple R-squared:  0.8854,    Adjusted R-squared:  0.8847 \nF-statistic:  1277 on 3 and 496 DF,  p-value: &lt; 2.2e-16\n\n\nFinally, we can check whether the interaction of age, sex, and beverage consumption can explain BMI better than any of the previous models.\n\ninteraction.mod &lt;- lm(bmi ~ age*sex*consumption, data = bmi.data)\nsummary(interaction.mod)\n\n\nCall:\nlm(formula = bmi ~ age * sex * consumption, data = bmi.data)\n\nResiduals:\n     Min       1Q   Median       3Q      Max \n-2.60668 -1.15255  0.00039  1.24355  2.69427 \n\nCoefficients:\n                        Estimate Std. Error t value Pr(&gt;|t|)    \n(Intercept)             17.97608    0.80180  22.420   &lt;2e-16 ***\nage                      0.15671    0.01592   9.845   &lt;2e-16 ***\nsexMale                 -0.42385    0.99792  -0.425    0.671    \nconsumption              1.16172    1.07167   1.084    0.279    \nage:sexMale              0.01417    0.02037   0.695    0.487    \nage:consumption          0.01289    0.02149   0.600    0.549    \nsexMale:consumption      0.05629    1.36076   0.041    0.967    \nage:sexMale:consumption -0.01721    0.02811  -0.612    0.541    \n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\nResidual standard error: 1.377 on 492 degrees of freedom\nMultiple R-squared:  0.8858,    Adjusted R-squared:  0.8842 \nF-statistic: 545.2 on 7 and 492 DF,  p-value: &lt; 2.2e-16",
+    "crumbs": [
+      "Cribsheet [Other people's work]",
+      "<span class='chapter-number'>29</span>  <span class='chapter-title'>Akaike information criterion</span>"
+    ]
+  },
+  {
+    "objectID": "Akaike_Information_Criterion.html#compare-the-models",
+    "href": "Akaike_Information_Criterion.html#compare-the-models",
+    "title": "29  Akaike information criterion",
+    "section": "29.6 Compare the models",
+    "text": "29.6 Compare the models\nTo compare these models and find which one is the best fit for the data, you can put them together into a list and use the aictab() command to compare all of them at once. To use aictab(), first load the library AICcmodavg.\n\nlibrary(AICcmodavg)\n\nThen put the models into a list (‘models’) and name each of them so the AIC table is easier to read (‘model.names’).\n\nmodels &lt;- list(age.mod, sex.mod, consumption.mod, age.sex.mod, combination.mod, interaction.mod)\n\nmodel.names &lt;- c('age.mod', 'sex.mod', 'consumption.mod', 'age.sex.mod', 'combination.mod', 'interaction.mod')\n\nFinally, run aictab() to do the comparison.\n\naictab(cand.set = models, modnames = model.names)\n\n\nModel selection based on AICc:\n\n                K    AICc Delta_AICc AICcWt Cum.Wt       LL\ncombination.mod 5 1743.02       0.00   0.96   0.96  -866.45\ninteraction.mod 9 1749.35       6.33   0.04   1.00  -865.49\nage.sex.mod     4 1760.59      17.57   0.00   1.00  -876.26\nage.mod         3 1764.91      21.89   0.00   1.00  -879.43\nsex.mod         3 2815.68    1072.66   0.00   1.00 -1404.82\nconsumption.mod 3 2820.86    1077.84   0.00   1.00 -1407.41",
+    "crumbs": [
+      "Cribsheet [Other people's work]",
+      "<span class='chapter-number'>29</span>  <span class='chapter-title'>Akaike information criterion</span>"
+    ]
+  },
+  {
+    "objectID": "Akaike_Information_Criterion.html#interpreting-the-results",
+    "href": "Akaike_Information_Criterion.html#interpreting-the-results",
+    "title": "29  Akaike information criterion",
+    "section": "29.7 Interpreting the results",
+    "text": "29.7 Interpreting the results\nThe best-fit model is always listed first. The model selection table includes information on:\nK\nThe number of parameters in the model.\nThe default K is 2, so a model with one parameter will have a K of 2 + 1 = 3.\nAICc\nThe information score of the model (the lower-case ‘c’ indicates that the value has been calculated from the AIC test corrected for small sample sizes). The smaller the AIC value, the better the model fit.\nDelta_AICc\nThe difference in AIC score between the best model and the model being compared. In this table, the next-best model has a delta-AIC of 6.69 compared with the top model, and the third-best model has a delta-AIC of 15.96 compared with the top model.\nAICcWt\nAICc weight, which is the proportion of the total amount of predictive power provided by the full set of models contained in the model being assessed. In this case, the top model contains 97% of the total explanation that can be found in the full set of models.\nCum.Wt\nThe sum of the AICc weights. Here the top two models contain 100% of the cumulative AICc weight.\nLL\nLog-likelihood. This is the value describing how likely the model is, given the data. The AIC score is calculated from the LL and K.\nFrom this table we can see that the best model is the combination model – the model that includes every parameter but no interactions (bmi ~ age + sex + consumption).\nThe model is much better than all the others, as it carries 96% of the cumulative model weight and has the lowest AIC score. The next-best model is more than 2 AIC units higher than the best model (6.33 units) and carries only 4% of the cumulative model weight.\nBased on this comparison, we would choose the combination model to use in our data analysis.",
+    "crumbs": [
+      "Cribsheet [Other people's work]",
+      "<span class='chapter-number'>29</span>  <span class='chapter-title'>Akaike information criterion</span>"
+    ]
+  },
+  {
+    "objectID": "Akaike_Information_Criterion.html#reporting-the-results",
+    "href": "Akaike_Information_Criterion.html#reporting-the-results",
+    "title": "29  Akaike information criterion",
+    "section": "29.8 Reporting the results",
+    "text": "29.8 Reporting the results\nIf you are using AIC model selection in your research, you can state this in your methods section. Report that you used AIC model selection, briefly explain the best-fit model you found, and state the AIC weight of the model.",
+    "crumbs": [
+      "Cribsheet [Other people's work]",
+      "<span class='chapter-number'>29</span>  <span class='chapter-title'>Akaike information criterion</span>"
+    ]
+  },
+  {
+    "objectID": "Akaike_Information_Criterion.html#example-methods",
+    "href": "Akaike_Information_Criterion.html#example-methods",
+    "title": "29  Akaike information criterion",
+    "section": "29.9 Example methods",
+    "text": "29.9 Example methods\nWe used AIC model selection to distinguish among a set of possible models describing the relationship between age, sex, sweetened beverage consumption, and body mass index. The best-fit model, carrying 97% of the cumulative model weight, included every parameter with no interaction effects.\nAfter finding the best-fit model you can go ahead and run the model and evaluate the results. The output of your model evaluation can be reported in the results section of your paper.",
+    "crumbs": [
+      "Cribsheet [Other people's work]",
+      "<span class='chapter-number'>29</span>  <span class='chapter-title'>Akaike information criterion</span>"
+    ]
+  }
+]

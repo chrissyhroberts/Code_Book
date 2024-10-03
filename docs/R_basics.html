@@ -452,16 +452,16 @@ window.Quarto = {
   <li><a href="#mutate" id="toc-mutate" class="nav-link" data-scroll-target="#mutate"><span class="header-section-number">1.7.9</span> Mutate</a></li>
   <li><a href="#pivot_longer" id="toc-pivot_longer" class="nav-link" data-scroll-target="#pivot_longer"><span class="header-section-number">1.7.10</span> Pivot_longer</a></li>
   <li><a href="#pivot_wider" id="toc-pivot_wider" class="nav-link" data-scroll-target="#pivot_wider"><span class="header-section-number">1.7.11</span> Pivot_wider</a></li>
-  </ul></li>
-  <li><a href="#using-pipes-and-verbs-together" id="toc-using-pipes-and-verbs-together" class="nav-link" data-scroll-target="#using-pipes-and-verbs-together"><span class="header-section-number">1.8</span> Using pipes and verbs together</a></li>
-  <li><a href="#single-table-verbs-for-grouping" id="toc-single-table-verbs-for-grouping" class="nav-link" data-scroll-target="#single-table-verbs-for-grouping"><span class="header-section-number">1.9</span> Single Table Verbs ( for grouping)</a>
-  <ul class="collapse">
-  <li><a href="#summarise" id="toc-summarise" class="nav-link" data-scroll-target="#summarise"><span class="header-section-number">1.9.1</span> Summarise</a></li>
-  <li><a href="#group_by" id="toc-group_by" class="nav-link" data-scroll-target="#group_by"><span class="header-section-number">1.9.2</span> Group_by</a></li>
-  <li><a href="#reframe" id="toc-reframe" class="nav-link" data-scroll-target="#reframe"><span class="header-section-number">1.9.3</span> Reframe</a></li>
-  <li><a href="#summary-of-exclusive-helper-functions" id="toc-summary-of-exclusive-helper-functions" class="nav-link" data-scroll-target="#summary-of-exclusive-helper-functions"><span class="header-section-number">1.9.4</span> Summary of Exclusive Helper Functions:</a></li>
-  <li><a href="#case_when" id="toc-case_when" class="nav-link" data-scroll-target="#case_when"><span class="header-section-number">1.9.5</span> Case_when</a></li>
-  <li><a href="#rename" id="toc-rename" class="nav-link" data-scroll-target="#rename"><span class="header-section-number">1.9.6</span> Rename</a></li>
+  <li><a href="#using-pipes-and-verbs-together" id="toc-using-pipes-and-verbs-together" class="nav-link" data-scroll-target="#using-pipes-and-verbs-together"><span class="header-section-number">1.7.12</span> Using pipes and verbs together</a></li>
+  <li><a href="#group_by-summarise" id="toc-group_by-summarise" class="nav-link" data-scroll-target="#group_by-summarise"><span class="header-section-number">1.7.13</span> Group_by &amp; Summarise</a></li>
+  <li><a href="#reframe" id="toc-reframe" class="nav-link" data-scroll-target="#reframe"><span class="header-section-number">1.7.14</span> Reframe</a></li>
+  <li><a href="#rename" id="toc-rename" class="nav-link" data-scroll-target="#rename"><span class="header-section-number">1.7.15</span> Rename</a></li>
+  <li><a href="#joining" id="toc-joining" class="nav-link" data-scroll-target="#joining"><span class="header-section-number">1.7.16</span> Joining</a></li>
+  <li><a href="#separate-wider" id="toc-separate-wider" class="nav-link" data-scroll-target="#separate-wider"><span class="header-section-number">1.7.17</span> Separate wider</a></li>
+  <li><a href="#unite" id="toc-unite" class="nav-link" data-scroll-target="#unite"><span class="header-section-number">1.7.18</span> Unite</a></li>
+  <li><a href="#summary-of-exclusive-helper-functions" id="toc-summary-of-exclusive-helper-functions" class="nav-link" data-scroll-target="#summary-of-exclusive-helper-functions"><span class="header-section-number">1.7.19</span> Summary of Exclusive Helper Functions:</a></li>
+  <li><a href="#case_when" id="toc-case_when" class="nav-link" data-scroll-target="#case_when"><span class="header-section-number">1.7.20</span> Case_when</a></li>
+  <li><a href="#section-1" id="toc-section-1" class="nav-link" data-scroll-target="#section-1"><span class="header-section-number">1.7.21</span> </a></li>
   </ul></li>
   </ul>
 </nav>
@@ -1096,9 +1096,8 @@ dbl (4): Sepal.Length, Sepal.Width, Petal.Length, Petal.Width
 </div>
 </div>
 </section>
-</section>
-<section id="using-pipes-and-verbs-together" class="level2" data-number="1.8">
-<h2 data-number="1.8" class="anchored" data-anchor-id="using-pipes-and-verbs-together"><span class="header-section-number">1.8</span> Using pipes and verbs together</h2>
+<section id="using-pipes-and-verbs-together" class="level3" data-number="1.7.12">
+<h3 data-number="1.7.12" class="anchored" data-anchor-id="using-pipes-and-verbs-together"><span class="header-section-number">1.7.12</span> Using pipes and verbs together</h3>
 <p>To do a series of things to a tibble, you simply pipe the verbs</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>relig_income <span class="sc">%&gt;%</span></span>
@@ -1173,10 +1172,19 @@ dbl (4): Sepal.Length, Sepal.Width, Petal.Length, Petal.Width
 </div>
 </div>
 </section>
-<section id="single-table-verbs-for-grouping" class="level2" data-number="1.9">
-<h2 data-number="1.9" class="anchored" data-anchor-id="single-table-verbs-for-grouping"><span class="header-section-number">1.9</span> Single Table Verbs ( for grouping)</h2>
-<section id="summarise" class="level3" data-number="1.9.1">
-<h3 data-number="1.9.1" class="anchored" data-anchor-id="summarise"><span class="header-section-number">1.9.1</span> Summarise</h3>
+<section id="group_by-summarise" class="level3" data-number="1.7.13">
+<h3 data-number="1.7.13" class="anchored" data-anchor-id="group_by-summarise"><span class="header-section-number">1.7.13</span> Group_by &amp; Summarise</h3>
+<ul>
+<li>These verbs create a data frame with one row per <code>group</code>, where the variables are a summary of values.</li>
+</ul>
+<!-- -->
+<ul>
+<li><p><strong><code>group_by()</code></strong>:</p>
+<ul>
+<li>Groups data by one or more columns, often used in conjunction with&nbsp;<code>summarise()</code>&nbsp;for grouped operations.</li>
+</ul></li>
+</ul>
+<!-- -->
 <ul>
 <li><p><strong><code>summarise()</code></strong>:</p>
 <ul>
@@ -1184,21 +1192,479 @@ dbl (4): Sepal.Length, Sepal.Width, Petal.Length, Petal.Width
 <li><p>Often used after&nbsp;<code>group_by()</code>&nbsp;to apply a function to each group.</p></li>
 </ul></li>
 </ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>iris <span class="sc">%&gt;%</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Species) <span class="sc">%&gt;%</span></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean.sepal.length =</span> <span class="fu">mean</span>(Sepal.Length),</span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">median.petal.length =</span> <span class="fu">median</span>(Petal.Length)</span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>            )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 3
+  Species    mean.sepal.length median.petal.length
+  &lt;fct&gt;                  &lt;dbl&gt;               &lt;dbl&gt;
+1 setosa                  5.01                1.5 
+2 versicolor              5.94                4.35
+3 virginica               6.59                5.55</code></pre>
+</div>
+</div>
 </section>
-<section id="group_by" class="level3" data-number="1.9.2">
-<h3 data-number="1.9.2" class="anchored" data-anchor-id="group_by"><span class="header-section-number">1.9.2</span> Group_by</h3>
+<section id="reframe" class="level3" data-number="1.7.14">
+<h3 data-number="1.7.14" class="anchored" data-anchor-id="reframe"><span class="header-section-number">1.7.14</span> Reframe</h3>
 <ul>
-<li><p><strong><code>group_by()</code></strong>:</p>
+<li><p><strong>Purpose</strong>: A more flexible way to return multiple results for each group without reducing it to one row per group.</p></li>
+<li><p><strong>Typical Use</strong>: Used when you want to keep multiple rows per group but still perform summary operations.</p></li>
+<li><p><strong>Behavior</strong>: Allows for returning multiple rows or multiple values for each group, so it doesn’t necessarily collapse the data.</p></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>iris <span class="sc">%&gt;%</span></span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Species) <span class="sc">%&gt;%</span></span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">reframe</span>(</span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">sepal_length_range =</span> <span class="fu">range</span>(Sepal.Length),</span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">count =</span> <span class="fu">n</span>(),</span>
+<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean.sepal.length =</span> <span class="fu">mean</span>(Sepal.Length)</span>
+<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 4
+  Species    sepal_length_range count mean.sepal.length
+  &lt;fct&gt;                   &lt;dbl&gt; &lt;int&gt;             &lt;dbl&gt;
+1 setosa                    4.3    50              5.01
+2 setosa                    5.8    50              5.01
+3 versicolor                4.9    50              5.94
+4 versicolor                7      50              5.94
+5 virginica                 4.9    50              6.59
+6 virginica                 7.9    50              6.59</code></pre>
+</div>
+</div>
+<section id="when-to-use-summarise-or-reframe" class="level4" data-number="1.7.14.1">
+<h4 data-number="1.7.14.1" class="anchored" data-anchor-id="when-to-use-summarise-or-reframe"><span class="header-section-number">1.7.14.1</span> When to use summarise or reframe</h4>
 <ul>
-<li>Groups data by one or more columns, often used in conjunction with&nbsp;<code>summarise()</code>&nbsp;for grouped operations.</li>
+<li><p><strong>Use&nbsp;<code>summarise()</code></strong>&nbsp;when you want to condense the data down to a single row per group or perform a single calculation for each group.</p></li>
+<li><p><strong>Use&nbsp;<code>reframe()</code></strong>&nbsp;when you need more flexibility in your summaries, like returning multiple rows or when you don’t necessarily want to collapse the data into a single row per group.</p></li>
+</ul>
+<p>In most common cases,&nbsp;<code>summarise()</code>&nbsp;is appropriate when working with grouped data, but&nbsp;<code>reframe()</code>&nbsp;can be handy for more complex summary needs.</p>
+</section>
+</section>
+<section id="rename" class="level3" data-number="1.7.15">
+<h3 data-number="1.7.15" class="anchored" data-anchor-id="rename"><span class="header-section-number">1.7.15</span> Rename</h3>
+<ul>
+<li><p><strong><code>rename()</code></strong>:</p>
+<ul>
+<li><p>Renames columns in a tibble.</p></li>
+<li><p>Helpful for cleaning up column names for clarity.</p></li>
 </ul></li>
 </ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>iris <span class="sc">%&gt;%</span> </span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(</span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">var_a =</span> Petal.Length,</span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">var_b =</span> Petal.Width</span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    Sepal.Length Sepal.Width var_a var_b    Species
+1            5.1         3.5   1.4   0.2     setosa
+2            4.9         3.0   1.4   0.2     setosa
+3            4.7         3.2   1.3   0.2     setosa
+4            4.6         3.1   1.5   0.2     setosa
+5            5.0         3.6   1.4   0.2     setosa
+6            5.4         3.9   1.7   0.4     setosa
+7            4.6         3.4   1.4   0.3     setosa
+8            5.0         3.4   1.5   0.2     setosa
+9            4.4         2.9   1.4   0.2     setosa
+10           4.9         3.1   1.5   0.1     setosa
+11           5.4         3.7   1.5   0.2     setosa
+12           4.8         3.4   1.6   0.2     setosa
+13           4.8         3.0   1.4   0.1     setosa
+14           4.3         3.0   1.1   0.1     setosa
+15           5.8         4.0   1.2   0.2     setosa
+16           5.7         4.4   1.5   0.4     setosa
+17           5.4         3.9   1.3   0.4     setosa
+18           5.1         3.5   1.4   0.3     setosa
+19           5.7         3.8   1.7   0.3     setosa
+20           5.1         3.8   1.5   0.3     setosa
+21           5.4         3.4   1.7   0.2     setosa
+22           5.1         3.7   1.5   0.4     setosa
+23           4.6         3.6   1.0   0.2     setosa
+24           5.1         3.3   1.7   0.5     setosa
+25           4.8         3.4   1.9   0.2     setosa
+26           5.0         3.0   1.6   0.2     setosa
+27           5.0         3.4   1.6   0.4     setosa
+28           5.2         3.5   1.5   0.2     setosa
+29           5.2         3.4   1.4   0.2     setosa
+30           4.7         3.2   1.6   0.2     setosa
+31           4.8         3.1   1.6   0.2     setosa
+32           5.4         3.4   1.5   0.4     setosa
+33           5.2         4.1   1.5   0.1     setosa
+34           5.5         4.2   1.4   0.2     setosa
+35           4.9         3.1   1.5   0.2     setosa
+36           5.0         3.2   1.2   0.2     setosa
+37           5.5         3.5   1.3   0.2     setosa
+38           4.9         3.6   1.4   0.1     setosa
+39           4.4         3.0   1.3   0.2     setosa
+40           5.1         3.4   1.5   0.2     setosa
+41           5.0         3.5   1.3   0.3     setosa
+42           4.5         2.3   1.3   0.3     setosa
+43           4.4         3.2   1.3   0.2     setosa
+44           5.0         3.5   1.6   0.6     setosa
+45           5.1         3.8   1.9   0.4     setosa
+46           4.8         3.0   1.4   0.3     setosa
+47           5.1         3.8   1.6   0.2     setosa
+48           4.6         3.2   1.4   0.2     setosa
+49           5.3         3.7   1.5   0.2     setosa
+50           5.0         3.3   1.4   0.2     setosa
+51           7.0         3.2   4.7   1.4 versicolor
+52           6.4         3.2   4.5   1.5 versicolor
+53           6.9         3.1   4.9   1.5 versicolor
+54           5.5         2.3   4.0   1.3 versicolor
+55           6.5         2.8   4.6   1.5 versicolor
+56           5.7         2.8   4.5   1.3 versicolor
+57           6.3         3.3   4.7   1.6 versicolor
+58           4.9         2.4   3.3   1.0 versicolor
+59           6.6         2.9   4.6   1.3 versicolor
+60           5.2         2.7   3.9   1.4 versicolor
+61           5.0         2.0   3.5   1.0 versicolor
+62           5.9         3.0   4.2   1.5 versicolor
+63           6.0         2.2   4.0   1.0 versicolor
+64           6.1         2.9   4.7   1.4 versicolor
+65           5.6         2.9   3.6   1.3 versicolor
+66           6.7         3.1   4.4   1.4 versicolor
+67           5.6         3.0   4.5   1.5 versicolor
+68           5.8         2.7   4.1   1.0 versicolor
+69           6.2         2.2   4.5   1.5 versicolor
+70           5.6         2.5   3.9   1.1 versicolor
+71           5.9         3.2   4.8   1.8 versicolor
+72           6.1         2.8   4.0   1.3 versicolor
+73           6.3         2.5   4.9   1.5 versicolor
+74           6.1         2.8   4.7   1.2 versicolor
+75           6.4         2.9   4.3   1.3 versicolor
+76           6.6         3.0   4.4   1.4 versicolor
+77           6.8         2.8   4.8   1.4 versicolor
+78           6.7         3.0   5.0   1.7 versicolor
+79           6.0         2.9   4.5   1.5 versicolor
+80           5.7         2.6   3.5   1.0 versicolor
+81           5.5         2.4   3.8   1.1 versicolor
+82           5.5         2.4   3.7   1.0 versicolor
+83           5.8         2.7   3.9   1.2 versicolor
+84           6.0         2.7   5.1   1.6 versicolor
+85           5.4         3.0   4.5   1.5 versicolor
+86           6.0         3.4   4.5   1.6 versicolor
+87           6.7         3.1   4.7   1.5 versicolor
+88           6.3         2.3   4.4   1.3 versicolor
+89           5.6         3.0   4.1   1.3 versicolor
+90           5.5         2.5   4.0   1.3 versicolor
+91           5.5         2.6   4.4   1.2 versicolor
+92           6.1         3.0   4.6   1.4 versicolor
+93           5.8         2.6   4.0   1.2 versicolor
+94           5.0         2.3   3.3   1.0 versicolor
+95           5.6         2.7   4.2   1.3 versicolor
+96           5.7         3.0   4.2   1.2 versicolor
+97           5.7         2.9   4.2   1.3 versicolor
+98           6.2         2.9   4.3   1.3 versicolor
+99           5.1         2.5   3.0   1.1 versicolor
+100          5.7         2.8   4.1   1.3 versicolor
+101          6.3         3.3   6.0   2.5  virginica
+102          5.8         2.7   5.1   1.9  virginica
+103          7.1         3.0   5.9   2.1  virginica
+104          6.3         2.9   5.6   1.8  virginica
+105          6.5         3.0   5.8   2.2  virginica
+106          7.6         3.0   6.6   2.1  virginica
+107          4.9         2.5   4.5   1.7  virginica
+108          7.3         2.9   6.3   1.8  virginica
+109          6.7         2.5   5.8   1.8  virginica
+110          7.2         3.6   6.1   2.5  virginica
+111          6.5         3.2   5.1   2.0  virginica
+112          6.4         2.7   5.3   1.9  virginica
+113          6.8         3.0   5.5   2.1  virginica
+114          5.7         2.5   5.0   2.0  virginica
+115          5.8         2.8   5.1   2.4  virginica
+116          6.4         3.2   5.3   2.3  virginica
+117          6.5         3.0   5.5   1.8  virginica
+118          7.7         3.8   6.7   2.2  virginica
+119          7.7         2.6   6.9   2.3  virginica
+120          6.0         2.2   5.0   1.5  virginica
+121          6.9         3.2   5.7   2.3  virginica
+122          5.6         2.8   4.9   2.0  virginica
+123          7.7         2.8   6.7   2.0  virginica
+124          6.3         2.7   4.9   1.8  virginica
+125          6.7         3.3   5.7   2.1  virginica
+126          7.2         3.2   6.0   1.8  virginica
+127          6.2         2.8   4.8   1.8  virginica
+128          6.1         3.0   4.9   1.8  virginica
+129          6.4         2.8   5.6   2.1  virginica
+130          7.2         3.0   5.8   1.6  virginica
+131          7.4         2.8   6.1   1.9  virginica
+132          7.9         3.8   6.4   2.0  virginica
+133          6.4         2.8   5.6   2.2  virginica
+134          6.3         2.8   5.1   1.5  virginica
+135          6.1         2.6   5.6   1.4  virginica
+136          7.7         3.0   6.1   2.3  virginica
+137          6.3         3.4   5.6   2.4  virginica
+138          6.4         3.1   5.5   1.8  virginica
+139          6.0         3.0   4.8   1.8  virginica
+140          6.9         3.1   5.4   2.1  virginica
+141          6.7         3.1   5.6   2.4  virginica
+142          6.9         3.1   5.1   2.3  virginica
+143          5.8         2.7   5.1   1.9  virginica
+144          6.8         3.2   5.9   2.3  virginica
+145          6.7         3.3   5.7   2.5  virginica
+146          6.7         3.0   5.2   2.3  virginica
+147          6.3         2.5   5.0   1.9  virginica
+148          6.5         3.0   5.2   2.0  virginica
+149          6.2         3.4   5.4   2.3  virginica
+150          5.9         3.0   5.1   1.8  virginica</code></pre>
+</div>
+</div>
 </section>
-<section id="reframe" class="level3" data-number="1.9.3">
-<h3 data-number="1.9.3" class="anchored" data-anchor-id="reframe"><span class="header-section-number">1.9.3</span> Reframe</h3>
+<section id="joining" class="level3" data-number="1.7.16">
+<h3 data-number="1.7.16" class="anchored" data-anchor-id="joining"><span class="header-section-number">1.7.16</span> Joining</h3>
+<ul>
+<li><strong><code>left_join()</code>&nbsp;/&nbsp;<code>right_join()</code>&nbsp;/&nbsp;<code>inner_join()</code>&nbsp;/&nbsp;<code>full_join()</code></strong>:\</li>
+</ul>
+<p>Joins add columns from one tibble to another, matching the observations using key variables.</p>
+<p>There are three types of join</p>
+<ul>
+<li><p>A <code>left_join()</code> keeps all observations in <code>x</code>.</p></li>
+<li><p>A <code>right_join()</code> keeps all observations in <code>y</code>.</p></li>
+<li><p>A <code>full_join()</code> keeps all observations in <code>x</code> and <code>y</code>.</p></li>
+</ul>
+<p>We’ll use the <code>band_members</code> and <code>band_instruments</code> data frames for this</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>band_members</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 2
+  name  band   
+  &lt;chr&gt; &lt;chr&gt;  
+1 Mick  Stones 
+2 John  Beatles
+3 Paul  Beatles</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>band_instruments</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 2
+  name  plays 
+  &lt;chr&gt; &lt;chr&gt; 
+1 John  guitar
+2 Paul  bass  
+3 Keith guitar</code></pre>
+</div>
+</div>
+<p>You can see that both tibbles contain two variables, of which one is called <code>name</code>. This will be the <strong>key variable</strong> that is used for joining. R will automatically look for matching variables, and will merge the data semi-automatically. It even works if there’s more than one key variable.</p>
+<section id="left-join" class="level4" data-number="1.7.16.1">
+<h4 data-number="1.7.16.1" class="anchored" data-anchor-id="left-join"><span class="header-section-number">1.7.16.1</span> Left join</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">left_join</span>(</span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>  band_members,</span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>  band_instruments</span>
+<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Joining with `by = join_by(name)`</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 3
+  name  band    plays 
+  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt; 
+1 Mick  Stones  &lt;NA&gt;  
+2 John  Beatles guitar
+3 Paul  Beatles bass  </code></pre>
+</div>
+</div>
+<p>You can see that the new left_joined tibble now contains three variables.</p>
+<p>All three band members who were in the <code>band_members</code> tibble are still represented here, but <code>Keith</code> is not included in this tibble because <code>left_join</code> adds new columns to observations that already exist in <code>band_members</code></p>
 </section>
-<section id="summary-of-exclusive-helper-functions" class="level3" data-number="1.9.4">
-<h3 data-number="1.9.4" class="anchored" data-anchor-id="summary-of-exclusive-helper-functions"><span class="header-section-number">1.9.4</span> Summary of Exclusive Helper Functions:</h3>
+<section id="right-join" class="level4" data-number="1.7.16.2">
+<h4 data-number="1.7.16.2" class="anchored" data-anchor-id="right-join"><span class="header-section-number">1.7.16.2</span> Right Join</h4>
+<p>The <code>right_join</code> works in exactly the opposite way. Here the <code>right_join</code> adds new columns to the observations of the right hand tibble (i.e.&nbsp;to band_instruments).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="fu">right_join</span>(</span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>  band_members,</span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>  band_instruments</span>
+<span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Joining with `by = join_by(name)`</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 3
+  name  band    plays 
+  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt; 
+1 John  Beatles guitar
+2 Paul  Beatles bass  
+3 Keith &lt;NA&gt;    guitar</code></pre>
+</div>
+</div>
+</section>
+<section id="full-join" class="level4" data-number="1.7.16.3">
+<h4 data-number="1.7.16.3" class="anchored" data-anchor-id="full-join"><span class="header-section-number">1.7.16.3</span> Full Join</h4>
+<p>The <code>full_join</code> keeps all the observations and all the columns of both data sets.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">full_join</span>(</span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>  band_members,</span>
+<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a>  band_instruments</span>
+<span id="cb58-4"><a href="#cb58-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Joining with `by = join_by(name)`</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4 × 3
+  name  band    plays 
+  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt; 
+1 Mick  Stones  &lt;NA&gt;  
+2 John  Beatles guitar
+3 Paul  Beatles bass  
+4 Keith &lt;NA&gt;    guitar</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="separate-wider" class="level3" data-number="1.7.17">
+<h3 data-number="1.7.17" class="anchored" data-anchor-id="separate-wider"><span class="header-section-number">1.7.17</span> Separate wider</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">id =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="at">patient_id =</span> <span class="fu">c</span>(<span class="st">"m-123"</span>, <span class="st">"f-455"</span>, <span class="st">"f-123"</span>))</span>
+<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 2
+     id patient_id
+  &lt;int&gt; &lt;chr&gt;     
+1     1 m-123     
+2     2 f-455     
+3     3 f-123     </code></pre>
+</div>
+</div>
+<p>There are three basic ways to split up a string into pieces</p>
+<section id="with-a-delimiter" class="level4" data-number="1.7.17.1">
+<h4 data-number="1.7.17.1" class="anchored" data-anchor-id="with-a-delimiter"><span class="header-section-number">1.7.17.1</span> With a delimiter</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">%&gt;%</span> </span>
+<span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate_wider_delim</span> (</span>
+<span id="cb63-3"><a href="#cb63-3" aria-hidden="true" tabindex="-1"></a>    patient_id, </span>
+<span id="cb63-4"><a href="#cb63-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">delim =</span> <span class="st">"-"</span>, </span>
+<span id="cb63-5"><a href="#cb63-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">names =</span> <span class="fu">c</span>(<span class="st">"gender"</span>, <span class="st">"unit"</span>)</span>
+<span id="cb63-6"><a href="#cb63-6" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 3
+     id gender unit 
+  &lt;int&gt; &lt;chr&gt;  &lt;chr&gt;
+1     1 m      123  
+2     2 f      455  
+3     3 f      123  </code></pre>
+</div>
+</div>
+</section>
+<section id="by-string-length" class="level4" data-number="1.7.17.2">
+<h4 data-number="1.7.17.2" class="anchored" data-anchor-id="by-string-length"><span class="header-section-number">1.7.17.2</span> By string length</h4>
+<p>Here you provide a set of widths to map new columns to various characters.</p>
+<p>The example data are in the form <code>m-123</code> where the <code>m</code> represents gender, the <code>-</code> is just a delimiter and the <code>123</code> is the participant ID.</p>
+<p>we can assign characters with <code>var = n</code> where n is the width of the string in characters.</p>
+<p><code>widths = c(gender = 1)</code></p>
+<ul>
+<li>will assign the first character in the strong to a new variable <code>gender.</code></li>
+</ul>
+<p><code>widths = c(gender = 1, 1)</code></p>
+<ul>
+<li><p>Assigns the first character in the strong to a new variable <code>gender.</code></p></li>
+<li><p>The next character will be dropped</p></li>
+</ul>
+<p><code>widths = c(gender = 1, 1, unit=3)</code></p>
+<ul>
+<li><p>Assigns the first character in the strong to a new variable <code>gender.</code></p></li>
+<li><p>The next character will be dropped</p></li>
+<li><p>Finally assigns the last 3 characters to a new variable <code>unit</code></p></li>
+</ul>
+</section>
+<section id="or-by-regex" class="level4" data-number="1.7.17.3">
+<h4 data-number="1.7.17.3" class="anchored" data-anchor-id="or-by-regex"><span class="header-section-number">1.7.17.3</span> Or by REGEX</h4>
+<p>Regular expressions are a poweful language for string matching.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">%&gt;%</span> </span>
+<span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate_wider_regex</span>(</span>
+<span id="cb65-3"><a href="#cb65-3" aria-hidden="true" tabindex="-1"></a>    patient_id, <span class="fu">c</span>(<span class="at">gender =</span> <span class="st">"."</span>, <span class="st">"."</span>, <span class="at">unit =</span> <span class="st">"</span><span class="sc">\\</span><span class="st">d+"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 3
+     id gender unit 
+  &lt;int&gt; &lt;chr&gt;  &lt;chr&gt;
+1     1 m      123  
+2     2 f      455  
+3     3 f      123  </code></pre>
+</div>
+</div>
+<p>A full example is like this</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">%&gt;%</span> </span>
+<span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate_wider_position</span> (</span>
+<span id="cb67-3"><a href="#cb67-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">cols =</span> patient_id,</span>
+<span id="cb67-4"><a href="#cb67-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">widths =</span> <span class="fu">c</span>(<span class="at">gender =</span> <span class="dv">1</span>, <span class="dv">1</span>, <span class="at">unit=</span><span class="dv">3</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 3
+     id gender unit 
+  &lt;int&gt; &lt;chr&gt;  &lt;chr&gt;
+1     1 m      123  
+2     2 f      455  
+3     3 f      123  </code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="unite" class="level3" data-number="1.7.18">
+<h3 data-number="1.7.18" class="anchored" data-anchor-id="unite"><span class="header-section-number">1.7.18</span> Unite</h3>
+<p>Unite joins columns, or merges them.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">expand_grid</span>(<span class="at">x =</span> <span class="fu">c</span>(<span class="st">"a"</span>, <span class="cn">NA</span>), <span class="at">y =</span> <span class="fu">c</span>(<span class="st">"b"</span>, <span class="cn">NA</span>))</span>
+<span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4 × 2
+  x     y    
+  &lt;chr&gt; &lt;chr&gt;
+1 a     b    
+2 a     &lt;NA&gt; 
+3 &lt;NA&gt;  b    
+4 &lt;NA&gt;  &lt;NA&gt; </code></pre>
+</div>
+</div>
+<section id="unite-dropping-nas" class="level4" data-number="1.7.18.1">
+<h4 data-number="1.7.18.1" class="anchored" data-anchor-id="unite-dropping-nas"><span class="header-section-number">1.7.18.1</span> Unite, dropping NAs</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb71"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">%&gt;%</span> </span>
+<span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unite</span>(</span>
+<span id="cb71-3"><a href="#cb71-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"z"</span>,</span>
+<span id="cb71-4"><a href="#cb71-4" aria-hidden="true" tabindex="-1"></a>    x<span class="sc">:</span>y,</span>
+<span id="cb71-5"><a href="#cb71-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">na.rm =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb71-6"><a href="#cb71-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">remove =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4 × 3
+  z     x     y    
+  &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;
+1 a_b   a     b    
+2 a_NA  a     &lt;NA&gt; 
+3 NA_b  &lt;NA&gt;  b    
+4 NA_NA &lt;NA&gt;  &lt;NA&gt; </code></pre>
+</div>
+</div>
+</section>
+<section id="unite-removing-originals-and-shirt" class="level4" data-number="1.7.18.2">
+<h4 data-number="1.7.18.2" class="anchored" data-anchor-id="unite-removing-originals-and-shirt"><span class="header-section-number">1.7.18.2</span> Unite, removing originals and shirt</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb73"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">%&gt;%</span> </span>
+<span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unite</span>(</span>
+<span id="cb73-3"><a href="#cb73-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"z"</span>,</span>
+<span id="cb73-4"><a href="#cb73-4" aria-hidden="true" tabindex="-1"></a>    x<span class="sc">:</span>y, </span>
+<span id="cb73-5"><a href="#cb73-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">na.rm =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb73-6"><a href="#cb73-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">remove =</span> <span class="cn">FALSE</span></span>
+<span id="cb73-7"><a href="#cb73-7" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4 × 3
+  z     x     y    
+  &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;
+1 "a_b" a     b    
+2 "a"   a     &lt;NA&gt; 
+3 "b"   &lt;NA&gt;  b    
+4 ""    &lt;NA&gt;  &lt;NA&gt; </code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="summary-of-exclusive-helper-functions" class="level3" data-number="1.7.19">
+<h3 data-number="1.7.19" class="anchored" data-anchor-id="summary-of-exclusive-helper-functions"><span class="header-section-number">1.7.19</span> Summary of Exclusive Helper Functions:</h3>
 <ul>
 <li><p><strong>Conditional Operations</strong>:&nbsp;<code>case_when()</code>,&nbsp;<code>if_else()</code></p></li>
 <li><p><strong>Range Check</strong>:&nbsp;<code>between()</code></p></li>
@@ -1209,37 +1675,11 @@ dbl (4): Sepal.Length, Sepal.Width, Petal.Length, Petal.Width
 </ul>
 <p>These helper functions are used specifically within verbs like&nbsp;<code>mutate()</code>,&nbsp;<code>filter()</code>,&nbsp;<code>summarise()</code>,&nbsp;<code>arrange()</code>, and others to perform specialized operations inside the context of a single table.</p>
 </section>
-<section id="case_when" class="level3" data-number="1.9.5">
-<h3 data-number="1.9.5" class="anchored" data-anchor-id="case_when"><span class="header-section-number">1.9.5</span> Case_when</h3>
+<section id="case_when" class="level3" data-number="1.7.20">
+<h3 data-number="1.7.20" class="anchored" data-anchor-id="case_when"><span class="header-section-number">1.7.20</span> Case_when</h3>
 </section>
-<section id="rename" class="level3" data-number="1.9.6">
-<h3 data-number="1.9.6" class="anchored" data-anchor-id="rename"><span class="header-section-number">1.9.6</span> Rename</h3>
-<ul>
-<li><p><strong><code>rename()</code></strong>:</p>
-<ul>
-<li><p>Renames columns in a tibble.</p></li>
-<li><p>Helpful for cleaning up column names for clarity.</p></li>
-</ul></li>
-</ul>
-<ul>
-<li><p><strong><code>left_join()</code>&nbsp;/&nbsp;<code>right_join()</code>&nbsp;/&nbsp;<code>inner_join()</code>&nbsp;/&nbsp;<code>full_join()</code></strong>:</p>
-<ul>
-<li><p>Joins two data frames by matching columns.</p></li>
-<li><p>Each type of join behaves differently based on the desired outcome (e.g.,&nbsp;<code>left_join()</code>&nbsp;keeps all rows from the left table).</p></li>
-</ul></li>
-</ul>
-<ul>
-<li><p><strong><code>separate()</code></strong>:</p>
-<ul>
-<li>Splits a single column into multiple columns based on a separator.</li>
-</ul></li>
-</ul>
-<ul>
-<li><p><strong><code>unite()</code></strong>:</p>
-<ul>
-<li>Combines multiple columns into one.</li>
-</ul></li>
-</ul>
+<section id="section-1" class="level3" data-number="1.7.21">
+<h3 data-number="1.7.21" class="anchored" data-anchor-id="section-1"><span class="header-section-number">1.7.21</span> </h3>
 
 
 </section>

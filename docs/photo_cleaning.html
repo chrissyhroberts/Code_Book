@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.450">
+<meta name="generator" content="quarto-1.4.556">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Code Book - 4&nbsp; Photo Cleaning For Sharing</title>
+<title>Code Book - 5&nbsp; Photo Cleaning For Sharing</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -22,7 +22,7 @@ ul.task-list li input[type="checkbox"] {
 }
 /* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -81,7 +81,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   "collapse-after": 3,
   "panel-placement": "start",
   "type": "textbox",
-  "limit": 20,
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -90,6 +96,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-more-match-text": "more match in this document",
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Cancel",
     "search-submit-button-title": "Submit",
     "search-label": "Search"
@@ -101,17 +108,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <body class="nav-sidebar floating">
 
-
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./extract_model_from_geom_smooth.html">R | RStudio</a></li><li class="breadcrumb-item"><a href="./photo_cleaning.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Photo Cleaning For Sharing</span></a></li></ol></nav>
-      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
-      </a>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./R_basics.html">R | RStudio</a></li><li class="breadcrumb-item"><a href="./photo_cleaning.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Photo Cleaning For Sharing</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
@@ -121,7 +127,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="./">Code Book</a> 
@@ -151,56 +157,62 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./R_basics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Basics of R</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./extract_model_from_geom_smooth.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Extract Model from geom_smooth model</span></span></a>
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Extract Model from geom_smooth model</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./filename_changer.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Rename files procedurally</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Rename files procedurally</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Global_Political_Map.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Draw Political Maps (sf geom_sf)</span></span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Draw Political Maps (sf geom_sf)</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./photo_cleaning.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Photo Cleaning For Sharing</span></span></a>
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Photo Cleaning For Sharing</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./remove_accents.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Remove_Accents</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Remove_Accents</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./text_to_speech_R.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Text to Speech in R</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Text to Speech in R</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./UK_Postcodes.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">UK Postcode Maps</span></span></a>
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">UK Postcode Maps</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./update_R.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Update R - Bare Bones</span></span></a>
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Update R - Bare Bones</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./utf8_encoding.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Normalise utf8 accented text</span></span></a>
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Normalise utf8 accented text</span></span></a>
   </div>
 </li>
       </ul>
@@ -216,56 +228,50 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Cox-PH.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Survival Analysis with Cox-PH</span></span></a>
+  <a href="./Cox_PH.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Survival Analysis with Cox-PH</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Interrupted_Time_Series.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">A pragmatic Introduction to Interrupted Time Series</span></span></a>
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">A pragmatic Introduction to Interrupted Time Series</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./new_lm_predict_left_predict_right.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">New lm Predict Left &amp; Predict Right</span></span></a>
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">New lm Predict Left &amp; Predict Right</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Diagnostics_Power_Calculation.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Diagnostic Evaluation Power Calculation</span></span></a>
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Diagnostic Evaluation Power Calculation</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./CI95_point_estimate.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">95% Confidence Intervals on a point estimate</span></span></a>
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">95% Confidence Intervals on a point estimate</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./hazratio_chart.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Hazard Ratio Chart from Summary Data</span></span></a>
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Hazard Ratio Chart from Summary Data</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./power_calc_gen_case_control.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Genetic Power Calculator</span></span></a>
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Genetic Power Calculator</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Principal_Components_Analysis.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Principal Components Analysis</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./Univariate_regressions_reported_as_a_table.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Univariate regressions, reported as a table</span></span></a>
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Principal Components Analysis</span></span></a>
   </div>
 </li>
       </ul>
@@ -281,26 +287,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Univariate_regressions_reported_as_a_table.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Univariate regressions, reported as a table</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="./Consent_Forms_with_QR.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Consent Forms with Unique IDs and QR Codes</span></span></a>
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Consent Forms with Unique IDs and QR Codes</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Digital_Luminex.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Digital Luminex</span></span></a>
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Digital Luminex</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Generic_Research_Data_Folder_Design.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Research study folder template</span></span></a>
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Research study folder template</span></span></a>
   </div>
 </li>
       </ul>
@@ -317,31 +317,31 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ODK_Biometrics.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">ODK Biometrics</span></span></a>
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">ODK Biometrics</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ruODK_basics.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">ruODK Setup and basic functions</span></span></a>
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">ruODK Setup and basic functions</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./diva_gis.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">GIS Data to ODK itemlist</span></span></a>
+ <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">GIS Data to ODK itemlist</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ODK_geofencing.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">ODK Geofencing</span></span></a>
+ <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">ODK Geofencing</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ODK_Pi.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">ODK Pi - A deployable version of ODK on a Raspberry Pi</span></span></a>
+ <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">ODK Pi - A deployable version of ODK on a Raspberry Pi</span></span></a>
   </div>
 </li>
       </ul>
@@ -358,13 +358,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Docker_install_ubuntu.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Install Docker</span></span></a>
+ <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">Install Docker</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Join_photos_randomly.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Join Photos side-by-side with tracked random arrangement</span></span></a>
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Join Photos side-by-side with tracked random arrangement</span></span></a>
   </div>
 </li>
       </ul>
@@ -381,7 +381,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Akaike_Information_Criterion.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Akaike information criterion</span></span></a>
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Akaike information criterion</span></span></a>
   </div>
 </li>
       </ul>
@@ -389,36 +389,36 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </ul>
     </div>
 </nav>
-<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#section" id="toc-section" class="nav-link active" data-scroll-target="#section"><span class="header-section-number">4.1</span> </a></li>
-  <li><a href="#background" id="toc-background" class="nav-link" data-scroll-target="#background"><span class="header-section-number">4.2</span> Background</a></li>
-  <li><a href="#libraries" id="toc-libraries" class="nav-link" data-scroll-target="#libraries"><span class="header-section-number">4.3</span> Libraries</a></li>
-  <li><a href="#copy-some-photos-in-to-the-working-directory" id="toc-copy-some-photos-in-to-the-working-directory" class="nav-link" data-scroll-target="#copy-some-photos-in-to-the-working-directory"><span class="header-section-number">4.4</span> Copy some photos in to the working directory</a></li>
-  <li><a href="#remove-exif-data" id="toc-remove-exif-data" class="nav-link" data-scroll-target="#remove-exif-data"><span class="header-section-number">4.5</span> Remove EXIF data</a></li>
-  <li><a href="#rename-all-files" id="toc-rename-all-files" class="nav-link" data-scroll-target="#rename-all-files"><span class="header-section-number">4.6</span> Rename all files</a>
+  <li><a href="#section" id="toc-section" class="nav-link active" data-scroll-target="#section"><span class="header-section-number">5.1</span> </a></li>
+  <li><a href="#background" id="toc-background" class="nav-link" data-scroll-target="#background"><span class="header-section-number">5.2</span> Background</a></li>
+  <li><a href="#libraries" id="toc-libraries" class="nav-link" data-scroll-target="#libraries"><span class="header-section-number">5.3</span> Libraries</a></li>
+  <li><a href="#copy-some-photos-in-to-the-working-directory" id="toc-copy-some-photos-in-to-the-working-directory" class="nav-link" data-scroll-target="#copy-some-photos-in-to-the-working-directory"><span class="header-section-number">5.4</span> Copy some photos in to the working directory</a></li>
+  <li><a href="#remove-exif-data" id="toc-remove-exif-data" class="nav-link" data-scroll-target="#remove-exif-data"><span class="header-section-number">5.5</span> Remove EXIF data</a></li>
+  <li><a href="#rename-all-files" id="toc-rename-all-files" class="nav-link" data-scroll-target="#rename-all-files"><span class="header-section-number">5.6</span> Rename all files</a>
   <ul class="collapse">
-  <li><a href="#define-a-function-to-create-a-unique-id" id="toc-define-a-function-to-create-a-unique-id" class="nav-link" data-scroll-target="#define-a-function-to-create-a-unique-id"><span class="header-section-number">4.6.1</span> Define a function to create a unique ID</a></li>
-  <li><a href="#apply-the-function-renaming-all-photos" id="toc-apply-the-function-renaming-all-photos" class="nav-link" data-scroll-target="#apply-the-function-renaming-all-photos"><span class="header-section-number">4.6.2</span> Apply the function, renaming all photos</a></li>
-  <li><a href="#flag-any-files-with-high-luminance" id="toc-flag-any-files-with-high-luminance" class="nav-link" data-scroll-target="#flag-any-files-with-high-luminance"><span class="header-section-number">4.6.3</span> Flag any files with high luminance</a></li>
-  <li><a href="#run-an-expectation-maximisation-to-find-clusters" id="toc-run-an-expectation-maximisation-to-find-clusters" class="nav-link" data-scroll-target="#run-an-expectation-maximisation-to-find-clusters"><span class="header-section-number">4.6.4</span> Run an Expectation Maximisation to find clusters</a></li>
-  <li><a href="#rename-files-with-high-luminance" id="toc-rename-files-with-high-luminance" class="nav-link" data-scroll-target="#rename-files-with-high-luminance"><span class="header-section-number">4.6.5</span> Rename files with high luminance</a></li>
+  <li><a href="#define-a-function-to-create-a-unique-id" id="toc-define-a-function-to-create-a-unique-id" class="nav-link" data-scroll-target="#define-a-function-to-create-a-unique-id"><span class="header-section-number">5.6.1</span> Define a function to create a unique ID</a></li>
+  <li><a href="#apply-the-function-renaming-all-photos" id="toc-apply-the-function-renaming-all-photos" class="nav-link" data-scroll-target="#apply-the-function-renaming-all-photos"><span class="header-section-number">5.6.2</span> Apply the function, renaming all photos</a></li>
+  <li><a href="#flag-any-files-with-high-luminance" id="toc-flag-any-files-with-high-luminance" class="nav-link" data-scroll-target="#flag-any-files-with-high-luminance"><span class="header-section-number">5.6.3</span> Flag any files with high luminance</a></li>
+  <li><a href="#run-an-expectation-maximisation-to-find-clusters" id="toc-run-an-expectation-maximisation-to-find-clusters" class="nav-link" data-scroll-target="#run-an-expectation-maximisation-to-find-clusters"><span class="header-section-number">5.6.4</span> Run an Expectation Maximisation to find clusters</a></li>
+  <li><a href="#rename-files-with-high-luminance" id="toc-rename-files-with-high-luminance" class="nav-link" data-scroll-target="#rename-files-with-high-luminance"><span class="header-section-number">5.6.5</span> Rename files with high luminance</a></li>
   </ul></li>
-  <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results"><span class="header-section-number">4.7</span> Results</a></li>
+  <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results"><span class="header-section-number">5.7</span> Results</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default">
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./R_basics.html">R | RStudio</a></li><li class="breadcrumb-item"><a href="./photo_cleaning.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Photo Cleaning For Sharing</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Photo Cleaning For Sharing</span></h1>
+<h1 class="title"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Photo Cleaning For Sharing</span></h1>
 </div>
 
 
@@ -431,39 +431,41 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </div>
   
 
+
 </header>
 
-<section id="section" class="level2" data-number="4.1">
-<h2 data-number="4.1" class="anchored" data-anchor-id="section"><span class="header-section-number">4.1</span> </h2>
+
+<section id="section" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="section"><span class="header-section-number">5.1</span> </h2>
 </section>
-<section id="background" class="level2" data-number="4.2">
-<h2 data-number="4.2" class="anchored" data-anchor-id="background"><span class="header-section-number">4.2</span> Background</h2>
+<section id="background" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="background"><span class="header-section-number">5.2</span> Background</h2>
 <p>When sharing images, it is useful to be able to…</p>
-<section id="remove-exif-data-which-can-include-gps-locations-where-the-photos-were-taken" class="level4" data-number="4.2.0.1">
-<h4 data-number="4.2.0.1" class="anchored" data-anchor-id="remove-exif-data-which-can-include-gps-locations-where-the-photos-were-taken"><span class="header-section-number">4.2.0.1</span> Remove EXIF data, which can include GPS locations where the photos were taken</h4>
+<section id="remove-exif-data-which-can-include-gps-locations-where-the-photos-were-taken" class="level4" data-number="5.2.0.1">
+<h4 data-number="5.2.0.1" class="anchored" data-anchor-id="remove-exif-data-which-can-include-gps-locations-where-the-photos-were-taken"><span class="header-section-number">5.2.0.1</span> Remove EXIF data, which can include GPS locations where the photos were taken</h4>
 <p>Imagemagick is used for this</p>
 </section>
-<section id="rename-files-to-have-nonsensical-names" class="level4" data-number="4.2.0.2">
-<h4 data-number="4.2.0.2" class="anchored" data-anchor-id="rename-files-to-have-nonsensical-names"><span class="header-section-number">4.2.0.2</span> Rename files to have nonsensical names</h4>
+<section id="rename-files-to-have-nonsensical-names" class="level4" data-number="5.2.0.2">
+<h4 data-number="5.2.0.2" class="anchored" data-anchor-id="rename-files-to-have-nonsensical-names"><span class="header-section-number">5.2.0.2</span> Rename files to have nonsensical names</h4>
 <p>Using either <strong>date</strong> or <strong>gdate</strong> on linux or OSX respectively. gdate is part of the <strong>coreutils</strong> package</p>
 <p>This tutorial is aimed at OSX users and assumes you have <em>homebrew</em> (<strong>brew</strong>) installed. Using it on a PC through the linux subsystem for windows should be easy. Replace brew with apt-get or similar.</p>
 </section>
-<section id="flag-any-files-with-very-high-luminance-for-instance-photos-of-labels-consent-forms-etc" class="level4" data-number="4.2.0.3">
-<h4 data-number="4.2.0.3" class="anchored" data-anchor-id="flag-any-files-with-very-high-luminance-for-instance-photos-of-labels-consent-forms-etc"><span class="header-section-number">4.2.0.3</span> Flag any files with very high luminance, for instance photos of labels, consent forms etc</h4>
+<section id="flag-any-files-with-very-high-luminance-for-instance-photos-of-labels-consent-forms-etc" class="level4" data-number="5.2.0.3">
+<h4 data-number="5.2.0.3" class="anchored" data-anchor-id="flag-any-files-with-very-high-luminance-for-instance-photos-of-labels-consent-forms-etc"><span class="header-section-number">5.2.0.3</span> Flag any files with very high luminance, for instance photos of labels, consent forms etc</h4>
 <p>This is also done with Imagemagick.</p>
 <p>This script assumes that you’ve put a lot of pictures in the folder <code>data/photos_for_cleaning</code></p>
 </section>
 </section>
-<section id="libraries" class="level2" data-number="4.3">
-<h2 data-number="4.3" class="anchored" data-anchor-id="libraries"><span class="header-section-number">4.3</span> Libraries</h2>
+<section id="libraries" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="libraries"><span class="header-section-number">5.3</span> Libraries</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-✔ dplyr     1.1.3     ✔ readr     2.1.4
-✔ forcats   1.0.0     ✔ stringr   1.5.0
-✔ ggplot2   3.4.4     ✔ tibble    3.2.1
-✔ lubridate 1.9.3     ✔ tidyr     1.3.0
+✔ dplyr     1.1.4     ✔ readr     2.1.5
+✔ forcats   1.0.0     ✔ stringr   1.5.1
+✔ ggplot2   3.5.1     ✔ tibble    3.2.1
+✔ lubridate 1.9.3     ✔ tidyr     1.3.1
 ✔ purrr     1.0.2     
 ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
 ✖ dplyr::filter() masks stats::filter()
@@ -478,15 +480,15 @@ This package is based upon work supported by the National Science Foundation und
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">23423346</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="copy-some-photos-in-to-the-working-directory" class="level2" data-number="4.4">
-<h2 data-number="4.4" class="anchored" data-anchor-id="copy-some-photos-in-to-the-working-directory"><span class="header-section-number">4.4</span> Copy some photos in to the working directory</h2>
+<section id="copy-some-photos-in-to-the-working-directory" class="level2" data-number="5.4">
+<h2 data-number="5.4" class="anchored" data-anchor-id="copy-some-photos-in-to-the-working-directory"><span class="header-section-number">5.4</span> Copy some photos in to the working directory</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">system</span>(<span class="st">"rm data/photos_for_cleaning/*.JPG"</span>)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">system</span>(<span class="st">"unzip data/photos_for_cleaning/photos_for_cleaning.zip -d data/photos_for_cleaning/"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="remove-exif-data" class="level2" data-number="4.5">
-<h2 data-number="4.5" class="anchored" data-anchor-id="remove-exif-data"><span class="header-section-number">4.5</span> Remove EXIF data</h2>
+<section id="remove-exif-data" class="level2" data-number="5.5">
+<h2 data-number="5.5" class="anchored" data-anchor-id="remove-exif-data"><span class="header-section-number">5.5</span> Remove EXIF data</h2>
 <p>Install Imagemagick (hash this line if you already have Imagemagick unless you want a long wait)</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">#system("brew install imagemagick")</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -520,10 +522,10 @@ Let’s see what files are available in the folder data/photos_for_cleaning</p>
 <span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>                  }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="rename-all-files" class="level2" data-number="4.6">
-<h2 data-number="4.6" class="anchored" data-anchor-id="rename-all-files"><span class="header-section-number">4.6</span> Rename all files</h2>
-<section id="define-a-function-to-create-a-unique-id" class="level3" data-number="4.6.1">
-<h3 data-number="4.6.1" class="anchored" data-anchor-id="define-a-function-to-create-a-unique-id"><span class="header-section-number">4.6.1</span> Define a function to create a unique ID</h3>
+<section id="rename-all-files" class="level2" data-number="5.6">
+<h2 data-number="5.6" class="anchored" data-anchor-id="rename-all-files"><span class="header-section-number">5.6</span> Rename all files</h2>
+<section id="define-a-function-to-create-a-unique-id" class="level3" data-number="5.6.1">
+<h3 data-number="5.6.1" class="anchored" data-anchor-id="define-a-function-to-create-a-unique-id"><span class="header-section-number">5.6.1</span> Define a function to create a unique ID</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>  randomid <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">n =</span> <span class="dv">1</span>,path,file) {</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    a <span class="ot">&lt;-</span> <span class="fu">do.call</span>(paste0, <span class="fu">replicate</span>(<span class="dv">5</span>, <span class="fu">sample</span>(LETTERS, n, <span class="cn">TRUE</span>), <span class="cn">FALSE</span>))</span>
@@ -532,8 +534,8 @@ Let’s see what files are available in the folder data/photos_for_cleaning</p>
 <span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="apply-the-function-renaming-all-photos" class="level3" data-number="4.6.2">
-<h3 data-number="4.6.2" class="anchored" data-anchor-id="apply-the-function-renaming-all-photos"><span class="header-section-number">4.6.2</span> Apply the function, renaming all photos</h3>
+<section id="apply-the-function-renaming-all-photos" class="level3" data-number="5.6.2">
+<h3 data-number="5.6.2" class="anchored" data-anchor-id="apply-the-function-renaming-all-photos"><span class="header-section-number">5.6.2</span> Apply the function, renaming all photos</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>path <span class="ot">=</span> <span class="st">"data/photos_for_cleaning/"</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>pictures <span class="ot">=</span> <span class="fu">list.files</span>(<span class="at">path =</span> <span class="st">"data/photos_for_cleaning/"</span>,<span class="at">pattern =</span> <span class="st">".JPG"</span>,<span class="at">full.names =</span> T)</span>
@@ -541,8 +543,8 @@ Let’s see what files are available in the folder data/photos_for_cleaning</p>
 <span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> pictures){<span class="fu">randomid</span>(<span class="at">path =</span> path,<span class="at">file =</span> i)}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="flag-any-files-with-high-luminance" class="level3" data-number="4.6.3">
-<h3 data-number="4.6.3" class="anchored" data-anchor-id="flag-any-files-with-high-luminance"><span class="header-section-number">4.6.3</span> Flag any files with high luminance</h3>
+<section id="flag-any-files-with-high-luminance" class="level3" data-number="5.6.3">
+<h3 data-number="5.6.3" class="anchored" data-anchor-id="flag-any-files-with-high-luminance"><span class="header-section-number">5.6.3</span> Flag any files with high luminance</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">=</span> <span class="fu">tibble</span>(</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">pictures =</span> <span class="fu">list.files</span>(<span class="at">path =</span> <span class="st">"data/photos_for_cleaning/"</span>,<span class="at">pattern =</span> <span class="st">".JPG"</span>,<span class="at">full.names =</span> T),</span>
@@ -556,8 +558,8 @@ Let’s see what files are available in the folder data/photos_for_cleaning</p>
 <span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="run-an-expectation-maximisation-to-find-clusters" class="level3" data-number="4.6.4">
-<h3 data-number="4.6.4" class="anchored" data-anchor-id="run-an-expectation-maximisation-to-find-clusters"><span class="header-section-number">4.6.4</span> Run an Expectation Maximisation to find clusters</h3>
+<section id="run-an-expectation-maximisation-to-find-clusters" class="level3" data-number="5.6.4">
+<h3 data-number="5.6.4" class="anchored" data-anchor-id="run-an-expectation-maximisation-to-find-clusters"><span class="header-section-number">5.6.4</span> Run an Expectation Maximisation to find clusters</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">12341</span>)</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>em<span class="ot">&lt;-</span><span class="fu">normalmixEM</span>(df<span class="sc">$</span>luminance, <span class="at">k=</span><span class="dv">2</span>,<span class="at">maxit =</span> <span class="dv">3000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -585,12 +587,16 @@ Let’s see what files are available in the folder data/photos_for_cleaning</p>
 <span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>  )<span class="sc">+</span></span>
 <span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> em<span class="sc">$</span>mu[<span class="dv">1</span>]<span class="sc">+</span>(<span class="fl">3.29</span><span class="sc">*</span>em<span class="sc">$</span>sigma[<span class="dv">1</span>]),<span class="at">lty=</span><span class="dv">2</span>,<span class="at">lwd=</span><span class="dv">1</span>,<span class="at">col=</span><span class="st">"red"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="photo_cleaning_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="photo_cleaning_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
-<section id="rename-files-with-high-luminance" class="level3" data-number="4.6.5">
-<h3 data-number="4.6.5" class="anchored" data-anchor-id="rename-files-with-high-luminance"><span class="header-section-number">4.6.5</span> Rename files with high luminance</h3>
+<section id="rename-files-with-high-luminance" class="level3" data-number="5.6.5">
+<h3 data-number="5.6.5" class="anchored" data-anchor-id="rename-files-with-high-luminance"><span class="header-section-number">5.6.5</span> Rename files with high luminance</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(df)){</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -634,13 +640,17 @@ Let’s see what files are available in the folder data/photos_for_cleaning</p>
 </div>
 </section>
 </section>
-<section id="results" class="level2" data-number="4.7">
-<h2 data-number="4.7" class="anchored" data-anchor-id="results"><span class="header-section-number">4.7</span> Results</h2>
+<section id="results" class="level2" data-number="5.7">
+<h2 data-number="5.7" class="anchored" data-anchor-id="results"><span class="header-section-number">5.7</span> Results</h2>
 <p>A file flagged as having high luminance</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(<span class="fu">gsub</span>(<span class="at">x=</span>df<span class="sc">$</span>pictures[<span class="fu">which</span>(df<span class="sc">$</span>luminance<span class="sc">==</span><span class="fu">max</span>(df<span class="sc">$</span>luminance))],<span class="at">pattern =</span> <span class="st">".JPG"</span>,<span class="at">replacement =</span> <span class="st">".light.JPG"</span>),<span class="at">error =</span> T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="data/photos_for_cleaning//VRAXW6073Z.light.JPG" class="img-fluid" width="1504"></p>
+<div>
+<figure class="figure">
+<p><img src="data/photos_for_cleaning//VRAXW6073Z.light.JPG" class="img-fluid figure-img" width="1504"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>A file flagged as having low luminance is displayed here</p>
@@ -648,7 +658,11 @@ Let’s see what files are available in the folder data/photos_for_cleaning</p>
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(df<span class="sc">$</span>pictures[<span class="fu">which</span>(df<span class="sc">$</span>luminance<span class="sc">==</span>min</span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>                                          (df<span class="sc">$</span>luminance))])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="data/photos_for_cleaning//OYMPF5938B.JPG" class="img-fluid" width="1504"></p>
+<div>
+<figure class="figure">
+<p><img src="data/photos_for_cleaning//OYMPF5938B.JPG" class="img-fluid figure-img" width="1504"></p>
+</figure>
+</div>
 </div>
 </div>
 
@@ -735,10 +749,27 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
-  function tippyHover(el, contentFn) {
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
-      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -748,8 +779,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start'
+      placement: 'bottom-start',
     };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -761,7 +801,130 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      return note.innerHTML;
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
     });
   }
       let selectedAnnoteEl;
@@ -805,6 +968,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             }
             div.style.top = top - 2 + "px";
             div.style.height = height + 4 + "px";
+            div.style.left = 0;
             let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
             if (gutterDiv === null) {
               gutterDiv = window.document.createElement("div");
@@ -830,6 +994,32 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
       // Attach click handler to the DT
       const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
       for (const annoteDlNode of annoteDls) {
@@ -891,17 +1081,18 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./Global_Political_Map.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Draw Political Maps (sf geom_sf)</span></span>
+      <a href="./Global_Political_Map.html" class="pagination-link" aria-label="Draw Political Maps (sf geom_sf)">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Draw Political Maps (sf geom_sf)</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./remove_accents.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Remove_Accents</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./remove_accents.html" class="pagination-link" aria-label="Remove_Accents">
+        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Remove_Accents</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
 </div> <!-- /content -->
+
 
 
 

@@ -35,11 +35,9 @@ book:
        - hazratio_chart.qmd
        - power_calc_gen_case_control.qmd
        - Principal_Components_Analysis.qmd
-       - Univariate_regressions_reported_as_a_table.qmd
 
   - part: "Laboratory | Field Methods"
     chapters:
-       - Univariate_regressions_reported_as_a_table.qmd
        - Consent_Forms_with_QR.qmd
        - Digital_Luminex.qmd
        - Generic_Research_Data_Folder_Design.qmd

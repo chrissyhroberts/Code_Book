@@ -422,59 +422,74 @@ relig_income %>%
           )
 ```
 
-### Group_by & Summarise
+### Group_by, Reframe & Summarise
 
--   These verbs create a data frame with one row per `group`, where the variables are a summary of values.
+-   These verbs create a data frame with one row per `group`, where the variables are a summary of values. `group_by` groups data by one or more columns,
 
-<!-- -->
+-   `Summarise()` and `reframe()` are almost always used in combination with `group_by().`
 
--   **`group_by()`**:
+-   As with all verbs, you can provide lists to `group_by()`, `reframe()` and `summarise().`
 
-    -   Groups data by one or more columns, often used in conjunction with `summarise()` for grouped operations.
+#### When to use summarise or reframe
 
-<!-- -->
+-   **Use `reframe()`** when you need more flexibility in your summaries, like returning multiple rows or when you don't necessarily want to collapse the data into a single row per group.
+
+-   **Use `summarise()`** when you want to condense the data down to a single row per group or perform a single calculation for each group.
+
+-   In most common cases, `summarise()` is appropriate when working with grouped data, but `reframe()` can be handy for more complex summary needs.
+
+    #### Reframe
+
+    -   **Purpose**: A more flexible way to return multiple results for each group without reducing it to one row per group.
+
+    -   **Typical Use**: Used when you want to keep multiple rows per group but still perform summary operations. i.e. when creating denominators etc.
+
+    -   **Behavior**: Allows for returning multiple rows or multiple values for each group, so it doesn’t necessarily collapse the data.
+
+    -   If you choose to include any of the original variables in your reframed tibble, the resulting tibble will have the same dimensions as your original. Here the groupwise counts are added to `count` and the groupwise mean sepal lengths are added to `mean.sepal.length`.
+
+    ```{r}
+    iris %>%
+      group_by(Species) %>%
+      reframe(
+        Sepal.Length,
+        Sepal.Width,
+        count = n(),
+        mean.sepal.length = mean(Sepal.Length)
+      )
+    ```
+
+If you choose not to include your original variables, `reframe()` will present only the new variables.
+
+```{r}
+iris %>%
+  group_by(Species) %>%
+  reframe(
+    count = n(),
+    mean.sepal.length = mean(Sepal.Length),
+    median.petal.length = median(Petal.Length)
+
+  )
+```
 
 -   **`summarise()`**:
 
     -   Creates summary statistics for each group, such as mean, median, or sum.
 
-    -   Often used after `group_by()` to apply a function to each group.
+    -   In this case `summarise()` creates the same table as the previous example of `reframe`
+
+    -   This shows how you can always use `reframe` so generally forget about using `summarise()`
 
 ```{r}
 
 iris %>%
   group_by(Species) %>%
   summarise(
+    count = n(),
     mean.sepal.length = mean(Sepal.Length),
     median.petal.length = median(Petal.Length)
             )
 ```
-
-### Reframe
-
--   **Purpose**: A more flexible way to return multiple results for each group without reducing it to one row per group.
-
--   **Typical Use**: Used when you want to keep multiple rows per group but still perform summary operations.
-
--   **Behavior**: Allows for returning multiple rows or multiple values for each group, so it doesn’t necessarily collapse the data.
-
-```{r}
-iris %>%
-  group_by(Species) %>%
-  reframe(
-    sepal_length_range = range(Sepal.Length),
-    count = n(),
-    mean.sepal.length = mean(Sepal.Length)
-  )
-```
-
-#### When to use summarise or reframe
-
--   **Use `summarise()`** when you want to condense the data down to a single row per group or perform a single calculation for each group.
-
--   **Use `reframe()`** when you need more flexibility in your summaries, like returning multiple rows or when you don't necessarily want to collapse the data into a single row per group.
-
-In most common cases, `summarise()` is appropriate when working with grouped data, but `reframe()` can be handy for more complex summary needs.
 
 ### Rename
 
@@ -554,6 +569,611 @@ full_join(
   band_members,
   band_instruments
 )
+```
+
+## ggplot
+
+Now we've covered the basics of managing and manipulating tibbles, let's look at the basics of drawing charts in ggplot.
+
+To understand the syntax of ggplot, you have to understand how charts created with this system are built in layers. Just like how we pipe data through `%>%` when handling tibbles, we add new layers to ggplot charts using `+`
+
+ggplot accepts piped data as an input. The initial ggplot is a blank chart with no axes. Let's pipe the `iris` tibble in to a ggplot.
+
+```{r}
+
+iris %>% 
+  ggplot() 
+```
+
+Next we want to describe the 'aesthetics' of the plot. This is how we define the variables that will contribute to the axes, groups, points, shapes, fills, areas and so on.
+
+Let's provide ggplot with some aesthetics in the form of an x (Sepal.Length) and y (Sepal.Width)
+
+This should add the axes which will be appropriately scaled according to the limits of the two variables.
+
+```{r}
+iris %>% 
+  ggplot(aes(Sepal.Length,Sepal.Width)) 
+```
+
+To add some of the data points to the chart, we need to add a new layer. The type of chart is defined by which "`geom"` layer you choose to add next.
+
+Let's start simple and draw some points with `geom_point()`. Remember to add the new layer by putting a `+` at the end of the last line
+
+```{r}
+iris %>% 
+    ggplot(
+      aes(
+        Sepal.Length,
+        Sepal.Width)
+          ) +
+      geom_point()
+  
+```
+
+This is useful, but doesn't tell us anything about the points. Colours, grouping, fills etc are defined in the aesthethics, so let's add some colours to the points according to which species they represent.
+
+You can encode colours with `color=` or `colour=`
+
+```{r}
+
+iris %>% 
+    ggplot(
+      aes(
+        Sepal.Length,
+        Sepal.Width,
+        color=Species
+        )
+          ) +
+      geom_point()
+  
+```
+
+If you provide a continuous variable to `color` you'll get a nice result too.
+
+```{r}
+iris %>% 
+    ggplot(
+      aes(
+        Sepal.Length,
+        Sepal.Width,
+        color=Petal.Length
+        )
+          ) +
+      geom_point()
+  
+```
+
+You can also use the `shape=` aesthetic to add different shapes. Here we can now see information on sepal length (x), sepal width (y), species (shape) and petal length (color).
+
+```{r}
+iris %>% 
+    ggplot(
+      aes(
+        Sepal.Length,
+        Sepal.Width,
+        color=Petal.Length,
+        shape=Species
+        )
+          ) +
+      geom_point()
+  
+```
+
+You can also use the `size=` aesthetic to get a very different plot.
+
+```{r}
+
+iris %>% 
+    ggplot(
+      aes(
+        Sepal.Length,
+        Sepal.Width,
+        color=Species,
+        size=Petal.Length
+        )
+          ) +
+      geom_point()
+  
+```
+
+```{r}
+iris %>% 
+    ggplot(
+      aes(
+        Sepal.Length,
+        Sepal.Width,
+        color=Species,
+        size=Petal.Length
+        )
+          ) +
+      geom_point()
+```
+
+### Line charts
+
+`geom_line()` draws lines between points
+
+```{r}
+iris %>% 
+    ggplot(
+      aes(
+        Sepal.Length,
+        Sepal.Width,
+        )
+          ) +
+      geom_line()
+```
+
+In this case, that makes little sense, because there's three species. Adding the `colour` aesthethic groups the data and the lines will be drawn by group
+
+```{r}
+iris %>% 
+    ggplot(
+      aes(
+        Sepal.Length,
+        Sepal.Width,
+        color=Species,
+        )
+          ) +
+      geom_line()
+```
+
+You can combine more than one geom by adding extra layers
+
+```{r}
+iris %>% 
+    ggplot(
+      aes(
+        Sepal.Length,
+        Sepal.Width,
+        color=Species,
+        )
+          ) +
+      geom_line()+
+      geom_point()
+```
+
+and there's variations like `geom_smooth()` which makes a nicer line
+
+```{r}
+iris %>% 
+    ggplot(
+      aes(
+        Sepal.Length,
+        Sepal.Width,
+        color=Species,
+        )
+          ) +
+      geom_smooth()+
+      geom_point()
+
+```
+
+### Facets
+
+Facets allow you to draw multiple panels. `facet_grid` is a nice way to do this.
+
+We'll facet the line chart by `Species`. The facet is an arrangement of panels in columns and rows.
+
+to arrange your facets in rows you provide `facet_grid(.~Species)`
+
+```{r}
+
+iris %>% 
+    ggplot(
+      aes(
+        Sepal.Length,
+        Sepal.Width,
+        color=Species,
+        )
+          ) +
+      geom_smooth()+
+      geom_point()+
+  facet_grid(.~Species)
+
+```
+
+To arrange your facets in columns you provide \`facet_grid(Species\~.)
+
+```{r}
+
+iris %>% 
+    ggplot(
+      aes(
+        Sepal.Length,
+        Sepal.Width,
+        color=Species,
+        )
+          ) +
+      geom_smooth()+
+      geom_point()+
+  facet_grid(Species~.)
+```
+
+To arrange your facets around species in columns and on petal size in rows you could do
+
+```{r}
+
+iris %>% 
+    ggplot(
+      aes(
+        Sepal.Length,
+        Sepal.Width,
+        color=Species,
+        )
+          ) +
+      geom_smooth()+
+      geom_point()+
+  facet_grid(Petal.Length >= mean(Petal.Length) ~ Species)
+```
+
+A problem with facets can be to do with axes being locked to the minimum and maximum values of the variable. You may wish to 'free' the axes using `scales="free"`, `scales="free_x"` or `scales="free_y"`
+
+```{r}
+iris %>% 
+    ggplot(
+      aes(
+        Sepal.Length,
+        Sepal.Width,
+        color=Species,
+        )
+          ) +
+      geom_smooth()+
+      geom_point()+
+  facet_grid(
+            Petal.Length >= mean(Petal.Length) ~ Species, 
+            scales = "free"
+            )
+```
+
+Finally we can see a linear relationship in some of the data. Setosa for instance has a strong correlation between sepal length and sepal width, which does not appear to be true of the other species, regardless of the petal length division.
+
+### Bar chart
+
+**`geom_bar()`** – Creates bar plots, either stacked or grouped.
+
+```         
+-   Example: `geom_bar(stat = "identity")` for bar heights based on a variable.
+```
+
+To plot a count of occurrances in the data use `stat="count"`
+
+The default is a stacked bar chart. For this you only need to provide x.
+
+```{r}
+iris %>% 
+    ggplot(
+      aes(
+        Petal.Length > 4,
+        fill = Species
+        )
+          )+
+  geom_bar(stat="count"
+           )
+```
+
+You can change this to a side-by-side chart using \`position="dodge"
+
+```{r}
+iris %>% 
+    ggplot(
+      aes(
+        Petal.Length > 4,
+        fill = Species
+        )
+          )+
+  geom_bar(stat="count",
+           position = "dodge"
+           )
+```
+
+In lots of cases you'll have precomputed some summaries and will want to print the exact `identity` values. Let's reframe the iris data as a set of averages (see the reframe section) and then pipe the result in to a ggplot using `stat="identity"` Unlike with the `stat="count"` default, you need to provide both x (grouping) and x (value) data to `stat = "identity`.
+
+```{r}
+iris %>%
+  group_by(Species) %>%
+  reframe(
+    count = n(),
+    mean.sepal.length = mean(Sepal.Length),
+    median.petal.length = median(Petal.Length)
+  ) %>% 
+  
+  ggplot(
+    aes(
+      Species,
+      mean.sepal.length,
+      fill=Species  
+      )
+        )+
+  geom_bar(stat="identity")
+
+```
+
+### Columnar charts
+
+**`geom_col()`** – Similar to `geom_bar()`, but used when heights are defined by variables instead of counts.
+
+```         
+-   Example: `geom_col()`
+```
+
+This is essentially identical to using `stat="identity"` with a `geom_bar()`
+
+We can also use `geom_errorbar()` to add confidence intervals.
+
+Note that geom_errorbar has its own set of aesthethics, to cover the upper (`ymax`) and lower (`ymin`) limits.
+
+Let's start by making some statistics
+
+```{r}
+iris %>%
+  group_by(Species) %>%
+  reframe(
+    count = n(),
+    mean.sepal.length = mean(Sepal.Length),
+    sd.sepal.length = sd(Sepal.Length),
+    lower = mean.sepal.length - (1.96*sd.sepal.length),
+    upper = mean.sepal.length + (1.96*sd.sepal.length)
+  ) 
+```
+
+Then pipe this in to ggplot
+
+```{r}
+iris %>%
+  group_by(Species) %>%
+  reframe(
+    count = n(),
+    mean.sepal.length = mean(Sepal.Length),
+    sd.sepal.length = sd(Sepal.Length),
+    lower = mean.sepal.length - (1.96*sd.sepal.length),
+    upper = mean.sepal.length + (1.96*sd.sepal.length)
+  ) %>% 
+  
+  ggplot(
+    aes(
+      Species,
+      mean.sepal.length,
+      fill=Species  
+      )
+        )+
+  geom_col()+
+  geom_errorbar(aes(ymin = lower, ymax = upper), width = 0.2)
+```
+
+### Histograms
+
+**`geom_histogram()`** – Plots the frequency distribution of continuous data by creating bins.
+
+```         
+-   Example: `geom_histogram()`
+```
+
+Histograms require only values of x
+
+```{r}
+iris %>%
+  ggplot(
+    aes(
+      Petal.Length
+        )
+        )+
+  geom_histogram()
+```
+
+You can control the number of bins
+
+```{r}
+iris %>%
+  ggplot(
+    aes(
+      Petal.Length
+        )
+        )+
+  geom_histogram(bins = 50)
+```
+
+You can also add grouping as before
+
+```{r}
+
+iris %>%
+  ggplot(
+    aes(
+      Petal.Length,
+      fill = Species
+        )
+        )+
+  geom_histogram()
+```
+
+### Density plots
+
+**`geom_density()`** – Shows the distribution of a continuous variable with a smooth density curve.
+
+```         
+-   Example: `geom_density()`
+```
+
+Density plots are very useful when you want to look at distributions of data in different classes. They are similar in many respects to histograms.
+
+```{r}
+iris %>%
+  ggplot(
+    aes(
+      Petal.Length,
+      fill = Species
+        )
+        )+
+  geom_density()
+```
+
+You'll want to see what's going on in the overlapping regions, so you can add transparency with `alpha=`. Transparency can be used in any ggplot.
+
+```{r}
+iris %>%
+  ggplot(
+    aes(
+      Petal.Length,
+      fill = Species
+        )
+        )+
+  geom_density(alpha=0.4)
+```
+
+### Boxplots
+
+**`geom_boxplot()`** – Visualizes the distribution of a variable through quartiles and potential outliers.
+
+```         
+-   Example: `geom_boxplot()`
+```
+
+These are a mainstay of epidemiology.
+
+```{r}
+iris %>%
+  ggplot(
+    aes(
+      Species,
+      Petal.Length,
+      fill = Species
+        )
+        )+
+  geom_boxplot()
+```
+
+### Violin plots
+
+**`geom_violin()`** – A hybrid of boxplot and density plot, showing distribution shape along with quartiles.
+
+```         
+-   Example: `geom_violin()`
+```
+
+```{r}
+iris %>%
+  ggplot(
+    aes(
+      Species,
+      Petal.Length,
+      fill = Species
+        )
+        )+
+  geom_violin()
+```
+
+#### Violin & Box together
+
+Adding a `geom_box()` layer to a violin plot can be useful.
+
+```{r}
+iris %>%
+  ggplot(
+    aes(
+      Species,
+      Petal.Length,
+      fill = Species
+        )
+        )+
+  geom_boxplot()+
+  geom_violin()
+
+```
+
+But this is ugly. and the boxplots are obscured by the violins. The order of the layers in a ggplot matters
+
+```{r}
+iris %>%
+  ggplot(
+    aes(
+      Species,
+      Petal.Length,
+      fill = Species
+        )
+        )+
+  geom_violin()+
+  geom_boxplot()
+
+```
+
+Changing the order of the layers improves things, but we can control each layer individually by changing it's `mappings`. This is the reason why the geoms all have brackets!
+
+Let's fill the violin plots, adding some transparency. We'll also make the boxes on the boxplots a bit narrower so that we can see all the violin data, and let's remove the outlier points.
+
+```{r}
+iris %>%
+  ggplot(
+    aes(
+      Species,
+      Petal.Length
+        )
+        )+
+  geom_violin(mapping = aes(fill=Species))+
+    geom_boxplot(width=0.1,outliers = F)
+```
+
+Finally, let's add the points, jittering them so that they don't all line up along the midlines with `geom_jitter`.
+
+```{r}
+iris %>%
+  ggplot(
+    aes(
+      Species,
+      Petal.Length
+        )
+        )+
+  geom_violin(mapping = aes(fill=Species))+
+    geom_boxplot(width=0.1,outliers = F)+
+  geom_jitter(size=0.3,width = 0.2)
+```
+
+### Tile plots
+
+**`geom_tile()`** – Creates heatmap-like visuals by filling rectangular areas based on values.
+
+```         
+-   Example: `geom_tile()`
+```
+
+This kind of heatmap is great for showing the value of a variable (defined with `fill`) in a grid representing several classes on x and y axis.
+
+```{r}
+
+iris %>%
+  ggplot(
+    aes(
+      Species,
+      Petal.Length>3,
+      fill = Petal.Width
+        )
+        )+
+geom_tile()
+```
+
+**`geom_jitter()`** – Adds small random noise to points, useful for avoiding overplotting.
+
+```         
+-   Example: `geom_jitter()`
+```
+
+**`geom_ribbon()`** – Fills the area between two y-values (usually a line and its confidence interval).
+
+```         
+-   Example: `geom_ribbon()`
+```
+
+**`geom_text()`** – Adds text annotations to points in the plot.
+
+```         
+-   Example: `geom_text(aes(label = ...))`
+```
+
+**`geom_errorbar()`** – Adds error bars to plots (e.g., for displaying variability or uncertainty).
+
+```         
+-   Example: `geom_errorbar()`
 ```
 
 ### Separate wider

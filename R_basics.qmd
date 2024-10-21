@@ -422,23 +422,33 @@ relig_income %>%
           )
 ```
 
-### Group_by, Reframe & Summarise
+### Group_by
 
 -   These verbs create a data frame with one row per `group`, where the variables are a summary of values. `group_by` groups data by one or more columns,
+
+`group_by` allows you to create groupwise calculations like group means
+
+This approach does not collapse the data, so if you wanted three rows, with a single mean value for each one, you need to do something else (see below).
+
+Always `ungroup()` if you plan to do further calculations on individual rows.
+
+```{r}
+iris %>% 
+  group_by(Species) %>% 
+  mutate(
+    Sepal.length.mean = mean(Sepal.Length),
+    weight = Sepal.Length - Sepal.length.mean
+  )%>% 
+  ungroup()
+```
 
 -   `Summarise()` and `reframe()` are almost always used in combination with `group_by().`
 
 -   As with all verbs, you can provide lists to `group_by()`, `reframe()` and `summarise().`
 
-#### When to use summarise or reframe
+-   
 
--   **Use `reframe()`** when you need more flexibility in your summaries, like returning multiple rows or when you don't necessarily want to collapse the data into a single row per group.
-
--   **Use `summarise()`** when you want to condense the data down to a single row per group or perform a single calculation for each group.
-
--   In most common cases, `summarise()` is appropriate when working with grouped data, but `reframe()` can be handy for more complex summary needs.
-
-    #### Reframe
+    ### Reframe
 
     -   **Purpose**: A more flexible way to return multiple results for each group without reducing it to one row per group.
 
@@ -449,14 +459,15 @@ relig_income %>%
     -   If you choose to include any of the original variables in your reframed tibble, the resulting tibble will have the same dimensions as your original. Here the groupwise counts are added to `count` and the groupwise mean sepal lengths are added to `mean.sepal.length`.
 
     ```{r}
-    iris %>%
+    iris_data %>%
       group_by(Species) %>%
       reframe(
         Sepal.Length,
         Sepal.Width,
         count = n(),
-        mean.sepal.length = mean(Sepal.Length)
-      )
+        sepal.length.mean = mean(Sepal.Length),
+        weight = Sepal.Length-sepal.length.mean
+      ) 
     ```
 
 If you choose not to include your original variables, `reframe()` will present only the new variables.
@@ -467,8 +478,8 @@ iris %>%
   reframe(
     count = n(),
     mean.sepal.length = mean(Sepal.Length),
-    median.petal.length = median(Petal.Length)
-
+    median.petal.length = median(Petal.Length),
+    sd.petal.length = sd(Petal.Length)
   )
 ```
 
@@ -482,7 +493,7 @@ iris %>%
 
 ```{r}
 
-iris %>%
+iris_data %>%
   group_by(Species) %>%
   summarise(
     count = n(),
@@ -501,14 +512,14 @@ iris %>%
 
 ```{r}
 
-iris %>% 
+iris_data %>% 
   rename(
     var_a = Petal.Length,
     var_b = Petal.Width
     )
 ```
 
-### Joining
+## Joining
 
 -   **`left_join()` / `right_join()` / `inner_join()` / `full_join()`**:\\
 
@@ -534,12 +545,12 @@ band_instruments
 
 You can see that both tibbles contain two variables, of which one is called `name`. This will be the **key variable** that is used for joining. R will automatically look for matching variables, and will merge the data semi-automatically. It even works if there's more than one key variable.
 
-#### Left join
+### Left join
 
 ```{r}
 
+band_members %>% 
 left_join(
-  band_members,
   band_instruments
 )
 ```
@@ -548,7 +559,7 @@ You can see that the new left_joined tibble now contains three variables.
 
 All three band members who were in the `band_members` tibble are still represented here, but `Keith` is not included in this tibble because `left_join` adds new columns to observations that already exist in `band_members`
 
-#### Right Join
+### Right Join
 
 The `right_join` works in exactly the opposite way. Here the `right_join` adds new columns to the observations of the right hand tibble (i.e. to band_instruments).
 
@@ -560,7 +571,7 @@ right_join(
 )
 ```
 
-#### Full Join
+### Full Join
 
 The `full_join` keeps all the observations and all the columns of both data sets.
 
@@ -593,7 +604,7 @@ This should add the axes which will be appropriately scaled according to the lim
 
 ```{r}
 iris %>% 
-  ggplot(aes(Sepal.Length,Sepal.Width)) 
+  ggplot(aes(x = Sepal.Length,y = Sepal.Width)) 
 ```
 
 To add some of the data points to the chart, we need to add a new layer. The type of chart is defined by which "`geom"` layer you choose to add next.
@@ -675,19 +686,6 @@ iris %>%
           ) +
       geom_point()
   
-```
-
-```{r}
-iris %>% 
-    ggplot(
-      aes(
-        Sepal.Length,
-        Sepal.Width,
-        color=Species,
-        size=Petal.Length
-        )
-          ) +
-      geom_point()
 ```
 
 ### Line charts
@@ -796,6 +794,9 @@ To arrange your facets around species in columns and on petal size in rows you c
 ```{r}
 
 iris %>% 
+  mutate(
+    petal_bigger_than_average = Petal.Length >= mean(Petal.Length) 
+  ) %>% 
     ggplot(
       aes(
         Sepal.Length,
@@ -805,7 +806,9 @@ iris %>%
           ) +
       geom_smooth()+
       geom_point()+
-  facet_grid(Petal.Length >= mean(Petal.Length) ~ Species)
+  facet_grid(
+    petal_bigger_than_average ~  Species
+    )
 ```
 
 A problem with facets can be to do with axes being locked to the minimum and maximum values of the variable. You may wish to 'free' the axes using `scales="free"`, `scales="free_x"` or `scales="free_y"`
@@ -842,15 +845,14 @@ To plot a count of occurrances in the data use `stat="count"`
 The default is a stacked bar chart. For this you only need to provide x.
 
 ```{r}
-iris %>% 
+iris_data %>% 
     ggplot(
       aes(
         Petal.Length > 4,
         fill = Species
         )
           )+
-  geom_bar(stat="count"
-           )
+  geom_bar(stat="count")
 ```
 
 You can change this to a side-by-side chart using \`position="dodge"
@@ -868,10 +870,23 @@ iris %>%
            )
 ```
 
+```{r}
+
+iris %>% 
+    ggplot(
+      aes(
+        Petal.Length > 4,
+        fill = Species
+        )
+          )+
+  geom_bar(stat="count"           )+
+  facet_grid(.~Species)
+```
+
 In lots of cases you'll have precomputed some summaries and will want to print the exact `identity` values. Let's reframe the iris data as a set of averages (see the reframe section) and then pipe the result in to a ggplot using `stat="identity"` Unlike with the `stat="count"` default, you need to provide both x (grouping) and x (value) data to `stat = "identity`.
 
 ```{r}
-iris %>%
+iris_data %>%
   group_by(Species) %>%
   reframe(
     count = n(),

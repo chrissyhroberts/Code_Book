@@ -19,16 +19,21 @@ You would provide a real data set at this point. The data are basically a tibble
 
 ```{r,message=F,warning=F}
 
-# Create a dummy dataset
-n <- 400  # Number of observations
+# Number of observations
+n <- 400  
 
-dummy_data = tibble(
-time_to_event = rexp(n, rate = 0.1),  # Generate random survival times (exponentially distributed)
-status = rbinom(n, size = 1, prob = 0.7),  # Generate censoring status (0=censored, 1=event)
-age = rnorm(n, mean = 50, sd = 10),
-sex = sample(c("Male", "Female"), size = n, replace = TRUE)
+# Create a dummy dataset with group-specific event probabilities
+set.seed(123)
+dummy_data <- tibble(
+  time_to_event = rexp(n, rate = 0.1),  # Generate random survival times
+  sex = sample(c("Male", "Female"), size = n, replace = TRUE),
+  age = rnorm(n, mean = 50, sd = 10),
+  status = ifelse(sex == "Male", 
+                  rbinom(n, size = 1, prob = 0.8),  # Higher event probability for males
+                  rbinom(n, size = 1, prob = 0.4))  # Lower event probability for females
 )
 
+# Display the first 50 rows
 kable(dummy_data[1:50,])
 ```
 
@@ -53,7 +58,7 @@ If you like P values, **Pr(\>\|z\|)** is exactly that.
 
 ## Plot the survival curve as a null model (no strata)
 
-```{r,warning=F,message=F,}
+```{r,warning=FALSE,message=F}
 ggsurvplot(survfit(cox_model), 
            data = dummy_data, 
            pval = TRUE,

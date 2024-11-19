@@ -1079,7 +1079,7 @@ iris %>%
   geom_violin()
 ```
 
-#### Violin & Box together
+### Violin & Box together
 
 Adding a `geom_box()` layer to a violin plot can be useful.
 

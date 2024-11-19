@@ -1,6 +1,6 @@
 ---
 title: "A pragmatic Introduction to Interrupted Time Series"
-author: "Chrissy h Roberts"
+author: "Chrissy h Roberts & Yonggang Li"
 ---
 
 ```{r setup, include=FALSE}
@@ -10,6 +10,9 @@ library(nlme)
 library(AICcmodavg)
 library(patchwork)
 library(DT)
+library(broom)
+library(plotly)
+library(forecast)
 set.seed(1231234237)
 ```
 
@@ -56,17 +59,32 @@ We'll create a dummy dataframe, where
 -   **quantity.x** = The thing we want to measure
 
 ```{R}
+# Create a dummy dataframe
 
-# create a dummy dataframe
 # Here the interruption takes place at week 51
-df<-tibble(
+df <- tibble(
   Time = 1:100,
-  Intervention = c(rep(0,50),rep(1,50)),
-  Post.intervention.time = c(rep(0,50),1:50),
-  quantity.x = c(sort(sample(200:300,size = 50,replace = T),decreasing = T)+sample(-20:20,50,replace = T),c(sort(sample(20:170,size = 50,replace = T),decreasing = T)+sample(-40:40,50,replace = T)))
+  Intervention = c(rep(0, 50), rep(1, 50)),
+  Post.intervention.time = c(rep(0, 50), 1:50),
+  quantity.x = c(sort(sample(200:300, size = 50, replace = TRUE), decreasing = TRUE) + sample(-20:20, 50, replace = TRUE), 
+                 sort(sample(20:170, size = 50, replace = TRUE), decreasing = TRUE) + sample(-40:40, 50, replace = TRUE))
 )
 
-datatable(df,options = list(pageLength = 100, scrollY = "200px"))
+# Fit an ARIMA model to generate moderate autocorrelation
+set.seed(123) # Set seed for reproducibility
+# ARIMA(2, 0, 0) model
+arima_model <- Arima(df$quantity.x, order = c(2, 0, 0))
+
+# Extract residuals and amplify them to introduce moderate effect
+amplified_residuals <- residuals(arima_model) * 1.2  # Amplify residuals by multiplying by 1.2
+
+# Add the amplified residuals back to the original values, leaving the first value intact
+df <- df %>%
+  mutate(quantity.x = quantity.x + c(0, amplified_residuals[-1]))
+
+# Display the dataframe with moderate autocorrelation
+datatable(df, options = list(pageLength = 100, scrollY = "200px"))
+
 ```
 
 In the simplest form, the ITS model looks like this
@@ -119,13 +137,121 @@ Let's draw a picture on which we will show the raw data points, then add the mod
 
 Before we get too much further though, we need to look at autocorrelation in the data. gls allows us to add corARMA structures by specifying values for p (the autoregressive order) and q (the moving average order).
 
-A gls model with a corARMA correction looks like this
+### Autocorrelation
+
+Adding residual diagnostics can be nice start point from which to explore the data and see if we can see evidence for autocorrelation
+
+First we'll define a function to extract the residuals from an ITS dataset
+
+```{r}
+# Function to calculate ACF or PACF values
+get_acf_pacf <- function(residuals, max_lag, type = c("acf", "pacf"), model_name) {
+  type <- match.arg(type)
+  if (type == "acf") {
+    values <- acf(residuals, lag.max = max_lag, plot = FALSE)
+  } else {
+    values <- pacf(residuals, lag.max = max_lag, plot = FALSE)
+  }
+  data.frame(
+    lag = values$lag,
+    acf = values$acf,
+    model = model_name,
+    type = type
+  )
+}
+
+```
+
+We'll also need to think about a threshold value at which a residual is significant. Let's set this to 95% of the distribution of values for `quantity.x`.
+
+```{r}
+
+n <- length(df$quantity.x) # Number of observations
+threshold <- 1.96 / sqrt(n)
+
+```
+
+Next we'll extract the residuals from model.a
+
+This is annual data, so the longest lag `max_lag` we could imagine would be a full year 52 week cycle
+
+```{r}
+
+# Extract normalized residuals from the models
+residuals_a <- residuals(model.a, type = 'normalized')
+
+# Set the maximum lag for the autocorrelation and partial autocorrelation functions
+max_lag <- 52
+
+# Get ACF and PACF data for model.a
+acf_a <- get_acf_pacf(residuals_a, max_lag, "acf", "Model A")
+pacf_a <- get_acf_pacf(residuals_a, max_lag, "pacf", "Model A")
+
+
+```
+
+#### Plot **Autocorrelation Function (**ACF) residuals
+
+The ACF (Autocorrelation Function) is primarily used to determine the appropriate value for the Moving Average (MA)order `q` in an ARIMA model.
+
+```{r}
+ggplotly(
+ggplot(acf_a, aes(x = lag, y = acf)) +
+  geom_bar(stat = "identity", position = "dodge", fill = "steelblue") +
+  geom_hline(yintercept = c(-threshold, threshold), linetype = "dashed", color = "red") +
+  theme_minimal() +
+  labs(
+    title = "ACF for Model A",
+    x = "Lag",
+    y = "ACF"
+  )
+)
+```
+
+The big spike at **lag 0** in the ACF of the residuals is entirely expected. This just shows how any data point is correlated to itself and can be ignored. If you have other significant spikes, then this might be addressed by including a moving average (MA) term. In a corARMA model, this means defining the value `q.` If you have spikes in higher lags, then maybe you need to increase the value of q to match. Those spikes imply that there is still `autocorrelation` in the data that has not been captured by the model. If you include q=2, then the moving average would include three lagged residuals (lag =1, lag = 2)
+
+You should look for where the ACF cuts off (i.e. where it drops to within the confidence bounds)
+
+If the ACF shows significant correlations for the first few lags, but then cuts off after a specific lag (say lag 2, as seen here), it suggests that an MA(2) \[i.e. q=2\] model might be appropriate.
+
+This is because the MA model accounts for how current values are related to past forecast errors.
+
+#### Plot **Partial Autocorrelation Function** PACF residuals
+
+PACF (Partial Autocorrelation Function) is used to determine the appropriate value for the Autoregressive (AR) order `p` in an ARIMA model.
+
+```{r}
+ggplotly(
+ggplot(pacf_a, aes(x = lag, y = acf)) +
+  geom_bar(stat = "identity", position = "dodge", fill = "steelblue") +
+  geom_hline(yintercept = c(-threshold, threshold), linetype = "dashed", color = "red") +
+  facet_wrap(~ model) +
+  theme_minimal() +
+  labs(
+    title = "PACF for Model A",
+    x = "Lag",
+    y = "PACF"
+  )
+)
+```
+
+The PACF plot helps identify the lag order by indicating the direct effect of each lag while controlling for intermediate lags.
+
+You should look for where the PACF plot cuts off. For instance, if the PACF has a significant spike at lag 2 but becomes insignificant after that, it suggests that an AR(2) \[i.e. p=2\] model might be appropriate.
+
+This is because an AR model captures the relationship between a current value and its past values.
+
+In this data set there's a significant spike at ACF lag=2 and another in PACF at 2. This might suggest that we should use an MA(2) AR(2) function. This would relate to p=2, q=2 in the R code.
+
+### A gls model with a corARMA correction
+
+The corrected model looks like this
 
 **gls(quantity.x \~ Time + Intervention + Post.intervention.time, data = df,correlation= corARMA(p=1, q=1, form = \~ Time),method="ML")**
 
-but the critical issue is how to choose the correct values of p and q. There's lots of information about this online, so read carefully because it is important. Whether you exactly understand what this is all about or not, you'll still need to take steps to minimise the problem empirically. What I do here is to apply different values of p and q to the gls model, capturing the value of the Akaike Information Criterion (AIC) for each model. Whichever combination of values of p and q returns the smallest AIC value is the best fit for our modelling.
+but the critical issue is how to choose the correct values of p and q. There's lots of information about this online, so read carefully because it is important. Whether you exactly understand what this is all about or not, you'll still need to take steps to minimise the problem empirically.
 
-Realistically there's some margin for human biases here. It's hard to exactly define good numbers to put in to this analysis. I'd recommend a broad range of values because sometime autocorrelations can be quite lagged.
+So far we've looked at the ACF and PACF and have an idea that q=2, p=3 would be a good model for this data.
 
 We'll start by defining the basic model and then creating a basic R function that can apply different values of p and q to that model
 
@@ -135,6 +261,72 @@ mod.1 = quantity.x ~ Time + Intervention + Post.intervention.time
 fx = function(pval,qval){summary(gls(mod.1, data = df, correlation= corARMA(p=pval,q=qval, form = ~ Time),method="ML"))$AIC}
 
 ```
+
+Next, let's test out the provisional values of p and q.
+
+```{r}
+model.b = gls(mod.1, data = df, correlation= corARMA(p=2,q=2, form = ~ Time),method="ML")
+```
+
+and extract the residuals
+
+```{r}
+
+# Extract normalized residuals from the models
+residuals_b <- residuals(model.b, type = 'normalized')
+
+
+# Get ACF and PACF data for model.a
+acf_b <- get_acf_pacf(residuals_b, max_lag, "acf", "Model B")
+pacf_b <- get_acf_pacf(residuals_b, max_lag, "pacf", "Model B")
+
+
+```
+
+### Plot **Autocorrelation Function (**ACF) residuals
+
+The ACF (Autocorrelation Function) is primarily used to determine the appropriate value for the Moving Average (MA)order `q` in an ARIMA model.
+
+```{r}
+ggplotly(
+ggplot(acf_b, aes(x = lag, y = acf)) +
+  geom_bar(stat = "identity", position = "dodge", fill = "steelblue") +
+  geom_hline(yintercept = c(-threshold, threshold), linetype = "dashed", color = "red") +
+  theme_minimal() +
+  labs(
+    title = "ACF for Model B",
+    x = "Lag",
+    y = "ACF"
+  )
+)
+```
+
+### Plot **Partial Autocorrelation Function** PACF residuals
+
+PACF (Partial Autocorrelation Function) is used to determine the appropriate value for the Autoregressive (AR) order `p` in an ARIMA model.
+
+```{r}
+ggplotly(
+ggplot(pacf_b, aes(x = lag, y = acf)) +
+  geom_bar(stat = "identity", position = "dodge", fill = "steelblue") +
+  geom_hline(yintercept = c(-threshold, threshold), linetype = "dashed", color = "red") +
+  facet_wrap(~ model) +
+  theme_minimal() +
+  labs(
+    title = "PACF Model B",
+    x = "Lag",
+    y = "PACF"
+  )
+)
+```
+
+### A More Exhaustive search for the best autocorrelation values
+
+Using our empirically determined values of p and q seem to have helped a little, but there's still a big autocorrelation at lag 1 in the ACF plot and a significant spike at PACF lag 10.
+
+What I often do here is to apply an exhaustive search of all combinations of values of p and q to the gls model, capturing the value of the Akaike Information Criterion (AIC) and Bayesian Information Criterion (BIC) for each model. Whichever combination of values of p and q returns the smallest AIC value is the best fit for our modelling.
+
+Realistically there's some margin for human biases here. It's hard to exactly define good numbers to put in to this analysis. I'd recommend a broad range of values because sometime autocorrelations can be quite lagged. In this case, it's clear that something is going on as far as p=10 and q=10 because both ACF and PACF plots have a spike at lag 10.
 
 Our start point is the AIC value of the model we ran earlier where neither p or q were specified (i.e. no autocorrelation)
 
@@ -146,42 +338,152 @@ message(str_c ("AIC Uncorrelated model = ",p))
 Next we can create a grid of combinations of values of p and q
 
 ```{R}
-autocorrel = expand.grid(pval = 0:2, qval = 0:2)
+autocorrel = expand.grid(pval = c(0,1,2,10,14,15,25), qval = c(0,1,2,10,15))
 ```
 
-Then we apply the function to all possible combinations of p and q. Expect some not to work with this dummy data set.
+Then we apply the function to all possible combinations of p and q. Expect some not to work with this dummy data set. This may take a while
 
 ```{R echo=TRUE, message=FALSE, warning=FALSE}
-for(i in 2:nrow(autocorrel)){p[i] = try(summary(gls(mod.1, data = df, correlation= corARMA(p=autocorrel$pval[i],q=autocorrel$qval[i], form = ~ Time),method="ML"))$AIC)}
+for (i in 2:nrow(autocorrel)) {
+  try({
+    model <- gls(mod.1, data = df, correlation = corARMA(p = autocorrel$pval[i], q = autocorrel$qval[i], form = ~ Time), method = "ML")
+    autocorrel$BIC[i] <- AIC(model, k = log(nrow(df)))  # Calculate BIC using AIC function
+    autocorrel$AIC[i] <- AIC(model)  # Calculate AIC directly
+  })
+}
 
-autocorrel<- autocorrel %>%
-  mutate(AIC = as.numeric(p)) %>%
-  arrange(AIC)
+autocorrel 
 
-
-autocorrel
 ```
 
-In this dataset, the best values of p and q appear to be p = 2 and q = 2 Let's see what effect that has on our model by comparing it to the original model.a
+### Show the AIC vs BIC
 
-```{R}
-model.b = gls(quantity.x ~ Time + Intervention + Post.intervention.time, data = df,method="ML", correlation= corARMA(p=2,q=2, form = ~ Time))
+Choose one which has low values for both dimensions
+
+```{r}
+ggplotly(
+  ggplot(autocorrel, aes(AIC, BIC, label = paste("p=", pval, " q=", qval))) +
+    geom_point()
+)
+
 ```
 
-```{R}
+Here, there's models which are more predictive (i.e. AIC is lower) but which have relatively higher potential for overfitting (BIC is higher) and vice versa. I think I'm going to go with p=1, q=1 as this balances the two priorities
+
+Using this approach you may find that some combinations fail to converge. This is because the higher numbers might just not be computable given the dataset.
+
+Let's see what effect that has on our model by making a new model.c and comparing it to the original model.a and p=2,q=2 (model.b)
+
+```{r}
+model.c = gls(quantity.x ~ Time + Intervention + Post.intervention.time, data = df,method="ML", correlation= corARMA(p=1,q=1, form = ~ Time))
+```
+
+## Check the residuals
+
+Adding residual diagnostics can help confirm that the model adequately captures the dynamics of the data. Let's add residual checks to ensure our assumptions hold.
+
+```{r}
+
+# Extract normalized residuals from the models
+residuals_a <- residuals(model.a, type = 'normalized')
+residuals_b <- residuals(model.b, type = 'normalized')
+residuals_c <- residuals(model.c, type = 'normalized')
+
+
+# Set the maximum lag for the autocorrelation and partial autocorrelation functions
+max_lag <- 52
+
+# Get ACF and PACF data for both models
+acf_a <- get_acf_pacf(residuals_a, max_lag, "acf", "Model A")
+pacf_a <- get_acf_pacf(residuals_a, max_lag, "pacf", "Model A")
+
+acf_b <- get_acf_pacf(residuals_b, max_lag, "acf", "Model B")
+pacf_b <- get_acf_pacf(residuals_b, max_lag, "pacf", "Model B")
+
+acf_c <- get_acf_pacf(residuals_c, max_lag, "acf", "Model c")
+pacf_c <- get_acf_pacf(residuals_c, max_lag, "pacf", "Model c")
+
+# Combine all data into a single dataframe
+acf_data <- bind_rows(acf_a, acf_b,acf_c)
+pacf_data <- bind_rows(pacf_a, pacf_b,pacf_c)
+
+
+```
+
+Plot **Autocorrelation Function** ACF residuals
+
+```{r}
+
+ggplot(acf_data, aes(x = lag, y = acf)) +
+  geom_bar(stat = "identity", position = "dodge", fill = "steelblue") +
+  geom_hline(yintercept = c(-threshold, threshold), linetype = "dashed", color = "red") +
+  facet_wrap(~ model) +
+  theme_minimal() +
+  labs(
+    title = "ACF for Models A, B and C",
+    x = "Lag",
+    y = "ACF"
+  )
+```
+
+You can see that there's relatively little difference between model.b and model.c
+
+### Plot **Partial Autocorrelation Function** PACF residuals
+
+```{r}
+ggplotly(
+ggplot(pacf_data, aes(x = lag, y = acf)) +
+  geom_bar(stat = "identity", position = "dodge", fill = "steelblue") +
+  geom_hline(yintercept = c(-threshold, threshold), linetype = "dashed", color = "red") +
+  facet_wrap(~ model) +
+  theme_minimal() +
+  labs(
+    title = "PACF for Models A, B and C",
+    x = "Lag",
+    y = "ACF"
+  )
+)
+```
+
+It even looks like model.c is worse than model.b in this respect. Really you could go back and forth all day on this.
+
+## Look how MA/AR corrections affect results
+
+```{r}
+
 coefficients(model.a)
 coefficients(model.b)
+coefficients(model.c)
+
 ```
 
-You can see that there's some quite small changes to the values here, but I didn't make a dataset that had a lot of autocorrelation in it. I'm sure there are datasets out there where you'd see a big effect. Do also keep in mind that **Post.intervention.time** describes a weekly trend, so over long time periods, the error would creep up.
+You can see that there's some big changes to the values here.
 
-OK, so now we've dealt with the autocorrelation, let's assign the predicted values of model.b on to the df
+The initial correction we did in model.b had a big effect, changing both the magnitude of the intervention (by \~13 units) and the post.intervention.time (by \~ 0.3 units per week. **Post.intervention.time** describes a weekly trend, so over long time periods, the error would creep up to make a huge difference in your results if you didn't correct for autocorrelation.
+
+The additional refinement we made by selecting model.c which had a higher value of p and q and which had less variance in the residuals plots, didn't make as big a difference at all, which I suppose we should expect from looking at the ACF and PACF curves. Higher complexity models would likely overfit the data, make it hard to calculate models on counterfactuals and generally make your life bad, so I suggset just doing something relatively simple and accepting that there's always some margin of error and a tradeoff between predictive capacity and overfitting of the model.
+
+## Ljung-Box Test
+
+This simple test will tell you if there's significant autocorrelation left in the residuals. If p\<0.05 there is.
+
+```{r}
+Box.test(residuals(model.a), type = "Ljung-Box", lag = 20)
+Box.test(residuals(model.b), type = "Ljung-Box", lag = 20)
+Box.test(residuals(model.c), type = "Ljung-Box", lag = 20)
+```
+
+If we went on this alone, we'd accept the first model.a, but actually I prefer model.b
+
+### Predicted values of model.b
+
+OK, so now we've dealt with the autocorrelation, let's assign the predicted values of model.c on to the df
 
 ```{R}
 df<- df %>% 
   mutate(
       model.b.predictions = predictSE.gls (model.b, df, se.fit=T)$fit,
-      model.b.se = predictSE.gls (model.b, df, se.fit=T)$se
+      model.b.se = predictSE.gls (model.c, df, se.fit=T)$se
         )
 ```
 
@@ -198,10 +500,10 @@ To create the counterfactual model, we have to make a new df which truncates the
 ```{R}
 
 df2<-filter(df,Time<51)
-model.c = gls(quantity.x ~ Time, data = df2, correlation= corARMA(p=1, q=1, form = ~ Time),method="ML")
+model.c = gls(quantity.x ~ Time, data = df2, correlation= corARMA(p=1,q=1, form = ~ Time),method="ML")
 ```
 
-Let's have a look at how the new counterfactual (model.c) model compares to the factual model (model.a).
+Let's have a look at how the new counterfactual (model.c, overwriting the old one because I'm lazy) model compares to the factual model (model.a).
 
 ```{R}
 
@@ -212,7 +514,7 @@ coefficients(model.c)
 
 As you can see here, the intercept and slope of the factual and counterfactual models are almost identical, which is what we wanted. If you were a purist who cared about those little differences, you could use the actual values from model.a to calculate the counterfactuals manually by doing this
 
-y = 310.3877551 + (Time \* -2.4089316)
+y = 295.7958393 + (Time \* -2.0147413)
 
 That's great in terms of accuracy of your y value estimates, but it is much harder to calculate the standard errors manually so your precision/confidence intervals becomes a real pain. This is especially true when the model gets more complicated (as we'll see in part two).
 

@@ -28,6 +28,7 @@ book:
   - part: "Statistics"
     chapters:
        - Cox_PH.qmd
+       - Cumulative_Incidence.qmd
        - Interrupted_Time_Series.qmd
        - new_lm_predict_left_predict_right.qmd
        - Diagnostics_Power_Calculation.qmd
@@ -46,7 +47,6 @@ book:
     chapters:
        - ODK_Biometrics.qmd
        - ruODK_basics.qmd
-       - diva_gis.qmd
        - ODK_geofencing.qmd
        - ODK_Pi.qmd
 

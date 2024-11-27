@@ -1,0 +1,9 @@
+# Comic formats to PDF
+
+This tool converts `.cbz` (ZIP-based) and `.cbr` (RAR-based) comic book files into PDF format. It extracts images from comic archives and merges them into a single PDF file. The tool supports batch processing, allowing you to convert all `.cbz` and `.cbr` files in a directory.
+
+## External Repo
+
+This software is hosted on a separate repo at <https://github.com/chrissyhroberts/COMICS_CBZ_CBR_to_PDF_Conversion>
+
+![](images/fine.jpg){width="424"}

@@ -1,0 +1,15 @@
+# Balanced Prioritisation Tools For One Health
+
+One Health is an interdisciplinary approach that recognizes the interconnectedness of human, animal, and environmental health.
+
+We created these tools to support our One Health research and in particular as part of our 'Oneography' study in Rokupr, Sierra Leone. A neologism, Oneography is an approach which uses descriptive, analytical and statistical methods to explore the perspectives of many stakeholders within the One Health framework. This study integrates both qualitative and quantitative approaches and aims to understand the relative prioritisations of One Health pillars in different sectors of a place, community or society.
+
+The research instrument presented here is a 'game' for one or more player. This includes printed aluminium gameboards and 3D printed play-pieces.
+
+The main purpose is to provide a framework for researchers to have conversations with stakeholders by using a tool which forces them to make a choice that balances resources between the various pillars of one health or actors involved in governance of One Health. The player(s) move one or more pawns around the board, and movement towards one corner shows their heightened valuation of that 'pillar'. This comes at a cost to the other two aspects. The final placement of the pawn is recorded using an image-map within and ODK form. In keeping with our Oneography method, the process of discussion, movement and collaboration when making judgement decisions is as much a part of the research as the quantitative measure of the final pawn placements.
+
+Core to the function of the quantitative aspect is the use of an SVG 'image-map' which is an interactive image that allows pawn placements on the real-world game board to be recorded on a digital twin within an ODK XLSForm.
+
+![](images/gameboard_metal_onehealth.png)
+
+This project is in a separate repo <https://github.com/chrissyhroberts/Balanced_Prioritisation_Tool_For_OneHealth>

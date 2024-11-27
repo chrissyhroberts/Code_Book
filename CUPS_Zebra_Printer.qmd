@@ -1,0 +1,7 @@
+# Zebra ZT220 CUPS Printing
+
+This [External Repo](https://github.com/chrissyhroberts/Zebra_ZT220_CUPS) provides a method for printing via CUPS to a Zebra ZT220 printer (And other models most likely).
+
+It includes a batch mode which will print stickers from a csv file, with QR Codes.
+
+![](images/labels.jpg)

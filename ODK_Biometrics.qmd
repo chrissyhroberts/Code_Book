@@ -3,9 +3,37 @@ title: "ODK Biometrics"
 author: "Chrissy h Roberts"
 ---
 
-## Background
+## Biometrics Solutions for ODK Ecosystem Tools
 
-This project provides a simple Android app that interfaces with mobile data collection software to allow fingerprint templates to be scanned as part of an XLSForm. We also provide a second app, designed to be run on a computer workstation, which can compare two fingerprint templates and return a matching score.
+This project provides an Android app `Keppel` that interfaces with mobile data collection software of the ODK ecosystem and which allows ISO 19794-2 fingerprint templates to be scanned and/or validated as part of an [XLSForm](https://xlsform.org/). We also provide a second app, the `Keppel CLI`, a command line interface which is designed to be run on a computer workstation. Keppel CLI can compare two fingerprint templates and return a matching score and is primarily useful for *post-hoc* quality assurance and audit.
+
+## Validation
+
+This software has been evaluated in a formal scientific context and the results are published in the following study.
+
+**Biometric linkage of longitudinally collected electronic case report forms and confirmation of subject identity: an open framework for ODK and related tools**\
+~Chrissy\ h\ Roberts,\ Callum\ Stott,\ Marianne\ Shawe-Taylor,\ Zain\ Chaudhry,\ Sham\ Lal\ 1\ &\ Michael\ Marks\
+*Front\ Digit\ Health*.\ 2023\ Aug\ 4:5:1072331.\ eCollection\ 2023.~
+
+~PMID:\ 37600479\ PMCID:\ PMC10436742\ DOI: [10.3389/fdgth.2023.1072331](https://doi.org/10.3389/fdgth.2023.1072331)~
+
+## Features
+
+-   Capture to XLSForm one or more `enrollment templates`^A^ in an XLSForm
+
+-   Capture to XLSForm a National Institute of Standards and Technology Fingerprint Image Quality (NFIQ) value, a measure of fingerprint quality
+
+-   Scan a `verification template`^B^ and compare template to one or more previously saved templates for a known individual
+
+-   Return a match probability score indicating likelihood of their being a match between a verification template and one or more enrollment template.
+
+-   Using XLSform design, constrain form progress, content or actions on basis of both NFIQ and match probability.
+
+-   Depending on form design, capture an `identification template`^C^ to scan a modestly sized database of people, in order to identify the current person.
+
+-   Capture to XLSForm the verification or identification templates and verification NFIQ scores
+
+^A^ Enrollment Templates: Created when a user is initially registered in the system. These templates need to be of high quality to ensure reliable future matching. ^B^ Verification Templates: Generated when a user attempts to verify their identity. These are compared against enrollment templates for a match. ^C^ Identification Templates: Used in systems where one-to-many matching is required, such as law enforcement databases.
 
 ## Project Link
 

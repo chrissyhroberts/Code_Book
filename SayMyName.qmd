@@ -1,0 +1,7 @@
+# Say My Name
+
+This [external repo](https://github.com/chrissyhroberts/saymyname) shows how to set up a simple site (i.e. by github pages) which you can include in your email footer and which first lets people hear you say your own name and then redirects to your webpage.
+
+Like this one does <https://chrissyhroberts.github.io/saymyname/>
+
+To use it yourself, simply clone the repo, add your own audio file named "SayMyName.mp3" and change the link on line 18 to match your profile URL.

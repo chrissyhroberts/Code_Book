@@ -42,6 +42,8 @@ book:
        - Consent_Forms_with_QR.qmd
        - Digital_Luminex.qmd
        - Generic_Research_Data_Folder_Design.qmd
+       - FPC_Grader.qmd
+
 
   - part: "ODK"
     chapters:
@@ -49,15 +51,24 @@ book:
        - ruODK_basics.qmd
        - ODK_geofencing.qmd
        - ODK_Pi.qmd
+       - Balanced_Prioritisation.qmd
+       - XLSForm_Dictionary.qmd
+       - CSV_populate_Central.qmd
 
   - part: "Python, bash and other code"
     chapters:
        - Docker_install_ubuntu.qmd
        - Join_photos_randomly.qmd
 
-  - part: "Cribsheet [Other people's work]"
+  - part: "Miscellany"
     chapters:
-       - Akaike_Information_Criterion.qmd
+       - badger2040w.qmd
+       - comic2pdf.qmd
+       - remarkable.qmd
+       - CUPS_Zebra_Printer.qmd
+       - SayMyName.qmd
+       - Computer_Vision.qmd
+
 
 bibliography: references.bib
 

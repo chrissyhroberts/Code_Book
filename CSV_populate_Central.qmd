@@ -1,0 +1,3 @@
+# Upload CSV file to ODK Central
+
+An [External Repo](https://github.com/chrissyhroberts/ODK_Central_CSV_to_Server) which provides functions to send data from a CSV file to an ODK Central project. This is especially useful for pre-populating new forms and also for creating dummy data sets.

@@ -1,0 +1,17 @@
+# Remarkable 2 / Paper Pro Template Hacks
+
+I'm a user of the excellent \[Remarkable\](remarkable.com) e-ink devices.
+
+In most respects the Remarkable does everything it should do, but falls short because it doesn't allow you to use custom templates.
+
+The system is however largely based on open-source software, which makes the remarkable hackable and modifiable.
+
+This \[external repo\](<https://github.com/chrissyhroberts/remarkable_2_and_paper_pro_custom_templates>) provides some ways to add your own templates and sleep screens to your remarkable.
+
+Like this **sleep screen**, which is more fun than the blank screen they ship with.
+
+![](images/infinite_vortices.png)
+
+Or this new template
+
+![](images/Chrissy_Notes.png)

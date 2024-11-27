@@ -1,0 +1,7 @@
+# XLSForm Data Dictionary
+
+This [external repo](https://github.com/chrissyhroberts/XLSForm_Dictionary) provides a python-based system for converting XLSForms into a human readable html output data dictionary.
+
+It's a work in prgress but core functions are OKish.
+
+![](images/data_dictionary.png)

@@ -1,0 +1,29 @@
+# Badger 2040w code
+
+The badger2040w is a wearable e-ink display with a Raspberry Pi 2024W chip. This makes it programmable and modifiable.
+
+I've written some various applications for the Badger, most of which can be found on
+
+<https://github.com/chrissyhroberts/badger2040w_code>
+
+![](images/badger.jpeg)
+
+Working with Dr Gareth Bestor, we've also created a prototype XLSForm interpreter for the badger which has several features of ODK Collect
+
+-   Create forms using XLSForm architecture
+
+-   Standard survey question types
+
+    -   Select One
+
+    -   Select Multiple
+
+    -   Image select
+
+    -   Numeric
+
+    -   Text
+
+<https://github.com/chrissyhroberts/Badger2040_XForm>
+
+![](images/question_select_many.jpg)

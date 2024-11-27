@@ -1,5 +1,5 @@
 ---
-title: "A pragmatic Introduction to Interrupted Time Series"
+title: "Segmented Regression Analysis of Interrupted Time Series"
 author: "Chrissy h Roberts & Yonggang Li"
 ---
 
@@ -20,7 +20,9 @@ set.seed(1231234237)
 
 This is a brief introduction to Interrupted Time Series analyses. It's intended for use by people who have done some reading and understand about concepts like autocorrelation.
 
-I mean, I won't be explaining all the technical stuff. This is really here to help you get things done. Buyer beware, you can make mistakes that will jack up your game, so think hard before you publish stuff.
+I won't be explaining all the technical stuff here but will be focussing on getting things done.
+
+The general methods used in this set of examples are very well described in [this paper on Segmented regression analysis of interrupted time series studies in medication use research, by Anita K. Wagner and colleagues](https://onlinelibrary.wiley.com/doi/full/10.1046/j.1365-2710.2002.00430.x?sid=nlm%3Apubmed) and I recommend that you start by reading that paper at least twice.
 
 The methods below will show you how to carry out an interrupted time series (ITS) using generalised least squares, accounting for autocorrelation via a corARMA model. We'll start out with some fairly simple models, then build up to something a bit more complicated, before going on to add a control group.
 
@@ -208,7 +210,7 @@ ggplot(acf_a, aes(x = lag, y = acf)) +
 )
 ```
 
-The big spike at **lag 0** in the ACF of the residuals is entirely expected. This just shows how any data point is correlated to itself and can be ignored. If you have other significant spikes, then this might be addressed by including a moving average (MA) term. In a corARMA model, this means defining the value `q.` If you have spikes in higher lags, then maybe you need to increase the value of q to match. Those spikes imply that there is still `autocorrelation` in the data that has not been captured by the model. If you include q=2, then the moving average would include three lagged residuals (lag =1, lag = 2)
+The big spike at **lag 0** in the ACF of the residuals is entirely expected. This just shows how any data point is correlated to itself and can be ignored. If you have other significant spikes, then this might be addressed by including a moving average (MA) term. In a corARMA model, this means defining the value `q.` If you have spikes in higher lags, then maybe you need to increase the value of q to match. Those spikes imply that there is still `autocorrelation` in the data that has not been captured by the model. If you include q=2, then the moving average would include both of the lagged residuals up to 2 (i.e. lag =1, lag = 2)
 
 You should look for where the ACF cuts off (i.e. where it drops to within the confidence bounds)
 
@@ -322,9 +324,9 @@ ggplot(pacf_b, aes(x = lag, y = acf)) +
 
 ### A More Exhaustive search for the best autocorrelation values
 
-Using our empirically determined values of p and q seem to have helped a little, but there's still a big autocorrelation at lag 1 in the ACF plot and a significant spike at PACF lag 10.
+Using our empirically determined values of p and q seem to have helped a little, but there's still a significant autocorrelation at lag 15 in the ACF plot and a significant spike at PACF lag 10.
 
-What I often do here is to apply an exhaustive search of all combinations of values of p and q to the gls model, capturing the value of the Akaike Information Criterion (AIC) and Bayesian Information Criterion (BIC) for each model. Whichever combination of values of p and q returns the smallest AIC value is the best fit for our modelling.
+What I often do here is to apply an exhaustive search of all combinations of values of p and q to the gls model that might be sifnificant, capturing the value of the Akaike Information Criterion (AIC) and Bayesian Information Criterion (BIC) for each model. Whichever combination of values of p and q returns the smallest AIC value is the best fit for our modelling.
 
 Realistically there's some margin for human biases here. It's hard to exactly define good numbers to put in to this analysis. I'd recommend a broad range of values because sometime autocorrelations can be quite lagged. In this case, it's clear that something is going on as far as p=10 and q=10 because both ACF and PACF plots have a spike at lag 10.
 
@@ -337,13 +339,19 @@ message(str_c ("AIC Uncorrelated model = ",p))
 
 Next we can create a grid of combinations of values of p and q
 
+Above we can see that sensible values of q might be 0,1,2,10,14,15 and 25. Meanwhile sensible values of p might be 0,1,2,10 and 15
+
 ```{R}
-autocorrel = expand.grid(pval = c(0,1,2,10,14,15,25), qval = c(0,1,2,10,15))
+autocorrel = expand.grid(qval = c(0,1,2,10,14,15,25), pval = c(0,1,2,10,15))
 ```
 
-Then we apply the function to all possible combinations of p and q. Expect some not to work with this dummy data set. This may take a while
+Then we apply the function to all possible combinations of p and q. Expect some not to work with this dummy data set because the models won't all converge. You can fiddle with the settings to increase the number of iterations if you have issues with non-convergence. This may also take a while as there's lots of computations happening. For the sake of illustration, I'm going to remove the ones which don't converge from this example.
 
 ```{R echo=TRUE, message=FALSE, warning=FALSE}
+
+# Increase the number of iterations for the optimization process
+control <- nlme::glsControl(maxIter = 1500, msMaxIter = 1500)  # Adjust max iterations as needed
+
 for (i in 2:nrow(autocorrel)) {
   try({
     model <- gls(mod.1, data = df, correlation = corARMA(p = autocorrel$pval[i], q = autocorrel$qval[i], form = ~ Time), method = "ML")
@@ -351,6 +359,9 @@ for (i in 2:nrow(autocorrel)) {
     autocorrel$AIC[i] <- AIC(model)  # Calculate AIC directly
   })
 }
+
+# Remove rows with NA in BIC or AIC
+#autocorrel <- autocorrel %>% filter(!is.na(BIC), !is.na(AIC))
 
 autocorrel 
 
@@ -368,9 +379,7 @@ ggplotly(
 
 ```
 
-Here, there's models which are more predictive (i.e. AIC is lower) but which have relatively higher potential for overfitting (BIC is higher) and vice versa. I think I'm going to go with p=1, q=1 as this balances the two priorities
-
-Using this approach you may find that some combinations fail to converge. This is because the higher numbers might just not be computable given the dataset.
+Here, there's models which are more predictive (i.e. AIC is lower) but which have relatively higher potential for overfitting (BIC is higher) and vice versa. I think I'm going to go with p=1, q=1 as this balances the two priorities and seems to be the best overall combination
 
 Let's see what effect that has on our model by making a new model.c and comparing it to the original model.a and p=2,q=2 (model.b)
 
@@ -445,7 +454,7 @@ ggplot(pacf_data, aes(x = lag, y = acf)) +
 )
 ```
 
-It even looks like model.c is worse than model.b in this respect. Really you could go back and forth all day on this.
+It even looks like model.c is worse than model.b in this respect. Really you could go back and forth all day on this!
 
 ## Look how MA/AR corrections affect results
 
@@ -461,7 +470,7 @@ You can see that there's some big changes to the values here.
 
 The initial correction we did in model.b had a big effect, changing both the magnitude of the intervention (by \~13 units) and the post.intervention.time (by \~ 0.3 units per week. **Post.intervention.time** describes a weekly trend, so over long time periods, the error would creep up to make a huge difference in your results if you didn't correct for autocorrelation.
 
-The additional refinement we made by selecting model.c which had a higher value of p and q and which had less variance in the residuals plots, didn't make as big a difference at all, which I suppose we should expect from looking at the ACF and PACF curves. Higher complexity models would likely overfit the data, make it hard to calculate models on counterfactuals and generally make your life bad, so I suggset just doing something relatively simple and accepting that there's always some margin of error and a tradeoff between predictive capacity and overfitting of the model.
+The additional refinement we made by selecting model.c which had a higher value of p and q and which had less variance in the residuals plots, didn't make as big a difference at all, which I suppose we should expect from looking at the ACF and PACF curves. Higher complexity models would likely overfit the data, make it hard to calculate models on counterfactuals and generally make your life bad, so I suggest just doing something relatively simple and accepting that there's always some margin of error and a trade-off between predictive capacity and overfitting of the model.
 
 ## Ljung-Box Test
 
@@ -473,17 +482,17 @@ Box.test(residuals(model.b), type = "Ljung-Box", lag = 20)
 Box.test(residuals(model.c), type = "Ljung-Box", lag = 20)
 ```
 
-If we went on this alone, we'd accept the first model.a, but actually I prefer model.b
+If we went on this alone, we'd accept the first model.a, but actually I prefer model.b for reasons described above. Obviously, your own data set will have its own set of peculiarities that you'll need to investigate.
 
 ### Predicted values of model.b
 
-OK, so now we've dealt with the autocorrelation, let's assign the predicted values of model.c on to the df
+OK, so now we've dealt with the autocorrelation, let's assign the predicted values of our preferred model.b on to the df
 
 ```{R}
 df<- df %>% 
   mutate(
       model.b.predictions = predictSE.gls (model.b, df, se.fit=T)$fit,
-      model.b.se = predictSE.gls (model.c, df, se.fit=T)$se
+      model.b.se = predictSE.gls (model.b, df, se.fit=T)$se
         )
 ```
 
@@ -500,15 +509,19 @@ To create the counterfactual model, we have to make a new df which truncates the
 ```{R}
 
 df2<-filter(df,Time<51)
-model.c = gls(quantity.x ~ Time, data = df2, correlation= corARMA(p=1,q=1, form = ~ Time),method="ML")
+model.d = gls(quantity.x ~ Time, data = df2, correlation= corARMA(p=2,q=2, form = ~ Time),method="ML")
 ```
 
-Let's have a look at how the new counterfactual (model.c, overwriting the old one because I'm lazy) model compares to the factual model (model.a).
+Let's have a look at how the new counterfactual (model.d, overwriting the old one because I'm lazy) model compares to the factual model (model.a).
 
 ```{R}
 
 coefficients(model.a)
-coefficients(model.c)
+
+```
+
+```{r}
+coefficients(model.d)
 
 ```
 
@@ -522,8 +535,8 @@ So let's accept a little error in the accuracy and use 'predict' because it give
 
 ```{R}
 df<-df %>% mutate(
-  model.c.predictions = predictSE.gls (model.c, newdata = df, se.fit=T)$fit,
-  model.c.se = predictSE.gls (model.c, df, se.fit=T)$se
+  model.d.predictions = predictSE.gls (model.d, newdata = df, se.fit=T)$fit,
+  model.d.se = predictSE.gls (model.d, df, se.fit=T)$se
 )
 ```
 
@@ -532,8 +545,8 @@ Next we can plot the chart
 ```{R}
 
   ggplot(df,aes(Time,quantity.x))+
-  geom_ribbon(aes(ymin = model.c.predictions - (1.96*model.c.se), ymax = model.c.predictions + (1.96*model.c.se)), fill = "pink")+
-  geom_line(aes(Time,model.c.predictions),color="red",lty=2)+
+  geom_ribbon(aes(ymin = model.d.predictions - (1.96*model.d.se), ymax = model.d.predictions + (1.96*model.d.se)), fill = "pink")+
+  geom_line(aes(Time,model.d.predictions),color="red",lty=2)+
   geom_ribbon(aes(ymin = model.b.predictions - (1.96*model.b.se), ymax = model.b.predictions + (1.96*model.b.se)), fill = "lightgreen")+
   geom_line(aes(Time,model.b.predictions),color="black",lty=1)+
   geom_point(alpha=0.3)
@@ -548,7 +561,7 @@ The last remaining thing we need to do is to calculate those relative difference
 Here' we can ask for the relative differences at weeks 1 (start), 50 (pre-intervention), 51 (immediate post-intervention) and 100 (end of the study)
 
 ```{R}
-format(df$model.b.predictions-df$model.c.predictions,scientific = F)[c(1,50,51,100)]
+format(df$model.b.predictions-df$model.d.predictions,scientific = F)[c(1,50,51,100)]
 ```
 
 Here we can see that pre-intervention, the difference between factual and counterfactual is essentially zero, which is what we expect. At week 51 we see that the difference is 26 units, almost the same as the step change we saw in the coefficients for model.b above. At week 100 the factual data are 82 units lower than the counterfactual, which is the combined effect of the intervention step change and the intervention trend change.
@@ -850,7 +863,7 @@ df.x$model.j.predictions[100]-df.x$model.k.predictions[100]
 
 ```
 
-There's not much in it here. In both cases, we estimate a change of around 78 to 79 units in the value of quantity.x Really the controls are there to give you a subjective (eyeballing the charts) and statistical view (looking at the summary tables) of whether you should worry that extrinsic factors might have led you to incorrectly attributing the results to your intervention. In my opinion this is a bit of a silly game because you can't really ever know whether a control group is being affected by the intervention, the extrinsic factor, or both. If you've defined your control group before you start, you might be shooting yourself in the foot by choosing the wrong thing. If you haven't you might be cherry picking a control group simply because it doesn't change when you, for instance, check it with an uncorrected time series analysis.
+There's not much in it here. In both cases, we estimate a change of around 78 to 79 units in the value of quantity.x Really the controls are there to give you a subjective (eyeballing the charts) and statistical view (looking at the summary tables) of whether you should worry that extrinsic factors might have led you to incorrectly attributing the results to your intervention. In my opinion this is a bit of a silly game because you can't really ever know whether a control group is being affected by the intervention, the extrinsic factor, or both. If you've defined your control group before you start, you might be shooting yourself in the foot by choosing the wrong thing. If you haven't, you might be cherry-picking a control group simply because it doesn't change when you, for instance, check it with an uncorrected time series analysis.
 
 In the former case, you don't know what to do with the data, nor know how to interpret the effects. In the latter case, there's not really a lot of point, because a control group you've specifically cherry-picked for lack of any effect won't contribute much to the model and so has little value in the statistics or analysis.
 

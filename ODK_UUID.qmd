@@ -10,6 +10,8 @@ On the screen you’d say something like “Write this identifier down and keep 
 
 ## Form design
 
+File can be downloaded [here](examples/Demo_ID_numbers.xlsx)
+
 ![](images/uuid_example.png)
 
 On Enketo, this looks like this

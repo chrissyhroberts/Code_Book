@@ -1334,7 +1334,7 @@
     "href": "ODK_UUID.html",
     "title": "25  Unique Identifiers for ODK ecosystem online surveys",
     "section": "",
-    "text": "25.1 Form design\nOn Enketo, this looks like this\nYou wouldn’t want to give people the full-length version of UUID as it is very long. In the example I select the last 8 characters of the UUID with\nsubstr(${uuid}, string-length(${uuid}) - 8, string-length(${uuid}))\nI’d say you’d want between 6 and 8 characters (unless you anticipate hundreds of thousands of submissions) as this balances people’s ability to write something down accurately against the collision probabilities.\nThe collision probability describes the chances that any two randomly generated ID numbers of n length would be identical.",
+    "text": "25.1 Form design\nFile can be downloaded here\nOn Enketo, this looks like this\nYou wouldn’t want to give people the full-length version of UUID as it is very long. In the example I select the last 8 characters of the UUID with\nsubstr(${uuid}, string-length(${uuid}) - 8, string-length(${uuid}))\nI’d say you’d want between 6 and 8 characters (unless you anticipate hundreds of thousands of submissions) as this balances people’s ability to write something down accurately against the collision probabilities.\nThe collision probability describes the chances that any two randomly generated ID numbers of n length would be identical.",
     "crumbs": [
       "ODK",
       "<span class='chapter-number'>25</span>  <span class='chapter-title'>Unique Identifiers for ODK ecosystem online surveys</span>"

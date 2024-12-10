@@ -48,6 +48,7 @@ book:
   - part: "ODK"
     chapters:
        - ODK_Biometrics.qmd
+       - ODK_UUID.qmd
        - ruODK_basics.qmd
        - ODK_geofencing.qmd
        - ODK_Pi.qmd

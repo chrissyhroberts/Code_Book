@@ -471,6 +471,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#strata-or-not" id="toc-strata-or-not" class="nav-link" data-scroll-target="#strata-or-not"><span class="header-section-number">11.7</span> <strong>Strata or not?</strong></a></li>
   <li><a href="#survival-based-difference-in-differences-model-using-a-cox-proportional-hazards-framework-with-time-varying-intervention-exposure-and-stratification" id="toc-survival-based-difference-in-differences-model-using-a-cox-proportional-hazards-framework-with-time-varying-intervention-exposure-and-stratification" class="nav-link" data-scroll-target="#survival-based-difference-in-differences-model-using-a-cox-proportional-hazards-framework-with-time-varying-intervention-exposure-and-stratification"><span class="header-section-number">11.8</span> Survival-based difference-in-differences model using a Cox proportional hazards framework, with time-varying intervention exposure and stratification</a></li>
   <li><a href="#adding-additional-covariates" id="toc-adding-additional-covariates" class="nav-link" data-scroll-target="#adding-additional-covariates"><span class="header-section-number">11.9</span> Adding additional covariates</a></li>
+  <li><a href="#test-for-proportional-hazards" id="toc-test-for-proportional-hazards" class="nav-link" data-scroll-target="#test-for-proportional-hazards"><span class="header-section-number">11.10</span> Test for proportional hazards</a></li>
+  <li><a href="#use-cox.zph-to-check-the-ph" id="toc-use-cox.zph-to-check-the-ph" class="nav-link" data-scroll-target="#use-cox.zph-to-check-the-ph"><span class="header-section-number">11.11</span> Use cox.zph to check the PH</a></li>
+  <li><a href="#plot-the-residuals" id="toc-plot-the-residuals" class="nav-link" data-scroll-target="#plot-the-residuals"><span class="header-section-number">11.12</span> Plot the residuals</a></li>
   </ul>
 </nav>
     </div>
@@ -924,6 +927,131 @@ n= 400, number of events= 241 </code></pre>
 <section id="adding-additional-covariates" class="level2" data-number="11.9">
 <h2 data-number="11.9" class="anchored" data-anchor-id="adding-additional-covariates"><span class="header-section-number">11.9</span> Adding additional covariates</h2>
 <p>I recommend filtering the dataset and using the same model approach as above. This makes it pretty easy to interpret because you get a single estimate for (a) the secular trend post intervention and (b) the trend in the intervention arm above and beyond (a). Keep it simple and stupid.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a new variable IMD</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>dummy_data<span class="ot">&lt;-</span> dummy_data <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">imd =</span> <span class="fu">factor</span>(<span class="fu">sample</span>(<span class="fu">c</span>(<span class="st">"IMD1"</span>,<span class="st">"IMD2"</span>),<span class="at">replace =</span> T,<span class="at">size=</span><span class="dv">400</span>)))</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>IMD1plot <span class="ot">&lt;-</span> plot_obj <span class="ot">&lt;-</span> <span class="fu">ggsurvplot</span>(</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">survfit</span>(<span class="fu">Surv</span>(start_time, time_to_event, status) <span class="sc">~</span>  sex, <span class="at">data =</span> <span class="fu">filter</span>(dummy_data,imd<span class="sc">==</span><span class="st">"IMD1"</span>)),</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> <span class="fu">filter</span>(dummy_data,imd<span class="sc">==</span><span class="st">"IMD1"</span>),</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">risk.table =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">surv.scale =</span> <span class="st">"percent"</span>,</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">conf.int =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">facet.by =</span> <span class="st">"intervention_period"</span>,  <span class="co"># facet by sex to match strata</span></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">ggtheme =</span> <span class="fu">theme_minimal</span>(),</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">fun=</span><span class="st">"event"</span>,</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">80</span>),</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">break.time.by =</span> <span class="dv">10</span> </span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>IMD2plot <span class="ot">&lt;-</span> plot_obj <span class="ot">&lt;-</span> <span class="fu">ggsurvplot</span>(</span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">survfit</span>(<span class="fu">Surv</span>(start_time, time_to_event, status) <span class="sc">~</span>  sex, <span class="at">data =</span> <span class="fu">filter</span>(dummy_data,imd<span class="sc">==</span><span class="st">"IMD2"</span>)),</span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> <span class="fu">filter</span>(dummy_data,imd<span class="sc">==</span><span class="st">"IMD2"</span>),</span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>  <span class="at">risk.table =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>  <span class="at">surv.scale =</span> <span class="st">"percent"</span>,</span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>  <span class="at">conf.int =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a>  <span class="at">facet.by =</span> <span class="st">"intervention_period"</span>,  <span class="co"># facet by sex to match strata</span></span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a>  <span class="at">ggtheme =</span> <span class="fu">theme_minimal</span>(),</span>
+<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a>  <span class="at">fun=</span><span class="st">"event"</span>,</span>
+<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">80</span>),</span>
+<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a>  <span class="at">break.time.by =</span> <span class="dv">10</span>         <span class="co"># Forces ticks up to 60</span></span>
+<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-33"><a href="#cb13-33" aria-hidden="true" tabindex="-1"></a>(IMD1plot<span class="sc">+</span><span class="fu">ggtitle</span>(<span class="st">"IMD-1"</span>)) <span class="sc">/</span> (IMD2plot <span class="sc">+</span> <span class="fu">ggtitle</span>(<span class="st">"IMD-2"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Cox_PH_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="test-for-proportional-hazards" class="level2" data-number="11.10">
+<h2 data-number="11.10" class="anchored" data-anchor-id="test-for-proportional-hazards"><span class="header-section-number">11.10</span> Test for proportional hazards</h2>
+<p>The Cox proportional hazards model assumes that the hazard ratio is constant over time (hence the “proportional” part). HRs apply to the whole survival curve, assuming the proportional hazards assumption holds</p>
+<p>Interpretation in plain English is like this – “The hazard in group A is, on average, X% higher or lower than group B, over the full follow-up time.”</p>
+<p>Let’s go back to our main model and check it</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>cox_model <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(start_time, time_to_event, status) <span class="sc">~</span> intervention_period <span class="sc">+</span> intervention_active <span class="sc">+</span> <span class="fu">strata</span>(sex), <span class="at">data =</span> dummy_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in agreg.fit(X, Y, istrat, offset, init, control, weights = weights, :
+Loglik converged before variable 1 ; beta may be infinite.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>cox_model</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Call:
+coxph(formula = Surv(start_time, time_to_event, status) ~ intervention_period + 
+    intervention_active + strata(sex), data = dummy_data)
+
+                          coef  exp(coef)   se(coef)      z     p
+intervention_period -2.057e+01  1.164e-09  3.659e+03 -0.006 0.996
+intervention_active  6.008e-02  1.062e+00  4.788e+03  0.000 1.000
+
+Likelihood ratio test=147.9  on 2 df, p=&lt; 2.2e-16
+n= 400, number of events= 241 </code></pre>
+</div>
+</div>
+</section>
+<section id="use-cox.zph-to-check-the-ph" class="level2" data-number="11.11">
+<h2 data-number="11.11" class="anchored" data-anchor-id="use-cox.zph-to-check-the-ph"><span class="header-section-number">11.11</span> Use cox.zph to check the PH</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>ph_test <span class="ot">&lt;-</span> <span class="fu">cox.zph</span>(cox_model)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(ph_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                       chisq df p
+intervention_period 6.60e-07  1 1
+intervention_active 4.89e-07  1 1
+GLOBAL              7.02e-07  2 1</code></pre>
+</div>
+</div>
+<p>The output here is<br>
+</p>
+<ul>
+<li><p>Individual tests for each covariate</p></li>
+<li><p>A global test for all variables</p></li>
+<li><p>p-values: If p &lt; 0.05, you may have a proportional hazards violation for that covariate.</p></li>
+</ul>
+</section>
+<section id="plot-the-residuals" class="level2" data-number="11.12">
+<h2 data-number="11.12" class="anchored" data-anchor-id="plot-the-residuals"><span class="header-section-number">11.12</span> Plot the residuals</h2>
+<p>The “Schoenfeld” residuals should be flat and near zero. If you see trends across time in this plot, it suggests a violation in PH may have occurred.</p>
+<p>There should be a separate plot for each variable. <code>strata(sex)</code> defines different baseline hazards but does <strong>not</strong> estimate a coefficient, so there’s nothing to test for proportionality for strata terms.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract residuals into a tidy format</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>res_df <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(ph_test<span class="sc">$</span>y)</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>res_df<span class="sc">$</span>time <span class="ot">&lt;-</span> ph_test<span class="sc">$</span>x</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Add covariate names for faceting</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>res_df_long <span class="ot">&lt;-</span> res_df <span class="sc">%&gt;%</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">cols =</span> <span class="sc">-</span>time,</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="st">"covariate"</span>,</span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_to =</span> <span class="st">"residual"</span></span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(res_df_long, <span class="fu">aes</span>(<span class="at">x =</span> time, <span class="at">y =</span> residual)) <span class="sc">+</span></span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.4</span>) <span class="sc">+</span></span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">se =</span> <span class="cn">TRUE</span>, <span class="at">method =</span> <span class="st">"loess"</span>, <span class="at">span =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
+<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> covariate, <span class="at">scales =</span> <span class="st">"free_y"</span>) <span class="sc">+</span></span>
+<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Schoenfeld Residuals (Faceted)"</span>,</span>
+<span id="cb20-21"><a href="#cb20-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Scaled Schoenfeld Residuals"</span>,</span>
+<span id="cb20-22"><a href="#cb20-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Time"</span></span>
+<span id="cb20-23"><a href="#cb20-23" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Cox_PH_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
 
 
 </section>

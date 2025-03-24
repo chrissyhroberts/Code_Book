@@ -5,6 +5,7 @@ library (survival)
 library(survminer)
 library(tidyverse)
 library(knitr)
+library(patchwork)
 ```
 
 Set a random seed for reproducibility
@@ -134,7 +135,7 @@ ggsurvplot(
 )
 ```
 
-## **Strata or not?** 
+## **Strata or not?**
 
 In survival analysis, `strata()` is used inside the formula of a Cox model to adjust for a covariate without estimating its coefficient. Instead, it allows the baseline hazard function to vary across the levels of that variable.
 
@@ -156,7 +157,7 @@ In survival analysis, `strata()` is used inside the formula of a Cox model to ad
 
 Using STRATA is a useful way to account for
 
-## Survival-based difference-in-differences model using a Cox proportional hazards framework, with time-varying intervention exposure and stratification 
+## Survival-based difference-in-differences model using a Cox proportional hazards framework, with time-varying intervention exposure and stratification
 
 In difference-in-difference logic, you usually want to (a) Compare treated vs control groups, while (b) adjusting for baseline differences between them and (c) estimating the "difference-in-differences" (i.e., the effect of the treatment after controlling for secular trends or inherent group differences).
 
@@ -186,7 +187,6 @@ dummy_data <- dummy_data %>%
   )
 
 ```
-
 
 Adding both the intervention period and intervention as TVCs allows the females to become an **active comparitor group**. Stratifying by sex.
 
@@ -219,3 +219,102 @@ print(plot_obj)
 ## Adding additional covariates
 
 I recommend filtering the dataset and using the same model approach as above. This makes it pretty easy to interpret because you get a single estimate for (a) the secular trend post intervention and (b) the trend in the intervention arm above and beyond (a). Keep it simple and stupid.
+
+```{r,warning=F,message=F}
+# Create a new variable IMD
+
+dummy_data<- dummy_data %>% mutate(imd = factor(sample(c("IMD1","IMD2"),replace = T,size=400)))
+
+
+IMD1plot <- plot_obj <- ggsurvplot(
+  survfit(Surv(start_time, time_to_event, status) ~  sex, data = filter(dummy_data,imd=="IMD1")),
+  data = filter(dummy_data,imd=="IMD1"),
+  risk.table = TRUE,
+  surv.scale = "percent",
+  conf.int = TRUE,
+  facet.by = "intervention_period",  # facet by sex to match strata
+  ggtheme = theme_minimal(),
+  fun="event",
+  xlim = c(0,80),
+  break.time.by = 10 
+)
+
+IMD2plot <- plot_obj <- ggsurvplot(
+  survfit(Surv(start_time, time_to_event, status) ~  sex, data = filter(dummy_data,imd=="IMD2")),
+  data = filter(dummy_data,imd=="IMD2"),
+  risk.table = TRUE,
+  surv.scale = "percent",
+  conf.int = TRUE,
+  facet.by = "intervention_period",  # facet by sex to match strata
+  ggtheme = theme_minimal(),
+  fun="event",
+  xlim = c(0,80),
+  break.time.by = 10         # Forces ticks up to 60
+
+)
+
+(IMD1plot+ggtitle("IMD-1")) / (IMD2plot + ggtitle("IMD-2"))
+
+```
+
+## Test for proportional hazards
+
+The Cox proportional hazards model assumes that the hazard ratio is constant over time (hence the “proportional” part). HRs apply to the whole survival curve, assuming the proportional hazards assumption holds
+
+Interpretation in plain English is like this – “The hazard in group A is, on average, X% higher or lower than group B, over the full follow-up time.”
+
+Let's go back to our main model and check it
+
+```{r}
+cox_model <- coxph(Surv(start_time, time_to_event, status) ~ intervention_period + intervention_active + strata(sex), data = dummy_data)
+
+cox_model
+```
+
+## Use cox.zph to check the PH
+
+```{r}
+ph_test <- cox.zph(cox_model)
+print(ph_test)
+```
+
+The output here is\
+
+-   Individual tests for each covariate
+
+-   A global test for all variables
+
+-   p-values: If p \< 0.05, you may have a proportional hazards violation for that covariate.
+
+## Plot the residuals
+
+The "Schoenfeld" residuals should be flat and near zero. If you see trends across time in this plot, it suggests a violation in PH may have occurred.
+
+There should be a separate plot for each variable. `strata(sex)` defines different baseline hazards but does **not** estimate a coefficient, so there’s nothing to test for proportionality for strata terms.
+
+```{r,warning=FALSE,message=F}
+# Extract residuals into a tidy format
+res_df <- as.data.frame(ph_test$y)
+res_df$time <- ph_test$x
+
+# Add covariate names for faceting
+res_df_long <- res_df %>%
+  pivot_longer(
+    cols = -time,
+    names_to = "covariate",
+    values_to = "residual"
+  )
+
+ggplot(res_df_long, aes(x = time, y = residual)) +
+  geom_point(alpha = 0.4) +
+  geom_smooth(se = TRUE, method = "loess", span = 0.7) +
+  geom_hline(yintercept = 0, linetype = "dashed") +
+  facet_wrap(~ covariate, scales = "free_y") +
+  theme_minimal() +
+  labs(
+    title = "Schoenfeld Residuals (Faceted)",
+    y = "Scaled Schoenfeld Residuals",
+    x = "Time"
+  )
+```
+

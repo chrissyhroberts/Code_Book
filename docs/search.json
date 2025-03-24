@@ -1884,7 +1884,40 @@
     "href": "Cox_PH.html#adding-additional-covariates",
     "title": "11  Survival Analysis with Cox-PH",
     "section": "11.9 Adding additional covariates",
-    "text": "11.9 Adding additional covariates\nI recommend filtering the dataset and using the same model approach as above. This makes it pretty easy to interpret because you get a single estimate for (a) the secular trend post intervention and (b) the trend in the intervention arm above and beyond (a). Keep it simple and stupid.",
+    "text": "11.9 Adding additional covariates\nI recommend filtering the dataset and using the same model approach as above. This makes it pretty easy to interpret because you get a single estimate for (a) the secular trend post intervention and (b) the trend in the intervention arm above and beyond (a). Keep it simple and stupid.\n\n# Create a new variable IMD\n\ndummy_data&lt;- dummy_data %&gt;% mutate(imd = factor(sample(c(\"IMD1\",\"IMD2\"),replace = T,size=400)))\n\n\nIMD1plot &lt;- plot_obj &lt;- ggsurvplot(\n  survfit(Surv(start_time, time_to_event, status) ~  sex, data = filter(dummy_data,imd==\"IMD1\")),\n  data = filter(dummy_data,imd==\"IMD1\"),\n  risk.table = TRUE,\n  surv.scale = \"percent\",\n  conf.int = TRUE,\n  facet.by = \"intervention_period\",  # facet by sex to match strata\n  ggtheme = theme_minimal(),\n  fun=\"event\",\n  xlim = c(0,80),\n  break.time.by = 10 \n)\n\nIMD2plot &lt;- plot_obj &lt;- ggsurvplot(\n  survfit(Surv(start_time, time_to_event, status) ~  sex, data = filter(dummy_data,imd==\"IMD2\")),\n  data = filter(dummy_data,imd==\"IMD2\"),\n  risk.table = TRUE,\n  surv.scale = \"percent\",\n  conf.int = TRUE,\n  facet.by = \"intervention_period\",  # facet by sex to match strata\n  ggtheme = theme_minimal(),\n  fun=\"event\",\n  xlim = c(0,80),\n  break.time.by = 10         # Forces ticks up to 60\n\n)\n\n(IMD1plot+ggtitle(\"IMD-1\")) / (IMD2plot + ggtitle(\"IMD-2\"))",
+    "crumbs": [
+      "Statistics",
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Survival Analysis with Cox-PH</span>"
+    ]
+  },
+  {
+    "objectID": "Cox_PH.html#test-for-proportional-hazards",
+    "href": "Cox_PH.html#test-for-proportional-hazards",
+    "title": "11  Survival Analysis with Cox-PH",
+    "section": "11.10 Test for proportional hazards",
+    "text": "11.10 Test for proportional hazards\nThe Cox proportional hazards model assumes that the hazard ratio is constant over time (hence the “proportional” part). HRs apply to the whole survival curve, assuming the proportional hazards assumption holds\nInterpretation in plain English is like this – “The hazard in group A is, on average, X% higher or lower than group B, over the full follow-up time.”\nLet’s go back to our main model and check it\n\ncox_model &lt;- coxph(Surv(start_time, time_to_event, status) ~ intervention_period + intervention_active + strata(sex), data = dummy_data)\n\nWarning in agreg.fit(X, Y, istrat, offset, init, control, weights = weights, :\nLoglik converged before variable 1 ; beta may be infinite.\n\ncox_model\n\nCall:\ncoxph(formula = Surv(start_time, time_to_event, status) ~ intervention_period + \n    intervention_active + strata(sex), data = dummy_data)\n\n                          coef  exp(coef)   se(coef)      z     p\nintervention_period -2.057e+01  1.164e-09  3.659e+03 -0.006 0.996\nintervention_active  6.008e-02  1.062e+00  4.788e+03  0.000 1.000\n\nLikelihood ratio test=147.9  on 2 df, p=&lt; 2.2e-16\nn= 400, number of events= 241",
+    "crumbs": [
+      "Statistics",
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Survival Analysis with Cox-PH</span>"
+    ]
+  },
+  {
+    "objectID": "Cox_PH.html#use-cox.zph-to-check-the-ph",
+    "href": "Cox_PH.html#use-cox.zph-to-check-the-ph",
+    "title": "11  Survival Analysis with Cox-PH",
+    "section": "11.11 Use cox.zph to check the PH",
+    "text": "11.11 Use cox.zph to check the PH\n\nph_test &lt;- cox.zph(cox_model)\nprint(ph_test)\n\n                       chisq df p\nintervention_period 6.60e-07  1 1\nintervention_active 4.89e-07  1 1\nGLOBAL              7.02e-07  2 1\n\n\nThe output here is\n\n\nIndividual tests for each covariate\nA global test for all variables\np-values: If p &lt; 0.05, you may have a proportional hazards violation for that covariate.",
+    "crumbs": [
+      "Statistics",
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Survival Analysis with Cox-PH</span>"
+    ]
+  },
+  {
+    "objectID": "Cox_PH.html#plot-the-residuals",
+    "href": "Cox_PH.html#plot-the-residuals",
+    "title": "11  Survival Analysis with Cox-PH",
+    "section": "11.12 Plot the residuals",
+    "text": "11.12 Plot the residuals\nThe “Schoenfeld” residuals should be flat and near zero. If you see trends across time in this plot, it suggests a violation in PH may have occurred.\nThere should be a separate plot for each variable. strata(sex) defines different baseline hazards but does not estimate a coefficient, so there’s nothing to test for proportionality for strata terms.\n\n# Extract residuals into a tidy format\nres_df &lt;- as.data.frame(ph_test$y)\nres_df$time &lt;- ph_test$x\n\n# Add covariate names for faceting\nres_df_long &lt;- res_df %&gt;%\n  pivot_longer(\n    cols = -time,\n    names_to = \"covariate\",\n    values_to = \"residual\"\n  )\n\nggplot(res_df_long, aes(x = time, y = residual)) +\n  geom_point(alpha = 0.4) +\n  geom_smooth(se = TRUE, method = \"loess\", span = 0.7) +\n  geom_hline(yintercept = 0, linetype = \"dashed\") +\n  facet_wrap(~ covariate, scales = \"free_y\") +\n  theme_minimal() +\n  labs(\n    title = \"Schoenfeld Residuals (Faceted)\",\n    y = \"Scaled Schoenfeld Residuals\",\n    x = \"Time\"\n  )",
     "crumbs": [
       "Statistics",
       "<span class='chapter-number'>11</span>  <span class='chapter-title'>Survival Analysis with Cox-PH</span>"

@@ -397,6 +397,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Join Photos side-by-side with tracked random arrangement</span></span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Whisper_Ai_CPU.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">Whisper Ai - General Purpose CPU Method</span></span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
@@ -411,37 +417,37 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./badger2040w.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">Badger 2040w code</span></span></a>
+ <span class="menu-text"><span class="chapter-number">35</span>&nbsp; <span class="chapter-title">Badger 2040w code</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./comic2pdf.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">35</span>&nbsp; <span class="chapter-title">Comic formats to PDF</span></span></a>
+ <span class="menu-text"><span class="chapter-number">36</span>&nbsp; <span class="chapter-title">Comic formats to PDF</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./remarkable.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">36</span>&nbsp; <span class="chapter-title">Remarkable 2 / Paper Pro Template Hacks</span></span></a>
+ <span class="menu-text"><span class="chapter-number">37</span>&nbsp; <span class="chapter-title">Remarkable 2 / Paper Pro Template Hacks</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./CUPS_Zebra_Printer.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">37</span>&nbsp; <span class="chapter-title">Zebra ZT220 CUPS Printing</span></span></a>
+ <span class="menu-text"><span class="chapter-number">38</span>&nbsp; <span class="chapter-title">Zebra ZT220 CUPS Printing</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./SayMyName.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">38</span>&nbsp; <span class="chapter-title">Say My Name</span></span></a>
+ <span class="menu-text"><span class="chapter-number">39</span>&nbsp; <span class="chapter-title">Say My Name</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Computer_Vision.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">39</span>&nbsp; <span class="chapter-title">Computer Vision</span></span></a>
+ <span class="menu-text"><span class="chapter-number">40</span>&nbsp; <span class="chapter-title">Computer Vision</span></span></a>
   </div>
 </li>
       </ul>
@@ -458,8 +464,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul>
   <li><a href="#create-dummy-dataset" id="toc-create-dummy-dataset" class="nav-link active" data-scroll-target="#create-dummy-dataset"><span class="header-section-number">11.1</span> Create dummy dataset</a></li>
   <li><a href="#fit-a-cox-proportional-hazards-cox-ph-model" id="toc-fit-a-cox-proportional-hazards-cox-ph-model" class="nav-link" data-scroll-target="#fit-a-cox-proportional-hazards-cox-ph-model"><span class="header-section-number">11.2</span> Fit a Cox Proportional Hazards (Cox-PH) model</a></li>
-  <li><a href="#plot-the-survival-curve-as-a-null-model-no-strata" id="toc-plot-the-survival-curve-as-a-null-model-no-strata" class="nav-link" data-scroll-target="#plot-the-survival-curve-as-a-null-model-no-strata"><span class="header-section-number">11.3</span> Plot the survival curve as a null model (no strata)</a></li>
-  <li><a href="#plot-the-survival-curves-strata" id="toc-plot-the-survival-curves-strata" class="nav-link" data-scroll-target="#plot-the-survival-curves-strata"><span class="header-section-number">11.4</span> Plot the survival curve’s strata</a></li>
+  <li><a href="#plot-the-survival-curve-as-a-null-model-no-splits-on-factors" id="toc-plot-the-survival-curve-as-a-null-model-no-splits-on-factors" class="nav-link" data-scroll-target="#plot-the-survival-curve-as-a-null-model-no-splits-on-factors"><span class="header-section-number">11.3</span> Plot the survival curve as a null model (no splits on factors)</a></li>
+  <li><a href="#plot-the-survival-curve-with-splits-on-factors" id="toc-plot-the-survival-curve-with-splits-on-factors" class="nav-link" data-scroll-target="#plot-the-survival-curve-with-splits-on-factors"><span class="header-section-number">11.4</span> Plot the survival curve, with splits on factors</a>
+  <ul class="collapse">
+  <li><a href="#add-some-front-censoring-i.e.-delayed-entry-to-study" id="toc-add-some-front-censoring-i.e.-delayed-entry-to-study" class="nav-link" data-scroll-target="#add-some-front-censoring-i.e.-delayed-entry-to-study"><span class="header-section-number">11.4.1</span> Add some front censoring (i.e.&nbsp;delayed entry to study)</a></li>
+  <li><a href="#change-to-time-to-event" id="toc-change-to-time-to-event" class="nav-link" data-scroll-target="#change-to-time-to-event"><span class="header-section-number">11.4.2</span> Change to time to event</a></li>
+  <li><a href="#strata-or-not" id="toc-strata-or-not" class="nav-link" data-scroll-target="#strata-or-not"><span class="header-section-number">11.4.3</span> <strong>Strata or not?</strong></a></li>
+  </ul></li>
+  <li><a href="#survival-based-difference-in-differences-model-using-a-cox-proportional-hazards-framework-with-time-varying-intervention-exposure-and-stratification" id="toc-survival-based-difference-in-differences-model-using-a-cox-proportional-hazards-framework-with-time-varying-intervention-exposure-and-stratification" class="nav-link" data-scroll-target="#survival-based-difference-in-differences-model-using-a-cox-proportional-hazards-framework-with-time-varying-intervention-exposure-and-stratification"><span class="header-section-number">11.5</span> Survival-based difference-in-differences model using a Cox proportional hazards framework, with time-varying intervention exposure and stratification</a>
+  <ul class="collapse">
+  <li><a href="#section" id="toc-section" class="nav-link" data-scroll-target="#section"><span class="header-section-number">11.5.1</span> </a></li>
+  <li><a href="#adding-additional-covariates" id="toc-adding-additional-covariates" class="nav-link" data-scroll-target="#adding-additional-covariates"><span class="header-section-number">11.5.2</span> Adding additional covariates</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -496,329 +512,198 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Number of observations</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">400</span>  </span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a dummy dataset with group-specific event probabilities</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Create dummy dataset</span></span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>dummy_data <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">time_to_event =</span> <span class="fu">rexp</span>(n, <span class="at">rate =</span> <span class="fl">0.1</span>),  <span class="co"># Generate random survival times</span></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">sex =</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="st">"Male"</span>, <span class="st">"Female"</span>), <span class="at">size =</span> n, <span class="at">replace =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">age =</span> <span class="fu">rnorm</span>(n, <span class="at">mean =</span> <span class="dv">50</span>, <span class="at">sd =</span> <span class="dv">10</span>),</span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">status =</span> <span class="fu">ifelse</span>(sex <span class="sc">==</span> <span class="st">"Male"</span>, </span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">rbinom</span>(n, <span class="at">size =</span> <span class="dv">1</span>, <span class="at">prob =</span> <span class="fl">0.8</span>),  <span class="co"># Higher event probability for males</span></span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">rbinom</span>(n, <span class="at">size =</span> <span class="dv">1</span>, <span class="at">prob =</span> <span class="fl">0.4</span>))  <span class="co"># Lower event probability for females</span></span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Display the first 50 rows</span></span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(dummy_data[<span class="dv">1</span><span class="sc">:</span><span class="dv">50</span>,])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">id =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">400</span>,</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">time_to_event =</span> <span class="fu">rexp</span>(n, <span class="at">rate =</span> <span class="fl">0.1</span>),</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">sex =</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="st">"Male"</span>, <span class="st">"Female"</span>), <span class="at">size =</span> n, <span class="at">replace =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">age =</span> <span class="fu">rnorm</span>(n, <span class="at">mean =</span> <span class="dv">50</span>, <span class="at">sd =</span> <span class="dv">10</span>),</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">status =</span> <span class="fu">ifelse</span>(sex <span class="sc">==</span> <span class="st">"Male"</span>, </span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">rbinom</span>(n, <span class="at">size =</span> <span class="dv">1</span>, <span class="at">prob =</span> <span class="fl">0.8</span>),</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">rbinom</span>(n, <span class="at">size =</span> <span class="dv">1</span>, <span class="at">prob =</span> <span class="fl">0.4</span>))</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Introduce start times for delayed entry (uniformly sampled)</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rowwise</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">start_time =</span> <span class="fu">runif</span>(<span class="dv">1</span>, <span class="at">min =</span> <span class="dv">0</span>, <span class="at">max =</span> time_to_event <span class="sc">*</span> <span class="fl">0.8</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Ensure start_time is always less than time_to_event</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">start_time =</span> <span class="fu">pmin</span>(start_time, time_to_event <span class="sc">-</span> <span class="fl">0.01</span>))</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Display first 50 rows</span></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(dummy_data[<span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>,])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
 <thead>
 <tr class="header">
+<th style="text-align: right;">id</th>
 <th style="text-align: right;">time_to_event</th>
 <th style="text-align: left;">sex</th>
 <th style="text-align: right;">age</th>
 <th style="text-align: right;">status</th>
+<th style="text-align: right;">start_time</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
+<td style="text-align: right;">1</td>
 <td style="text-align: right;">8.4345726</td>
 <td style="text-align: left;">Female</td>
 <td style="text-align: right;">53.58856</td>
 <td style="text-align: right;">1</td>
+<td style="text-align: right;">0.5023013</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">2</td>
 <td style="text-align: right;">5.7661027</td>
 <td style="text-align: left;">Female</td>
 <td style="text-align: right;">43.91443</td>
 <td style="text-align: right;">1</td>
+<td style="text-align: right;">0.1318085</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">3</td>
 <td style="text-align: right;">13.2905487</td>
 <td style="text-align: left;">Female</td>
 <td style="text-align: right;">47.97759</td>
 <td style="text-align: right;">1</td>
+<td style="text-align: right;">4.4378939</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">4</td>
 <td style="text-align: right;">0.3157736</td>
 <td style="text-align: left;">Female</td>
 <td style="text-align: right;">47.26752</td>
 <td style="text-align: right;">0</td>
+<td style="text-align: right;">0.2157436</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">5</td>
 <td style="text-align: right;">0.5621098</td>
 <td style="text-align: left;">Male</td>
 <td style="text-align: right;">45.31300</td>
 <td style="text-align: right;">0</td>
+<td style="text-align: right;">0.1486168</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">6</td>
 <td style="text-align: right;">3.1650122</td>
 <td style="text-align: left;">Female</td>
 <td style="text-align: right;">57.04167</td>
 <td style="text-align: right;">0</td>
+<td style="text-align: right;">1.1253176</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">7</td>
 <td style="text-align: right;">3.1422729</td>
 <td style="text-align: left;">Male</td>
 <td style="text-align: right;">38.02636</td>
 <td style="text-align: right;">0</td>
+<td style="text-align: right;">1.0394217</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">8</td>
 <td style="text-align: right;">1.4526680</td>
 <td style="text-align: left;">Male</td>
 <td style="text-align: right;">58.66366</td>
 <td style="text-align: right;">1</td>
+<td style="text-align: right;">0.4087817</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">9</td>
 <td style="text-align: right;">27.2623646</td>
 <td style="text-align: left;">Male</td>
 <td style="text-align: right;">58.64152</td>
 <td style="text-align: right;">1</td>
+<td style="text-align: right;">20.2363141</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">10</td>
 <td style="text-align: right;">0.2915345</td>
 <td style="text-align: left;">Female</td>
 <td style="text-align: right;">38.01378</td>
 <td style="text-align: right;">0</td>
+<td style="text-align: right;">0.2169144</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">11</td>
 <td style="text-align: right;">10.0483006</td>
 <td style="text-align: left;">Male</td>
 <td style="text-align: right;">56.39492</td>
 <td style="text-align: right;">1</td>
+<td style="text-align: right;">2.2529348</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">12</td>
 <td style="text-align: right;">4.8021473</td>
 <td style="text-align: left;">Female</td>
 <td style="text-align: right;">74.30227</td>
 <td style="text-align: right;">0</td>
+<td style="text-align: right;">2.8018030</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">13</td>
 <td style="text-align: right;">2.8101363</td>
 <td style="text-align: left;">Female</td>
 <td style="text-align: right;">44.42785</td>
 <td style="text-align: right;">0</td>
+<td style="text-align: right;">0.4873561</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">14</td>
 <td style="text-align: right;">3.7711783</td>
 <td style="text-align: left;">Male</td>
 <td style="text-align: right;">58.44904</td>
 <td style="text-align: right;">1</td>
+<td style="text-align: right;">2.8366736</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">15</td>
 <td style="text-align: right;">1.8828404</td>
 <td style="text-align: left;">Female</td>
 <td style="text-align: right;">42.17798</td>
 <td style="text-align: right;">1</td>
+<td style="text-align: right;">0.0968518</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">16</td>
 <td style="text-align: right;">8.4978613</td>
 <td style="text-align: left;">Male</td>
 <td style="text-align: right;">61.10711</td>
 <td style="text-align: right;">1</td>
+<td style="text-align: right;">6.7212570</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">17</td>
 <td style="text-align: right;">15.6320354</td>
 <td style="text-align: left;">Female</td>
 <td style="text-align: right;">52.49825</td>
 <td style="text-align: right;">0</td>
+<td style="text-align: right;">2.6287891</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">18</td>
 <td style="text-align: right;">4.7876042</td>
 <td style="text-align: left;">Male</td>
 <td style="text-align: right;">66.51915</td>
 <td style="text-align: right;">0</td>
+<td style="text-align: right;">1.2200058</td>
 </tr>
 <tr class="odd">
+<td style="text-align: right;">19</td>
 <td style="text-align: right;">5.9093484</td>
 <td style="text-align: left;">Male</td>
 <td style="text-align: right;">35.41029</td>
 <td style="text-align: right;">1</td>
+<td style="text-align: right;">0.5756645</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">20</td>
 <td style="text-align: right;">40.4101171</td>
 <td style="text-align: left;">Female</td>
 <td style="text-align: right;">49.48702</td>
 <td style="text-align: right;">0</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">8.4314973</td>
-<td style="text-align: left;">Female</td>
-<td style="text-align: right;">44.73075</td>
-<td style="text-align: right;">1</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">9.6587121</td>
-<td style="text-align: left;">Female</td>
-<td style="text-align: right;">48.02735</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">14.8527579</td>
-<td style="text-align: left;">Female</td>
-<td style="text-align: right;">43.70421</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">13.4804449</td>
-<td style="text-align: left;">Female</td>
-<td style="text-align: right;">41.66156</td>
-<td style="text-align: right;">1</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">11.6852898</td>
-<td style="text-align: left;">Female</td>
-<td style="text-align: right;">55.78722</td>
-<td style="text-align: right;">1</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">16.0585234</td>
-<td style="text-align: left;">Female</td>
-<td style="text-align: right;">39.12419</td>
-<td style="text-align: right;">1</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">14.9674287</td>
-<td style="text-align: left;">Female</td>
-<td style="text-align: right;">64.84031</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">15.7065255</td>
-<td style="text-align: left;">Male</td>
-<td style="text-align: right;">38.13793</td>
-<td style="text-align: right;">1</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">0.3176774</td>
-<td style="text-align: left;">Male</td>
-<td style="text-align: right;">51.01079</td>
-<td style="text-align: right;">1</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">5.9784969</td>
-<td style="text-align: left;">Male</td>
-<td style="text-align: right;">55.32989</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">21.6783975</td>
-<td style="text-align: left;">Female</td>
-<td style="text-align: right;">55.86735</td>
-<td style="text-align: right;">1</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">5.0661573</td>
-<td style="text-align: left;">Male</td>
-<td style="text-align: right;">46.98253</td>
-<td style="text-align: right;">1</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">2.5955782</td>
-<td style="text-align: left;">Male</td>
-<td style="text-align: right;">50.79502</td>
-<td style="text-align: right;">1</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">25.9689212</td>
-<td style="text-align: left;">Male</td>
-<td style="text-align: right;">59.61264</td>
-<td style="text-align: right;">1</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">12.2902573</td>
-<td style="text-align: left;">Female</td>
-<td style="text-align: right;">35.43534</td>
-<td style="text-align: right;">1</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">7.9068176</td>
-<td style="text-align: left;">Female</td>
-<td style="text-align: right;">42.18260</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">6.2928008</td>
-<td style="text-align: left;">Male</td>
-<td style="text-align: right;">53.20402</td>
-<td style="text-align: right;">1</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">12.5464100</td>
-<td style="text-align: left;">Female</td>
-<td style="text-align: right;">45.55218</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">5.8868464</td>
-<td style="text-align: left;">Male</td>
-<td style="text-align: right;">63.70004</td>
-<td style="text-align: right;">1</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">11.2929003</td>
-<td style="text-align: left;">Female</td>
-<td style="text-align: right;">56.73254</td>
-<td style="text-align: right;">1</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">4.2036480</td>
-<td style="text-align: left;">Male</td>
-<td style="text-align: right;">50.72167</td>
-<td style="text-align: right;">1</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">72.1100758</td>
-<td style="text-align: left;">Female</td>
-<td style="text-align: right;">34.92243</td>
-<td style="text-align: right;">1</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">8.4572197</td>
-<td style="text-align: left;">Female</td>
-<td style="text-align: right;">50.26100</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">2.2554201</td>
-<td style="text-align: left;">Female</td>
-<td style="text-align: right;">46.83584</td>
-<td style="text-align: right;">1</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">11.0033882</td>
-<td style="text-align: left;">Male</td>
-<td style="text-align: right;">48.97653</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">22.4830569</td>
-<td style="text-align: left;">Male</td>
-<td style="text-align: right;">38.18441</td>
-<td style="text-align: right;">1</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">13.6373430</td>
-<td style="text-align: left;">Female</td>
-<td style="text-align: right;">54.98658</td>
-<td style="text-align: right;">1</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">5.7639167</td>
-<td style="text-align: left;">Female</td>
-<td style="text-align: right;">39.61044</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">27.2527585</td>
-<td style="text-align: left;">Female</td>
-<td style="text-align: right;">47.73778</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">13.1216304</td>
-<td style="text-align: left;">Female</td>
-<td style="text-align: right;">53.81426</td>
-<td style="text-align: right;">1</td>
+<td style="text-align: right;">18.8865329</td>
 </tr>
 </tbody>
 </table>
@@ -860,8 +745,8 @@ Score (logrank) test = 36.18  on 2 df,   p=1e-08</code></pre>
 <p>In this example, being male carries a proportional hazard of 1.04 (95% CI 0.76 - 1.22) compared to being female.</p>
 <p>If you like P values, <strong>Pr(&gt;|z|)</strong> is exactly that.</p>
 </section>
-<section id="plot-the-survival-curve-as-a-null-model-no-strata" class="level2" data-number="11.3">
-<h2 data-number="11.3" class="anchored" data-anchor-id="plot-the-survival-curve-as-a-null-model-no-strata"><span class="header-section-number">11.3</span> Plot the survival curve as a null model (no strata)</h2>
+<section id="plot-the-survival-curve-as-a-null-model-no-splits-on-factors" class="level2" data-number="11.3">
+<h2 data-number="11.3" class="anchored" data-anchor-id="plot-the-survival-curve-as-a-null-model-no-splits-on-factors"><span class="header-section-number">11.3</span> Plot the survival curve as a null model (no splits on factors)</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsurvplot</span>(<span class="fu">survfit</span>(cox_model), </span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>           <span class="at">data =</span> dummy_data, </span>
@@ -879,17 +764,16 @@ Score (logrank) test = 36.18  on 2 df,   p=1e-08</code></pre>
 </div>
 </div>
 </section>
-<section id="plot-the-survival-curves-strata" class="level2" data-number="11.4">
-<h2 data-number="11.4" class="anchored" data-anchor-id="plot-the-survival-curves-strata"><span class="header-section-number">11.4</span> Plot the survival curve’s strata</h2>
+<section id="plot-the-survival-curve-with-splits-on-factors" class="level2" data-number="11.4">
+<h2 data-number="11.4" class="anchored" data-anchor-id="plot-the-survival-curve-with-splits-on-factors"><span class="header-section-number">11.4</span> Plot the survival curve, with splits on factors</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot separate survival curves for each sex without covariates</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsurvplot</span>(<span class="fu">survfit</span>(<span class="fu">Surv</span>(time_to_event, status) <span class="sc">~</span> sex, <span class="at">data =</span> dummy_data), </span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">data =</span> dummy_data, <span class="at">pval =</span> <span class="cn">TRUE</span>, </span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>           <span class="at">risk.table =</span> <span class="cn">TRUE</span>, <span class="at">risk.table.title =</span> <span class="st">"Survival Table"</span>,</span>
 <span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>           <span class="at">surv.scale =</span> <span class="st">"percent"</span>, <span class="co"># You can change this to other scales like "probability"</span></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>           <span class="at">palette =</span> <span class="fu">c</span>(<span class="st">"blue"</span>, <span class="st">"red"</span>), <span class="co"># Colors for the curves</span></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>           <span class="at">conf.int =</span> <span class="cn">TRUE</span>, <span class="co"># Show confidence intervals</span></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>           <span class="at">ggtheme =</span> <span class="fu">theme_minimal</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>           <span class="at">conf.int =</span> <span class="cn">TRUE</span>, <span class="co"># Show confidence intervals</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>           <span class="at">ggtheme =</span> <span class="fu">theme_minimal</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -898,8 +782,158 @@ Score (logrank) test = 36.18  on 2 df,   p=1e-08</code></pre>
 </div>
 </div>
 </div>
+<section id="add-some-front-censoring-i.e.-delayed-entry-to-study" class="level3" data-number="11.4.1">
+<h3 data-number="11.4.1" class="anchored" data-anchor-id="add-some-front-censoring-i.e.-delayed-entry-to-study"><span class="header-section-number">11.4.1</span> Add some front censoring (i.e.&nbsp;delayed entry to study)</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit Cox model to get p-value</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>cox_model <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(start_time, time_to_event, status) <span class="sc">~</span> sex, <span class="at">data =</span> dummy_data)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract the p-value from the model</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>pval_text <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"Cox PH p = "</span>, <span class="fu">signif</span>(<span class="fu">summary</span>(cox_model)<span class="sc">$</span>coefficients[<span class="dv">5</span>], <span class="dv">3</span>))</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Save ggsurvplot output to an object</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>plot_obj <span class="ot">&lt;-</span> <span class="fu">ggsurvplot</span>(</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">survfit</span>(<span class="fu">Surv</span>(start_time, time_to_event, status) <span class="sc">~</span> sex, <span class="at">data =</span> dummy_data), </span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> dummy_data,</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">risk.table =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">risk.table.title =</span> <span class="st">"Survival Table"</span>,</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">surv.scale =</span> <span class="st">"percent"</span>,</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">conf.int =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">ggtheme =</span> <span class="fu">theme_minimal</span>()</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Add annotation to the survival plot component (plot_obj$plot)</span></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>plot_obj<span class="sc">$</span>plot <span class="ot">&lt;-</span> plot_obj<span class="sc">$</span>plot <span class="sc">+</span> </span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> <span class="fu">max</span>(dummy_data<span class="sc">$</span>time_to_event) <span class="sc">*</span> <span class="fl">0.7</span>, <span class="at">y =</span> <span class="fl">0.4</span>, <span class="at">label =</span> pval_text)</span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Then print the plot object</span></span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(plot_obj)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Cox_PH_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="change-to-time-to-event" class="level3" data-number="11.4.2">
+<h3 data-number="11.4.2" class="anchored" data-anchor-id="change-to-time-to-event"><span class="header-section-number">11.4.2</span> Change to time to event</h3>
+<p>Add <code>fun = "event"</code></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsurvplot</span>(</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">survfit</span>(<span class="fu">Surv</span>(start_time, time_to_event, status) <span class="sc">~</span> sex, <span class="at">data =</span> dummy_data), </span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> dummy_data,</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">risk.table =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">risk.table.title =</span> <span class="st">"Survival Table"</span>,</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">surv.scale =</span> <span class="st">"percent"</span>,</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">conf.int =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">ggtheme =</span> <span class="fu">theme_minimal</span>(),</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">fun=</span><span class="st">"event"</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Cox_PH_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="strata-or-not" class="level3" data-number="11.4.3">
+<h3 data-number="11.4.3" class="anchored" data-anchor-id="strata-or-not"><span class="header-section-number">11.4.3</span> <strong>Strata or not?</strong></h3>
+<p>In survival analysis, <code>strata()</code> is used inside the formula of a Cox model to adjust for a covariate without estimating its coefficient. Instead, it allows the baseline hazard function to vary across the levels of that variable.</p>
+<ul>
+<li><p><code>coxph(Surv(...) ~ sex + age)</code>&nbsp;assumes <strong>sex</strong> and <strong>age</strong> both have <em>proportional effects</em> (linear in the log-hazard) across the entire population.</p></li>
+<li><p><code>coxph(Surv(...) ~ sex + strata(age_group))</code> means:</p>
+<ul>
+<li><p>You still estimate the effect of <strong>sex</strong>.</p></li>
+<li><p>But you allow <strong>age_group</strong> to define separate baseline hazards (one for each stratum).</p></li>
+<li><p>No coefficient will be estimated for <code>age_group</code>, but the model assumes different baseline hazards in each group.</p></li>
+</ul></li>
+</ul>
+<p><strong>Why use <code>strata()</code>?</strong></p>
+<ul>
+<li><p>When you suspect that a variable (e.g., <strong>age_group</strong>, <strong>study site</strong>) violates the <strong>proportional hazards assumption</strong>.</p></li>
+<li><p>Or if you want to control for it without estimating its effect on the hazard ratio (non-parametric adjustment).</p></li>
+</ul>
+<p>Using STRATA is a useful way to account for</p>
+</section>
+</section>
+<section id="survival-based-difference-in-differences-model-using-a-cox-proportional-hazards-framework-with-time-varying-intervention-exposure-and-stratification" class="level2" data-number="11.5">
+<h2 data-number="11.5" class="anchored" data-anchor-id="survival-based-difference-in-differences-model-using-a-cox-proportional-hazards-framework-with-time-varying-intervention-exposure-and-stratification"><span class="header-section-number">11.5</span> Survival-based difference-in-differences model using a Cox proportional hazards framework, with time-varying intervention exposure and stratification</h2>
+<p>In difference-in-difference logic, you usually want to (a) Compare treated vs control groups, while (b) adjusting for baseline differences between them and (c) estimating the “difference-in-differences” (i.e., the effect of the treatment after controlling for secular trends or inherent group differences).</p>
+<p>stratifying by case/control group, then introducing an intervention period and intervention group as time varying covariates satisfies the DID survival study design nicely.</p>
+<p>Underlying assumptions in this example are that…</p>
+<ul>
+<li><p>Baseline hazard may differ by sex, so is stratified. Sex is the case/control variable here.</p></li>
+<li><p>Only males are subject to intervention AND only then during the intervention period</p></li>
+<li><p>The period of the intervention may be subject to secular trend in both groups</p></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>dummy_data <span class="ot">&lt;-</span> dummy_data <span class="sc">%&gt;%</span> </span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">intervention_active =</span> <span class="fu">case_when</span>(</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>      sex <span class="sc">==</span> <span class="st">"Male"</span> <span class="sc">&amp;</span> time_to_event <span class="sc">&lt;=</span> <span class="dv">15</span> <span class="sc">~</span> <span class="dv">0</span>, <span class="co">#No Intervention, Male</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>      sex <span class="sc">==</span> <span class="st">"Male"</span> <span class="sc">&amp;</span> time_to_event <span class="sc">&gt;</span> <span class="dv">15</span> <span class="sc">~</span> <span class="dv">1</span>,  <span class="co">#Intervention, Male</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>      sex <span class="sc">==</span> <span class="st">"Female"</span> <span class="sc">~</span> <span class="dv">0</span>                     <span class="co"># No intervention, Female</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">intervention_period =</span> <span class="fu">case_when</span>(</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>      time_to_event <span class="sc">&lt;=</span> <span class="dv">15</span> <span class="sc">~</span><span class="dv">0</span>,</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>      time_to_event <span class="sc">&gt;</span> <span class="dv">15</span> <span class="sc">~</span> <span class="dv">1</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="section" class="level3" data-number="11.5.1">
+<h3 data-number="11.5.1" class="anchored" data-anchor-id="section"><span class="header-section-number">11.5.1</span> </h3>
+<p>Adding both the intervention period and intervention as TVCs allows the females to become an <strong>active comparitor group</strong>. Stratifying by sex.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">coxph</span>(<span class="fu">Surv</span>(start_time, time_to_event, status) <span class="sc">~</span> intervention_period <span class="sc">+</span> intervention_active <span class="sc">+</span> <span class="fu">strata</span>(sex), <span class="at">data =</span> dummy_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Call:
+coxph(formula = Surv(start_time, time_to_event, status) ~ intervention_period + 
+    intervention_active + strata(sex), data = dummy_data)
+
+                          coef  exp(coef)   se(coef)      z     p
+intervention_period -2.057e+01  1.164e-09  3.659e+03 -0.006 0.996
+intervention_active  6.008e-02  1.062e+00  4.788e+03  0.000 1.000
+
+Likelihood ratio test=147.9  on 2 df, p=&lt; 2.2e-16
+n= 400, number of events= 241 </code></pre>
+</div>
+</div>
+<p>Does&nbsp;<strong><code>intervention_period</code></strong>&nbsp;show a general hazard shift post-time-9 across both sexes?</p>
+<p>Does&nbsp;<strong><code>intervention_active</code></strong>&nbsp;show a&nbsp;<strong>male-specific shift</strong>, above and beyond the secular trend?</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>plot_obj <span class="ot">&lt;-</span> <span class="fu">ggsurvplot</span>(</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">survfit</span>(<span class="fu">Surv</span>(start_time, time_to_event, status) <span class="sc">~</span>  sex, <span class="at">data =</span> dummy_data),</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> dummy_data,</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">risk.table =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">surv.scale =</span> <span class="st">"percent"</span>,</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">conf.int =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">facet.by =</span> <span class="st">"intervention_period"</span>,  <span class="co"># facet by sex to match strata</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">ggtheme =</span> <span class="fu">theme_minimal</span>(),</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">fun=</span><span class="st">"event"</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(plot_obj)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Cox_PH_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="adding-additional-covariates" class="level3" data-number="11.5.2">
+<h3 data-number="11.5.2" class="anchored" data-anchor-id="adding-additional-covariates"><span class="header-section-number">11.5.2</span> Adding additional covariates</h3>
+<p>I recommend filtering the dataset and using the same model approach as above. This makes it pretty easy to interpret because you get a single estimate for (a) the secular trend post intervention and (b) the trend in the intervention arm above and beyond (a). Keep it simple and stupid.</p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->

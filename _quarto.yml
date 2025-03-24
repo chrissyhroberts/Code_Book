@@ -23,8 +23,6 @@ book:
        - update_R.qmd
        - utf8_encoding.qmd
 
-
-
   - part: "Statistics"
     chapters:
        - Cox_PH.qmd
@@ -60,6 +58,7 @@ book:
     chapters:
        - Docker_install_ubuntu.qmd
        - Join_photos_randomly.qmd
+       - Whisper_Ai_CPU.qmd
 
   - part: "Miscellany"
     chapters:

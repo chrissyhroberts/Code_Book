@@ -22,19 +22,26 @@ You would provide a real data set at this point. The data are basically a tibble
 # Number of observations
 n <- 400  
 
-# Create a dummy dataset with group-specific event probabilities
+# Create dummy dataset
 set.seed(123)
 dummy_data <- tibble(
-  time_to_event = rexp(n, rate = 0.1),  # Generate random survival times
+  id = 1:400,
+  time_to_event = rexp(n, rate = 0.1),
   sex = sample(c("Male", "Female"), size = n, replace = TRUE),
   age = rnorm(n, mean = 50, sd = 10),
   status = ifelse(sex == "Male", 
-                  rbinom(n, size = 1, prob = 0.8),  # Higher event probability for males
-                  rbinom(n, size = 1, prob = 0.4))  # Lower event probability for females
-)
+                  rbinom(n, size = 1, prob = 0.8),
+                  rbinom(n, size = 1, prob = 0.4))
+) %>%
+  # Introduce start times for delayed entry (uniformly sampled)
+  rowwise() %>%
+  mutate(start_time = runif(1, min = 0, max = time_to_event * 0.8)) %>%
+  ungroup() %>%
+  # Ensure start_time is always less than time_to_event
+  mutate(start_time = pmin(start_time, time_to_event - 0.01))
 
-# Display the first 50 rows
-kable(dummy_data[1:50,])
+# Display first 50 rows
+kable(dummy_data[1:20,])
 ```
 
 ## Fit a Cox Proportional Hazards (Cox-PH) model
@@ -56,7 +63,7 @@ In this example, being male carries a proportional hazard of 1.04 (95% CI 0.76 -
 
 If you like P values, **Pr(\>\|z\|)** is exactly that.
 
-## Plot the survival curve as a null model (no strata)
+## Plot the survival curve as a null model (no splits on factors)
 
 ```{r,warning=FALSE,message=F}
 ggsurvplot(survfit(cox_model), 
@@ -68,7 +75,7 @@ ggsurvplot(survfit(cox_model),
            )
 ```
 
-## Plot the survival curve's strata
+## Plot the survival curve, with splits on factors
 
 ```{r,warning=F,message=F}
 # Plot separate survival curves for each sex without covariates
@@ -76,8 +83,140 @@ ggsurvplot(survfit(Surv(time_to_event, status) ~ sex, data = dummy_data),
            data = dummy_data, pval = TRUE, 
            risk.table = TRUE, risk.table.title = "Survival Table",
            surv.scale = "percent", # You can change this to other scales like "probability"
-           palette = c("blue", "red"), # Colors for the curves
            conf.int = TRUE, # Show confidence intervals
            ggtheme = theme_minimal())
 
 ```
+
+### Add some front censoring (i.e. delayed entry to study)
+
+```{r}
+# Fit Cox model to get p-value
+cox_model <- coxph(Surv(start_time, time_to_event, status) ~ sex, data = dummy_data)
+
+
+# Extract the p-value from the model
+pval_text <- paste0("Cox PH p = ", signif(summary(cox_model)$coefficients[5], 3))
+
+# Save ggsurvplot output to an object
+plot_obj <- ggsurvplot(
+  survfit(Surv(start_time, time_to_event, status) ~ sex, data = dummy_data), 
+  data = dummy_data,
+  risk.table = TRUE,
+  risk.table.title = "Survival Table",
+  surv.scale = "percent",
+  conf.int = TRUE,
+  ggtheme = theme_minimal()
+)
+
+# Add annotation to the survival plot component (plot_obj$plot)
+plot_obj$plot <- plot_obj$plot + 
+  annotate("text", x = max(dummy_data$time_to_event) * 0.7, y = 0.4, label = pval_text)
+
+# Then print the plot object
+print(plot_obj)
+```
+
+### Change to time to event
+
+Add `fun = "event"`
+
+```{r}
+ggsurvplot(
+  survfit(Surv(start_time, time_to_event, status) ~ sex, data = dummy_data), 
+  data = dummy_data,
+  risk.table = TRUE,
+  risk.table.title = "Survival Table",
+  surv.scale = "percent",
+  conf.int = TRUE,
+  ggtheme = theme_minimal(),
+  fun="event"
+)
+```
+
+### **Strata or not?** 
+
+In survival analysis, `strata()` is used inside the formula of a Cox model to adjust for a covariate without estimating its coefficient. Instead, it allows the baseline hazard function to vary across the levels of that variable.
+
+-   `coxph(Surv(...) ~ sex + age)` assumes **sex** and **age** both have *proportional effects* (linear in the log-hazard) across the entire population.
+
+-   `coxph(Surv(...) ~ sex + strata(age_group))` means:
+
+    -   You still estimate the effect of **sex**.
+
+    -   But you allow **age_group** to define separate baseline hazards (one for each stratum).
+
+    -   No coefficient will be estimated for `age_group`, but the model assumes different baseline hazards in each group.
+
+**Why use `strata()`?**
+
+-   When you suspect that a variable (e.g., **age_group**, **study site**) violates the **proportional hazards assumption**.
+
+-   Or if you want to control for it without estimating its effect on the hazard ratio (non-parametric adjustment).
+
+Using STRATA is a useful way to account for
+
+## Survival-based difference-in-differences model using a Cox proportional hazards framework, with time-varying intervention exposure and stratification 
+
+In difference-in-difference logic, you usually want to (a) Compare treated vs control groups, while (b) adjusting for baseline differences between them and (c) estimating the "difference-in-differences" (i.e., the effect of the treatment after controlling for secular trends or inherent group differences).
+
+stratifying by case/control group, then introducing an intervention period and intervention group as time varying covariates satisfies the DID survival study design nicely.
+
+Underlying assumptions in this example are that...
+
+-   Baseline hazard may differ by sex, so is stratified. Sex is the case/control variable here.
+
+-   Only males are subject to intervention AND only then during the intervention period
+
+-   The period of the intervention may be subject to secular trend in both groups
+
+```{r}
+
+dummy_data <- dummy_data %>% 
+  mutate(
+    intervention_active = case_when(
+      sex == "Male" & time_to_event <= 15 ~ 0, #No Intervention, Male
+      sex == "Male" & time_to_event > 15 ~ 1,  #Intervention, Male
+      sex == "Female" ~ 0                     # No intervention, Female
+    ),
+    intervention_period = case_when(
+      time_to_event <= 15 ~0,
+      time_to_event > 15 ~ 1
+    )
+  )
+
+```
+
+### 
+
+Adding both the intervention period and intervention as TVCs allows the females to become an **active comparitor group**. Stratifying by sex.
+
+```{r,warning=F}
+
+coxph(Surv(start_time, time_to_event, status) ~ intervention_period + intervention_active + strata(sex), data = dummy_data)
+
+```
+
+Does **`intervention_period`** show a general hazard shift post-time-9 across both sexes?
+
+Does **`intervention_active`** show a **male-specific shift**, above and beyond the secular trend?
+
+```{r,warning=F}
+plot_obj <- ggsurvplot(
+  survfit(Surv(start_time, time_to_event, status) ~  sex, data = dummy_data),
+  data = dummy_data,
+  risk.table = TRUE,
+  surv.scale = "percent",
+  conf.int = TRUE,
+  facet.by = "intervention_period",  # facet by sex to match strata
+  ggtheme = theme_minimal(),
+  fun="event"
+
+)
+
+print(plot_obj)
+```
+
+### Adding additional covariates
+
+I recommend filtering the dataset and using the same model approach as above. This makes it pretty easy to interpret because you get a single estimate for (a) the secular trend post intervention and (b) the trend in the intervention arm above and beyond (a). Keep it simple and stupid.

@@ -20,6 +20,9 @@ You should always load the libraries you'll be using at the top of your script.
 ```{r}
 
 library(tidyverse)
+library(readxl)   # For reading xls and xlsx files
+library(haven)    # For reading Stata files
+
 ```
 
 ## Write CSV files
@@ -106,6 +109,48 @@ The messages are important. Check which variables have been assigned to which **
     -   Full Form: **list**
 
     -   Represents a list column, which can hold any type of R object, including vectors, data frames, or even other lists.
+
+## Other types of files
+
+If you're just beginning, leave this section for later.\
+Often you'll need to work with CSV, STATA, XLS, XLSX. This section shows you how to list, find the size, read and write data in other format.
+
+```         
+# Load necessary libraries
+library(readxl)   # For reading xls and xlsx files
+library(haven)    # For reading Stata files
+
+# List files in the directory recursively and show their sizes
+file_info <- tibble(
+  file_name = list.files("/data", full.names = TRUE, recursive = TRUE),
+  file_size = file.info(list.files("p:/foo/bar bar", full.names = TRUE, recursive = TRUE))$size
+)
+
+# Display file information
+print(file_info)
+
+# Current working directory to save files
+output_dir <- getwd()
+
+# Read and save a CSV file
+csv_data <- read_csv("p:/foo/bar bar/example.csv")
+write_csv(csv_data, file.path(output_dir, "example_saved.csv"))
+
+# Read and save an XLS file
+xls_data <- read_excel("p:/foo/bar bar/example.xls")
+write_csv(xls_data, file.path(output_dir, "example_saved_from_xls.csv"))
+
+# Read and save an XLSX file
+xlsx_data <- read_excel("p:/foo/bar bar/example.xlsx")
+write_csv(xlsx_data, file.path(output_dir, "example_saved_from_xlsx.csv"))
+
+# Read and save a Stata file
+dta_data <- read_dta("p:/foo/bar bar/example.dta")
+write_csv(dta_data, file.path(output_dir, "example_saved_from_dta.csv"))
+
+# Print a message confirming completion
+message("Files listed, read, and saved in the current working directory: ", output_dir)
+```
 
 ## Look at the structure of an object
 
@@ -1311,3 +1356,5 @@ These helper functions are used specifically within verbs like `mutate()`, `fi
 ### Case_when
 
 ### 
+
+## 

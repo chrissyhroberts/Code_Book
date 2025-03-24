@@ -88,7 +88,7 @@ ggsurvplot(survfit(Surv(time_to_event, status) ~ sex, data = dummy_data),
 
 ```
 
-### Add some front censoring (i.e. delayed entry to study)
+## Add some front censoring (i.e. delayed entry to study)
 
 ```{r}
 # Fit Cox model to get p-value
@@ -117,7 +117,7 @@ plot_obj$plot <- plot_obj$plot +
 print(plot_obj)
 ```
 
-### Change to time to event
+## Change to time to event
 
 Add `fun = "event"`
 
@@ -134,7 +134,7 @@ ggsurvplot(
 )
 ```
 
-### **Strata or not?** 
+## **Strata or not?** 
 
 In survival analysis, `strata()` is used inside the formula of a Cox model to adjust for a covariate without estimating its coefficient. Instead, it allows the baseline hazard function to vary across the levels of that variable.
 
@@ -187,7 +187,6 @@ dummy_data <- dummy_data %>%
 
 ```
 
-### 
 
 Adding both the intervention period and intervention as TVCs allows the females to become an **active comparitor group**. Stratifying by sex.
 
@@ -217,6 +216,6 @@ plot_obj <- ggsurvplot(
 print(plot_obj)
 ```
 
-### Adding additional covariates
+## Adding additional covariates
 
 I recommend filtering the dataset and using the same model approach as above. This makes it pretty easy to interpret because you get a single estimate for (a) the secular trend post intervention and (b) the trend in the intervention arm above and beyond (a). Keep it simple and stupid.

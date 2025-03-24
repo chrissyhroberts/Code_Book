@@ -465,17 +465,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#create-dummy-dataset" id="toc-create-dummy-dataset" class="nav-link active" data-scroll-target="#create-dummy-dataset"><span class="header-section-number">11.1</span> Create dummy dataset</a></li>
   <li><a href="#fit-a-cox-proportional-hazards-cox-ph-model" id="toc-fit-a-cox-proportional-hazards-cox-ph-model" class="nav-link" data-scroll-target="#fit-a-cox-proportional-hazards-cox-ph-model"><span class="header-section-number">11.2</span> Fit a Cox Proportional Hazards (Cox-PH) model</a></li>
   <li><a href="#plot-the-survival-curve-as-a-null-model-no-splits-on-factors" id="toc-plot-the-survival-curve-as-a-null-model-no-splits-on-factors" class="nav-link" data-scroll-target="#plot-the-survival-curve-as-a-null-model-no-splits-on-factors"><span class="header-section-number">11.3</span> Plot the survival curve as a null model (no splits on factors)</a></li>
-  <li><a href="#plot-the-survival-curve-with-splits-on-factors" id="toc-plot-the-survival-curve-with-splits-on-factors" class="nav-link" data-scroll-target="#plot-the-survival-curve-with-splits-on-factors"><span class="header-section-number">11.4</span> Plot the survival curve, with splits on factors</a>
-  <ul class="collapse">
-  <li><a href="#add-some-front-censoring-i.e.-delayed-entry-to-study" id="toc-add-some-front-censoring-i.e.-delayed-entry-to-study" class="nav-link" data-scroll-target="#add-some-front-censoring-i.e.-delayed-entry-to-study"><span class="header-section-number">11.4.1</span> Add some front censoring (i.e.&nbsp;delayed entry to study)</a></li>
-  <li><a href="#change-to-time-to-event" id="toc-change-to-time-to-event" class="nav-link" data-scroll-target="#change-to-time-to-event"><span class="header-section-number">11.4.2</span> Change to time to event</a></li>
-  <li><a href="#strata-or-not" id="toc-strata-or-not" class="nav-link" data-scroll-target="#strata-or-not"><span class="header-section-number">11.4.3</span> <strong>Strata or not?</strong></a></li>
-  </ul></li>
-  <li><a href="#survival-based-difference-in-differences-model-using-a-cox-proportional-hazards-framework-with-time-varying-intervention-exposure-and-stratification" id="toc-survival-based-difference-in-differences-model-using-a-cox-proportional-hazards-framework-with-time-varying-intervention-exposure-and-stratification" class="nav-link" data-scroll-target="#survival-based-difference-in-differences-model-using-a-cox-proportional-hazards-framework-with-time-varying-intervention-exposure-and-stratification"><span class="header-section-number">11.5</span> Survival-based difference-in-differences model using a Cox proportional hazards framework, with time-varying intervention exposure and stratification</a>
-  <ul class="collapse">
-  <li><a href="#section" id="toc-section" class="nav-link" data-scroll-target="#section"><span class="header-section-number">11.5.1</span> </a></li>
-  <li><a href="#adding-additional-covariates" id="toc-adding-additional-covariates" class="nav-link" data-scroll-target="#adding-additional-covariates"><span class="header-section-number">11.5.2</span> Adding additional covariates</a></li>
-  </ul></li>
+  <li><a href="#plot-the-survival-curve-with-splits-on-factors" id="toc-plot-the-survival-curve-with-splits-on-factors" class="nav-link" data-scroll-target="#plot-the-survival-curve-with-splits-on-factors"><span class="header-section-number">11.4</span> Plot the survival curve, with splits on factors</a></li>
+  <li><a href="#add-some-front-censoring-i.e.-delayed-entry-to-study" id="toc-add-some-front-censoring-i.e.-delayed-entry-to-study" class="nav-link" data-scroll-target="#add-some-front-censoring-i.e.-delayed-entry-to-study"><span class="header-section-number">11.5</span> Add some front censoring (i.e.&nbsp;delayed entry to study)</a></li>
+  <li><a href="#change-to-time-to-event" id="toc-change-to-time-to-event" class="nav-link" data-scroll-target="#change-to-time-to-event"><span class="header-section-number">11.6</span> Change to time to event</a></li>
+  <li><a href="#strata-or-not" id="toc-strata-or-not" class="nav-link" data-scroll-target="#strata-or-not"><span class="header-section-number">11.7</span> <strong>Strata or not?</strong></a></li>
+  <li><a href="#survival-based-difference-in-differences-model-using-a-cox-proportional-hazards-framework-with-time-varying-intervention-exposure-and-stratification" id="toc-survival-based-difference-in-differences-model-using-a-cox-proportional-hazards-framework-with-time-varying-intervention-exposure-and-stratification" class="nav-link" data-scroll-target="#survival-based-difference-in-differences-model-using-a-cox-proportional-hazards-framework-with-time-varying-intervention-exposure-and-stratification"><span class="header-section-number">11.8</span> Survival-based difference-in-differences model using a Cox proportional hazards framework, with time-varying intervention exposure and stratification</a></li>
+  <li><a href="#adding-additional-covariates" id="toc-adding-additional-covariates" class="nav-link" data-scroll-target="#adding-additional-covariates"><span class="header-section-number">11.9</span> Adding additional covariates</a></li>
   </ul>
 </nav>
     </div>
@@ -782,8 +777,9 @@ Score (logrank) test = 36.18  on 2 df,   p=1e-08</code></pre>
 </div>
 </div>
 </div>
-<section id="add-some-front-censoring-i.e.-delayed-entry-to-study" class="level3" data-number="11.4.1">
-<h3 data-number="11.4.1" class="anchored" data-anchor-id="add-some-front-censoring-i.e.-delayed-entry-to-study"><span class="header-section-number">11.4.1</span> Add some front censoring (i.e.&nbsp;delayed entry to study)</h3>
+</section>
+<section id="add-some-front-censoring-i.e.-delayed-entry-to-study" class="level2" data-number="11.5">
+<h2 data-number="11.5" class="anchored" data-anchor-id="add-some-front-censoring-i.e.-delayed-entry-to-study"><span class="header-section-number">11.5</span> Add some front censoring (i.e.&nbsp;delayed entry to study)</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit Cox model to get p-value</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>cox_model <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(start_time, time_to_event, status) <span class="sc">~</span> sex, <span class="at">data =</span> dummy_data)</span>
@@ -818,8 +814,8 @@ Score (logrank) test = 36.18  on 2 df,   p=1e-08</code></pre>
 </div>
 </div>
 </section>
-<section id="change-to-time-to-event" class="level3" data-number="11.4.2">
-<h3 data-number="11.4.2" class="anchored" data-anchor-id="change-to-time-to-event"><span class="header-section-number">11.4.2</span> Change to time to event</h3>
+<section id="change-to-time-to-event" class="level2" data-number="11.6">
+<h2 data-number="11.6" class="anchored" data-anchor-id="change-to-time-to-event"><span class="header-section-number">11.6</span> Change to time to event</h2>
 <p>Add <code>fun = "event"</code></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsurvplot</span>(</span>
@@ -841,8 +837,8 @@ Score (logrank) test = 36.18  on 2 df,   p=1e-08</code></pre>
 </div>
 </div>
 </section>
-<section id="strata-or-not" class="level3" data-number="11.4.3">
-<h3 data-number="11.4.3" class="anchored" data-anchor-id="strata-or-not"><span class="header-section-number">11.4.3</span> <strong>Strata or not?</strong></h3>
+<section id="strata-or-not" class="level2" data-number="11.7">
+<h2 data-number="11.7" class="anchored" data-anchor-id="strata-or-not"><span class="header-section-number">11.7</span> <strong>Strata or not?</strong></h2>
 <p>In survival analysis, <code>strata()</code> is used inside the formula of a Cox model to adjust for a covariate without estimating its coefficient. Instead, it allows the baseline hazard function to vary across the levels of that variable.</p>
 <ul>
 <li><p><code>coxph(Surv(...) ~ sex + age)</code>&nbsp;assumes <strong>sex</strong> and <strong>age</strong> both have <em>proportional effects</em> (linear in the log-hazard) across the entire population.</p></li>
@@ -860,9 +856,8 @@ Score (logrank) test = 36.18  on 2 df,   p=1e-08</code></pre>
 </ul>
 <p>Using STRATA is a useful way to account for</p>
 </section>
-</section>
-<section id="survival-based-difference-in-differences-model-using-a-cox-proportional-hazards-framework-with-time-varying-intervention-exposure-and-stratification" class="level2" data-number="11.5">
-<h2 data-number="11.5" class="anchored" data-anchor-id="survival-based-difference-in-differences-model-using-a-cox-proportional-hazards-framework-with-time-varying-intervention-exposure-and-stratification"><span class="header-section-number">11.5</span> Survival-based difference-in-differences model using a Cox proportional hazards framework, with time-varying intervention exposure and stratification</h2>
+<section id="survival-based-difference-in-differences-model-using-a-cox-proportional-hazards-framework-with-time-varying-intervention-exposure-and-stratification" class="level2" data-number="11.8">
+<h2 data-number="11.8" class="anchored" data-anchor-id="survival-based-difference-in-differences-model-using-a-cox-proportional-hazards-framework-with-time-varying-intervention-exposure-and-stratification"><span class="header-section-number">11.8</span> Survival-based difference-in-differences model using a Cox proportional hazards framework, with time-varying intervention exposure and stratification</h2>
 <p>In difference-in-difference logic, you usually want to (a) Compare treated vs control groups, while (b) adjusting for baseline differences between them and (c) estimating the “difference-in-differences” (i.e., the effect of the treatment after controlling for secular trends or inherent group differences).</p>
 <p>stratifying by case/control group, then introducing an intervention period and intervention group as time varying covariates satisfies the DID survival study design nicely.</p>
 <p>Underlying assumptions in this example are that…</p>
@@ -885,8 +880,6 @@ Score (logrank) test = 36.18  on 2 df,   p=1e-08</code></pre>
 <span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>    )</span>
 <span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<section id="section" class="level3" data-number="11.5.1">
-<h3 data-number="11.5.1" class="anchored" data-anchor-id="section"><span class="header-section-number">11.5.1</span> </h3>
 <p>Adding both the intervention period and intervention as TVCs allows the females to become an <strong>active comparitor group</strong>. Stratifying by sex.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">coxph</span>(<span class="fu">Surv</span>(start_time, time_to_event, status) <span class="sc">~</span> intervention_period <span class="sc">+</span> intervention_active <span class="sc">+</span> <span class="fu">strata</span>(sex), <span class="at">data =</span> dummy_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -928,12 +921,11 @@ n= 400, number of events= 241 </code></pre>
 </div>
 </div>
 </section>
-<section id="adding-additional-covariates" class="level3" data-number="11.5.2">
-<h3 data-number="11.5.2" class="anchored" data-anchor-id="adding-additional-covariates"><span class="header-section-number">11.5.2</span> Adding additional covariates</h3>
+<section id="adding-additional-covariates" class="level2" data-number="11.9">
+<h2 data-number="11.9" class="anchored" data-anchor-id="adding-additional-covariates"><span class="header-section-number">11.9</span> Adding additional covariates</h2>
 <p>I recommend filtering the dataset and using the same model approach as above. This makes it pretty easy to interpret because you get a single estimate for (a) the secular trend post intervention and (b) the trend in the intervention arm above and beyond (a). Keep it simple and stupid.</p>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->

@@ -374,7 +374,7 @@ plot_df <- data.frame(
 
 #  Plot with ggplot2
 ggplot(plot_df, aes(x = time, y = hr)) +
-  geom_line(color = "steelblue", size = 1.2) +
+  geom_line(color = "steelblue", linewidth = 1.2) +
   geom_ribbon(aes(ymin = hr_lower, ymax = hr_upper), alpha = 0.2, fill = "steelblue") +
   geom_hline(yintercept = 1, linetype = "dashed", color = "gray40") +
   labs(
@@ -395,7 +395,7 @@ Here we can't just use the exit time as a measure of the time-varying effects. W
 
 In the example above the intervention started in period 15
 
-```{r}
+```{r,warning=F}
 dummy_data <- dummy_data %>% mutate(exposure_duration = case_when(
                                         time_to_event<=15 ~ 0,
                                         time_to_event >15 ~ time_to_event-15
@@ -493,5 +493,3 @@ ggplot(res_df_long, aes(x = time, y = residual)) +
     x = "Time"
   )
 ```
-
-## 

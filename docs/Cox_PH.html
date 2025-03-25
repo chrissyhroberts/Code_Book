@@ -480,7 +480,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#test-for-proportional-hazards" id="toc-test-for-proportional-hazards" class="nav-link" data-scroll-target="#test-for-proportional-hazards"><span class="header-section-number">11.13</span> Test for proportional hazards</a></li>
   <li><a href="#use-cox.zph-to-check-the-ph" id="toc-use-cox.zph-to-check-the-ph" class="nav-link" data-scroll-target="#use-cox.zph-to-check-the-ph"><span class="header-section-number">11.14</span> Use cox.zph to check the PH</a></li>
   <li><a href="#plot-the-residuals" id="toc-plot-the-residuals" class="nav-link" data-scroll-target="#plot-the-residuals"><span class="header-section-number">11.15</span> Plot the residuals</a></li>
-  <li><a href="#section" id="toc-section" class="nav-link" data-scroll-target="#section"><span class="header-section-number">11.16</span> </a></li>
   </ul>
 </nav>
     </div>
@@ -1110,7 +1109,7 @@ n= 400, number of events= 241 </code></pre>
 <span id="cb18-48"><a href="#cb18-48" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-49"><a href="#cb18-49" aria-hidden="true" tabindex="-1"></a><span class="co">#  Plot with ggplot2</span></span>
 <span id="cb18-50"><a href="#cb18-50" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(plot_df, <span class="fu">aes</span>(<span class="at">x =</span> time, <span class="at">y =</span> hr)) <span class="sc">+</span></span>
-<span id="cb18-51"><a href="#cb18-51" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">color =</span> <span class="st">"steelblue"</span>, <span class="at">size =</span> <span class="fl">1.2</span>) <span class="sc">+</span></span>
+<span id="cb18-51"><a href="#cb18-51" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">color =</span> <span class="st">"steelblue"</span>, <span class="at">linewidth =</span> <span class="fl">1.2</span>) <span class="sc">+</span></span>
 <span id="cb18-52"><a href="#cb18-52" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> hr_lower, <span class="at">ymax =</span> hr_upper), <span class="at">alpha =</span> <span class="fl">0.2</span>, <span class="at">fill =</span> <span class="st">"steelblue"</span>) <span class="sc">+</span></span>
 <span id="cb18-53"><a href="#cb18-53" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">1</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">color =</span> <span class="st">"gray40"</span>) <span class="sc">+</span></span>
 <span id="cb18-54"><a href="#cb18-54" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
@@ -1119,10 +1118,6 @@ n= 400, number of events= 241 </code></pre>
 <span id="cb18-57"><a href="#cb18-57" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Hazard Ratio (with 95% CI)"</span></span>
 <span id="cb18-58"><a href="#cb18-58" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
 <span id="cb18-59"><a href="#cb18-59" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
-ℹ Please use `linewidth` instead.</code></pre>
-</div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -1142,17 +1137,13 @@ n= 400, number of events= 241 </code></pre>
 <p>Here we can’t just use the exit time as a measure of the time-varying effects. We need to difference the exposure start time and exit times to get an overall duration of exposure for each person in the study.</p>
 <p>In the example above the intervention started in period 15</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>dummy_data <span class="ot">&lt;-</span> dummy_data <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">exposure_duration =</span> <span class="fu">case_when</span>(</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>                                        time_to_event<span class="sc">&lt;=</span><span class="dv">15</span> <span class="sc">~</span> <span class="dv">0</span>,</span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>                                        time_to_event <span class="sc">&gt;</span><span class="dv">15</span> <span class="sc">~</span> time_to_event<span class="dv">-15</span></span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>                                                                  )</span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>                                    )</span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="fu">coxph</span>(<span class="fu">Surv</span>(start_time, time_to_event, status) <span class="sc">~</span> intervention_period <span class="sc">+</span> intervention_active<span class="sc">+</span> intervention_active<span class="sc">:</span>exposure_duration <span class="sc">+</span> <span class="fu">strata</span>(sex), <span class="at">data =</span> dummy_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in agreg.fit(X, Y, istrat, offset, init, control, weights = weights, :
-Ran out of iterations and did not converge</code></pre>
-</div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>dummy_data <span class="ot">&lt;-</span> dummy_data <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">exposure_duration =</span> <span class="fu">case_when</span>(</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>                                        time_to_event<span class="sc">&lt;=</span><span class="dv">15</span> <span class="sc">~</span> <span class="dv">0</span>,</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>                                        time_to_event <span class="sc">&gt;</span><span class="dv">15</span> <span class="sc">~</span> time_to_event<span class="dv">-15</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>                                                                  )</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>                                    )</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a><span class="fu">coxph</span>(<span class="fu">Surv</span>(start_time, time_to_event, status) <span class="sc">~</span> intervention_period <span class="sc">+</span> intervention_active<span class="sc">+</span> intervention_active<span class="sc">:</span>exposure_duration <span class="sc">+</span> <span class="fu">strata</span>(sex), <span class="at">data =</span> dummy_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Call:
 coxph(formula = Surv(start_time, time_to_event, status) ~ intervention_period + 
@@ -1230,12 +1221,12 @@ n= 400, number of events= 241 </code></pre>
 <p>Interpretation in plain English is like this – “The hazard in group A is, on average, X% higher or lower than group B, over the full follow-up time.”</p>
 <p>Let’s go back to our main model and check it</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>cox_model <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(start_time, time_to_event, status) <span class="sc">~</span> intervention_period <span class="sc">+</span> intervention_active <span class="sc">+</span> <span class="fu">strata</span>(sex), <span class="at">data =</span> dummy_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>cox_model <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(start_time, time_to_event, status) <span class="sc">~</span> intervention_period <span class="sc">+</span> intervention_active <span class="sc">+</span> <span class="fu">strata</span>(sex), <span class="at">data =</span> dummy_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning in agreg.fit(X, Y, istrat, offset, init, control, weights = weights, :
 Loglik converged before variable 1 ; beta may be infinite.</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>cox_model</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>cox_model</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Call:
 coxph(formula = Surv(start_time, time_to_event, status) ~ intervention_period + 
@@ -1253,8 +1244,8 @@ n= 400, number of events= 241 </code></pre>
 <section id="use-cox.zph-to-check-the-ph" class="level2" data-number="11.14">
 <h2 data-number="11.14" class="anchored" data-anchor-id="use-cox.zph-to-check-the-ph"><span class="header-section-number">11.14</span> Use cox.zph to check the PH</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>ph_test <span class="ot">&lt;-</span> <span class="fu">cox.zph</span>(cox_model)</span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(ph_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>ph_test <span class="ot">&lt;-</span> <span class="fu">cox.zph</span>(cox_model)</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(ph_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                       chisq df p
 intervention_period 6.60e-07  1 1
@@ -1274,29 +1265,29 @@ GLOBAL              7.02e-07  2 1</code></pre>
 <p>The “Schoenfeld” residuals should be flat and near zero. If you see trends across time in this plot, it suggests a violation in PH may have occurred.</p>
 <p>There should be a separate plot for each variable. <code>strata(sex)</code> defines different baseline hazards but does <strong>not</strong> estimate a coefficient, so there’s nothing to test for proportionality for strata terms.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract residuals into a tidy format</span></span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>res_df <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(ph_test<span class="sc">$</span>y)</span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>res_df<span class="sc">$</span>time <span class="ot">&lt;-</span> ph_test<span class="sc">$</span>x</span>
-<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Add covariate names for faceting</span></span>
-<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>res_df_long <span class="ot">&lt;-</span> res_df <span class="sc">%&gt;%</span></span>
-<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
-<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">cols =</span> <span class="sc">-</span>time,</span>
-<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="st">"covariate"</span>,</span>
-<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_to =</span> <span class="st">"residual"</span></span>
-<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(res_df_long, <span class="fu">aes</span>(<span class="at">x =</span> time, <span class="at">y =</span> residual)) <span class="sc">+</span></span>
-<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.4</span>) <span class="sc">+</span></span>
-<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">se =</span> <span class="cn">TRUE</span>, <span class="at">method =</span> <span class="st">"loess"</span>, <span class="at">span =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
-<span id="cb29-16"><a href="#cb29-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
-<span id="cb29-17"><a href="#cb29-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> covariate, <span class="at">scales =</span> <span class="st">"free_y"</span>) <span class="sc">+</span></span>
-<span id="cb29-18"><a href="#cb29-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb29-19"><a href="#cb29-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb29-20"><a href="#cb29-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Schoenfeld Residuals (Faceted)"</span>,</span>
-<span id="cb29-21"><a href="#cb29-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Scaled Schoenfeld Residuals"</span>,</span>
-<span id="cb29-22"><a href="#cb29-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Time"</span></span>
-<span id="cb29-23"><a href="#cb29-23" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract residuals into a tidy format</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>res_df <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(ph_test<span class="sc">$</span>y)</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>res_df<span class="sc">$</span>time <span class="ot">&lt;-</span> ph_test<span class="sc">$</span>x</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Add covariate names for faceting</span></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>res_df_long <span class="ot">&lt;-</span> res_df <span class="sc">%&gt;%</span></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">cols =</span> <span class="sc">-</span>time,</span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="st">"covariate"</span>,</span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_to =</span> <span class="st">"residual"</span></span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(res_df_long, <span class="fu">aes</span>(<span class="at">x =</span> time, <span class="at">y =</span> residual)) <span class="sc">+</span></span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.4</span>) <span class="sc">+</span></span>
+<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">se =</span> <span class="cn">TRUE</span>, <span class="at">method =</span> <span class="st">"loess"</span>, <span class="at">span =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
+<span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> covariate, <span class="at">scales =</span> <span class="st">"free_y"</span>) <span class="sc">+</span></span>
+<span id="cb27-18"><a href="#cb27-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb27-19"><a href="#cb27-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb27-20"><a href="#cb27-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Schoenfeld Residuals (Faceted)"</span>,</span>
+<span id="cb27-21"><a href="#cb27-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Scaled Schoenfeld Residuals"</span>,</span>
+<span id="cb27-22"><a href="#cb27-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Time"</span></span>
+<span id="cb27-23"><a href="#cb27-23" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -1305,9 +1296,6 @@ GLOBAL              7.02e-07  2 1</code></pre>
 </div>
 </div>
 </div>
-</section>
-<section id="section" class="level2" data-number="11.16">
-<h2 data-number="11.16" class="anchored" data-anchor-id="section"><span class="header-section-number">11.16</span> </h2>
 
 
 </section>

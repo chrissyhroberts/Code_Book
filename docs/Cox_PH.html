@@ -467,13 +467,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#plot-the-survival-curve-as-a-null-model-no-splits-on-factors" id="toc-plot-the-survival-curve-as-a-null-model-no-splits-on-factors" class="nav-link" data-scroll-target="#plot-the-survival-curve-as-a-null-model-no-splits-on-factors"><span class="header-section-number">11.3</span> Plot the survival curve as a null model (no splits on factors)</a></li>
   <li><a href="#plot-the-survival-curve-with-splits-on-factors" id="toc-plot-the-survival-curve-with-splits-on-factors" class="nav-link" data-scroll-target="#plot-the-survival-curve-with-splits-on-factors"><span class="header-section-number">11.4</span> Plot the survival curve, with splits on factors</a></li>
   <li><a href="#add-some-front-censoring-i.e.-delayed-entry-to-study" id="toc-add-some-front-censoring-i.e.-delayed-entry-to-study" class="nav-link" data-scroll-target="#add-some-front-censoring-i.e.-delayed-entry-to-study"><span class="header-section-number">11.5</span> Add some front censoring (i.e.&nbsp;delayed entry to study)</a></li>
-  <li><a href="#change-to-time-to-event" id="toc-change-to-time-to-event" class="nav-link" data-scroll-target="#change-to-time-to-event"><span class="header-section-number">11.6</span> Change to time to event</a></li>
+  <li><a href="#time-to-event-analysis" id="toc-time-to-event-analysis" class="nav-link" data-scroll-target="#time-to-event-analysis"><span class="header-section-number">11.6</span> Time to event analysis</a></li>
   <li><a href="#strata-or-not" id="toc-strata-or-not" class="nav-link" data-scroll-target="#strata-or-not"><span class="header-section-number">11.7</span> <strong>Strata or not?</strong></a></li>
   <li><a href="#survival-based-difference-in-differences-model-using-a-cox-proportional-hazards-framework-with-time-varying-intervention-exposure-and-stratification" id="toc-survival-based-difference-in-differences-model-using-a-cox-proportional-hazards-framework-with-time-varying-intervention-exposure-and-stratification" class="nav-link" data-scroll-target="#survival-based-difference-in-differences-model-using-a-cox-proportional-hazards-framework-with-time-varying-intervention-exposure-and-stratification"><span class="header-section-number">11.8</span> Survival-based difference-in-differences model using a Cox proportional hazards framework, with time-varying intervention exposure and stratification</a></li>
   <li><a href="#adding-additional-covariates" id="toc-adding-additional-covariates" class="nav-link" data-scroll-target="#adding-additional-covariates"><span class="header-section-number">11.9</span> Adding additional covariates</a></li>
-  <li><a href="#test-for-proportional-hazards" id="toc-test-for-proportional-hazards" class="nav-link" data-scroll-target="#test-for-proportional-hazards"><span class="header-section-number">11.10</span> Test for proportional hazards</a></li>
-  <li><a href="#use-cox.zph-to-check-the-ph" id="toc-use-cox.zph-to-check-the-ph" class="nav-link" data-scroll-target="#use-cox.zph-to-check-the-ph"><span class="header-section-number">11.11</span> Use cox.zph to check the PH</a></li>
-  <li><a href="#plot-the-residuals" id="toc-plot-the-residuals" class="nav-link" data-scroll-target="#plot-the-residuals"><span class="header-section-number">11.12</span> Plot the residuals</a></li>
+  <li><a href="#add-exposure-time-for-time-varying-effects" id="toc-add-exposure-time-for-time-varying-effects" class="nav-link" data-scroll-target="#add-exposure-time-for-time-varying-effects"><span class="header-section-number">11.10</span> Add exposure time for time-varying effects</a>
+  <ul class="collapse">
+  <li><a href="#example-using-splines" id="toc-example-using-splines" class="nav-link" data-scroll-target="#example-using-splines"><span class="header-section-number">11.10.1</span> Example using splines</a></li>
+  </ul></li>
+  <li><a href="#time-varying-covariates-in-did-models" id="toc-time-varying-covariates-in-did-models" class="nav-link" data-scroll-target="#time-varying-covariates-in-did-models"><span class="header-section-number">11.11</span> Time varying covariates in DID models</a></li>
+  <li><a href="#key-differences-between-time-varying-approaches" id="toc-key-differences-between-time-varying-approaches" class="nav-link" data-scroll-target="#key-differences-between-time-varying-approaches"><span class="header-section-number">11.12</span> Key differences between time-varying approaches</a></li>
+  <li><a href="#test-for-proportional-hazards" id="toc-test-for-proportional-hazards" class="nav-link" data-scroll-target="#test-for-proportional-hazards"><span class="header-section-number">11.13</span> Test for proportional hazards</a></li>
+  <li><a href="#use-cox.zph-to-check-the-ph" id="toc-use-cox.zph-to-check-the-ph" class="nav-link" data-scroll-target="#use-cox.zph-to-check-the-ph"><span class="header-section-number">11.14</span> Use cox.zph to check the PH</a></li>
+  <li><a href="#plot-the-residuals" id="toc-plot-the-residuals" class="nav-link" data-scroll-target="#plot-the-residuals"><span class="header-section-number">11.15</span> Plot the residuals</a></li>
+  <li><a href="#section" id="toc-section" class="nav-link" data-scroll-target="#section"><span class="header-section-number">11.16</span> </a></li>
   </ul>
 </nav>
     </div>
@@ -817,8 +824,8 @@ Score (logrank) test = 36.18  on 2 df,   p=1e-08</code></pre>
 </div>
 </div>
 </section>
-<section id="change-to-time-to-event" class="level2" data-number="11.6">
-<h2 data-number="11.6" class="anchored" data-anchor-id="change-to-time-to-event"><span class="header-section-number">11.6</span> Change to time to event</h2>
+<section id="time-to-event-analysis" class="level2" data-number="11.6">
+<h2 data-number="11.6" class="anchored" data-anchor-id="time-to-event-analysis"><span class="header-section-number">11.6</span> Time to event analysis</h2>
 <p>Add <code>fun = "event"</code></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsurvplot</span>(</span>
@@ -970,18 +977,265 @@ n= 400, number of events= 241 </code></pre>
 </div>
 </div>
 </section>
-<section id="test-for-proportional-hazards" class="level2" data-number="11.10">
-<h2 data-number="11.10" class="anchored" data-anchor-id="test-for-proportional-hazards"><span class="header-section-number">11.10</span> Test for proportional hazards</h2>
+<section id="add-exposure-time-for-time-varying-effects" class="level2" data-number="11.10">
+<h2 data-number="11.10" class="anchored" data-anchor-id="add-exposure-time-for-time-varying-effects"><span class="header-section-number">11.10</span> Add exposure time for time-varying effects</h2>
+<p>If you expect that longer exposures are linked to increasing effects then you should consider adding an exposure time to the model. For studies where there’s no delayed entry to the study and where the intervention happens immediately, you can use the exit time, or log(exit_time) as the exposure.</p>
+<p>You need to convert factors to numeric representations for this to work.</p>
+<p>You also need to explain the relationship using a model that modifies the coefficients at each timepoint.<br>
+<br>
+<code>function(x, t, ...) x * t</code></p>
+<p>Where:</p>
+<p>x = the value of the covariate (e.g.&nbsp;sex_numeric, 0 or 1)</p>
+<p>t = the follow-up time for each observation</p>
+<p>… = other arguments passed internally (ignored here)</p>
+<p>So the key part of this model is <code>x*t</code> which makes the value of x scale linearly with time.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>dummy_data <span class="ot">&lt;-</span> dummy_data <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">sex_numeric =</span> <span class="fu">ifelse</span>(sex <span class="sc">==</span> <span class="st">"Female"</span>, <span class="dv">1</span>, <span class="dv">0</span>))</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="fu">coxph</span>(<span class="fu">Surv</span>(time_to_event, status) <span class="sc">~</span> age <span class="sc">+</span> sex_numeric <span class="sc">+</span> <span class="fu">tt</span>(sex_numeric), </span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>       <span class="at">data =</span> dummy_data, </span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">tt =</span> <span class="cf">function</span>(x, t, ...) x <span class="sc">*</span> t)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Call:
+coxph(formula = Surv(time_to_event, status) ~ age + sex_numeric + 
+    tt(sex_numeric), data = dummy_data, tt = function(x, t, ...) x * 
+    t)
+
+                     coef exp(coef)  se(coef)      z       p
+age             -0.003238  0.996768  0.006455 -0.502 0.61600
+sex_numeric     -0.553435  0.574971  0.208549 -2.654 0.00796
+tt(sex_numeric) -0.026571  0.973779  0.016944 -1.568 0.11684
+
+Likelihood ratio test=39.51  on 3 df, p=1.35e-08
+n= 400, number of events= 241 </code></pre>
+</div>
+</div>
+<p>In this example, the females (1) have hazard 0.57 that of the males.</p>
+<p>Per unit time increase, there’s a (non-significant) hazard decrease of 1-0.97 = 0.03<br>
+</p>
+<p>You could also try a non-linear fits</p>
+<ul>
+<li><p>Log linear : <code>tt = function(x, t, ...) x * log(t + 1)</code></p>
+<ul>
+<li>[t+1 avoids <code>log(0)</code> for people with events at time 0.</li>
+</ul></li>
+<li><p>Square Root : <code>tt = function(x, t, ...) x * sqrt(t)</code></p>
+<ul>
+<li>The effect ramps up gently, useful for cumulative effects that accelerate less than linearly</li>
+</ul></li>
+<li><p>Quadratic : <code>tt = function(x, t, ...) x * (t^2)</code></p>
+<ul>
+<li>Useful when you suspect that the effect of a variable intensifies over time, possibly even reversing. Be careful because quadratic terms can go crazy at high t values, so center or scale t</li>
+</ul></li>
+<li><p>Splines : <code>tt = function(x, t, ...) x * ns(t, df = 3))</code></p>
+<ul>
+<li>No specific shape is assumed — this fits a smooth and flexible curve for how the effect evolves over time. this is a good option for when you don’t know and can’t predict the true time-event shape.</li>
+</ul></li>
+</ul>
+<section id="example-using-splines" class="level3" data-number="11.10.1">
+<h3 data-number="11.10.1" class="anchored" data-anchor-id="example-using-splines"><span class="header-section-number">11.10.1</span> Example using splines</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit the model with natural spline time-varying effect</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>cox_tv_model <span class="ot">&lt;-</span> <span class="fu">coxph</span>(</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">Surv</span>(time_to_event, status) <span class="sc">~</span> age <span class="sc">+</span> sex_numeric <span class="sc">+</span> <span class="fu">tt</span>(sex_numeric),</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> dummy_data,</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">tt =</span> <span class="cf">function</span>(x, t, ...) x <span class="sc">*</span> <span class="fu">ns</span>(t, <span class="at">df =</span> <span class="dv">3</span>) <span class="co"># ns is splines, df = 3 defines the knot numbers (1=linear, 2/3 good start point. Use AIC to test fits with different values of df)</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>cox_tv_model</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Call:
+coxph(formula = Surv(time_to_event, status) ~ age + sex_numeric + 
+    tt(sex_numeric), data = dummy_data, tt = function(x, t, ...) x * 
+    ns(t, df = 3))
+
+                       coef  exp(coef)   se(coef)      z      p
+age              -3.380e-03  9.966e-01  6.481e-03 -0.521 0.6020
+sex_numeric      -7.356e-01  4.792e-01  4.888e-01 -1.505 0.1324
+tt(sex_numeric)1  1.366e+00  3.918e+00  1.326e+00  1.030 0.3032
+tt(sex_numeric)2 -4.419e+00  1.204e-02  2.629e+00 -1.681 0.0928
+tt(sex_numeric)3 -9.504e+00  7.457e-05  5.086e+00 -1.869 0.0617
+
+Likelihood ratio test=43.01  on 5 df, p=3.671e-08
+n= 400, number of events= 241 </code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a data frame of times to predict the effect over</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>time_vals <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fl">0.1</span>, <span class="fu">max</span>(dummy_data<span class="sc">$</span>time_to_event), <span class="at">length.out =</span> <span class="dv">100</span>)  <span class="co"># start at 0.1 to avoid log(0)</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Get the spline basis at these time points</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>spline_basis <span class="ot">&lt;-</span> <span class="fu">ns</span>(time_vals, <span class="at">df =</span> <span class="dv">3</span>)</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract coefficients for the time-varying effect of sex_numeric</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>coef_tv <span class="ot">&lt;-</span> <span class="fu">coef</span>(cox_tv_model)[<span class="fu">grepl</span>(<span class="st">"tt</span><span class="sc">\\</span><span class="st">(sex_numeric</span><span class="sc">\\</span><span class="st">)"</span>, <span class="fu">names</span>(<span class="fu">coef</span>(cox_tv_model)))]</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Multiply spline basis by coefficients to get log(HR) over time</span></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>log_hr <span class="ot">&lt;-</span> <span class="fu">as.vector</span>(spline_basis <span class="sc">%*%</span> coef_tv)</span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>hr <span class="ot">&lt;-</span> <span class="fu">exp</span>(log_hr)</span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Combine into a data frame for plotting</span></span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>plot_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">time =</span> time_vals,</span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">log_hr =</span> log_hr,</span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">hr =</span> hr</span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract variance-covariance matrix</span></span>
+<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a>vcov_tv <span class="ot">&lt;-</span> <span class="fu">vcov</span>(cox_tv_model)</span>
+<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a>coef_tv <span class="ot">&lt;-</span> <span class="fu">coef</span>(cox_tv_model)[<span class="fu">grepl</span>(<span class="st">"tt</span><span class="sc">\\</span><span class="st">(sex_numeric</span><span class="sc">\\</span><span class="st">)"</span>, <span class="fu">names</span>(<span class="fu">coef</span>(cox_tv_model)))]</span>
+<span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a><span class="co">#Compute log(HR), SE, CI at each time point</span></span>
+<span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a>log_hr <span class="ot">&lt;-</span> <span class="fu">as.vector</span>(spline_basis <span class="sc">%*%</span> coef_tv)</span>
+<span id="cb18-27"><a href="#cb18-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-28"><a href="#cb18-28" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute standard error at each point</span></span>
+<span id="cb18-29"><a href="#cb18-29" aria-hidden="true" tabindex="-1"></a>se_log_hr <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">rowSums</span>((spline_basis <span class="sc">%*%</span> vcov_tv[<span class="fu">grepl</span>(<span class="st">"tt</span><span class="sc">\\</span><span class="st">(sex_numeric</span><span class="sc">\\</span><span class="st">)"</span>, <span class="fu">rownames</span>(vcov_tv)), </span>
+<span id="cb18-30"><a href="#cb18-30" aria-hidden="true" tabindex="-1"></a>                                                    <span class="fu">grepl</span>(<span class="st">"tt</span><span class="sc">\\</span><span class="st">(sex_numeric</span><span class="sc">\\</span><span class="st">)"</span>, <span class="fu">colnames</span>(vcov_tv))]) <span class="sc">*</span> spline_basis))</span>
+<span id="cb18-31"><a href="#cb18-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-32"><a href="#cb18-32" aria-hidden="true" tabindex="-1"></a><span class="co"># 95% confidence intervals on log-HR scale</span></span>
+<span id="cb18-33"><a href="#cb18-33" aria-hidden="true" tabindex="-1"></a>log_hr_lower <span class="ot">&lt;-</span> log_hr <span class="sc">-</span> <span class="fl">1.96</span> <span class="sc">*</span> se_log_hr</span>
+<span id="cb18-34"><a href="#cb18-34" aria-hidden="true" tabindex="-1"></a>log_hr_upper <span class="ot">&lt;-</span> log_hr <span class="sc">+</span> <span class="fl">1.96</span> <span class="sc">*</span> se_log_hr</span>
+<span id="cb18-35"><a href="#cb18-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-36"><a href="#cb18-36" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert to HR scale</span></span>
+<span id="cb18-37"><a href="#cb18-37" aria-hidden="true" tabindex="-1"></a>hr <span class="ot">&lt;-</span> <span class="fu">exp</span>(log_hr)</span>
+<span id="cb18-38"><a href="#cb18-38" aria-hidden="true" tabindex="-1"></a>hr_lower <span class="ot">&lt;-</span> <span class="fu">exp</span>(log_hr_lower)</span>
+<span id="cb18-39"><a href="#cb18-39" aria-hidden="true" tabindex="-1"></a>hr_upper <span class="ot">&lt;-</span> <span class="fu">exp</span>(log_hr_upper)</span>
+<span id="cb18-40"><a href="#cb18-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-41"><a href="#cb18-41" aria-hidden="true" tabindex="-1"></a><span class="co">#  Combine for plotting</span></span>
+<span id="cb18-42"><a href="#cb18-42" aria-hidden="true" tabindex="-1"></a>plot_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb18-43"><a href="#cb18-43" aria-hidden="true" tabindex="-1"></a>  <span class="at">time =</span> time_vals,</span>
+<span id="cb18-44"><a href="#cb18-44" aria-hidden="true" tabindex="-1"></a>  <span class="at">hr =</span> hr,</span>
+<span id="cb18-45"><a href="#cb18-45" aria-hidden="true" tabindex="-1"></a>  <span class="at">hr_lower =</span> hr_lower,</span>
+<span id="cb18-46"><a href="#cb18-46" aria-hidden="true" tabindex="-1"></a>  <span class="at">hr_upper =</span> hr_upper</span>
+<span id="cb18-47"><a href="#cb18-47" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb18-48"><a href="#cb18-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-49"><a href="#cb18-49" aria-hidden="true" tabindex="-1"></a><span class="co">#  Plot with ggplot2</span></span>
+<span id="cb18-50"><a href="#cb18-50" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(plot_df, <span class="fu">aes</span>(<span class="at">x =</span> time, <span class="at">y =</span> hr)) <span class="sc">+</span></span>
+<span id="cb18-51"><a href="#cb18-51" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">color =</span> <span class="st">"steelblue"</span>, <span class="at">size =</span> <span class="fl">1.2</span>) <span class="sc">+</span></span>
+<span id="cb18-52"><a href="#cb18-52" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> hr_lower, <span class="at">ymax =</span> hr_upper), <span class="at">alpha =</span> <span class="fl">0.2</span>, <span class="at">fill =</span> <span class="st">"steelblue"</span>) <span class="sc">+</span></span>
+<span id="cb18-53"><a href="#cb18-53" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">1</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">color =</span> <span class="st">"gray40"</span>) <span class="sc">+</span></span>
+<span id="cb18-54"><a href="#cb18-54" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb18-55"><a href="#cb18-55" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Time-Varying Hazard Ratio for Being Female (vs Male)"</span>,</span>
+<span id="cb18-56"><a href="#cb18-56" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Time since entry"</span>,</span>
+<span id="cb18-57"><a href="#cb18-57" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Hazard Ratio (with 95% CI)"</span></span>
+<span id="cb18-58"><a href="#cb18-58" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb18-59"><a href="#cb18-59" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
+ℹ Please use `linewidth` instead.</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Cox_PH_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>This approach to plotting the Hazard at different time points can be really informative. The HR is significantly different from 1 when the CI doesn’t overlap the horizontal line at HR 1.0. This dummy data is a bit crazy but you could interpret as follows.</p>
+<ul>
+<li>the hazard for females is highest around 35 weeks after initiation of the study, but eventually declines in to a long-range protective effect. Probably not significant at either end, and possibly significant in the middle, so overall you could say this is a hazard increase, even though the end-point says otherwise</li>
+</ul>
+</section>
+</section>
+<section id="time-varying-covariates-in-did-models" class="level2" data-number="11.11">
+<h2 data-number="11.11" class="anchored" data-anchor-id="time-varying-covariates-in-did-models"><span class="header-section-number">11.11</span> Time varying covariates in DID models</h2>
+<p>Here we can’t just use the exit time as a measure of the time-varying effects. We need to difference the exposure start time and exit times to get an overall duration of exposure for each person in the study.</p>
+<p>In the example above the intervention started in period 15</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>dummy_data <span class="ot">&lt;-</span> dummy_data <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">exposure_duration =</span> <span class="fu">case_when</span>(</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>                                        time_to_event<span class="sc">&lt;=</span><span class="dv">15</span> <span class="sc">~</span> <span class="dv">0</span>,</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>                                        time_to_event <span class="sc">&gt;</span><span class="dv">15</span> <span class="sc">~</span> time_to_event<span class="dv">-15</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>                                                                  )</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>                                    )</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="fu">coxph</span>(<span class="fu">Surv</span>(start_time, time_to_event, status) <span class="sc">~</span> intervention_period <span class="sc">+</span> intervention_active<span class="sc">+</span> intervention_active<span class="sc">:</span>exposure_duration <span class="sc">+</span> <span class="fu">strata</span>(sex), <span class="at">data =</span> dummy_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in agreg.fit(X, Y, istrat, offset, init, control, weights = weights, :
+Ran out of iterations and did not converge</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Call:
+coxph(formula = Surv(start_time, time_to_event, status) ~ intervention_period + 
+    intervention_active + intervention_active:exposure_duration + 
+    strata(sex), data = dummy_data)
+
+                                            coef  exp(coef)   se(coef)      z
+intervention_period                   -1.411e+01  7.428e-07  1.448e+02 -0.097
+intervention_active                    3.169e+01  5.792e+13  1.603e+02  0.198
+intervention_active:exposure_duration -7.244e+01  3.451e-32  5.049e+01 -1.435
+                                          p
+intervention_period                   0.922
+intervention_active                   0.843
+intervention_active:exposure_duration 0.151
+
+Likelihood ratio test=351.4  on 3 df, p=&lt; 2.2e-16
+n= 400, number of events= 241 </code></pre>
+</div>
+</div>
+<p>This is pretty simple to interpret.</p>
+<p>You might want to consider scaling the exposure time, or using Z-scores to show effects per 1 SD increase. This can help to stabilise the model if you have very large numbers in play.</p>
+</section>
+<section id="key-differences-between-time-varying-approaches" class="level2" data-number="11.12">
+<h2 data-number="11.12" class="anchored" data-anchor-id="key-differences-between-time-varying-approaches"><span class="header-section-number">11.12</span> Key differences between time-varying approaches</h2>
+<p>The two methods above look very similar but are very different in their purpose and intent. Choose carefully whether you use a tt() model or the DID based approach. This table highlights the key differences.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 21%">
+<col style="width: 26%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Feature</th>
+<th><p>Approach 1</p>
+<p><code>tt()</code></p></th>
+<th><p>Approach 2</p>
+<p><code>intervention_active:exposure_duration</code></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Time origin</td>
+<td>Follow-up time (per subject)</td>
+<td>Calendar time (study-wide)</td>
+</tr>
+<tr class="even">
+<td>Varies for</td>
+<td>Everyone</td>
+<td>Only those in the intervention group</td>
+</tr>
+<tr class="odd">
+<td>What varies?</td>
+<td>Effect size of sex over time</td>
+<td>Effect of intervention increases with duration of exposure</td>
+</tr>
+<tr class="even">
+<td>Type of time-dependency</td>
+<td>Coefficient changes over time</td>
+<td>Covariate changes over time</td>
+</tr>
+<tr class="odd">
+<td>Modelling assumption</td>
+<td>Time-varying hazard ratio</td>
+<td>Accumulating exposure effect</td>
+</tr>
+</tbody>
+</table>
+<p>To all intents and purposes, the tt() models says “The effect of being female changes over the duration of follow-up (t), regardless of calendar time or when the intervention happens.” This is essentially a non-proportional hazards model. It allows the hazard ratio for sex to vary continuously as time since entry increases.</p>
+<p>The DID model says “For individuals in the intervention group, the&nbsp;duration of time they’ve been exposed&nbsp;to the intervention modifies their hazard.”. The effect only applies within the intervention group, the exposure variable activates at a fixed calendar time and the effect then grows over calendar time since intervention, not follow-up time</p>
+</section>
+<section id="test-for-proportional-hazards" class="level2" data-number="11.13">
+<h2 data-number="11.13" class="anchored" data-anchor-id="test-for-proportional-hazards"><span class="header-section-number">11.13</span> Test for proportional hazards</h2>
 <p>The Cox proportional hazards model assumes that the hazard ratio is constant over time (hence the “proportional” part). HRs apply to the whole survival curve, assuming the proportional hazards assumption holds</p>
 <p>Interpretation in plain English is like this – “The hazard in group A is, on average, X% higher or lower than group B, over the full follow-up time.”</p>
 <p>Let’s go back to our main model and check it</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>cox_model <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(start_time, time_to_event, status) <span class="sc">~</span> intervention_period <span class="sc">+</span> intervention_active <span class="sc">+</span> <span class="fu">strata</span>(sex), <span class="at">data =</span> dummy_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>cox_model <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(start_time, time_to_event, status) <span class="sc">~</span> intervention_period <span class="sc">+</span> intervention_active <span class="sc">+</span> <span class="fu">strata</span>(sex), <span class="at">data =</span> dummy_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning in agreg.fit(X, Y, istrat, offset, init, control, weights = weights, :
 Loglik converged before variable 1 ; beta may be infinite.</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>cox_model</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>cox_model</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Call:
 coxph(formula = Surv(start_time, time_to_event, status) ~ intervention_period + 
@@ -996,11 +1250,11 @@ n= 400, number of events= 241 </code></pre>
 </div>
 </div>
 </section>
-<section id="use-cox.zph-to-check-the-ph" class="level2" data-number="11.11">
-<h2 data-number="11.11" class="anchored" data-anchor-id="use-cox.zph-to-check-the-ph"><span class="header-section-number">11.11</span> Use cox.zph to check the PH</h2>
+<section id="use-cox.zph-to-check-the-ph" class="level2" data-number="11.14">
+<h2 data-number="11.14" class="anchored" data-anchor-id="use-cox.zph-to-check-the-ph"><span class="header-section-number">11.14</span> Use cox.zph to check the PH</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>ph_test <span class="ot">&lt;-</span> <span class="fu">cox.zph</span>(cox_model)</span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(ph_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>ph_test <span class="ot">&lt;-</span> <span class="fu">cox.zph</span>(cox_model)</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(ph_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                       chisq df p
 intervention_period 6.60e-07  1 1
@@ -1008,50 +1262,52 @@ intervention_active 4.89e-07  1 1
 GLOBAL              7.02e-07  2 1</code></pre>
 </div>
 </div>
-<p>The output here is<br>
-</p>
+<p>The output here is</p>
 <ul>
 <li><p>Individual tests for each covariate</p></li>
 <li><p>A global test for all variables</p></li>
 <li><p>p-values: If p &lt; 0.05, you may have a proportional hazards violation for that covariate.</p></li>
 </ul>
 </section>
-<section id="plot-the-residuals" class="level2" data-number="11.12">
-<h2 data-number="11.12" class="anchored" data-anchor-id="plot-the-residuals"><span class="header-section-number">11.12</span> Plot the residuals</h2>
+<section id="plot-the-residuals" class="level2" data-number="11.15">
+<h2 data-number="11.15" class="anchored" data-anchor-id="plot-the-residuals"><span class="header-section-number">11.15</span> Plot the residuals</h2>
 <p>The “Schoenfeld” residuals should be flat and near zero. If you see trends across time in this plot, it suggests a violation in PH may have occurred.</p>
 <p>There should be a separate plot for each variable. <code>strata(sex)</code> defines different baseline hazards but does <strong>not</strong> estimate a coefficient, so there’s nothing to test for proportionality for strata terms.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract residuals into a tidy format</span></span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>res_df <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(ph_test<span class="sc">$</span>y)</span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>res_df<span class="sc">$</span>time <span class="ot">&lt;-</span> ph_test<span class="sc">$</span>x</span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Add covariate names for faceting</span></span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>res_df_long <span class="ot">&lt;-</span> res_df <span class="sc">%&gt;%</span></span>
-<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
-<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">cols =</span> <span class="sc">-</span>time,</span>
-<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="st">"covariate"</span>,</span>
-<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_to =</span> <span class="st">"residual"</span></span>
-<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(res_df_long, <span class="fu">aes</span>(<span class="at">x =</span> time, <span class="at">y =</span> residual)) <span class="sc">+</span></span>
-<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.4</span>) <span class="sc">+</span></span>
-<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">se =</span> <span class="cn">TRUE</span>, <span class="at">method =</span> <span class="st">"loess"</span>, <span class="at">span =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
-<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
-<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> covariate, <span class="at">scales =</span> <span class="st">"free_y"</span>) <span class="sc">+</span></span>
-<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Schoenfeld Residuals (Faceted)"</span>,</span>
-<span id="cb20-21"><a href="#cb20-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Scaled Schoenfeld Residuals"</span>,</span>
-<span id="cb20-22"><a href="#cb20-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Time"</span></span>
-<span id="cb20-23"><a href="#cb20-23" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract residuals into a tidy format</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>res_df <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(ph_test<span class="sc">$</span>y)</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>res_df<span class="sc">$</span>time <span class="ot">&lt;-</span> ph_test<span class="sc">$</span>x</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Add covariate names for faceting</span></span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>res_df_long <span class="ot">&lt;-</span> res_df <span class="sc">%&gt;%</span></span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">cols =</span> <span class="sc">-</span>time,</span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="st">"covariate"</span>,</span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_to =</span> <span class="st">"residual"</span></span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(res_df_long, <span class="fu">aes</span>(<span class="at">x =</span> time, <span class="at">y =</span> residual)) <span class="sc">+</span></span>
+<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.4</span>) <span class="sc">+</span></span>
+<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">se =</span> <span class="cn">TRUE</span>, <span class="at">method =</span> <span class="st">"loess"</span>, <span class="at">span =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb29-16"><a href="#cb29-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
+<span id="cb29-17"><a href="#cb29-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> covariate, <span class="at">scales =</span> <span class="st">"free_y"</span>) <span class="sc">+</span></span>
+<span id="cb29-18"><a href="#cb29-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb29-19"><a href="#cb29-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb29-20"><a href="#cb29-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Schoenfeld Residuals (Faceted)"</span>,</span>
+<span id="cb29-21"><a href="#cb29-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Scaled Schoenfeld Residuals"</span>,</span>
+<span id="cb29-22"><a href="#cb29-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Time"</span></span>
+<span id="cb29-23"><a href="#cb29-23" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="Cox_PH_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="Cox_PH_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
+</section>
+<section id="section" class="level2" data-number="11.16">
+<h2 data-number="11.16" class="anchored" data-anchor-id="section"><span class="header-section-number">11.16</span> </h2>
 
 
 </section>

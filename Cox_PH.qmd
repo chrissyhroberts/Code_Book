@@ -6,6 +6,8 @@ library(survminer)
 library(tidyverse)
 library(knitr)
 library(patchwork)
+library(splines)
+
 ```
 
 Set a random seed for reproducibility
@@ -118,7 +120,7 @@ plot_obj$plot <- plot_obj$plot +
 print(plot_obj)
 ```
 
-## Change to time to event
+## Time to event analysis
 
 Add `fun = "event"`
 
@@ -257,6 +259,180 @@ IMD2plot <- plot_obj <- ggsurvplot(
 
 ```
 
+## Add exposure time for time-varying effects
+
+If you expect that longer exposures are linked to increasing effects then you should consider adding an exposure time to the model. For studies where there's no delayed entry to the study and where the intervention happens immediately, you can use the exit time, or log(exit_time) as the exposure.
+
+You need to convert factors to numeric representations for this to work.
+
+You also need to explain the relationship using a model that modifies the coefficients at each timepoint.\
+\
+`function(x, t, ...) x * t`
+
+Where:
+
+x = the value of the covariate (e.g. sex_numeric, 0 or 1)
+
+t = the follow-up time for each observation
+
+... = other arguments passed internally (ignored here)
+
+So the key part of this model is `x*t` which makes the value of x scale linearly with time.
+
+```{r}
+dummy_data <- dummy_data %>% mutate(sex_numeric = ifelse(sex == "Female", 1, 0))
+
+coxph(Surv(time_to_event, status) ~ age + sex_numeric + tt(sex_numeric), 
+       data = dummy_data, 
+       tt = function(x, t, ...) x * t)
+```
+
+In this example, the females (1) have hazard 0.57 that of the males.
+
+Per unit time increase, there's a (non-significant) hazard decrease of 1-0.97 = 0.03\
+
+You could also try a non-linear fits
+
+-   Log linear : `tt = function(x, t, ...) x * log(t + 1)`
+
+    -   \[t+1 avoids `log(0)` for people with events at time 0.
+
+-   Square Root : `tt = function(x, t, ...) x * sqrt(t)`
+
+    -   The effect ramps up gently, useful for cumulative effects that accelerate less than linearly
+
+-   Quadratic : `tt = function(x, t, ...) x * (t^2)`
+
+    -   Useful when you suspect that the effect of a variable intensifies over time, possibly even reversing. Be careful because quadratic terms can go crazy at high t values, so center or scale t
+
+-   Splines : `tt = function(x, t, ...) x * ns(t, df = 3))`
+
+    -   No specific shape is assumed — this fits a smooth and flexible curve for how the effect evolves over time. this is a good option for when you don't know and can't predict the true time-event shape.
+
+### Example using splines
+
+```{r}
+# Fit the model with natural spline time-varying effect
+cox_tv_model <- coxph(
+  Surv(time_to_event, status) ~ age + sex_numeric + tt(sex_numeric),
+  data = dummy_data,
+  tt = function(x, t, ...) x * ns(t, df = 3) # ns is splines, df = 3 defines the knot numbers (1=linear, 2/3 good start point. Use AIC to test fits with different values of df)
+)
+cox_tv_model
+
+
+```
+
+```{r}
+# Create a data frame of times to predict the effect over
+time_vals <- seq(0.1, max(dummy_data$time_to_event), length.out = 100)  # start at 0.1 to avoid log(0)
+
+# Get the spline basis at these time points
+spline_basis <- ns(time_vals, df = 3)
+
+# Extract coefficients for the time-varying effect of sex_numeric
+coef_tv <- coef(cox_tv_model)[grepl("tt\\(sex_numeric\\)", names(coef(cox_tv_model)))]
+
+# Multiply spline basis by coefficients to get log(HR) over time
+log_hr <- as.vector(spline_basis %*% coef_tv)
+hr <- exp(log_hr)
+
+# Combine into a data frame for plotting
+plot_df <- data.frame(
+  time = time_vals,
+  log_hr = log_hr,
+  hr = hr
+)
+
+# Extract variance-covariance matrix
+vcov_tv <- vcov(cox_tv_model)
+coef_tv <- coef(cox_tv_model)[grepl("tt\\(sex_numeric\\)", names(coef(cox_tv_model)))]
+
+#Compute log(HR), SE, CI at each time point
+log_hr <- as.vector(spline_basis %*% coef_tv)
+
+# Compute standard error at each point
+se_log_hr <- sqrt(rowSums((spline_basis %*% vcov_tv[grepl("tt\\(sex_numeric\\)", rownames(vcov_tv)), 
+                                                    grepl("tt\\(sex_numeric\\)", colnames(vcov_tv))]) * spline_basis))
+
+# 95% confidence intervals on log-HR scale
+log_hr_lower <- log_hr - 1.96 * se_log_hr
+log_hr_upper <- log_hr + 1.96 * se_log_hr
+
+# Convert to HR scale
+hr <- exp(log_hr)
+hr_lower <- exp(log_hr_lower)
+hr_upper <- exp(log_hr_upper)
+
+#  Combine for plotting
+plot_df <- data.frame(
+  time = time_vals,
+  hr = hr,
+  hr_lower = hr_lower,
+  hr_upper = hr_upper
+)
+
+#  Plot with ggplot2
+ggplot(plot_df, aes(x = time, y = hr)) +
+  geom_line(color = "steelblue", size = 1.2) +
+  geom_ribbon(aes(ymin = hr_lower, ymax = hr_upper), alpha = 0.2, fill = "steelblue") +
+  geom_hline(yintercept = 1, linetype = "dashed", color = "gray40") +
+  labs(
+    title = "Time-Varying Hazard Ratio for Being Female (vs Male)",
+    x = "Time since entry",
+    y = "Hazard Ratio (with 95% CI)"
+  ) +
+  theme_minimal()
+```
+
+This approach to plotting the Hazard at different time points can be really informative. The HR is significantly different from 1 when the CI doesn't overlap the horizontal line at HR 1.0. This dummy data is a bit crazy but you could interpret as follows.
+
+-   the hazard for females is highest around 35 weeks after initiation of the study, but eventually declines in to a long-range protective effect. Probably not significant at either end, and possibly significant in the middle, so overall you could say this is a hazard increase, even though the end-point says otherwise
+
+## Time varying covariates in DID models
+
+Here we can't just use the exit time as a measure of the time-varying effects. We need to difference the exposure start time and exit times to get an overall duration of exposure for each person in the study.
+
+In the example above the intervention started in period 15
+
+```{r}
+dummy_data <- dummy_data %>% mutate(exposure_duration = case_when(
+                                        time_to_event<=15 ~ 0,
+                                        time_to_event >15 ~ time_to_event-15
+                                                                  )
+                                    )
+
+coxph(Surv(start_time, time_to_event, status) ~ intervention_period + intervention_active+ intervention_active:exposure_duration + strata(sex), data = dummy_data)
+```
+
+This is pretty simple to interpret.
+
+You might want to consider scaling the exposure time, or using Z-scores to show effects per 1 SD increase. This can help to stabilise the model if you have very large numbers in play.
+
+## Key differences between time-varying approaches
+
+The two methods above look very similar but are very different in their purpose and intent. Choose carefully whether you use a tt() model or the DID based approach. This table highlights the key differences.
+
++-------------------------+-------------------------------+------------------------------------------------------------+
+| Feature                 | Approach 1                    | Approach 2                                                 |
+|                         |                               |                                                            |
+|                         | `tt()`                        | `intervention_active:exposure_duration`                    |
++=========================+===============================+============================================================+
+| Time origin             | Follow-up time (per subject)  | Calendar time (study-wide)                                 |
++-------------------------+-------------------------------+------------------------------------------------------------+
+| Varies for              | Everyone                      | Only those in the intervention group                       |
++-------------------------+-------------------------------+------------------------------------------------------------+
+| What varies?            | Effect size of sex over time  | Effect of intervention increases with duration of exposure |
++-------------------------+-------------------------------+------------------------------------------------------------+
+| Type of time-dependency | Coefficient changes over time | Covariate changes over time                                |
++-------------------------+-------------------------------+------------------------------------------------------------+
+| Modelling assumption    | Time-varying hazard ratio     | Accumulating exposure effect                               |
++-------------------------+-------------------------------+------------------------------------------------------------+
+
+To all intents and purposes, the tt() models says "The effect of being female changes over the duration of follow-up (t), regardless of calendar time or when the intervention happens." This is essentially a non-proportional hazards model. It allows the hazard ratio for sex to vary continuously as time since entry increases.
+
+The DID model says "For individuals in the intervention group, the duration of time they’ve been exposed to the intervention modifies their hazard.". The effect only applies within the intervention group, the exposure variable activates at a fixed calendar time and the effect then grows over calendar time since intervention, not follow-up time
+
 ## Test for proportional hazards
 
 The Cox proportional hazards model assumes that the hazard ratio is constant over time (hence the “proportional” part). HRs apply to the whole survival curve, assuming the proportional hazards assumption holds
@@ -278,7 +454,7 @@ ph_test <- cox.zph(cox_model)
 print(ph_test)
 ```
 
-The output here is\
+The output here is
 
 -   Individual tests for each covariate
 
@@ -318,3 +494,4 @@ ggplot(res_df_long, aes(x = time, y = residual)) +
   )
 ```
 
+## 

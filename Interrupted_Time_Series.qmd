@@ -105,13 +105,13 @@ summary(model.a)
 
 These coefficients have real world meaning and are not there to be ignored.
 
-This tells us that the modelled line passes the y axis at 295.6 units and that prior to the intervention, the average value of quantity.x was falling by 1.98 units per week. At the intervention, there was a step change of -24.8 units and subsequent to the intervention there was a trend in which the value of quantity.x fell by *an additional* 1.12 units per week. The last distinction is important because that means that after the intervention, the weekly decrease in quantity.x was 1.98 + 1.12 = 3.10
+This tells us that the modelled line passes the y axis at 295.8 units and that prior to the intervention, the average value of quantity.x was falling by 2.01 units per week. At the intervention, there was a step change of -34.4 units and subsequent to the intervention there was a trend in which the value of quantity.x fell by *an additional* 0.94 units per week. The last distinction is important because that means that after the intervention, the weekly decrease in quantity.x was 2.01 + 0.94 = 2.95
 
 These statistics tell us whether the changes that happened at different timepoints were significant with respect to what the line was doing before the interruption. These values can be used to calculate the overall difference in quantity.x between times \[i\] and \[ii\] using this formula
 
-**quantity.x\[i\] = 308.27918 + (Time\[i\]\*-1.97565) + (Intervention\[i\]\*-27.33565) + (Post.intervention.time\[i\]\*-1.17575)**
+**quantity.x\[i\] = 295.79584+ (Time\[i\]\*-2.01474) + (Intervention\[i\]\*-34.38002) + (Post.intervention.time\[i\]\*-0.93919)**
 
-**quantity.x\[ii\] = 308.27918 + (Time\[ii\]\*-1.97565) + (Intervention\[ii\]\*-27.33565) + (Post.intervention.time\[ii\]\*-1.17575)**
+**quantity.x\[ii\] = 295.79584 + (Time\[ii\]\*-2.01474) + (Intervention\[ii\]\*-34.38002) + (Post.intervention.time\[ii\]\*-0.93919)**
 
 **absolute difference = difference(quantity.x\[i\] , quantity.x\[ii\])**
 
@@ -124,6 +124,7 @@ df<-df %>% mutate(
   model.a.predictions = predictSE.gls (model.a, df, se.fit=T)$fit,
   model.a.se = predictSE.gls (model.a, df, se.fit=T)$se
   )
+  
 ```
 
 Note that we captured both the predicted value of quantity.x and also the standard error on the estimate. We'll need that to show the error margins and to draw confidence intervals on our charts.
@@ -175,7 +176,7 @@ threshold <- 1.96 / sqrt(n)
 
 Next we'll extract the residuals from model.a
 
-This is annual data, so the longest lag `max_lag` we could imagine would be a full year 52 week cycle
+This is annual (weekly) data, so the longest lag `max_lag` we could imagine would be a full year 52 week cycle. If it were monthly data, `max_lag` would likely be 12.
 
 ```{r}
 

@@ -2,7 +2,13 @@
 
 This code book brings together useful pieces of code that I have created over the years.
 
-.
+I use this primarily to share code with partners for whom I have created solutions and approaches to their research or programme delivery problems. Some of this code is nascent, some is outdated, but all should give you a useful start point on a variety of tasks and needs. To keep this accessible I predominantly use a plain-English approach and do not generally focus in on underlying theory. Mostly this is all here to help people get things done. Do be careful to ensure that you understand why you are using any of this code, read around the subject and be sure to account for any project-specific differences between the way I have deployed things, and the way you might need to deploy them.
+
+Where others have contributed to the code I have tried to recognise this. As far as I know everything here is open source, some shamelessly copied and mutated for my own purposes.
+
+This code is provided "as is" for educational and illustrative purposes. It is not guaranteed to be production-ready and may not have been comprehensively tested for security, performance, or compatibility. You are responsible for reviewing, testing, and adapting the code to your own use case.
+
+Before using or redistributing this code, please ensure it aligns with your institution’s or organisation’s policies on open-source software. Licensing compatibility, attribution requirements, and regulatory or ethical considerations should be reviewed carefully. No liability is accepted for any loss, damage, or consequences resulting from the use or misuse of this code.
 
 ### Useful Resources Elswhere
 

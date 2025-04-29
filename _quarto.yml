@@ -16,6 +16,7 @@ book:
        - extract_model_from_geom_smooth.qmd
        - filename_changer.qmd
        - Global_Political_Map.qmd
+       - Quick_Country_Maps.qmd
        - photo_cleaning.qmd
        - remove_accents.qmd
        - text_to_speech_R.qmd
@@ -60,14 +61,16 @@ book:
        - Join_photos_randomly.qmd
        - Whisper_Ai_CPU.qmd
 
-  - part: "Miscellany"
+  - part: "Software"
     chapters:
+       - Add_QR_Codes_to_PDF.qmd
        - badger2040w.qmd
        - comic2pdf.qmd
-       - remarkable.qmd
-       - CUPS_Zebra_Printer.qmd
-       - SayMyName.qmd
        - Computer_Vision.qmd
+       - CUPS_Zebra_Printer.qmd
+       - remarkable.qmd
+       - SayMyName.qmd
+
 
 
 bibliography: references.bib

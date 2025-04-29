@@ -1977,5 +1977,159 @@
       "Statistics",
       "<span class='chapter-number'>11</span>  <span class='chapter-title'>Survival Analysis with Cox-PH</span>"
     ]
+  },
+  {
+    "objectID": "Add_QR_Codes_to_PDF.html",
+    "href": "Add_QR_Codes_to_PDF.html",
+    "title": "35  QR Adder",
+    "section": "",
+    "text": "35.1 ✨ Features",
+    "crumbs": [
+      "Software",
+      "<span class='chapter-number'>35</span>  <span class='chapter-title'>QR Adder</span>"
+    ]
+  },
+  {
+    "objectID": "Add_QR_Codes_to_PDF.html#features",
+    "href": "Add_QR_Codes_to_PDF.html#features",
+    "title": "35  QR Adder",
+    "section": "",
+    "text": "Import a PDF form template\nImport a CSV file with IDs\nAutomatically add QR codes and readable IDs\nFully adjustable QR code position, size, and text formatting\nLive preview of the first entry\nOutput:\n\nSingle combined PDF\n\nCross-platform:\n\nWindows .exe\nmacOS .app (zipped)\nLinux binary\n\nFully offline — no internet needed once installed",
+    "crumbs": [
+      "Software",
+      "<span class='chapter-number'>35</span>  <span class='chapter-title'>QR Adder</span>"
+    ]
+  },
+  {
+    "objectID": "Add_QR_Codes_to_PDF.html#installation",
+    "href": "Add_QR_Codes_to_PDF.html#installation",
+    "title": "35  QR Adder",
+    "section": "35.2 📦 Installation",
+    "text": "35.2 📦 Installation\nDownload the latest release from the Releases page.\n\n\n\n\n\n\n\n\nPlatform\nFile\nInstructions\n\n\n\n\nWindows\nQR_Adder_Windows.exe\nDownload and run\n\n\nmacOS\nQR_Adder_Mac.zip\nDownload, unzip, run QR Adder.app\n\n\nLinux\nQR_Adder_Linux\nDownload, make executable (chmod +x), run",
+    "crumbs": [
+      "Software",
+      "<span class='chapter-number'>35</span>  <span class='chapter-title'>QR Adder</span>"
+    ]
+  },
+  {
+    "objectID": "Add_QR_Codes_to_PDF.html#security-notes",
+    "href": "Add_QR_Codes_to_PDF.html#security-notes",
+    "title": "35  QR Adder",
+    "section": "35.3 🛡 Security Notes",
+    "text": "35.3 🛡 Security Notes\n\nWindows SmartScreen:\nYou may see a “Windows protected your PC” warning. Click More info → Run anyway to continue.\nmacOS Gatekeeper:\nOn first launch, right-click the app and choose Open to bypass the “unidentified developer” warning.\n\nThese messages appear because the app is unsigned and do not indicate a security risk.",
+    "crumbs": [
+      "Software",
+      "<span class='chapter-number'>35</span>  <span class='chapter-title'>QR Adder</span>"
+    ]
+  },
+  {
+    "objectID": "Add_QR_Codes_to_PDF.html#how-to-use",
+    "href": "Add_QR_Codes_to_PDF.html#how-to-use",
+    "title": "35  QR Adder",
+    "section": "35.4 💻 How to Use",
+    "text": "35.4 💻 How to Use\n\nLaunch the app.\nSelect your PDF template.\nSelect your CSV file containing an ID column.\nAdjust QR and text settings if needed.\nPreview the first entry.\nChoose an output folder.\nClick Generate PDFs!\n\n👉 Done! Each ID will generate a personalized form.",
+    "crumbs": [
+      "Software",
+      "<span class='chapter-number'>35</span>  <span class='chapter-title'>QR Adder</span>"
+    ]
+  },
+  {
+    "objectID": "Add_QR_Codes_to_PDF.html#csv-requirements",
+    "href": "Add_QR_Codes_to_PDF.html#csv-requirements",
+    "title": "35  QR Adder",
+    "section": "35.5 📋 CSV Requirements",
+    "text": "35.5 📋 CSV Requirements\n\nYour CSV file must contain a column named ID.\nExample format:\n\nID,Name\n1234,John Doe\n5678,Jane Smith",
+    "crumbs": [
+      "Software",
+      "<span class='chapter-number'>35</span>  <span class='chapter-title'>QR Adder</span>"
+    ]
+  },
+  {
+    "objectID": "Add_QR_Codes_to_PDF.html#running-from-source",
+    "href": "Add_QR_Codes_to_PDF.html#running-from-source",
+    "title": "35  QR Adder",
+    "section": "35.6 🛠️ Running from Source",
+    "text": "35.6 🛠️ Running from Source\nIf you prefer to run QR Adder directly from the Python source code:\n\n35.6.1 1. Install Python\n\nDownload and install Python 3.11 or higher from python.org.\nEnsure you select “Add Python to PATH” during installation.\n\nCheck installation:\npython --version\n\n\n\n35.6.2 2. Clone or Download the Repository\ngit clone https://github.com/your-username/your-repo.git\ncd your-repo\nOr download ZIP and extract manually.\n\n\n\n35.6.3 3. (Optional) Create a Virtual Environment\npython -m venv venv\nActivate it:\n\nWindows:\n\nvenv\\Scripts\\activate\n\nmacOS/Linux:\n\nsource venv/bin/activate\n\n\n\n35.6.4 4. Install Required Packages\npip install -r requirements.txt\n\n\n\n35.6.5 5. Run the Application\npython QR_adder.py\n👉 GUI opens — ready to use!",
+    "crumbs": [
+      "Software",
+      "<span class='chapter-number'>35</span>  <span class='chapter-title'>QR Adder</span>"
+    ]
+  },
+  {
+    "objectID": "Add_QR_Codes_to_PDF.html#technical-details",
+    "href": "Add_QR_Codes_to_PDF.html#technical-details",
+    "title": "35  QR Adder",
+    "section": "35.7 ⚙️ Technical Details",
+    "text": "35.7 ⚙️ Technical Details\n\nPython 3.11\nPyQt5 (GUI)\npandas (CSV handling)\nPyMuPDF (PDF editing)\nqrcode (QR code generation)\npillow (image handling)\nBuilt with PyInstaller\nAutomated GitHub Actions builds",
+    "crumbs": [
+      "Software",
+      "<span class='chapter-number'>35</span>  <span class='chapter-title'>QR Adder</span>"
+    ]
+  },
+  {
+    "objectID": "Add_QR_Codes_to_PDF.html#license",
+    "href": "Add_QR_Codes_to_PDF.html#license",
+    "title": "35  QR Adder",
+    "section": "35.8 📜 License",
+    "text": "35.8 📜 License\nThis project is licensed under the MIT License.\nFeel free to use, modify, and contribute!",
+    "crumbs": [
+      "Software",
+      "<span class='chapter-number'>35</span>  <span class='chapter-title'>QR Adder</span>"
+    ]
+  },
+  {
+    "objectID": "Add_QR_Codes_to_PDF.html#acknowledgments",
+    "href": "Add_QR_Codes_to_PDF.html#acknowledgments",
+    "title": "35  QR Adder",
+    "section": "35.9 🙏 Acknowledgments",
+    "text": "35.9 🙏 Acknowledgments\nThanks to the open-source libraries that made this project possible!\n\nPyQt5\nPyMuPDF\npandas\nqrcode\npillow",
+    "crumbs": [
+      "Software",
+      "<span class='chapter-number'>35</span>  <span class='chapter-title'>QR Adder</span>"
+    ]
+  },
+  {
+    "objectID": "Quick_Country_Maps.html",
+    "href": "Quick_Country_Maps.html",
+    "title": "5  Install necessary packages",
+    "section": "",
+    "text": "6 Load libraries\nlibrary(leaflet) \nlibrary(rnaturalearth) \nlibrary(rnaturalearthdata) \n\n\nAttaching package: 'rnaturalearthdata'\n\n\nThe following object is masked from 'package:rnaturalearth':\n\n    countries110\n\nlibrary(sf) \n\nLinking to GEOS 3.13.0, GDAL 3.8.5, PROJ 9.5.1; sf_use_s2() is TRUE\n\nlibrary(dplyr)\n\n\nAttaching package: 'dplyr'\n\n\nThe following objects are masked from 'package:stats':\n\n    filter, lag\n\n\nThe following objects are masked from 'package:base':\n\n    intersect, setdiff, setequal, union",
+    "crumbs": [
+      "R | RStudio",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Install necessary packages</span>"
+    ]
+  },
+  {
+    "objectID": "Quick_Country_Maps.html#leaflet-map",
+    "href": "Quick_Country_Maps.html#leaflet-map",
+    "title": "5  Install necessary packages",
+    "section": "10.1 Leaflet Map",
+    "text": "10.1 Leaflet Map\n\n# Make the map\nleaflet(world) %&gt;%\n  addTiles() %&gt;%\n  addPolygons(\n    fillColor = ~ifelse(highlight == \"Yes\", \"darkred\", \"lightgray\"),\n    weight = 1,\n    color = \"white\",\n    fillOpacity = 0.7,\n    label = ~admin\n  )",
+    "crumbs": [
+      "R | RStudio",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Install necessary packages</span>"
+    ]
+  },
+  {
+    "objectID": "Quick_Country_Maps.html#robinson-projection",
+    "href": "Quick_Country_Maps.html#robinson-projection",
+    "title": "5  Install necessary packages",
+    "section": "10.2 Robinson Projection",
+    "text": "10.2 Robinson Projection\n\n# Load packages\nlibrary(sf)\nlibrary(rnaturalearth)\nlibrary(ggplot2)\nlibrary(dplyr)\n\n# Load country shapes\nworld &lt;- ne_countries(scale = \"medium\", returnclass = \"sf\")\n\n# Your countries\nhighlighted_countries &lt;- c(\n  \"China\", \"India\", \"Japan\", \"Pakistan\", \"Singapore\",\n  \"Democratic Republic of the Congo\", \"Ethiopia\", \"Nigeria\", \"Senegal\", \n  \"Sierra Leone\", \"South Africa\", \"Tanzania\", \"Gambia\", \"Uganda\", \n  \"Zambia\", \"Zimbabwe\", \"Germany\", \"United Kingdom\"\n)\n\n# Flag the selected countries\nworld &lt;- world %&gt;%\n  mutate(highlight = ifelse(admin %in% highlighted_countries, \"Yes\", \"No\"))\n\n# Plot with Robinson projection\nggplot(world) +\n  geom_sf(aes(fill = highlight), color = \"white\", size = 0.2) +\n  scale_fill_manual(values = c(\"Yes\" = \"red\", \"No\" = \"gray90\")) +\n  coord_sf(crs = \"+proj=robin\") +  # Robinson projection\n  theme_minimal()",
+    "crumbs": [
+      "R | RStudio",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Install necessary packages</span>"
+    ]
+  },
+  {
+    "objectID": "Quick_Country_Maps.html#equal-earth-projection",
+    "href": "Quick_Country_Maps.html#equal-earth-projection",
+    "title": "5  Install necessary packages",
+    "section": "10.3 Equal Earth Projection",
+    "text": "10.3 Equal Earth Projection\n\n# Load required packages\nlibrary(sf)\nlibrary(rnaturalearth)\nlibrary(ggplot2)\nlibrary(dplyr)\n\n# Load world countries shapefile\nworld &lt;- ne_countries(scale = \"medium\", returnclass = \"sf\")\n\n# List of countries to highlight\nhighlighted_countries &lt;- c(\n   \"India\", \"Japan\", \"Pakistan\", \"Singapore\",\n  \"Democratic Republic of the Congo\", \"Ethiopia\", \"Nigeria\", \"Senegal\", \n  \"Sierra Leone\", \"South Africa\", \"Tanzania\", \"Gambia\", \"Uganda\", \n  \"Zambia\", \"Zimbabwe\", \"Germany\", \"United Kingdom\"\n)\n\n# Flag the countries\nworld &lt;- world %&gt;%\n  mutate(highlight = ifelse(admin %in% highlighted_countries, \"Yes\", \"No\"))\n\n# Plot with Equal Earth projection\nggplot(world) +\n  geom_sf(aes(fill = highlight), color = \"white\", size = 0.2) +\n  scale_fill_manual(values = c(\"Yes\" = \"#D7191C\", \"No\" = \"gray90\")) +\n  coord_sf(crs = \"+proj=eqearth\") +  # Equal Earth projection\n  theme_minimal()+\n  theme(legend.position = \"none\")",
+    "crumbs": [
+      "R | RStudio",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Install necessary packages</span>"
+    ]
   }
 ]

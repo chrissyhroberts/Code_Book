@@ -6,10 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Chrissy Roberts">
-<meta name="dcterms.date" content="2023-03-21">
 
-<title>Code Book</title>
+<title>Code Book - 35&nbsp; QR Adder</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -22,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -32,7 +64,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./R_basics.html" rel="next">
+<link href="./badger2040w.html" rel="next">
+<link href="./Whisper_Ai_CPU.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -82,7 +115,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">Introduction</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./Add_QR_Codes_to_PDF.html">Software</a></li><li class="breadcrumb-item"><a href="./Add_QR_Codes_to_PDF.html"><span class="chapter-number">35</span>&nbsp; <span class="chapter-title">QR Adder</span></a></li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -109,7 +142,7 @@ ul.task-list li input[type="checkbox"] {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link active">
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Introduction</span></a>
   </div>
 </li>
@@ -383,7 +416,7 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Add_QR_Codes_to_PDF.html" class="sidebar-item-text sidebar-link">
+  <a href="./Add_QR_Codes_to_PDF.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">35</span>&nbsp; <span class="chapter-title">QR Adder</span></span></a>
   </div>
 </li>
@@ -435,39 +468,38 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a>
+  <li><a href="#features" id="toc-features" class="nav-link active" data-scroll-target="#features"><span class="header-section-number">35.1</span> ✨ Features</a></li>
+  <li><a href="#installation" id="toc-installation" class="nav-link" data-scroll-target="#installation"><span class="header-section-number">35.2</span> 📦 Installation</a></li>
+  <li><a href="#security-notes" id="toc-security-notes" class="nav-link" data-scroll-target="#security-notes"><span class="header-section-number">35.3</span> 🛡 Security Notes</a></li>
+  <li><a href="#how-to-use" id="toc-how-to-use" class="nav-link" data-scroll-target="#how-to-use"><span class="header-section-number">35.4</span> 💻 How to Use</a></li>
+  <li><a href="#csv-requirements" id="toc-csv-requirements" class="nav-link" data-scroll-target="#csv-requirements"><span class="header-section-number">35.5</span> 📋 CSV Requirements</a></li>
+  <li><a href="#running-from-source" id="toc-running-from-source" class="nav-link" data-scroll-target="#running-from-source"><span class="header-section-number">35.6</span> 🛠️ Running from Source</a>
   <ul class="collapse">
-  <li><a href="#useful-resources-elswhere" id="toc-useful-resources-elswhere" class="nav-link" data-scroll-target="#useful-resources-elswhere">Useful Resources Elswhere</a></li>
-  <li><a href="#publications-documents" id="toc-publications-documents" class="nav-link" data-scroll-target="#publications-documents">Publications &amp; Documents</a></li>
+  <li><a href="#install-python" id="toc-install-python" class="nav-link" data-scroll-target="#install-python"><span class="header-section-number">35.6.1</span> 1. Install Python</a></li>
+  <li><a href="#clone-or-download-the-repository" id="toc-clone-or-download-the-repository" class="nav-link" data-scroll-target="#clone-or-download-the-repository"><span class="header-section-number">35.6.2</span> 2. Clone or Download the Repository</a></li>
+  <li><a href="#optional-create-a-virtual-environment" id="toc-optional-create-a-virtual-environment" class="nav-link" data-scroll-target="#optional-create-a-virtual-environment"><span class="header-section-number">35.6.3</span> 3. (Optional) Create a Virtual Environment</a></li>
+  <li><a href="#install-required-packages" id="toc-install-required-packages" class="nav-link" data-scroll-target="#install-required-packages"><span class="header-section-number">35.6.4</span> 4. Install Required Packages</a></li>
+  <li><a href="#run-the-application" id="toc-run-the-application" class="nav-link" data-scroll-target="#run-the-application"><span class="header-section-number">35.6.5</span> 5. Run the Application</a></li>
   </ul></li>
+  <li><a href="#technical-details" id="toc-technical-details" class="nav-link" data-scroll-target="#technical-details"><span class="header-section-number">35.7</span> ⚙️ Technical Details</a></li>
+  <li><a href="#license" id="toc-license" class="nav-link" data-scroll-target="#license"><span class="header-section-number">35.8</span> 📜 License</a></li>
+  <li><a href="#acknowledgments" id="toc-acknowledgments" class="nav-link" data-scroll-target="#acknowledgments"><span class="header-section-number">35.9</span> 🙏 Acknowledgments</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default">
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./Add_QR_Codes_to_PDF.html">Software</a></li><li class="breadcrumb-item"><a href="./Add_QR_Codes_to_PDF.html"><span class="chapter-number">35</span>&nbsp; <span class="chapter-title">QR Adder</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Code Book</h1>
+<h1 class="title"><span class="chapter-number">35</span>&nbsp; <span class="chapter-title">QR Adder</span></h1>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
-    <div>
-    <div class="quarto-title-meta-heading">Author</div>
-    <div class="quarto-title-meta-contents">
-             <p>Chrissy Roberts </p>
-          </div>
-  </div>
     
-    <div>
-    <div class="quarto-title-meta-heading">Published</div>
-    <div class="quarto-title-meta-contents">
-      <p class="date">March 21, 2023</p>
-    </div>
-  </div>
   
     
   </div>
@@ -477,24 +509,182 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="introduction" class="level1 unnumbered">
-<h1 class="unnumbered">Introduction</h1>
-<p>This code book brings together useful pieces of code that I have created over the years.</p>
-<p>I use this primarily to share code with partners for whom I have created solutions and approaches to their research or programme delivery problems. Some of this code is nascent, some is unfinished, some is outdated, but all should give you a useful start point on a variety of tasks and needs. To keep this accessible, I predominantly use a plain-English approach and do not generally focus in on underlying theory. Mostly this is all here to help people <strong>get things done</strong>. Do be careful to ensure that you understand why you are using any of this code, read around the subject and be sure to account for any project-specific differences between the way I have deployed things, and the way you might need to deploy them.</p>
-<p>Where others have contributed to the code I have tried to recognise this. As far as I know everything here is open source, some shamelessly copied and mutated for my own purposes.</p>
-<p>This code is provided “as is” for educational and illustrative purposes. It is not guaranteed to be production-ready and may not have been comprehensively tested for security, performance, or compatibility. You are responsible for reviewing, testing, and adapting the code to your own use case.</p>
-<p>Before using or redistributing this code, please ensure it aligns with your institution’s or organisation’s policies on open-source software. Licensing compatibility, attribution requirements, and regulatory or ethical considerations should be reviewed carefully. No liability is accepted for any loss, damage, or consequences resulting from the use or misuse of this code.</p>
-<section id="useful-resources-elswhere" class="level3">
-<h3 class="anchored" data-anchor-id="useful-resources-elswhere">Useful Resources Elswhere</h3>
-<p><a href="https://r4ds.had.co.nz/">R for Data Science</a></p>
-<p><a href="https://www.tmwr.org/index.html">Tidy Modelling with R</a></p>
+<p><a href="https://github.com/chrissyhroberts/QR_adder/" class="uri">https://github.com/chrissyhroberts/QR_adder/</a></p>
+<p><a href="https://github.com/chrissyhroberts/QR_adder/actions"><img src="https://github.com/chrissyhroberts/QR_adder/actions/workflows/build.yml/badge.svg" class="img-fluid" alt="Build Status"></a> <a href="https://www.python.org/"><img src="https://img.shields.io/badge/python-3.11%2B-blue.svg" class="img-fluid" alt="Python Version"></a> <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" class="img-fluid" alt="License: MIT"></a></p>
+<hr>
+<p><strong>QR Adder</strong> is a simple, cross-platform desktop application that generates personalized PDF forms with embedded QR codes and human-readable ID numbers.</p>
+<p>Designed for research studies, logistics, events, and any setting where you need to personalize forms with scannable codes.</p>
+<p><img src="images/clipboard-2432796165.png" class="img-fluid" width="321"></p>
+<section id="features" class="level2" data-number="35.1">
+<h2 data-number="35.1" class="anchored" data-anchor-id="features"><span class="header-section-number">35.1</span> ✨ Features</h2>
+<ul>
+<li>Import a PDF form template</li>
+<li>Import a CSV file with IDs</li>
+<li>Automatically add QR codes and readable IDs</li>
+<li>Fully adjustable QR code position, size, and text formatting</li>
+<li>Live preview of the first entry</li>
+<li>Output:
+<ul>
+<li>Single combined PDF</li>
+</ul></li>
+<li>Cross-platform:
+<ul>
+<li>Windows <code>.exe</code></li>
+<li>macOS <code>.app</code> (zipped)</li>
+<li>Linux binary</li>
+</ul></li>
+<li>Fully offline — no internet needed once installed</li>
+</ul>
 </section>
-<section id="publications-documents" class="level3">
-<h3 class="anchored" data-anchor-id="publications-documents">Publications &amp; Documents</h3>
-<p><a href="https://chrissyhroberts.github.io/DOCS/">Documents published by our team</a></p>
+<section id="installation" class="level2" data-number="35.2">
+<h2 data-number="35.2" class="anchored" data-anchor-id="installation"><span class="header-section-number">35.2</span> 📦 Installation</h2>
+<p>Download the latest release from the <a href="https://github.com/chrissyhroberts/QR_adder/releases">Releases</a> page.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Platform</th>
+<th style="text-align: left;">File</th>
+<th style="text-align: left;">Instructions</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Windows</td>
+<td style="text-align: left;"><code>QR_Adder_Windows.exe</code></td>
+<td style="text-align: left;">Download and run</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">macOS</td>
+<td style="text-align: left;"><code>QR_Adder_Mac.zip</code></td>
+<td style="text-align: left;">Download, unzip, run <code>QR Adder.app</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Linux</td>
+<td style="text-align: left;"><code>QR_Adder_Linux</code></td>
+<td style="text-align: left;">Download, make executable (<code>chmod +x</code>), run</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="security-notes" class="level2" data-number="35.3">
+<h2 data-number="35.3" class="anchored" data-anchor-id="security-notes"><span class="header-section-number">35.3</span> 🛡 Security Notes</h2>
+<ul>
+<li><p><strong>Windows SmartScreen:</strong><br>
+You may see a “Windows protected your PC” warning. Click <strong>More info → Run anyway</strong> to continue.</p></li>
+<li><p><strong>macOS Gatekeeper:</strong><br>
+On first launch, right-click the app and choose <strong>Open</strong> to bypass the “unidentified developer” warning.</p></li>
+</ul>
+<p>These messages appear because the app is unsigned and do not indicate a security risk.</p>
+<hr>
+</section>
+<section id="how-to-use" class="level2" data-number="35.4">
+<h2 data-number="35.4" class="anchored" data-anchor-id="how-to-use"><span class="header-section-number">35.4</span> 💻 How to Use</h2>
+<ol type="1">
+<li>Launch the app.</li>
+<li>Select your <strong>PDF template</strong>.</li>
+<li>Select your <strong>CSV file</strong> containing an <code>ID</code> column.</li>
+<li>Adjust QR and text settings if needed.</li>
+<li>Preview the first entry.</li>
+<li>Choose an output folder.</li>
+<li>Click <strong>Generate PDFs</strong>!</li>
+</ol>
+<p>👉 Done! Each ID will generate a personalized form.</p>
+<hr>
+</section>
+<section id="csv-requirements" class="level2" data-number="35.5">
+<h2 data-number="35.5" class="anchored" data-anchor-id="csv-requirements"><span class="header-section-number">35.5</span> 📋 CSV Requirements</h2>
+<ul>
+<li>Your CSV file <strong>must contain a column named</strong> <code>ID</code>.</li>
+<li>Example format:</li>
+</ul>
+<pre class="csv"><code>ID,Name
+1234,John Doe
+5678,Jane Smith</code></pre>
+<hr>
+</section>
+<section id="running-from-source" class="level2" data-number="35.6">
+<h2 data-number="35.6" class="anchored" data-anchor-id="running-from-source"><span class="header-section-number">35.6</span> 🛠️ Running from Source</h2>
+<p>If you prefer to run QR Adder directly from the Python source code:</p>
+<section id="install-python" class="level3" data-number="35.6.1">
+<h3 data-number="35.6.1" class="anchored" data-anchor-id="install-python"><span class="header-section-number">35.6.1</span> 1. Install Python</h3>
+<ul>
+<li>Download and install <strong>Python 3.11</strong> or higher from <a href="https://www.python.org/downloads/">python.org</a>.</li>
+<li>Ensure you select <strong>“Add Python to PATH”</strong> during installation.</li>
+</ul>
+<p>Check installation:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">--version</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<hr>
+</section>
+<section id="clone-or-download-the-repository" class="level3" data-number="35.6.2">
+<h3 data-number="35.6.2" class="anchored" data-anchor-id="clone-or-download-the-repository"><span class="header-section-number">35.6.2</span> 2. Clone or Download the Repository</h3>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/your-username/your-repo.git</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> your-repo</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Or download ZIP and extract manually.</p>
+<hr>
+</section>
+<section id="optional-create-a-virtual-environment" class="level3" data-number="35.6.3">
+<h3 data-number="35.6.3" class="anchored" data-anchor-id="optional-create-a-virtual-environment"><span class="header-section-number">35.6.3</span> 3. (Optional) Create a Virtual Environment</h3>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-m</span> venv venv</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Activate it:</p>
+<ul>
+<li><strong>Windows:</strong></li>
+</ul>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">venv\Scripts\activate</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li><strong>macOS/Linux:</strong></li>
+</ul>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="bu">source</span> venv/bin/activate</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<hr>
+</section>
+<section id="install-required-packages" class="level3" data-number="35.6.4">
+<h3 data-number="35.6.4" class="anchored" data-anchor-id="install-required-packages"><span class="header-section-number">35.6.4</span> 4. Install Required Packages</h3>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install <span class="at">-r</span> requirements.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<hr>
+</section>
+<section id="run-the-application" class="level3" data-number="35.6.5">
+<h3 data-number="35.6.5" class="anchored" data-anchor-id="run-the-application"><span class="header-section-number">35.6.5</span> 5. Run the Application</h3>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> QR_adder.py</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>👉 GUI opens — ready to use!</p>
+<hr>
+</section>
+</section>
+<section id="technical-details" class="level2" data-number="35.7">
+<h2 data-number="35.7" class="anchored" data-anchor-id="technical-details"><span class="header-section-number">35.7</span> ⚙️ Technical Details</h2>
+<ul>
+<li>Python 3.11</li>
+<li>PyQt5 (GUI)</li>
+<li>pandas (CSV handling)</li>
+<li>PyMuPDF (PDF editing)</li>
+<li>qrcode (QR code generation)</li>
+<li>pillow (image handling)</li>
+<li>Built with PyInstaller</li>
+<li>Automated GitHub Actions builds</li>
+</ul>
+<hr>
+</section>
+<section id="license" class="level2" data-number="35.8">
+<h2 data-number="35.8" class="anchored" data-anchor-id="license"><span class="header-section-number">35.8</span> 📜 License</h2>
+<p>This project is licensed under the <a href="LICENSE">MIT License</a>.<br>
+Feel free to use, modify, and contribute!</p>
+<hr>
+</section>
+<section id="acknowledgments" class="level2" data-number="35.9">
+<h2 data-number="35.9" class="anchored" data-anchor-id="acknowledgments"><span class="header-section-number">35.9</span> 🙏 Acknowledgments</h2>
+<p>Thanks to the open-source libraries that made this project possible!</p>
+<ul>
+<li>PyQt5</li>
+<li>PyMuPDF</li>
+<li>pandas</li>
+<li>qrcode</li>
+<li>pillow</li>
+</ul>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->
@@ -909,10 +1099,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
+      <a href="./Whisper_Ai_CPU.html" class="pagination-link" aria-label="Whisper Ai - General Purpose CPU Method">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">Whisper Ai - General Purpose CPU Method</span></span>
+      </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./R_basics.html" class="pagination-link" aria-label="Basics of R">
-        <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Basics of R</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./badger2040w.html" class="pagination-link" aria-label="Badger 2040w code">
+        <span class="nav-page-text"><span class="chapter-number">36</span>&nbsp; <span class="chapter-title">Badger 2040w code</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

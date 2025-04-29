@@ -1,0 +1,117 @@
+# Install necessary packages
+
+```{r}
+#install.packages(c("leaflet", "rnaturalearth", "rnaturalearthdata", "sf", "dplyr"))
+```
+
+# Load libraries
+
+```{r}
+library(leaflet) 
+library(rnaturalearth) 
+library(rnaturalearthdata) 
+library(sf) 
+library(dplyr)
+```
+
+# Get world countries shapefile
+
+```{r}
+world <- ne_countries(scale = "medium", returnclass = "sf")
+```
+
+# List of countries to highlight
+
+```{r}
+highlighted_countries <- c( "China", "India", "Japan", "Pakistan", "Singapore", "Democratic Republic of the Congo", "Ethiopia", "Nigeria", "Senegal", "Sierra Leone", "South Africa", "Tanzania", "Gambia", "Uganda", "Zambia", "Zimbabwe", "Germany", "United Kingdom" )
+```
+
+# Create a new column to flag highlighted countries
+
+```{r}
+world <- world %>% mutate(highlight = ifelse(admin %in% highlighted_countries, "Yes", "No"))
+```
+
+# Make the map
+
+## Leaflet Map
+
+```{r}
+# Make the map
+leaflet(world) %>%
+  addTiles() %>%
+  addPolygons(
+    fillColor = ~ifelse(highlight == "Yes", "darkred", "lightgray"),
+    weight = 1,
+    color = "white",
+    fillOpacity = 0.7,
+    label = ~admin
+  )
+```
+
+## Robinson Projection
+
+```{r}
+# Load packages
+library(sf)
+library(rnaturalearth)
+library(ggplot2)
+library(dplyr)
+
+# Load country shapes
+world <- ne_countries(scale = "medium", returnclass = "sf")
+
+# Your countries
+highlighted_countries <- c(
+  "China", "India", "Japan", "Pakistan", "Singapore",
+  "Democratic Republic of the Congo", "Ethiopia", "Nigeria", "Senegal", 
+  "Sierra Leone", "South Africa", "Tanzania", "Gambia", "Uganda", 
+  "Zambia", "Zimbabwe", "Germany", "United Kingdom"
+)
+
+# Flag the selected countries
+world <- world %>%
+  mutate(highlight = ifelse(admin %in% highlighted_countries, "Yes", "No"))
+
+# Plot with Robinson projection
+ggplot(world) +
+  geom_sf(aes(fill = highlight), color = "white", size = 0.2) +
+  scale_fill_manual(values = c("Yes" = "red", "No" = "gray90")) +
+  coord_sf(crs = "+proj=robin") +  # Robinson projection
+  theme_minimal() 
+
+```
+
+## Equal Earth Projection
+
+```{r}
+# Load required packages
+library(sf)
+library(rnaturalearth)
+library(ggplot2)
+library(dplyr)
+
+# Load world countries shapefile
+world <- ne_countries(scale = "medium", returnclass = "sf")
+
+# List of countries to highlight
+highlighted_countries <- c(
+   "India", "Japan", "Pakistan", "Singapore",
+  "Democratic Republic of the Congo", "Ethiopia", "Nigeria", "Senegal", 
+  "Sierra Leone", "South Africa", "Tanzania", "Gambia", "Uganda", 
+  "Zambia", "Zimbabwe", "Germany", "United Kingdom"
+)
+
+# Flag the countries
+world <- world %>%
+  mutate(highlight = ifelse(admin %in% highlighted_countries, "Yes", "No"))
+
+# Plot with Equal Earth projection
+ggplot(world) +
+  geom_sf(aes(fill = highlight), color = "white", size = 0.2) +
+  scale_fill_manual(values = c("Yes" = "#D7191C", "No" = "gray90")) +
+  coord_sf(crs = "+proj=eqearth") +  # Equal Earth projection
+  theme_minimal()+
+  theme(legend.position = "none")
+
+```

@@ -76,7 +76,7 @@ ID,Name
 
 ------------------------------------------------------------------------
 
-## 🛠️ Running from Source
+## Running from Source
 
 If you prefer to run QR Adder directly from the Python source code:
 
@@ -104,7 +104,7 @@ Or download ZIP and extract manually.
 
 ------------------------------------------------------------------------
 
-### 3. (Optional) Create a Virtual Environment
+### 3. (Optional) Create a Virtual Environment 
 
 ``` bash
 python -m venv venv

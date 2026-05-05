@@ -1850,8 +1850,8 @@
     "objectID": "Add_QR_Codes_to_PDF.html#running-from-source",
     "href": "Add_QR_Codes_to_PDF.html#running-from-source",
     "title": "36  QR Adder",
-    "section": "36.6 🛠️ Running from Source",
-    "text": "36.6 🛠️ Running from Source\nIf you prefer to run QR Adder directly from the Python source code:\n\n36.6.1 1. Install Python\n\nDownload and install Python 3.11 or higher from python.org.\nEnsure you select “Add Python to PATH” during installation.\n\nCheck installation:\npython --version\n\n\n\n36.6.2 2. Clone or Download the Repository\ngit clone https://github.com/your-username/your-repo.git\ncd your-repo\nOr download ZIP and extract manually.\n\n\n\n36.6.3 3. (Optional) Create a Virtual Environment\npython -m venv venv\nActivate it:\n\nWindows:\n\nvenv\\Scripts\\activate\n\nmacOS/Linux:\n\nsource venv/bin/activate\n\n\n\n36.6.4 4. Install Required Packages\npip install -r requirements.txt\n\n\n\n36.6.5 5. Run the Application\npython QR_adder.py",
+    "section": "36.6 Running from Source",
+    "text": "36.6 Running from Source\nIf you prefer to run QR Adder directly from the Python source code:\n\n36.6.1 1. Install Python\n\nDownload and install Python 3.11 or higher from python.org.\nEnsure you select “Add Python to PATH” during installation.\n\nCheck installation:\npython --version\n\n\n\n36.6.2 2. Clone or Download the Repository\ngit clone https://github.com/your-username/your-repo.git\ncd your-repo\nOr download ZIP and extract manually.\n\n\n\n36.6.3 3. (Optional) Create a Virtual Environment\npython -m venv venv\nActivate it:\n\nWindows:\n\nvenv\\Scripts\\activate\n\nmacOS/Linux:\n\nsource venv/bin/activate\n\n\n\n36.6.4 4. Install Required Packages\npip install -r requirements.txt\n\n\n\n36.6.5 5. Run the Application\npython QR_adder.py",
     "crumbs": [
       "Software",
       "<span class='chapter-number'>36</span>  <span class='chapter-title'>QR Adder</span>"

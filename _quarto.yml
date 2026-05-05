@@ -40,6 +40,7 @@ book:
     chapters:
        - Consent_Forms_with_QR.qmd
        - Digital_Luminex.qmd
+       - MosDef.qmd
        - Generic_Research_Data_Folder_Design.qmd
        - FPC_Grader.qmd
 

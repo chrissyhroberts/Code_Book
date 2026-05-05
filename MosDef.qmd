@@ -4,7 +4,7 @@ Tegwen Marlais, Chris Drakeley & Chrissy h. Roberts
 
 Faculty of Infectious and Tropical Diseases, London School of Hygiene & Tropical Medicine, UK
 
-This book can be found here \> <https://chrissyhroberts.github.io/Mos-Def/>
+This book can be found here  <https://chrissyhroberts.github.io/Mos-Def/>
 
 Files and Data needed to reproduce the results and visualisations are provided in this repo \> <https://github.com/chrissyhroberts/Mos-Def>
 

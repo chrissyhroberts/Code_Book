@@ -1,4 +1,4 @@
-## Design, Optimisation, Validation, and Analysis Framework for Multiplex Bead‑Based Biomarker Assays\*\*
+# Design, Optimisation, Validation, and Analysis Framework for Multiplex Bead‑Based Biomarker Assays\*\*
 
 Tegwen Marlais, Chris Drakeley & Chrissy h. Roberts
 

@@ -32,7 +32,7 @@ Designed for research studies, logistics, events, and any setting where you need
 Download the latest release from the [Releases](https://github.com/chrissyhroberts/QR_adder/releases) page.
 
 | Platform | File | Instructions |
-|:-----------------------|:-----------------------|:-----------------------|
+|:---|:---|:---|
 | Windows | `QR_Adder_Windows.exe` | Download and run |
 | macOS | `QR_Adder_Mac.zip` | Download, unzip, run `QR Adder.app` |
 | Linux | `QR_Adder_Linux` | Download, make executable (`chmod +x`), run |

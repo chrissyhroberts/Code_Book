@@ -22,29 +22,41 @@ You would provide a real data set at this point. The data are basically a tibble
 
 ```{r,message=F,warning=F}
 
-# Number of observations
-n <- 400  
 
-# Create dummy dataset
 set.seed(123)
-dummy_data <- tibble(
-  id = 1:400,
-  time_to_event = rexp(n, rate = 0.1),
-  sex = sample(c("Male", "Female"), size = n, replace = TRUE),
-  age = rnorm(n, mean = 50, sd = 10),
-  status = ifelse(sex == "Male", 
-                  rbinom(n, size = 1, prob = 0.8),
-                  rbinom(n, size = 1, prob = 0.4))
-) %>%
-  # Introduce start times for delayed entry (uniformly sampled)
-  rowwise() %>%
-  mutate(start_time = runif(1, min = 0, max = time_to_event * 0.8)) %>%
-  ungroup() %>%
-  # Ensure start_time is always less than time_to_event
-  mutate(start_time = pmin(start_time, time_to_event - 0.01))
+n <- 4000
 
-# Display first 50 rows
-kable(dummy_data[1:20,])
+dummy_data <- tibble(
+  id = 1:n,
+  sex = sample(c("Male", "Female"), size = n, replace = TRUE),
+  age = rnorm(n, mean = 50, sd = 10)
+) %>%
+  # Add baseline time to event
+  mutate(
+    time_to_event = rexp(n, rate = if_else(sex == "Male", 0.08, 0.1)),  # Males have longer survival at baseline
+    start_time = runif(n, min = 0, max = time_to_event * 0.8),
+    time_cutoff = 15,
+    period = if_else(time_to_event > time_cutoff, "Post", "Pre")
+  ) %>%
+  # Assign treatment status based on sex and time
+  mutate(
+    intervention_status = case_when(
+      time_to_event <= time_cutoff ~ "PRE",
+      time_to_event > time_cutoff & sex == "Female" ~ "CONTROL",
+      time_to_event > time_cutoff & sex == "Male" ~ "TREATED"
+    ),
+    intervention_status = factor(intervention_status, levels = c("PRE", "CONTROL", "TREATED"))
+  ) %>%
+  # Assign event probability based on intervention_status
+  mutate(
+    status = case_when(
+      intervention_status == "PRE" ~ rbinom(n(), 1, 0.6),
+      intervention_status == "CONTROL" ~ rbinom(n(), 1, 0.5),
+      intervention_status == "TREATED" ~ rbinom(n(), 1, 0.3)
+    ),
+    start_time = pmin(start_time, time_to_event - 0.01)
+  )
+
 ```
 
 ## Fit a Cox Proportional Hazards (Cox-PH) model
@@ -175,16 +187,16 @@ Underlying assumptions in this example are that...
 
 ```{r}
 
-dummy_data <- dummy_data %>% 
+dummy_data <- dummy_data %>%
   mutate(
     intervention_active = case_when(
-      sex == "Male" & time_to_event <= 15 ~ 0, #No Intervention, Male
-      sex == "Male" & time_to_event > 15 ~ 1,  #Intervention, Male
-      sex == "Female" ~ 0                     # No intervention, Female
+      time_to_event <= 15 ~ "PRE_INTERVENTION",
+      sex == "Female" & time_to_event > 15 ~ "CONTROL_ARM",
+      sex == "Male" & time_to_event > 15 ~ "INTERVENTION_ARM"
     ),
-    intervention_period = case_when(
-      time_to_event <= 15 ~0,
-      time_to_event > 15 ~ 1
+    intervention_active = factor(
+      intervention_active,
+      levels = c("PRE_INTERVENTION", "CONTROL_ARM", "INTERVENTION_ARM")
     )
   )
 
@@ -194,13 +206,119 @@ Adding both the intervention period and intervention as TVCs allows the females 
 
 ```{r,warning=F}
 
-coxph(Surv(start_time, time_to_event, status) ~ intervention_period + intervention_active + strata(sex), data = dummy_data)
+coxph(Surv(start_time, time_to_event, status) ~  intervention_active, data = dummy_data)
 
 ```
 
 Does **`intervention_period`** show a general hazard shift post-time-9 across both sexes?
 
 Does **`intervention_active`** show a **male-specific shift**, above and beyond the secular trend?
+
+Doing this gives crazy SE values, which probably relates to the issues of colinearity between the intervention and the period of intervention. It isn;t really compatible with a DiD design.
+
+Instead switch to an accelerated failure time model including a sex × period interaction to estimate difference-in-differences effects.
+
+The AFT model ignores the front censoring of data, so it's important to check that there's relatively even distribution of entry times between the groups.
+
+Ignoring it can:
+
+Bias survival time estimates upward, especially if a lot of people entered the risk set late
+
+Lead to inaccurate estimates of absolute survival, but often still preserves relative differences (like hazard ratios or time ratios) if the truncation is balanced across groups
+
+```{r}
+dummy_data %>%
+  group_by(male, post_period) %>%
+  summarise(
+    avg_start_time = mean(start_time),
+    median_start_time = median(start_time),
+    avg_time_to_event = mean(time_to_event),
+    .groups = "drop"
+  )
+```
+
+This doesn't look like too much of a problem in this case.
+
+-   Within-period comparisons (pre vs post)
+
+    -   In both sexes, start times are naturally higher in the post-period.
+
+    -   This is expected: events occur later post-intervention → people are at risk longer.
+
+-   Within-period, across-group (F vs M):
+
+    -   Pre-period: Males and females have very similar start times (≈2.3), so delayed entry is well-balanced.
+
+    -   Post-period: Males actually have slightly earlier start times than females (10.1 vs 11.1), which works against the intervention effect (i.e., would bias results towards the null, not inflate them).
+
+Next we call the AFT model, using male:period as the main DiD effect
+
+```{r}
+dummy_data <- dummy_data %>%
+  mutate(
+    male = if_else(sex == "Male", 1, 0),
+    post_period = time_to_event > 15
+  )
+
+aft_model <- survreg(Surv(time_to_event, status) ~ male * post_period, data = dummy_data, dist = "weibull")
+
+summary(aft_model)
+```
+
+```{r}
+exp(coef(aft_model)["male:post_periodTRUE"])
+
+```
+
++------------------------+------------+---------------------------+------------------------------------------------------------------------+
+| Term                   | Estimate   | `exp(coef)` (time ratio)  | Interpretation                                                         |
++========================+============+===========================+========================================================================+
+| (Intercept)            | 2.190      | 8.94                      | Baseline time to event (Females, pre-period)                           |
++------------------------+------------+---------------------------+------------------------------------------------------------------------+
+| `male`                 | 0.083      | 1.09                      | Males had **9% longer survival** at baseline                           |
++------------------------+------------+---------------------------+------------------------------------------------------------------------+
+| `post_periodTRUE`      | 1.548      | 4.70                      | Control group (Females) improved **4.7×**                              |
++------------------------+------------+---------------------------+------------------------------------------------------------------------+
+| `male:post_periodTRUE` | 0.402      | **1.49**                  | DiD effect: **49% longer survival** in Males, **beyond secular trend** |
++------------------------+------------+---------------------------+------------------------------------------------------------------------+
+
+```{r}
+
+aft_model <- survreg(Surv(time_to_event, status) ~ intervention_active, data = dummy_data, dist = "weibull")
+
+# Extract time ratios with proper names
+tr <- exp(coef(aft_model))
+names(tr)
+
+time_ratios <- c(
+  PRE = 1,
+  CONTROL = tr["intervention_activeCONTROL_ARM"] / tr["(Intercept)"],
+  INTERVENTION = tr["intervention_activeINTERVENTION_ARM"] / tr["(Intercept)"]
+)
+
+dummy_data <- dummy_data %>%
+  mutate(
+    label = case_when(
+      intervention_active == "PRE_INTERVENTION" ~ paste0("Pre (ref)\nTR = ", round(time_ratios["PRE"], 2)),
+      intervention_active == "CONTROL_ARM" ~ paste0("Control\nTR = ", round(time_ratios["CONTROL"], 2)),
+      intervention_active == "INTERVENTION_ARM" ~ paste0("Intervention\nTR = ", round(time_ratios["INTERVENTION"], 2))
+    )
+  )
+
+fit <- survfit(Surv(time_to_event, status) ~ label, data = dummy_data)
+
+ggsurvplot(
+  fit,
+  data = dummy_data,
+  risk.table = TRUE,
+  pval = TRUE,
+  conf.int = TRUE,
+  ggtheme = theme_minimal(),
+  legend.title = "Group (Time Ratio)",
+  xlab = "Time to Event",
+  ylab = "Survival Probability"
+) 
+```
 
 ```{r,warning=F}
 plot_obj <- ggsurvplot(

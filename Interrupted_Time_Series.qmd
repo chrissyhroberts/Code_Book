@@ -34,18 +34,18 @@ We'll be measuring whether the parameter *quantity.x* changes in response to the
 
 The change could take two forms including
 
--   A step change immediately after the intervention
-    -   for instance because the signs are so effective that everyone suddenly starts washing their hands much better
--   A slope/trend change after the intervention
-    -   because over time, the presence of the signs conditions more and more people to wash their hands. Alternatively, maybe after an initial step change down, it starts to creep back up because people start to ignore the signs
+- A step change immediately after the intervention
+  - for instance because the signs are so effective that everyone suddenly starts washing their hands much better
+- A slope/trend change after the intervention
+  - because over time, the presence of the signs conditions more and more people to wash their hands. Alternatively, maybe after an initial step change down, it starts to creep back up because people start to ignore the signs
 
 Different real world scenarios may or may not be compatible with the assumptions that these types of change could occur, so use your knowledge to decide which ones to model.
 
 ### This document provides examples of three main type of ITS analysis
 
--   Part One - Uncontrolled ITS, one intervention
--   Part Two - Uncontrolled ITS, two interventions
--   Part Three - Controlled ITS, one intervention
+- Part One - Uncontrolled ITS, one intervention
+- Part Two - Uncontrolled ITS, two interventions
+- Part Three - Controlled ITS, one intervention
 
 In each case we will build a data set that shows each component of the model in a fairly longhand format. It's totally possible to use fewer variables and to use interactions (shown further down this document) to model all the various components of the ITS, but this is harder to understand to the novice and harder to decode when it comes to reconciling the data frame against the model coefficients that will be used to interpret what effects the interruption had.
 
@@ -55,10 +55,10 @@ In each case we will build a data set that shows each component of the model in 
 
 We'll create a dummy dataframe, where
 
--   **Time** = A number, the time in study weeks (1 - 100 weeks)
--   **Intervention** = A binary indication of whether the Intervention has taken place at Time x
--   **Post.intervention.time** = A number, the time elapsed since the Intervention
--   **quantity.x** = The thing we want to measure
+- **Time** = A number, the time in study weeks (1 - 100 weeks)
+- **Intervention** = A binary indication of whether the Intervention has taken place at Time x
+- **Post.intervention.time** = A number, the time elapsed since the Intervention
+- **quantity.x** = The thing we want to measure
 
 ```{R}
 # Create a dummy dataframe
@@ -605,12 +605,12 @@ summary(model.d)
 
 Referring back to the earlier, more simple example, you can probably see that these coefficients are easy to explain.
 
--   The **intercept** is still the initial average value of quantity.x
--   **Time** is the pre-intervention slope
--   **Intervention** describes the step change that occurs at the intervention timepoint
--   **Post.intervention.time** describes the additional slope change that occurs at the intervention timepoint
--   **Intervention.2** describes the step change that occurs at the timepoint of the second intervention
--   **Post.intervention.2.time** describes the additional slope change that occurs at the timepoint of the second intervention
+- The **intercept** is still the initial average value of quantity.x
+- **Time** is the pre-intervention slope
+- **Intervention** describes the step change that occurs at the intervention timepoint
+- **Post.intervention.time** describes the additional slope change that occurs at the intervention timepoint
+- **Intervention.2** describes the step change that occurs at the timepoint of the second intervention
+- **Post.intervention.2.time** describes the additional slope change that occurs at the timepoint of the second intervention
 
 Let's grab the estimated modelled values for the new two intervention study
 
@@ -750,14 +750,14 @@ coefficients(model.g)
 
 The interpretation of this is as follows
 
--   **Intercept** is the average value of the control group at the start of the study
--   **x** is the difference between Intercept and the value of quantity.x at the start of the study. To calculate the actual value on the y axis, you'd do 593.4-294.1 = 299.3. When we draw the chart below, you'll see that the line for quantity.x starts at 299.3 units at week 1.
--   **Time** is the pre-intervention slope for the control group
--   **x.Time** is the difference between Time and the values of quantity.x (see how the control group influences our results!)
--   **Intervention** describes the step change that occurs at the intervention timepoint in the control group
--   **x.Intervention** describes the difference in the step changes that occurs at the intervention timepoint betweent the two groups
--   **Post.intervention.time** describes the slope change that occurs at the intervention timepoint in the control group
--   **x.Post.intervention.time** describes the difference in the slope changes that occurs at the intervention timepoint in the control group
+- **Intercept** is the average value of the control group at the start of the study
+- **x** is the difference between Intercept and the value of quantity.x at the start of the study. To calculate the actual value on the y axis, you'd do 593.4-294.1 = 299.3. When we draw the chart below, you'll see that the line for quantity.x starts at 299.3 units at week 1.
+- **Time** is the pre-intervention slope for the control group
+- **x.Time** is the difference between Time and the values of quantity.x (see how the control group influences our results!)
+- **Intervention** describes the step change that occurs at the intervention timepoint in the control group
+- **x.Intervention** describes the difference in the step changes that occurs at the intervention timepoint betweent the two groups
+- **Post.intervention.time** describes the slope change that occurs at the intervention timepoint in the control group
+- **x.Post.intervention.time** describes the difference in the slope changes that occurs at the intervention timepoint in the control group
 
 Let's grab the estimated modelled values for the new controlled intervention study
 

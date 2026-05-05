@@ -70,6 +70,8 @@ book:
        - CUPS_Zebra_Printer.qmd
        - remarkable.qmd
        - SayMyName.qmd
+       - TariffClock.qmd
+       - TimeTracker.qmd
 
 
 

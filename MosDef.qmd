@@ -1,4 +1,4 @@
-# **Design, Optimisation, Validation, and Analysis Framework for Multiplex Bead‑Based Biomarker Assays**
+## Design, Optimisation, Validation, and Analysis Framework for Multiplex Bead‑Based Biomarker Assays\*\*
 
 Tegwen Marlais, Chris Drakeley & Chrissy h. Roberts
 
@@ -10,7 +10,7 @@ Files and Data needed to reproduce the results and visualisations are provided i
 
 A shopping list of all reagents used at the time we developed this platform can be found at <https://raw.githubusercontent.com/chrissyhroberts/Mos-Def/main/docs/Shopping_List.xlsx>
 
-# **1 Overview**
+## **1 Overview**
 
 This resource provides a **generalised, platform‑agnostic wet‑lab and *in silico* framework** for the design, optimisation, validation, use and analysis of data from multiplex bead‑based biomarker assays (e.g., Luminex xMAP) .
 

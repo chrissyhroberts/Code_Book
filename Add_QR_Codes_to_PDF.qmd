@@ -140,11 +140,9 @@ pip install -r requirements.txt
 python QR_adder.py
 ```
 
-👉 GUI opens — ready to use!
-
 ------------------------------------------------------------------------
 
-## ⚙️ Technical Details
+## Technical Details
 
 - Python 3.11
 - PyQt5 (GUI)
@@ -157,14 +155,12 @@ python QR_adder.py
 
 ------------------------------------------------------------------------
 
-## 📜 License
+## License
 
 This project is licensed under the [MIT License](LICENSE).\
 Feel free to use, modify, and contribute!
 
-------------------------------------------------------------------------
-
-## 🙏 Acknowledgments
+## Acknowledgments
 
 Thanks to the open-source libraries that made this project possible!
 

@@ -1851,7 +1851,7 @@
     "href": "Add_QR_Codes_to_PDF.html#running-from-source",
     "title": "36  QR Adder",
     "section": "36.6 🛠️ Running from Source",
-    "text": "36.6 🛠️ Running from Source\nIf you prefer to run QR Adder directly from the Python source code:\n\n36.6.1 1. Install Python\n\nDownload and install Python 3.11 or higher from python.org.\nEnsure you select “Add Python to PATH” during installation.\n\nCheck installation:\npython --version\n\n\n\n36.6.2 2. Clone or Download the Repository\ngit clone https://github.com/your-username/your-repo.git\ncd your-repo\nOr download ZIP and extract manually.\n\n\n\n36.6.3 3. (Optional) Create a Virtual Environment\npython -m venv venv\nActivate it:\n\nWindows:\n\nvenv\\Scripts\\activate\n\nmacOS/Linux:\n\nsource venv/bin/activate\n\n\n\n36.6.4 4. Install Required Packages\npip install -r requirements.txt\n\n\n\n36.6.5 5. Run the Application\npython QR_adder.py\n👉 GUI opens — ready to use!",
+    "text": "36.6 🛠️ Running from Source\nIf you prefer to run QR Adder directly from the Python source code:\n\n36.6.1 1. Install Python\n\nDownload and install Python 3.11 or higher from python.org.\nEnsure you select “Add Python to PATH” during installation.\n\nCheck installation:\npython --version\n\n\n\n36.6.2 2. Clone or Download the Repository\ngit clone https://github.com/your-username/your-repo.git\ncd your-repo\nOr download ZIP and extract manually.\n\n\n\n36.6.3 3. (Optional) Create a Virtual Environment\npython -m venv venv\nActivate it:\n\nWindows:\n\nvenv\\Scripts\\activate\n\nmacOS/Linux:\n\nsource venv/bin/activate\n\n\n\n36.6.4 4. Install Required Packages\npip install -r requirements.txt\n\n\n\n36.6.5 5. Run the Application\npython QR_adder.py",
     "crumbs": [
       "Software",
       "<span class='chapter-number'>36</span>  <span class='chapter-title'>QR Adder</span>"
@@ -1861,8 +1861,8 @@
     "objectID": "Add_QR_Codes_to_PDF.html#technical-details",
     "href": "Add_QR_Codes_to_PDF.html#technical-details",
     "title": "36  QR Adder",
-    "section": "36.7 ⚙️ Technical Details",
-    "text": "36.7 ⚙️ Technical Details\n\nPython 3.11\nPyQt5 (GUI)\npandas (CSV handling)\nPyMuPDF (PDF editing)\nqrcode (QR code generation)\npillow (image handling)\nBuilt with PyInstaller\nAutomated GitHub Actions builds",
+    "section": "36.7 Technical Details",
+    "text": "36.7 Technical Details\n\nPython 3.11\nPyQt5 (GUI)\npandas (CSV handling)\nPyMuPDF (PDF editing)\nqrcode (QR code generation)\npillow (image handling)\nBuilt with PyInstaller\nAutomated GitHub Actions builds",
     "crumbs": [
       "Software",
       "<span class='chapter-number'>36</span>  <span class='chapter-title'>QR Adder</span>"
@@ -1872,8 +1872,8 @@
     "objectID": "Add_QR_Codes_to_PDF.html#license",
     "href": "Add_QR_Codes_to_PDF.html#license",
     "title": "36  QR Adder",
-    "section": "36.8 📜 License",
-    "text": "36.8 📜 License\nThis project is licensed under the MIT License.\nFeel free to use, modify, and contribute!",
+    "section": "36.8 License",
+    "text": "36.8 License\nThis project is licensed under the MIT License.\nFeel free to use, modify, and contribute!",
     "crumbs": [
       "Software",
       "<span class='chapter-number'>36</span>  <span class='chapter-title'>QR Adder</span>"
@@ -1883,8 +1883,8 @@
     "objectID": "Add_QR_Codes_to_PDF.html#acknowledgments",
     "href": "Add_QR_Codes_to_PDF.html#acknowledgments",
     "title": "36  QR Adder",
-    "section": "36.9 🙏 Acknowledgments",
-    "text": "36.9 🙏 Acknowledgments\nThanks to the open-source libraries that made this project possible!\n\nPyQt5\nPyMuPDF\npandas\nqrcode\npillow",
+    "section": "36.9 Acknowledgments",
+    "text": "36.9 Acknowledgments\nThanks to the open-source libraries that made this project possible!\n\nPyQt5\nPyMuPDF\npandas\nqrcode\npillow",
     "crumbs": [
       "Software",
       "<span class='chapter-number'>36</span>  <span class='chapter-title'>QR Adder</span>"
@@ -2190,100 +2190,100 @@
   {
     "objectID": "MosDef.html",
     "href": "MosDef.html",
-    "title": "22  Design, Optimisation, Validation, and Analysis Framework for Multiplex Bead‑Based Biomarker Assays",
+    "title": "22  Design, Optimisation, Validation, and Analysis Framework for Multiplex Bead‑Based Biomarker Assays**",
     "section": "",
-    "text": "23 1 Overview\nTegwen Marlais, Chris Drakeley & Chrissy h. Roberts\nFaculty of Infectious and Tropical Diseases, London School of Hygiene & Tropical Medicine, UK\nThis book can be found here &gt; https://chrissyhroberts.github.io/Mos-Def/\nFiles and Data needed to reproduce the results and visualisations are provided in this repo &gt; https://github.com/chrissyhroberts/Mos-Def\nA shopping list of all reagents used at the time we developed this platform can be found at https://raw.githubusercontent.com/chrissyhroberts/Mos-Def/main/docs/Shopping_List.xlsx\nThis resource provides a generalised, platform‑agnostic wet‑lab and in silico framework for the design, optimisation, validation, use and analysis of data from multiplex bead‑based biomarker assays (e.g., Luminex xMAP) .\nThe method is presented through the lens of a novel multimarker immunoassay for evaluating febrile disease, but by using the concepts, methods and code included in this repo, you should be able to create and validate your own multiplexes.\nThese protocols also provide information on how to perform quality assurance experiments and to evaluate performance parameters such as the coefficient of variation. We also provide some analysis protocols which will support you to import, process and perform a quality controlled analysis of data from this or any multiplexed immuno-bead assay created on the MagPix platform.",
+    "text": "22.1 1 Overview\nTegwen Marlais, Chris Drakeley & Chrissy h. Roberts\nFaculty of Infectious and Tropical Diseases, London School of Hygiene & Tropical Medicine, UK\nThis book can be found here &gt; https://chrissyhroberts.github.io/Mos-Def/\nFiles and Data needed to reproduce the results and visualisations are provided in this repo &gt; https://github.com/chrissyhroberts/Mos-Def\nA shopping list of all reagents used at the time we developed this platform can be found at https://raw.githubusercontent.com/chrissyhroberts/Mos-Def/main/docs/Shopping_List.xlsx\nThis resource provides a generalised, platform‑agnostic wet‑lab and in silico framework for the design, optimisation, validation, use and analysis of data from multiplex bead‑based biomarker assays (e.g., Luminex xMAP) .\nThe method is presented through the lens of a novel multimarker immunoassay for evaluating febrile disease, but by using the concepts, methods and code included in this repo, you should be able to create and validate your own multiplexes.\nThese protocols also provide information on how to perform quality assurance experiments and to evaluate performance parameters such as the coefficient of variation. We also provide some analysis protocols which will support you to import, process and perform a quality controlled analysis of data from this or any multiplexed immuno-bead assay created on the MagPix platform.",
     "crumbs": [
       "Laboratory | Field Methods",
-      "<span class='chapter-number'>22</span>  <span class='chapter-title'>**Design, Optimisation, Validation, and Analysis Framework for Multiplex Bead‑Based Biomarker Assays**</span>"
+      "<span class='chapter-number'>22</span>  <span class='chapter-title'>Design, Optimisation, Validation, and Analysis Framework for Multiplex Bead‑Based Biomarker Assays\\*\\*</span>"
     ]
   },
   {
     "objectID": "MosDef.html#citation",
     "href": "MosDef.html#citation",
-    "title": "22  Design, Optimisation, Validation, and Analysis Framework for Multiplex Bead‑Based Biomarker Assays",
-    "section": "23.1 1.1 Citation",
-    "text": "23.1 1.1 Citation\nTo cite this work, please use:\nMarlais, T., Drakeley, C., & Roberts, C.H. (2025). Design, Optimisation, Validation, and Analysis Framework for Multiplex Bead‑Based Biomarker Assays. London School of Hygiene & Tropical Medicine.Retrieved [YYYY-MM-DD] from https://chrissyhroberts.github.io/Mos-Def/ DOI pending.",
+    "title": "22  Design, Optimisation, Validation, and Analysis Framework for Multiplex Bead‑Based Biomarker Assays**",
+    "section": "22.2 1.1 Citation",
+    "text": "22.2 1.1 Citation\nTo cite this work, please use:\nMarlais, T., Drakeley, C., & Roberts, C.H. (2025). Design, Optimisation, Validation, and Analysis Framework for Multiplex Bead‑Based Biomarker Assays. London School of Hygiene & Tropical Medicine.Retrieved [YYYY-MM-DD] from https://chrissyhroberts.github.io/Mos-Def/ DOI pending.",
     "crumbs": [
       "Laboratory | Field Methods",
-      "<span class='chapter-number'>22</span>  <span class='chapter-title'>**Design, Optimisation, Validation, and Analysis Framework for Multiplex Bead‑Based Biomarker Assays**</span>"
+      "<span class='chapter-number'>22</span>  <span class='chapter-title'>Design, Optimisation, Validation, and Analysis Framework for Multiplex Bead‑Based Biomarker Assays\\*\\*</span>"
     ]
   },
   {
     "objectID": "MosDef.html#about-the-method",
     "href": "MosDef.html#about-the-method",
-    "title": "22  Design, Optimisation, Validation, and Analysis Framework for Multiplex Bead‑Based Biomarker Assays",
-    "section": "23.2 1.2 About the method",
-    "text": "23.2 1.2 About the method\nThe assay is a multiplexed sandwich assay designed for use with the Luminex MagPix and related devices. During the assay, analytes are bound to addressable microbeads using bead-bound, analyte-specific antibodies. The analytes bound to the beads then form complexes with analyte-specific biotin-conjugated detection antibodies followed by streptavidin-phycoerythrin (SA-PE) fluorescent reporter. This sandwich assay offers high specificity for the analytes, ensuring that each bead becomes fluorescent only when conjugated with the intended analyte. The level of SA-PE fluorescence serves as a proxy for the quantity of analyte bound to each bead. The addressable signals of the microbeads then allow for the identification of which analyte corresponds to a given SA-PE fluorescence signal. When performed with a plurality of capture-antibody conjugated beads and a corresponding set of biotin conjugated detection antibodies, the platform allows a highly specific estimate of analyte concentration across the 12 targets. To allow full reproduction of our panel of markers for febrile diseases, we provide exhaustive detail in the supplement.",
+    "title": "22  Design, Optimisation, Validation, and Analysis Framework for Multiplex Bead‑Based Biomarker Assays**",
+    "section": "22.3 1.2 About the method",
+    "text": "22.3 1.2 About the method\nThe assay is a multiplexed sandwich assay designed for use with the Luminex MagPix and related devices. During the assay, analytes are bound to addressable microbeads using bead-bound, analyte-specific antibodies. The analytes bound to the beads then form complexes with analyte-specific biotin-conjugated detection antibodies followed by streptavidin-phycoerythrin (SA-PE) fluorescent reporter. This sandwich assay offers high specificity for the analytes, ensuring that each bead becomes fluorescent only when conjugated with the intended analyte. The level of SA-PE fluorescence serves as a proxy for the quantity of analyte bound to each bead. The addressable signals of the microbeads then allow for the identification of which analyte corresponds to a given SA-PE fluorescence signal. When performed with a plurality of capture-antibody conjugated beads and a corresponding set of biotin conjugated detection antibodies, the platform allows a highly specific estimate of analyte concentration across the 12 targets. To allow full reproduction of our panel of markers for febrile diseases, we provide exhaustive detail in the supplement.",
     "crumbs": [
       "Laboratory | Field Methods",
-      "<span class='chapter-number'>22</span>  <span class='chapter-title'>**Design, Optimisation, Validation, and Analysis Framework for Multiplex Bead‑Based Biomarker Assays**</span>"
+      "<span class='chapter-number'>22</span>  <span class='chapter-title'>Design, Optimisation, Validation, and Analysis Framework for Multiplex Bead‑Based Biomarker Assays\\*\\*</span>"
     ]
   },
   {
     "objectID": "MosDef.html#why-this-method",
     "href": "MosDef.html#why-this-method",
-    "title": "22  Design, Optimisation, Validation, and Analysis Framework for Multiplex Bead‑Based Biomarker Assays",
-    "section": "23.3 1.3 Why This Method?",
-    "text": "23.3 1.3 Why This Method?\n\nPlatform‑agnostic – applicable to most bead‑based multiplex immunoassay systems. Tested to work with Luminex MagPix\nGeneralised principles – not tied to a specific disease or biomarker panel.\nReproducible – includes full rationale for each design step.\nCitable – stable DOI for use in publications.\nUpdatable – versioned for traceability and improvements over time.",
+    "title": "22  Design, Optimisation, Validation, and Analysis Framework for Multiplex Bead‑Based Biomarker Assays**",
+    "section": "22.4 1.3 Why This Method?",
+    "text": "22.4 1.3 Why This Method?\n\nPlatform‑agnostic – applicable to most bead‑based multiplex immunoassay systems. Tested to work with Luminex MagPix\nGeneralised principles – not tied to a specific disease or biomarker panel.\nReproducible – includes full rationale for each design step.\nCitable – stable DOI for use in publications.\nUpdatable – versioned for traceability and improvements over time.",
     "crumbs": [
       "Laboratory | Field Methods",
-      "<span class='chapter-number'>22</span>  <span class='chapter-title'>**Design, Optimisation, Validation, and Analysis Framework for Multiplex Bead‑Based Biomarker Assays**</span>"
+      "<span class='chapter-number'>22</span>  <span class='chapter-title'>Design, Optimisation, Validation, and Analysis Framework for Multiplex Bead‑Based Biomarker Assays\\*\\*</span>"
     ]
   },
   {
     "objectID": "MosDef.html#method-summary",
     "href": "MosDef.html#method-summary",
-    "title": "22  Design, Optimisation, Validation, and Analysis Framework for Multiplex Bead‑Based Biomarker Assays",
-    "section": "23.4 1.4 Method Summary",
-    "text": "23.4 1.4 Method Summary\n\nThis framework guides you through the complete lifecycle of a multiplex bead‑based biomarker assay — from concept and reagent preparation to clinical testing, data analysis, and prognostic evaluation.\n\nProject Overview & Planning\n\nDefine intended use, panel scope, and platform requirements.\nCompile initial marker lists, shopping lists, and resource planning tools.\n\nReagent Preparation\n\nPreparation of buffers and reagents.\nCapture antibody preparation.\nDetection antibody preparation.\nAntigen preparation and storage.\n\nBead Coupling & Verification\n\nCoupling capture antibodies to bead regions.\nConfirmation of coupling efficiency.\n\nAssay Design & Cross‑Reactivity Testing\n\nSelection and pairing of capture/detection antibodies.\nSystematic cross‑reactivity screening.\nMitigation strategies for problematic analytes.\n\nStandard Curve & Calibration\n\nPreparation of assay standards.\nDilution series design and use of calculators.\nStandard curve modelling and performance checks.\n\nInstrument Protocols\n\nLuminex MagPix operating procedures.\nRecommended plate layouts and run settings.\n\nAssay Optimisation & Performance Characterisation\n\nCoefficient of variation (intra‑ and inter‑assay) determination.\nSpike‑and‑recovery testing.\nDilution linearity evaluation.\n\nSpecimen Testing\n\nVolume requirements and handling guidance.\nIntegration of QC samples into every run.\n\nData Analysis\n\nImporting and preprocessing raw MagPix output.\nStandard curve fitting (e.g., 5‑PL) and concentration back‑calculation.\nReplicate handling and quality control flagging.\nBatch effect assessment and correction.\n\nPrognostic and Diagnostic Modelling\n\nStatistical evaluation of biomarker associations with clinical outcomes.\nROC curve generation, AUC, sensitivity, specificity, PPV, NPV.\nDevelopment of predictive models and multi‑marker signatures.\n\nDocumentation, Transparency & Reproducibility\n\nFull reagent and protocol traceability.\nVersion‑controlled code and protocol sharing.\nContributor roles (CRediT taxonomy).\nReferences and further reading.",
+    "title": "22  Design, Optimisation, Validation, and Analysis Framework for Multiplex Bead‑Based Biomarker Assays**",
+    "section": "22.5 1.4 Method Summary",
+    "text": "22.5 1.4 Method Summary\n\nThis framework guides you through the complete lifecycle of a multiplex bead‑based biomarker assay — from concept and reagent preparation to clinical testing, data analysis, and prognostic evaluation.\n\nProject Overview & Planning\n\nDefine intended use, panel scope, and platform requirements.\nCompile initial marker lists, shopping lists, and resource planning tools.\n\nReagent Preparation\n\nPreparation of buffers and reagents.\nCapture antibody preparation.\nDetection antibody preparation.\nAntigen preparation and storage.\n\nBead Coupling & Verification\n\nCoupling capture antibodies to bead regions.\nConfirmation of coupling efficiency.\n\nAssay Design & Cross‑Reactivity Testing\n\nSelection and pairing of capture/detection antibodies.\nSystematic cross‑reactivity screening.\nMitigation strategies for problematic analytes.\n\nStandard Curve & Calibration\n\nPreparation of assay standards.\nDilution series design and use of calculators.\nStandard curve modelling and performance checks.\n\nInstrument Protocols\n\nLuminex MagPix operating procedures.\nRecommended plate layouts and run settings.\n\nAssay Optimisation & Performance Characterisation\n\nCoefficient of variation (intra‑ and inter‑assay) determination.\nSpike‑and‑recovery testing.\nDilution linearity evaluation.\n\nSpecimen Testing\n\nVolume requirements and handling guidance.\nIntegration of QC samples into every run.\n\nData Analysis\n\nImporting and preprocessing raw MagPix output.\nStandard curve fitting (e.g., 5‑PL) and concentration back‑calculation.\nReplicate handling and quality control flagging.\nBatch effect assessment and correction.\n\nPrognostic and Diagnostic Modelling\n\nStatistical evaluation of biomarker associations with clinical outcomes.\nROC curve generation, AUC, sensitivity, specificity, PPV, NPV.\nDevelopment of predictive models and multi‑marker signatures.\n\nDocumentation, Transparency & Reproducibility\n\nFull reagent and protocol traceability.\nVersion‑controlled code and protocol sharing.\nContributor roles (CRediT taxonomy).\nReferences and further reading.",
     "crumbs": [
       "Laboratory | Field Methods",
-      "<span class='chapter-number'>22</span>  <span class='chapter-title'>**Design, Optimisation, Validation, and Analysis Framework for Multiplex Bead‑Based Biomarker Assays**</span>"
+      "<span class='chapter-number'>22</span>  <span class='chapter-title'>Design, Optimisation, Validation, and Analysis Framework for Multiplex Bead‑Based Biomarker Assays\\*\\*</span>"
     ]
   },
   {
     "objectID": "MosDef.html#citing-this-method",
     "href": "MosDef.html#citing-this-method",
-    "title": "22  Design, Optimisation, Validation, and Analysis Framework for Multiplex Bead‑Based Biomarker Assays",
-    "section": "23.5 1.5 Citing This Method",
-    "text": "23.5 1.5 Citing This Method\nIf you use or adapt this protocol in your own work, please cite:\n\nMarlais, T., Drakeley, C. & Roberts, Ch. Design, Optimisation, Validation, and Analysis Framework for Multiplex Bead‑Based Biomarker Assays. London School of Hygiene & Tropical Medicine; 2025. Available from: https://github.com/chrissyhroberts/multiplex-assay-method doi:[DOI to be assigned]",
+    "title": "22  Design, Optimisation, Validation, and Analysis Framework for Multiplex Bead‑Based Biomarker Assays**",
+    "section": "22.6 1.5 Citing This Method",
+    "text": "22.6 1.5 Citing This Method\nIf you use or adapt this protocol in your own work, please cite:\n\nMarlais, T., Drakeley, C. & Roberts, Ch. Design, Optimisation, Validation, and Analysis Framework for Multiplex Bead‑Based Biomarker Assays. London School of Hygiene & Tropical Medicine; 2025. Available from: https://github.com/chrissyhroberts/multiplex-assay-method doi:[DOI to be assigned]",
     "crumbs": [
       "Laboratory | Field Methods",
-      "<span class='chapter-number'>22</span>  <span class='chapter-title'>**Design, Optimisation, Validation, and Analysis Framework for Multiplex Bead‑Based Biomarker Assays**</span>"
+      "<span class='chapter-number'>22</span>  <span class='chapter-title'>Design, Optimisation, Validation, and Analysis Framework for Multiplex Bead‑Based Biomarker Assays\\*\\*</span>"
     ]
   },
   {
     "objectID": "MosDef.html#versioning-doi",
     "href": "MosDef.html#versioning-doi",
-    "title": "22  Design, Optimisation, Validation, and Analysis Framework for Multiplex Bead‑Based Biomarker Assays",
-    "section": "23.6 1.6 Versioning & DOI",
-    "text": "23.6 1.6 Versioning & DOI\nThis method will be versioned using GitHub Releases.\nEach public release will be archived in Zenodo, which will assign a permanent DOI.\nThe DOI for this version will be added once minted.",
+    "title": "22  Design, Optimisation, Validation, and Analysis Framework for Multiplex Bead‑Based Biomarker Assays**",
+    "section": "22.7 1.6 Versioning & DOI",
+    "text": "22.7 1.6 Versioning & DOI\nThis method will be versioned using GitHub Releases.\nEach public release will be archived in Zenodo, which will assign a permanent DOI.\nThe DOI for this version will be added once minted.",
     "crumbs": [
       "Laboratory | Field Methods",
-      "<span class='chapter-number'>22</span>  <span class='chapter-title'>**Design, Optimisation, Validation, and Analysis Framework for Multiplex Bead‑Based Biomarker Assays**</span>"
+      "<span class='chapter-number'>22</span>  <span class='chapter-title'>Design, Optimisation, Validation, and Analysis Framework for Multiplex Bead‑Based Biomarker Assays\\*\\*</span>"
     ]
   },
   {
     "objectID": "MosDef.html#license",
     "href": "MosDef.html#license",
-    "title": "22  Design, Optimisation, Validation, and Analysis Framework for Multiplex Bead‑Based Biomarker Assays",
-    "section": "23.7 1.7 License",
-    "text": "23.7 1.7 License\nThis work is released under the Creative Commons Attribution 4.0 International (CC BY 4.0) license.\nYou are free to share and adapt the method, provided you give appropriate credit.",
+    "title": "22  Design, Optimisation, Validation, and Analysis Framework for Multiplex Bead‑Based Biomarker Assays**",
+    "section": "22.8 1.7 License",
+    "text": "22.8 1.7 License\nThis work is released under the Creative Commons Attribution 4.0 International (CC BY 4.0) license.\nYou are free to share and adapt the method, provided you give appropriate credit.",
     "crumbs": [
       "Laboratory | Field Methods",
-      "<span class='chapter-number'>22</span>  <span class='chapter-title'>**Design, Optimisation, Validation, and Analysis Framework for Multiplex Bead‑Based Biomarker Assays**</span>"
+      "<span class='chapter-number'>22</span>  <span class='chapter-title'>Design, Optimisation, Validation, and Analysis Framework for Multiplex Bead‑Based Biomarker Assays\\*\\*</span>"
     ]
   },
   {
     "objectID": "MosDef.html#contact",
     "href": "MosDef.html#contact",
-    "title": "22  Design, Optimisation, Validation, and Analysis Framework for Multiplex Bead‑Based Biomarker Assays",
-    "section": "23.8 1.8 Contact",
-    "text": "23.8 1.8 Contact\nFor questions, feedback, or collaboration requests:\nDr Chrissy H Roberts\nEmail: Chrissy.Roberts@lshtm.ac.uk\nGitHub: @chrissyhroberts",
+    "title": "22  Design, Optimisation, Validation, and Analysis Framework for Multiplex Bead‑Based Biomarker Assays**",
+    "section": "22.9 1.8 Contact",
+    "text": "22.9 1.8 Contact\nFor questions, feedback, or collaboration requests:\nDr Chrissy H Roberts\nEmail: Chrissy.Roberts@lshtm.ac.uk\nGitHub: @chrissyhroberts",
     "crumbs": [
       "Laboratory | Field Methods",
-      "<span class='chapter-number'>22</span>  <span class='chapter-title'>**Design, Optimisation, Validation, and Analysis Framework for Multiplex Bead‑Based Biomarker Assays**</span>"
+      "<span class='chapter-number'>22</span>  <span class='chapter-title'>Design, Optimisation, Validation, and Analysis Framework for Multiplex Bead‑Based Biomarker Assays\\*\\*</span>"
     ]
   }
 ]
